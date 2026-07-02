@@ -10,9 +10,10 @@ import { PageShell } from "../components/PageShell";
 import { api } from "../services/api";
 
 const steps = [
-  { label: "正在读取合同", detail: "识别合同结构和关键段落", icon: FileMagnifyingGlass },
+  { label: "正在读取文件", detail: "提取文本层，图片会尝试 OCR 识别", icon: FileMagnifyingGlass },
+  { label: "正在解析合同", detail: "识别合同结构和关键段落", icon: FileMagnifyingGlass },
   { label: "正在提取金额和费用", detail: "整理借款、到账、还款与服务费", icon: Receipt },
-  { label: "正在计算真实成本", detail: "换算总成本和真实年化利率", icon: Calculator },
+  { label: "正在计算真实成本", detail: "调用知识库规则换算真实年化", icon: Calculator },
   { label: "正在检查风险条款", detail: "查找提前还款、逾期和授权范围", icon: ShieldWarning },
 ];
 
@@ -108,7 +109,7 @@ export function AnalysisPage() {
               <button type="button" onClick={() => setRetryKey((value) => value + 1)}>重新加载</button>
             </div>
           )}
-          <p className="progress-note">本轮使用固定示例数据，预计几秒后完成。</p>
+          <p className="progress-note">识别和测算都在本地演示服务内完成，预计几秒后生成报告。</p>
         </section>
       </main>
     </PageShell>

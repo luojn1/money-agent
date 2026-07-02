@@ -8,10 +8,11 @@
     "website/backend"
   ],
   "scripts": {
-    "dev": "concurrently -n client,server -c yellow,green \"npm run dev -w @money-agent/frontend\" \"npm run dev -w @money-agent/backend\"",
+    "dev": "concurrently -n client,server -c yellow,green \"pnpm --filter @money-agent/frontend run dev\" \"pnpm --filter @money-agent/backend run dev\"",
     "lint": "eslint .",
-    "typecheck": "npm run typecheck --workspaces --if-present",
-    "build": "npm run build -w @money-agent/frontend && npm run build -w @money-agent/backend"
+    "typecheck": "pnpm -r --if-present run typecheck",
+    "build": "pnpm --filter @money-agent/frontend run build && pnpm --filter @money-agent/backend run build",
+    "verify:b-agents": "pnpm --filter @money-agent/backend exec tsx ../../scripts/verify-b-agents.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
