@@ -1,0 +1,628 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://money-agent.local/schemas/analysis-protocol-v1.schema.json",
+  "title": "Money Agent analysis protocol v1.0.0",
+  "description": "B/C/D Agent handoff envelopes and the final frontend analysis result.",
+  "oneOf": [
+    { "$ref": "#/$defs/analysisTaskCreated" },
+    { "$ref": "#/$defs/analysisTaskStatus" },
+    { "$ref": "#/$defs/contractCostOutput" },
+    { "$ref": "#/$defs/riskCaseOutput" },
+    { "$ref": "#/$defs/recommendationActionOutput" },
+    { "$ref": "#/$defs/finalAnalysisResult" }
+  ],
+  "$defs": {
+    "nullableString": {
+      "type": ["string", "null"]
+    },
+    "nullableAmount": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "multipleOf": 0.01
+    },
+    "nullableInteger": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "nullableRate": {
+      "type": ["number", "null"],
+      "minimum": 0
+    },
+    "protocolWarning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "fieldPath"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "message": { "type": "string", "minLength": 1 },
+        "fieldPath": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "analysisTaskCreated": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "taskId", "contractId", "status", "createdAt"],
+      "properties": {
+        "schemaVersion": { "const": "1.0.0" },
+        "taskId": { "type": "string", "minLength": 1 },
+        "contractId": { "type": "string", "minLength": 1 },
+        "status": { "const": "processing" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "analysisStageStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent", "status"],
+      "properties": {
+        "agent": { "enum": ["contract_cost", "risk_case", "recommendation_action"] },
+        "status": { "enum": ["pending", "processing", "completed", "partial", "failed"] }
+      }
+    },
+    "analysisTaskStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "taskId",
+        "contractId",
+        "status",
+        "currentStage",
+        "currentStep",
+        "progress",
+        "contractName",
+        "updatedAt",
+        "stages"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1.0.0" },
+        "taskId": { "type": "string", "minLength": 1 },
+        "contractId": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["processing", "completed", "failed"] },
+        "currentStage": {
+          "enum": [
+            "queued",
+            "contract_cost",
+            "risk_case",
+            "recommendation_action",
+            "completed",
+            "failed"
+          ]
+        },
+        "currentStep": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "progress": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "contractName": { "type": "string", "minLength": 1 },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "stages": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/analysisStageStatus" }
+        }
+      }
+    },
+    "protocolError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "fieldPath", "recoverable"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "message": { "type": "string", "minLength": 1 },
+        "fieldPath": { "$ref": "#/$defs/nullableString" },
+        "recoverable": { "type": "boolean" }
+      }
+    },
+    "sourceLocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page", "section", "paragraph"],
+      "properties": {
+        "page": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        },
+        "section": { "$ref": "#/$defs/nullableString" },
+        "paragraph": {
+          "type": ["integer", "null"],
+          "minimum": 1
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidenceId", "clauseId", "quote", "location"],
+      "properties": {
+        "evidenceId": { "type": "string", "minLength": 1 },
+        "clauseId": { "type": "string", "minLength": 1 },
+        "quote": { "type": "string", "minLength": 1 },
+        "location": { "$ref": "#/$defs/sourceLocation" }
+      }
+    },
+    "agentEnvelopeBase": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "taskId",
+        "contractId",
+        "runId",
+        "agent",
+        "agentVersion",
+        "status",
+        "generatedAt",
+        "inputRunIds",
+        "data",
+        "warnings",
+        "errors"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1.0.0" },
+        "taskId": { "type": "string", "minLength": 1 },
+        "contractId": { "type": "string", "minLength": 1 },
+        "runId": { "type": "string", "minLength": 1 },
+        "agent": {
+          "enum": ["contract_cost", "risk_case", "recommendation_action"]
+        },
+        "agentVersion": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["completed", "partial", "failed"] },
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "inputRunIds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "data": {},
+        "warnings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/protocolWarning" }
+        },
+        "errors": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/protocolError" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "const": "failed" } },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "data": { "type": "null" },
+              "errors": { "minItems": 1 }
+            }
+          },
+          "else": {
+            "properties": {
+              "data": { "not": { "type": "null" } }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "status": { "const": "partial" } },
+            "required": ["status"]
+          },
+          "then": {
+            "properties": {
+              "warnings": { "minItems": 1 }
+            }
+          }
+        }
+      ]
+    },
+    "contractSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "institution",
+        "productType",
+        "loanAmount",
+        "actualReceivedAmount",
+        "loanTermMonths",
+        "installmentCount",
+        "monthlyPayment",
+        "repaymentMethod",
+        "nominalRate",
+        "prepaymentRule",
+        "overdueFee"
+      ],
+      "properties": {
+        "institution": { "$ref": "#/$defs/nullableString" },
+        "productType": { "$ref": "#/$defs/nullableString" },
+        "loanAmount": { "$ref": "#/$defs/nullableAmount" },
+        "actualReceivedAmount": { "$ref": "#/$defs/nullableAmount" },
+        "loanTermMonths": { "$ref": "#/$defs/nullableInteger" },
+        "installmentCount": { "$ref": "#/$defs/nullableInteger" },
+        "monthlyPayment": { "$ref": "#/$defs/nullableAmount" },
+        "repaymentMethod": { "$ref": "#/$defs/nullableString" },
+        "nominalRate": { "$ref": "#/$defs/nullableRate" },
+        "prepaymentRule": { "$ref": "#/$defs/nullableString" },
+        "overdueFee": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "contractClause": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clauseId", "category", "heading", "text", "location"],
+      "properties": {
+        "clauseId": { "type": "string", "minLength": 1 },
+        "category": { "type": "string", "minLength": 1 },
+        "heading": { "$ref": "#/$defs/nullableString" },
+        "text": { "type": "string", "minLength": 1 },
+        "location": { "$ref": "#/$defs/sourceLocation" }
+      }
+    },
+    "repaymentScheduleItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["period", "dueDate", "principal", "interest", "fees", "payment"],
+      "properties": {
+        "period": { "type": "integer", "minimum": 1 },
+        "dueDate": {
+          "type": ["string", "null"],
+          "format": "date"
+        },
+        "principal": { "$ref": "#/$defs/nullableAmount" },
+        "interest": { "$ref": "#/$defs/nullableAmount" },
+        "fees": { "$ref": "#/$defs/nullableAmount" },
+        "payment": { "$ref": "#/$defs/nullableAmount" }
+      }
+    },
+    "costAnalysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["totalRepayment", "totalInterest", "additionalFees", "realAnnualRate"],
+      "properties": {
+        "totalRepayment": { "$ref": "#/$defs/nullableAmount" },
+        "totalInterest": { "$ref": "#/$defs/nullableAmount" },
+        "additionalFees": { "$ref": "#/$defs/nullableAmount" },
+        "realAnnualRate": { "$ref": "#/$defs/nullableRate" }
+      }
+    },
+    "contractCostAnalysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "totalRepayment",
+        "totalInterest",
+        "additionalFees",
+        "realAnnualRate",
+        "calculationBasis"
+      ],
+      "properties": {
+        "totalRepayment": { "$ref": "#/$defs/nullableAmount" },
+        "totalInterest": { "$ref": "#/$defs/nullableAmount" },
+        "additionalFees": { "$ref": "#/$defs/nullableAmount" },
+        "realAnnualRate": { "$ref": "#/$defs/nullableRate" },
+        "calculationBasis": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "contractCostData": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract", "contractSummary", "clauses", "repaymentSchedule", "costAnalysis"],
+      "properties": {
+        "contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["contractName", "fileSha256", "pageCount"],
+          "properties": {
+            "contractName": { "type": "string", "minLength": 1 },
+            "fileSha256": {
+              "type": ["string", "null"],
+              "pattern": "^[a-fA-F0-9]{64}$"
+            },
+            "pageCount": {
+              "type": ["integer", "null"],
+              "minimum": 1
+            }
+          }
+        },
+        "contractSummary": { "$ref": "#/$defs/contractSummary" },
+        "clauses": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/contractClause" }
+        },
+        "repaymentSchedule": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/repaymentScheduleItem" }
+        },
+        "costAnalysis": { "$ref": "#/$defs/contractCostAnalysis" }
+      }
+    },
+    "matchedCase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["caseId", "title", "similarity", "conclusion", "sourceUrl"],
+      "properties": {
+        "caseId": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "similarity": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "conclusion": { "type": "string", "minLength": 1 },
+        "sourceUrl": {
+          "type": ["string", "null"],
+          "format": "uri"
+        }
+      }
+    },
+    "riskItemV1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "category",
+        "riskLevel",
+        "confidence",
+        "clauseText",
+        "clauseLocation",
+        "relatedClauseIds",
+        "evidence",
+        "reason",
+        "possibleConsequence",
+        "matchedCases",
+        "questionToAsk"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "category": {
+          "enum": [
+            "cost_transparency",
+            "interest_fee",
+            "repayment",
+            "prepayment",
+            "overdue",
+            "authorization_privacy",
+            "dispute_resolution",
+            "other"
+          ]
+        },
+        "riskLevel": { "enum": ["low", "medium", "high"] },
+        "confidence": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "clauseText": { "type": "string", "minLength": 1 },
+        "clauseLocation": { "$ref": "#/$defs/nullableString" },
+        "relatedClauseIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/evidence" }
+        },
+        "reason": { "type": "string", "minLength": 1 },
+        "possibleConsequence": { "type": "string", "minLength": 1 },
+        "matchedCases": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/matchedCase" }
+        },
+        "questionToAsk": { "type": "string", "minLength": 1 }
+      }
+    },
+    "riskCaseData": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["riskItems", "riskSummary"],
+      "properties": {
+        "riskItems": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/riskItemV1" }
+        },
+        "riskSummary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["high", "medium", "low"],
+          "properties": {
+            "high": { "type": "integer", "minimum": 0 },
+            "medium": { "type": "integer", "minimum": 0 },
+            "low": { "type": "integer", "minimum": 0 }
+          }
+        }
+      }
+    },
+    "overallResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "summary"],
+      "properties": {
+        "level": { "enum": ["low", "verify", "high", "insufficient_information"] },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "priority", "action", "rationale", "timing", "relatedRiskIds"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "priority": { "enum": ["must", "should", "optional"] },
+        "action": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "timing": { "enum": ["before_signing", "during_repayment", "when_overdue", "anytime"] },
+        "relatedRiskIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "recommendationActionData": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["overallResult", "recommendations", "questionList", "disclaimer"],
+      "properties": {
+        "overallResult": { "$ref": "#/$defs/overallResult" },
+        "recommendations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/recommendation" }
+        },
+        "questionList": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "disclaimer": { "type": "string", "minLength": 1 }
+      }
+    },
+    "contractCostOutput": {
+      "allOf": [
+        { "$ref": "#/$defs/agentEnvelopeBase" },
+        {
+          "type": "object",
+          "properties": {
+            "agent": { "const": "contract_cost" },
+            "inputRunIds": { "maxItems": 0 },
+            "data": {
+              "oneOf": [
+                { "$ref": "#/$defs/contractCostData" },
+                { "type": "null" }
+              ]
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "riskCaseOutput": {
+      "allOf": [
+        { "$ref": "#/$defs/agentEnvelopeBase" },
+        {
+          "type": "object",
+          "properties": {
+            "agent": { "const": "risk_case" },
+            "inputRunIds": { "minItems": 1 },
+            "data": {
+              "oneOf": [
+                { "$ref": "#/$defs/riskCaseData" },
+                { "type": "null" }
+              ]
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "recommendationActionOutput": {
+      "allOf": [
+        { "$ref": "#/$defs/agentEnvelopeBase" },
+        {
+          "type": "object",
+          "properties": {
+            "agent": { "const": "recommendation_action" },
+            "inputRunIds": { "minItems": 2 },
+            "data": {
+              "oneOf": [
+                { "$ref": "#/$defs/recommendationActionData" },
+                { "type": "null" }
+              ]
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "frontendRiskItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "riskLevel",
+        "clauseText",
+        "clauseLocation",
+        "reason",
+        "possibleConsequence",
+        "questionToAsk"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string", "minLength": 1 },
+        "riskLevel": { "enum": ["low", "medium", "high"] },
+        "clauseText": { "type": "string", "minLength": 1 },
+        "clauseLocation": { "$ref": "#/$defs/nullableString" },
+        "reason": { "type": "string", "minLength": 1 },
+        "possibleConsequence": { "type": "string", "minLength": 1 },
+        "questionToAsk": { "type": "string", "minLength": 1 }
+      }
+    },
+    "agentRunSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent", "runId", "agentVersion", "status"],
+      "properties": {
+        "agent": { "enum": ["contract_cost", "risk_case", "recommendation_action"] },
+        "runId": { "type": "string", "minLength": 1 },
+        "agentVersion": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["completed", "partial", "failed"] }
+      }
+    },
+    "finalAnalysisResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "taskId",
+        "status",
+        "generatedAt",
+        "contractName",
+        "contractSummary",
+        "costAnalysis",
+        "riskItems",
+        "overallResult",
+        "questionList",
+        "completedWithWarnings",
+        "warnings",
+        "recommendations",
+        "sourceAgentRuns"
+      ],
+      "properties": {
+        "schemaVersion": { "const": "1.0.0" },
+        "taskId": { "type": "string", "minLength": 1 },
+        "status": { "const": "completed" },
+        "generatedAt": { "type": "string", "format": "date-time" },
+        "contractName": { "type": "string", "minLength": 1 },
+        "contractSummary": { "$ref": "#/$defs/contractSummary" },
+        "costAnalysis": { "$ref": "#/$defs/costAnalysis" },
+        "riskItems": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/frontendRiskItem" }
+        },
+        "overallResult": { "$ref": "#/$defs/overallResult" },
+        "questionList": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "completedWithWarnings": { "type": "boolean" },
+        "warnings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/protocolWarning" }
+        },
+        "recommendations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/recommendation" }
+        },
+        "sourceAgentRuns": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/agentRunSummary" }
+        }
+      }
+    }
+  }
+}
