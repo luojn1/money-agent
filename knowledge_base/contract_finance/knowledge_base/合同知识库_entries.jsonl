@@ -1,0 +1,14 @@
+{"id":"contract-field-basic-parties","type":"contract_field","title":"合同主体字段","content":"抽取贷款人/银行/消费金融公司、借款人/持卡人、合同名称、合同编号。借款人信息应脱敏保存。","source_ids":["CON-001","CON-002","CON-003","CON-008","CON-011","CON-012","CARD-003","CARD-008"]}
+{"id":"contract-field-amount-term","type":"contract_field","title":"金额与期限字段","content":"抽取贷款金额/借款金额/授信额度/分期本金、实际到账或放款金额、期限、期数、起息日、到期日。金额统一为元，期限统一为月。","source_ids":["CON-002","CON-003","CON-004","CON-008","CON-009","CON-011","CARD-003","CARD-008","CARD-009"]}
+{"id":"contract-field-rate","type":"contract_field","title":"利率与费率字段","content":"抽取年利率、日利率、月利率、每期分期利率、LPR加减基点、固定/浮动利率、罚息利率。必须保留原始单位，不能把日利率/月利率直接当作年利率。","source_ids":["REG-001","REG-006","CON-003","CON-004","CON-009","CON-011","CARD-001","CARD-004"]}
+{"id":"repayment-equal-installment","type":"repayment_method","title":"等额本息/按月等额还款","content":"每期还款额固定，包含本金和利息；若合同给出月供则优先使用合同还款计划。若未给月供，可由本金、期数、月利率计算。","source_ids":["CON-004","CON-011","PROD-005","PROD-008"]}
+{"id":"repayment-equal-principal","type":"repayment_method","title":"等额本金/等本递减","content":"每期偿还固定本金，利息按剩余本金计算，现金流逐期递减。","source_ids":["CON-004","CON-011","PROD-005","PROD-008"]}
+{"id":"repayment-interest-first","type":"repayment_method","title":"先息后本/按期付息到期还本","content":"中间各期支付利息，到期偿还本金及最后一期利息。需要识别计息周期和到期日。","source_ids":["CON-004","CON-011","PROD-003","PROD-008","PROD-010"]}
+{"id":"repayment-bullet","type":"repayment_method","title":"到期一次还本付息/利随本清","content":"第0期为实际到账金额，到期一次性偿还本金和利息。","source_ids":["CON-004","CON-011","PROD-001","PROD-005"]}
+{"id":"repayment-daily-revolving","type":"repayment_method","title":"随借随还/按日计息/循环额度","content":"需要实际借款天数、提款日和还款日才能生成准确现金流；MVP中如缺少日期可返回 missingFields。","source_ids":["PROD-001","PROD-004","PROD-006","PROD-009","PROD-012","PROD-013"]}
+{"id":"fee-normal-cost","type":"fee_rule","title":"正常履约成本费用","content":"利息、分期利息、分期手续费，以及与贷款直接相关且正常履约也要承担的服务费、管理费、咨询费、担保费、保证保险费，应进入真实成本测算。","source_ids":["REG-001","REG-002","REG-003","CARD-001","CARD-004","CARD-008"]}
+{"id":"fee-upfront-deducted","type":"fee_rule","title":"放款前扣费/实际到账金额","content":"若合同金额与实际到账金额不一致，或服务费在放款时一次性扣除，应以实际到账金额作为第0期现金流，不能以名义本金替代。","source_ids":["REG-001","REG-002","CON-002","CARD-003"]}
+{"id":"fee-contingent-cost","type":"fee_rule","title":"或有成本","content":"提前还款手续费、逾期罚息、逾期违约金、诉讼费等不进入正常履约主IRR，但应单独输出给风险识别模块或做情景测算。","source_ids":["REG-002","REG-003","PROD-011","CARD-006","CARD-011"]}
+{"id":"clause-purpose","type":"clause_type","title":"用途限制条款","content":"消费贷普遍限制贷款资金不得用于购房、生产经营、证券期货投资、还贷等。解析时保留用途限制原文，供建议生成模块提示用户。","source_ids":["CON-002","CON-012","PROD-001","PROD-002","PROD-008","PROD-009","PROD-013"]}
+{"id":"clause-auto-debit","type":"clause_type","title":"自动扣款/还款账户授权","content":"抽取还款账户、扣款授权、批量扣款、不可撤销授权、扣款顺序等条款。B只负责提取原文和结构化字段，C负责风险判断。","source_ids":["CON-002","CON-003","CON-008","CON-011"]}
+{"id":"clause-prepayment","type":"clause_type","title":"提前还款条款","content":"抽取是否允许提前还款、申请渠道、是否收手续费/违约金、费用公式和上限。提前还款费用作为情景成本或或有成本输出。","source_ids":["CON-006","CON-012","PROD-006","PROD-011","CARD-011"]}

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "task_20260702_001",
+  "contractId": "contract_001",
+  "runId": "run_b_001",
+  "agent": "contract_cost",
+  "agentVersion": "b-0.1.0",
+  "status": "completed",
+  "generatedAt": "2026-07-02T15:30:00+08:00",
+  "inputRunIds": [],
+  "data": {
+    "contract": {
+      "contractName": "示例消费贷合同.pdf",
+      "fileSha256": null,
+      "pageCount": 12
+    },
+    "contractSummary": {
+      "institution": "安心消费金融有限公司",
+      "productType": "个人消费贷款",
+      "loanAmount": 10000,
+      "actualReceivedAmount": 9500,
+      "loanTermMonths": 12,
+      "installmentCount": 12,
+      "monthlyPayment": 940,
+      "repaymentMethod": "按月等额还款",
+      "nominalRate": 12.8,
+      "prepaymentRule": "提前结清需支付剩余本金 2% 的手续费",
+      "overdueFee": "逾期罚息为正常利率的 1.5 倍，并可能收取违约金"
+    },
+    "clauses": [
+      {
+        "clauseId": "clause_fee_003",
+        "category": "fee",
+        "heading": "费用说明 第 3 条",
+        "text": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "location": {
+          "page": 4,
+          "section": "费用说明 第 3 条",
+          "paragraph": 1
+        }
+      },
+      {
+        "clauseId": "clause_prepay_008",
+        "category": "prepayment",
+        "heading": "还款约定 第 8 条",
+        "text": "借款人申请提前结清，应按剩余未还本金的 2% 支付提前结清手续费。",
+        "location": {
+          "page": 7,
+          "section": "还款约定 第 8 条",
+          "paragraph": 2
+        }
+      }
+    ],
+    "repaymentSchedule": [],
+    "costAnalysis": {
+      "totalRepayment": 11280,
+      "totalInterest": 1280,
+      "additionalFees": 500,
+      "realAnnualRate": 23.4,
+      "calculationBasis": [
+        "实际到账金额为 9500 元",
+        "按 12 期、每期 940 元的现金流估算真实年化成本"
+      ]
+    }
+  },
+  "warnings": [],
+  "errors": []
+}

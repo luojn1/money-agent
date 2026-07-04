@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "task_20260702_001",
+  "contractId": "contract_001",
+  "status": "processing",
+  "currentStage": "risk_case",
+  "currentStep": 2,
+  "progress": 55,
+  "contractName": "示例消费贷合同.pdf",
+  "updatedAt": "2026-07-02T15:31:00+08:00",
+  "stages": [
+    {
+      "agent": "contract_cost",
+      "status": "completed"
+    },
+    {
+      "agent": "risk_case",
+      "status": "processing"
+    },
+    {
+      "agent": "recommendation_action",
+      "status": "pending"
+    }
+  ]
+}

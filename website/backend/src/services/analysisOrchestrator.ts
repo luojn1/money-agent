@@ -1,9 +1,12 @@
 import type { AnalysisResult, DocumentIntakeResult, RiskLevel } from "../../../../shared/analysis.js";
+import { ANALYSIS_PROTOCOL_VERSION } from "../../../../shared/analysisProtocol.js";
 import { runContractParserAgent } from "./contractParserAgent.js";
 import { runCostCalculatorAgent } from "./costCalculatorAgent.js";
+import { toProtocolDateTime } from "./taskStore.js";
 
 type AnalysisInput = {
   taskId: string;
+  contractId: string;
   contractName: string;
   contractText: string;
   documentIntake: DocumentIntakeResult;
@@ -135,10 +138,31 @@ export const createAnalysisResult = (input: AnalysisInput): AnalysisResult => {
     costCalculationResult: costAnalysis,
   };
   const riskItems = buildRiskItems({ bAgentOutput, costAnalysis });
+  const protocolWarnings = [
+    ...input.documentIntake.warnings.map((message, index) => ({
+      code: `document_intake_${index + 1}`,
+      message,
+      fieldPath: "documentIntake.warnings",
+    })),
+    ...contractParseResult.missingFields.map((field) => ({
+      code: "missing_contract_field",
+      message: `Missing or low-confidence contract field: ${field}`,
+      fieldPath: `bAgentOutput.contractParseResult.${field}`,
+    })),
+    ...costAnalysis.warnings.map((message, index) => ({
+      code: `cost_calculation_${index + 1}`,
+      message,
+      fieldPath: "costAnalysis.warnings",
+    })),
+  ];
+  const agentStatus = protocolWarnings.length > 0 ? "partial" : "completed";
 
   return {
+    schemaVersion: ANALYSIS_PROTOCOL_VERSION,
     taskId: input.taskId,
+    contractId: input.contractId,
     status: "completed",
+    generatedAt: toProtocolDateTime(),
     contractName: input.contractName,
     documentIntake: input.documentIntake,
     bAgentOutput,
@@ -164,5 +188,35 @@ export const createAnalysisResult = (input: AnalysisInput): AnalysisResult => {
     questionList: riskItems.length
       ? riskItems.map((item) => item.questionToAsk)
       : ["请机构提供完整还款计划、费用明细和明示年化利率说明。"],
+    completedWithWarnings: protocolWarnings.length > 0,
+    warnings: protocolWarnings,
+    recommendations: riskItems.map((item, index) => ({
+      id: `rec_${index + 1}_${item.id}`,
+      priority: item.riskLevel === "high" ? "must" : item.riskLevel === "medium" ? "should" : "optional",
+      action: item.questionToAsk,
+      rationale: item.reason,
+      timing: "before_signing",
+      relatedRiskIds: [item.id],
+    })),
+    sourceAgentRuns: [
+      {
+        agent: "contract_cost",
+        runId: `run_contract_cost_${input.taskId}`,
+        agentVersion: "b-0.1.0",
+        status: agentStatus,
+      },
+      {
+        agent: "risk_case",
+        runId: `run_risk_case_${input.taskId}`,
+        agentVersion: "local-preview-0.1.0",
+        status: "completed",
+      },
+      {
+        agent: "recommendation_action",
+        runId: `run_recommendation_action_${input.taskId}`,
+        agentVersion: "local-preview-0.1.0",
+        status: "completed",
+      },
+    ],
   };
 };

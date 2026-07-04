@@ -73,6 +73,8 @@ export type DocumentIntakeResult = {
   method: DocumentIntakeMethod;
   sourceFileName: string | null;
   mimeType: string | null;
+  fileSha256: string | null;
+  pageCount: number | null;
   extractedTextLength: number;
   extractedTextPreview: string;
   usedOcr: boolean;
@@ -205,8 +207,11 @@ export type CostAnalysisOutput = CostCalculationResult & {
 };
 
 export type AnalysisResult = {
+  schemaVersion: "1.0.0";
   taskId: string;
+  contractId: string;
   status: "completed";
+  generatedAt: string;
   contractName: string;
   documentIntake: DocumentIntakeResult;
   bAgentOutput: {
@@ -243,12 +248,40 @@ export type AnalysisResult = {
     summary: string;
   };
   questionList: string[];
+  completedWithWarnings: boolean;
+  warnings: Array<{
+    code: string;
+    message: string;
+    fieldPath: string | null;
+  }>;
+  recommendations: Array<{
+    id: string;
+    priority: "must" | "should" | "optional";
+    action: string;
+    rationale: string;
+    timing: "before_signing" | "during_repayment" | "when_overdue" | "anytime";
+    relatedRiskIds: string[];
+  }>;
+  sourceAgentRuns: Array<{
+    agent: "contract_cost" | "risk_case" | "recommendation_action";
+    runId: string;
+    agentVersion: string;
+    status: "completed" | "partial" | "failed";
+  }>;
 };
 
 export type AnalysisTaskStatus = {
+  schemaVersion: "1.0.0";
   taskId: string;
-  status: "processing" | "completed";
+  contractId: string;
+  status: "processing" | "completed" | "failed";
+  currentStage: "queued" | "contract_cost" | "risk_case" | "recommendation_action" | "completed" | "failed";
   currentStep: number;
   progress: number;
   contractName: string;
+  updatedAt: string;
+  stages: Array<{
+    agent: "contract_cost" | "risk_case" | "recommendation_action";
+    status: "pending" | "processing" | "completed" | "partial" | "failed";
+  }>;
 };

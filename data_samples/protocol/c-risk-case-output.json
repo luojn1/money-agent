@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "task_20260702_001",
+  "contractId": "contract_001",
+  "runId": "run_c_001",
+  "agent": "risk_case",
+  "agentVersion": "c-0.1.0",
+  "status": "completed",
+  "generatedAt": "2026-07-02T15:31:00+08:00",
+  "inputRunIds": ["run_b_001"],
+  "data": {
+    "riskItems": [
+      {
+        "id": "risk_fee_transparency_001",
+        "title": "费用不透明",
+        "category": "cost_transparency",
+        "riskLevel": "high",
+        "confidence": 0.96,
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": ["clause_fee_003"],
+        "evidence": [
+          {
+            "evidenceId": "evidence_001",
+            "clauseId": "clause_fee_003",
+            "quote": "平台服务费人民币 500 元由放款金额中一次性扣除",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "reason": "合同金额为 10000 元，但实际到账仅 9500 元，前置服务费会抬高真实资金成本。",
+        "possibleConsequence": "展示的名义费率可能没有完整反映借款人实际承担的成本。",
+        "matchedCases": [],
+        "questionToAsk": "500 元服务费是否已计入对外展示的年化利率？"
+      },
+      {
+        "id": "risk_prepay_001",
+        "title": "提前还款限制",
+        "category": "prepayment",
+        "riskLevel": "medium",
+        "confidence": 0.93,
+        "clauseText": "借款人申请提前结清，应按剩余未还本金的 2% 支付提前结清手续费。",
+        "clauseLocation": "还款约定 第 8 条",
+        "relatedClauseIds": ["clause_prepay_008"],
+        "evidence": [
+          {
+            "evidenceId": "evidence_002",
+            "clauseId": "clause_prepay_008",
+            "quote": "按剩余未还本金的 2% 支付提前结清手续费",
+            "location": {
+              "page": 7,
+              "section": "还款约定 第 8 条",
+              "paragraph": 2
+            }
+          }
+        ],
+        "reason": "提前结清仍需额外付费，可能降低提前还款带来的利息节省。",
+        "possibleConsequence": "未来资金宽裕时提前结清，仍可能承担额外费用。",
+        "matchedCases": [],
+        "questionToAsk": "提前还款手续费是否有减免条件？"
+      }
+    ],
+    "riskSummary": {
+      "high": 1,
+      "medium": 1,
+      "low": 0
+    }
+  },
+  "warnings": [],
+  "errors": []
+}

@@ -3,8 +3,11 @@ import type { AnalysisResult, AnalysisTaskStatus, DocumentIntakeResult } from ".
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/$/, "") ?? "";
 
 type DemoTaskResponse = {
+  schemaVersion?: "1.0.0";
   taskId: string;
+  contractId?: string;
   status: "processing";
+  createdAt?: string;
   documentIntake?: DocumentIntakeResult;
 };
 
@@ -57,9 +60,9 @@ export const api = {
     }),
   createUploadAnalysis: (payload: { contractFile?: File; contractText?: string }) => {
     const formData = new FormData();
-    if (payload.contractFile) formData.append("contractFile", payload.contractFile);
+    if (payload.contractFile) formData.append("file", payload.contractFile);
     if (payload.contractText) formData.append("contractText", payload.contractText);
-    return uploadRequest<DemoTaskResponse>("/api/analysis/upload", formData);
+    return uploadRequest<DemoTaskResponse>("/api/analysis", formData);
   },
   getAnalysisStatus: (taskId: string) =>
     request<AnalysisTaskStatus>(`/api/analysis/${encodeURIComponent(taskId)}/status`),

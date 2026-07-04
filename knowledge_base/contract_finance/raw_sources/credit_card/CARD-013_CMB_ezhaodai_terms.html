@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <link rel="icon" href="/cmb.ico" />
+    <link rel="stylesheet" href="/umi.26a0323c.css" />
+    <script>
+      window.routerBase = "/";
+    </script>
+    <script>
+      //! umi version: 3.5.43
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script>
+      function IEVersion() {
+        // if (document.documentMode) return document.documentMode;
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+        var isIE =
+          userAgent.indexOf("compatible") > -1 &&
+          userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器
+        var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器
+        var isIE11 =
+          userAgent.indexOf("Trident") > -1 &&
+          userAgent.indexOf("rv:11.0") > -1;
+        if (isIE) {
+          var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+          reIE.test(userAgent);
+          var fIEVersion = parseFloat(RegExp["$1"]);
+          if (fIEVersion == 7) {
+            return 7;
+          } else if (fIEVersion == 8) {
+            return 8;
+          } else if (fIEVersion == 9) {
+            return 9;
+          } else if (fIEVersion == 10) {
+            return 10;
+          } else {
+            return 6; //IE版本<=7
+          }
+        } else if (isEdge) {
+          return "edge"; //edge
+        } else if (isIE11) {
+          return 11; //IE11
+        } else {
+          return -1; //不是ie浏览器
+        }
+      }
+
+      var ie = IEVersion();
+      if (ie === 9 || ie === 8 || ie === 7 || ie === 6) {
+        var sb =
+          '<div id="ie_modal"><DIV id="alertFram" style="HEIGHT: 200px; WIDTH: 400px; BACKGROUND: #fff; MARGIN-TOP: -45px; POSITION: absolute; TEXT-ALIGN: center; MARGIN-LEFT: 0px; LEFT: 749px; Z-INDEX: 10001; LINE-HEIGHT: 90%; TOP: 20%"><UL style="LIST-STYLE-TYPE: none; WIDTH: 100%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px"><LI style="box-sizing: content-box;FONT-SIZE: 14px; BORDER-TOP: #a30030 1px solid; HEIGHT: 25px; BORDER-RIGHT: #a30030 1px solid; BACKGROUND: #a30030; BORDER-BOTTOM: #a30030 1px solid; FONT-WEIGHT: bold; PADDING-BOTTOM: 0px; TEXT-ALIGN: left; PADDING-TOP: 0px; PADDING-LEFT: 0px; BORDER-LEFT: #a30030 1px solid; MARGIN: 0px; LINE-HEIGHT: 25px; PADDING-RIGHT: 0px"><SPAN style="FLOAT: left; COLOR: white; MARGIN-LEFT: 8px; LINE-HEIGHT: 25px">提示</SPAN> <SPAN style="HEIGHT: 25px;FLOAT: right; LINE-HEIGHT: 22px; MARGIN-RIGHT: 8px"><INPUT id=do_OK style="CURSOR: pointer; BORDER-TOP: #666 1px solid; BORDER-RIGHT: #666 1px solid; BORDER-BOTTOM: #666 1px solid; BORDER-LEFT: #666 1px solid; BACKGROUND-COLOR: white;width: 22px;height: 20px;text-align: center;padding: 0;line-height: 20px;" type=button value=" X "></SPAN></LI><LI style="FONT-SIZE: 14px; BACKGROUND: #fff; PADDING-BOTTOM: 0px; TEXT-ALIGN: center; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px"><P style="MARGIN: 50px 20px 20px"><P style="TEXT-ALIGN: left; MARGIN: 0px 20px; LINE-HEIGHT: 25px">尊敬的用户：</P><P style="TEXT-ALIGN: left; MARGIN: 0px 20px; LINE-HEIGHT: 25px; TEXT-INDENT: 2em">您好，系统检测到您当前的浏览器版本过低，为享受更好的浏览体验，建议您升级至IE10及以上版本。</P><P></P></LI></UL></DIV><DIV id=shield style="HEIGHT: 3356px; WIDTH: 1899px; BACKGROUND: #333; POSITION: absolute; TEXT-ALIGN: center; LEFT: 0px; FILTER: alpha(opacity=50); Z-INDEX: 10000; TOP: 0px; opacity: 0.5"></DIV></div>';
+
+        var tmp = document.createElement("div");
+        var signFrame = (tmp.innerHTML += sb);
+        document.body.appendChild(tmp);
+        window.onscroll = function () {
+          var div = document.getElementById("alertFram");
+          if (window.pageYOffset > 100) {
+            div.style.position = "fixed";
+            div.style.top = "20%";
+          } else {
+            div.style.position = "fixed";
+          }
+        };
+        var offHtml = document.getElementById("do_OK");
+        var ieModalHtml = document.getElementById("ie_modal");
+        if (offHtml.addEventListener) {
+          offHtml.addEventListener("click", function () {
+            ieModalHtml.style.display = "none";
+          });
+        } else {
+          offHtml.attachEvent("onclick", function () {
+            ieModalHtml.style.display = "none";
+          });
+        }
+      }
+    </script>
+
+    <script src="/umi.26a0323c.js"></script>
+  </body>
+</html>

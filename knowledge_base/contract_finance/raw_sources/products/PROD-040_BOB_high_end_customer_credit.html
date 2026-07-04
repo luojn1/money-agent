@@ -1,0 +1,80 @@
+<!DOCTYPE html><html id=html><head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta http-equiv=X-UA-Compatible content="IE=9;IE=10;IE=11"><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><meta name=keywords content="北京银行,京行,北京银行官方网站,北京银行官网,Bank of Beijing, BOB, 网上银行, 电话银行, 手机银行, 手机网站, 信用卡, 储蓄, 贷款, 汇款, 客户服务, 理财, 基金, 资产托管, 京行资讯, 京行公告, 营业网点, 人才招聘"><meta name=description content=欢迎访问北京银行官方网站，尽享方便快捷的一站式综合金融服务！北京银行，伴您一生的银行。><link rel=icon href=https://cdn-www.bankofbeijing.com.cn/favicon.ico><title>北京银行官网</title><style>.htmlGray {
+      -webkit-filter: grayscale(100%);
+      -moz-filter: grayscale(100%);
+      -ms-filter: grayscale(100%);
+      -o-filter: grayscale(100%);
+      filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+      _filter: none;
+      filter: gray;
+    }</style><link href=https://cdn-www.bankofbeijing.com.cn/css/chunk-0a1ef11a.42b1a708.css rel=prefetch><link href=https://cdn-www.bankofbeijing.com.cn/css/views.ad4c3e09.css rel=prefetch><link href=https://cdn-www.bankofbeijing.com.cn/js/chunk-0a1ef11a.8959d278.js rel=prefetch><link href=https://cdn-www.bankofbeijing.com.cn/js/chunk-2d230fe7.45977095.js rel=prefetch><link href=https://cdn-www.bankofbeijing.com.cn/js/views.629d5bdd.js rel=prefetch><link href=https://cdn-www.bankofbeijing.com.cn/css/app.c8c11a74.css rel=preload as=style><link href=https://cdn-www.bankofbeijing.com.cn/css/chunk-vendors.83ebf75b.css rel=preload as=style><link href=https://cdn-www.bankofbeijing.com.cn/js/app.2cfc6bce.js rel=preload as=script><link href=https://cdn-www.bankofbeijing.com.cn/js/chunk-vendors.18c5e5bb.js rel=preload as=script><link href=https://cdn-www.bankofbeijing.com.cn/css/chunk-vendors.83ebf75b.css rel=stylesheet><link href=https://cdn-www.bankofbeijing.com.cn/css/app.c8c11a74.css rel=stylesheet></head><body><noscript><strong>很抱歉，如果没有 JavaScript 支持，系统 将不能正常工作。请启用浏览器的 JavaScript 然后继续。</strong></noscript><div id=app></div><a href=javascript:void(0) id=toolbarSwitch></a><script>var IE_DEFAULT_VERSION = 9
+    var CHROEM_DEFAULT_VERSION = 57
+    var FIREFOX_DEFAULT_VERSION = 35
+    var EDGE_DEFAULT_VERSION = 1
+    var SAFARI_DEFAULT_VERSION = 1
+    var userAgent = navigator.userAgent
+    var ua = userAgent.toLowerCase()
+    var isOpera = userAgent.indexOf('Opera') > -1
+
+    var browerType = ''
+    if (
+      userAgent.indexOf('compatible') > -1 &&
+      userAgent.indexOf('MSIE') > -1 &&
+      !isOpera
+    ) {
+      browerType = 'IE'
+    } else if (userAgent.indexOf('Edge') > -1) {
+      browerType = 'Edge'
+    } else if (userAgent.indexOf('Firefox') > -1) {
+      browerType = 'Firefox'
+    } else if (
+      userAgent.indexOf('Chrome') > -1 &&
+      userAgent.indexOf('Safari') > -1
+    ) {
+      browerType = 'Chrome'
+    } else if (
+      userAgent.indexOf('Safari') > -1 &&
+      userAgent.indexOf('Chrome') == -1
+    ) {
+      browerType = 'Safari'
+    }
+    var version
+    if (browerType === 'IE') {
+      version = ua.match(/msie ([\d.]+)/)[1].split('.')[0]
+    } else if (browerType === 'Edge') {
+      version = ua.match(/edge\/([\d.]+)/)[1].split('.')[0]
+    } else if (browerType === 'Firefox') {
+      version = ua.match(/firefox\/([\d.]+)/)[1].split('.')[0]
+    } else if (browerType === 'Safari') {
+      version = ua.match(/version\/([\d.]+)/)[1].split('.')[0]
+    } else if (browerType === 'Chrome') {
+      version = ua.match(/chrome\/([\d.]+)/)[1].split('.')[0]
+    }
+    if (
+      (browerType === 'IE' && version * 1 <= IE_DEFAULT_VERSION * 1) ||
+      (browerType === 'Edge' && version * 1 <= EDGE_DEFAULT_VERSION * 1) ||
+      (browerType === 'Firefox' &&
+        version * 1 <= FIREFOX_DEFAULT_VERSION * 1) ||
+      (browerType === 'Safari' &&
+        version * 1 <= SAFARI_DEFAULT_VERSION * 1) ||
+      (browerType === 'Chrome' && version * 1 <= CHROEM_DEFAULT_VERSION * 1)
+    ) {
+      // console.log('版本太低')
+      window.location.href = '/index_low.html'
+    }
+
+    // 禁用F12
+    window.onkeydown =
+      window.onkeyup =
+      window.onkeypress =
+      function (event) {
+        // 判断是否按下F12，F12键码为123
+        if (event.keyCode == 123) {
+          event.preventDefault() // 阻止默认事件行为
+          window.event.returnValue = false
+        }
+      }
+
+    // 禁用右键
+    document.oncontextmenu = function () {
+      return false
+    }</script><script src=/esdToolsInit.js></script><script src=https://cdn-www.bankofbeijing.com.cn/js/chunk-vendors.18c5e5bb.js></script><script src=https://cdn-www.bankofbeijing.com.cn/js/app.2cfc6bce.js></script></body></html>

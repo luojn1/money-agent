@@ -1,12 +1,16 @@
 import { createAnalysisResult } from "../website/backend/src/services/analysisOrchestrator.js";
 import { DEMO_CONTRACT_NAME, DEMO_CONTRACT_TEXT, DEMO_TASK_ID } from "../website/backend/src/services/demoContract.js";
+import { createContractCostOutput } from "../website/backend/src/services/protocolAdapter.js";
+import type { AnalysisTask } from "../website/backend/src/services/taskStore.js";
 
 const assert = (condition: unknown, message: string) => {
   if (!condition) throw new Error(message);
 };
 
-const result = createAnalysisResult({
+const demoTask: AnalysisTask = {
   taskId: DEMO_TASK_ID,
+  contractId: "contract_001",
+  startedAt: Date.now(),
   contractName: DEMO_CONTRACT_NAME,
   contractText: DEMO_CONTRACT_TEXT,
   documentIntake: {
@@ -15,13 +19,18 @@ const result = createAnalysisResult({
     method: "demo",
     sourceFileName: null,
     mimeType: null,
+    fileSha256: null,
+    pageCount: null,
     extractedTextLength: DEMO_CONTRACT_TEXT.length,
     extractedTextPreview: DEMO_CONTRACT_TEXT.slice(0, 180),
     usedOcr: false,
     confidence: 0.96,
     warnings: [],
   },
-});
+};
+
+const result = createAnalysisResult(demoTask);
+const contractCostOutput = createContractCostOutput(demoTask, result);
 
 const parseResult = result.bAgentOutput.contractParseResult;
 const costResult = result.costAnalysis;
@@ -38,12 +47,21 @@ assert(costResult.realAnnualRate !== null && costResult.realAnnualRate > 32 && c
 assert(costResult.knowledgeTraining.sourceFileCount >= 100, "知识库应包含完整原始资料文件");
 assert(costResult.knowledgeTraining.sourceCatalogCount >= 100, "知识库来源目录应包含完整记录");
 
+assert(contractCostOutput.schemaVersion === "1.0.0", "B output should use protocol v1.0.0");
+assert(contractCostOutput.agent === "contract_cost", "B output should use contract_cost agent id");
+assert(contractCostOutput.contractId === "contract_001", "B output should carry contractId");
+assert(contractCostOutput.data?.clauses.every((clause) => clause.clauseId.startsWith("clause_")), "B output clauses should have stable clauseId");
+assert(contractCostOutput.data?.costAnalysis.calculationBasis.length, "B output should expose calculation basis");
+
 console.log(JSON.stringify({
   status: "ok",
   loanAmount: parseResult.loanAmount.value,
   actualReceivedAmount: parseResult.actualReceivedAmount.value,
   monthlyPayment: parseResult.monthlyPayment.value,
   realAnnualRate: costResult.realAnnualRate,
+  protocolVersion: contractCostOutput.schemaVersion,
+  protocolAgent: contractCostOutput.agent,
+  protocolClauseCount: contractCostOutput.data?.clauses.length,
   knowledgeSourceFiles: costResult.knowledgeTraining.sourceFileCount,
   knowledgeCatalogRows: costResult.knowledgeTraining.sourceCatalogCount,
 }, null, 2));

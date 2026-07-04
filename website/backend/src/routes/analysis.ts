@@ -1,8 +1,9 @@
-import { Router } from "express";
+import { Router, type NextFunction, type Request, type Response } from "express";
 import multer from "multer";
 import { createAnalysisResult } from "../services/analysisOrchestrator.js";
 import { runDocumentIntakeAgent } from "../services/documentIntakeAgent.js";
-import { createAnalysisTask, createDemoTask, getAnalysisTask, getTaskStatus } from "../services/taskStore.js";
+import { createContractCostOutput } from "../services/protocolAdapter.js";
+import { createAnalysisTask, createDemoTask, getAnalysisTask, getTaskStatus, toTaskCreatedResponse } from "../services/taskStore.js";
 
 export const analysisRouter = Router();
 const upload = multer({
@@ -11,6 +12,10 @@ const upload = multer({
     fileSize: 20 * 1024 * 1024,
   },
 });
+const uploadFields = upload.fields([
+  { name: "contractFile", maxCount: 1 },
+  { name: "file", maxCount: 1 },
+]);
 
 type DemoAnalysisRequestBody = {
   contractName?: string;
@@ -21,28 +26,25 @@ const createResultForTask = (taskId: string) => {
   const task = getAnalysisTask(taskId);
   return createAnalysisResult({
     taskId: task.taskId,
+    contractId: task.contractId,
     contractName: task.contractName,
     contractText: task.contractText,
     documentIntake: task.documentIntake,
   });
 };
 
-analysisRouter.post("/demo", (request, response) => {
-  const body = request.body as DemoAnalysisRequestBody;
-  const task = createDemoTask({
-    contractName: body.contractName,
-    contractText: body.contractText,
-  });
-  response.status(201).json({ taskId: task.taskId, status: "processing" });
-});
+const getUploadedFile = (request: Request) => {
+  const files = request.files as Record<string, Express.Multer.File[] | undefined> | undefined;
+  return files?.contractFile?.[0] ?? files?.file?.[0];
+};
 
-analysisRouter.post("/upload", upload.single("contractFile"), async (request, response, next) => {
+const handleUploadAnalysis = async (request: Request, response: Response, next: NextFunction) => {
   try {
     const taskId = `task_${Date.now().toString(36)}`;
     const body = request.body as { contractText?: string };
     const intake = await runDocumentIntakeAgent({
       taskId,
-      file: request.file,
+      file: getUploadedFile(request),
       pastedText: body.contractText,
     });
     const task = createAnalysisTask({
@@ -52,15 +54,23 @@ analysisRouter.post("/upload", upload.single("contractFile"), async (request, re
       documentIntake: intake.intakeResult,
     });
 
-    response.status(201).json({
-      taskId: task.taskId,
-      status: "processing",
-      documentIntake: task.documentIntake,
-    });
+    response.status(201).json(toTaskCreatedResponse(task));
   } catch (error) {
     next(error);
   }
+};
+
+analysisRouter.post("/demo", (request, response) => {
+  const body = request.body as DemoAnalysisRequestBody;
+  const task = createDemoTask({
+    contractName: body.contractName,
+    contractText: body.contractText,
+  });
+  response.status(201).json(toTaskCreatedResponse(task));
 });
+
+analysisRouter.post("/", uploadFields, handleUploadAnalysis);
+analysisRouter.post("/upload", uploadFields, handleUploadAnalysis);
 
 analysisRouter.get("/:taskId/status", (request, response) => {
   response.json(getTaskStatus(request.params.taskId));
@@ -71,6 +81,13 @@ analysisRouter.get("/:taskId/result", (request, response) => {
 });
 
 analysisRouter.get("/:taskId/b-output", (request, response) => {
+  const task = getAnalysisTask(request.params.taskId);
   const result = createResultForTask(request.params.taskId);
-  response.json(result.bAgentOutput);
+  response.json(createContractCostOutput(task, result));
+});
+
+analysisRouter.get("/:taskId/contract-cost-output", (request, response) => {
+  const task = getAnalysisTask(request.params.taskId);
+  const result = createResultForTask(request.params.taskId);
+  response.json(createContractCostOutput(task, result));
 });

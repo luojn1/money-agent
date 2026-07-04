@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "task_20260702_001",
+  "contractId": "contract_001",
+  "runId": "run_d_001",
+  "agent": "recommendation_action",
+  "agentVersion": "d-0.1.0",
+  "status": "completed",
+  "generatedAt": "2026-07-02T15:32:00+08:00",
+  "inputRunIds": ["run_b_001", "run_c_001"],
+  "data": {
+    "overallResult": {
+      "level": "verify",
+      "summary": "该合同真实年化成本较高，并存在前置服务费和提前还款费用，建议签约前书面核实。"
+    },
+    "recommendations": [
+      {
+        "id": "action_fee_001",
+        "priority": "must",
+        "action": "要求机构提供包含服务费在内的综合年化成本说明。",
+        "rationale": "500 元服务费从放款额中预先扣除，会提高实际资金成本。",
+        "timing": "before_signing",
+        "relatedRiskIds": ["risk_fee_transparency_001"]
+      },
+      {
+        "id": "action_prepay_001",
+        "priority": "should",
+        "action": "确认提前结清手续费的减免条件并保留书面答复。",
+        "rationale": "剩余本金 2% 的手续费可能抵消提前还款节省的利息。",
+        "timing": "before_signing",
+        "relatedRiskIds": ["risk_prepay_001"]
+      }
+    ],
+    "questionList": [
+      "500 元服务费是否已计入展示的年化利率？",
+      "提前还款手续费是否有减免条件？"
+    ],
+    "disclaimer": "本报告仅用于帮助理解合同和识别信息风险，不构成法律、投资或信贷决策意见。"
+  },
+  "warnings": [],
+  "errors": []
+}
