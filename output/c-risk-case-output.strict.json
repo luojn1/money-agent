@@ -1,0 +1,374 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "task_20260702_001",
+  "contractId": "contract_001",
+  "runId": "run_risk_case_task_20260702_001",
+  "agent": "risk_case",
+  "agentVersion": "c-0.2.0-dynamic-kb",
+  "status": "completed",
+  "generatedAt": "2026-07-04T22:08:30+08:00",
+  "inputRunIds": [
+    "run_b_001"
+  ],
+  "data": {
+    "riskItems": [
+      {
+        "reason": "命中规则“费用不透明-存在额外费用”。该判断参考 中国人民银行公告〔2021〕第3号；《民法典》第677条，规则依据为：中国人民银行公告〔2021〕第3号；《民法典》第496条 法规摘要：所有从事贷款业务的机构应以明显方式向借款人展示年化利率。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "id": "risk_001_rr001",
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_001_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "title": "费用不透明-存在额外费用",
+        "category": "cost_transparency",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE007",
+            "title": "消费贷预扣服务费案例07",
+            "similarity": 0.4954,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/007"
+          },
+          {
+            "caseId": "CASE022",
+            "title": "消费贷预扣服务费案例22",
+            "similarity": 0.4954,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/022"
+          },
+          {
+            "caseId": "CASE037",
+            "title": "消费贷预扣服务费案例37",
+            "similarity": 0.4954,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/037"
+          }
+        ],
+        "questionToAsk": "请机构列明所有费用项目，并说明是否计入明示年化利率。",
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "riskLevel": "high"
+      },
+      {
+        "reason": "命中规则“服务费一次性扣除”。该判断参考 《关于进一步规范信贷融资收费降低企业融资综合成本的通知》；《民法典》第670条，规则依据为：《民法典》第670条；《关于进一步规范信贷融资收费降低企业融资综合成本的通知》 法规摘要：规范信贷环节收费，要求不得违规转嫁成本或强制搭售。；借款利息不得预先在本金中扣除，预先扣除的应按实际借款数额返还并计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "id": "risk_002_rr002",
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_002_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "title": "服务费一次性扣除",
+        "category": "cost_transparency",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE007",
+            "title": "消费贷预扣服务费案例07",
+            "similarity": 0.554,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/007"
+          },
+          {
+            "caseId": "CASE022",
+            "title": "消费贷预扣服务费案例22",
+            "similarity": 0.554,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/022"
+          },
+          {
+            "caseId": "CASE037",
+            "title": "消费贷预扣服务费案例37",
+            "similarity": 0.554,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/037"
+          }
+        ],
+        "questionToAsk": "请机构说明服务费扣除依据、金额和是否属于变相预扣利息。",
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "riskLevel": "high"
+      },
+      {
+        "reason": "命中规则“砍头息-到账低于本金”。该判断参考 《民法典》第670条；《民法典》第585条，规则依据为：《民法典》第670条 法规摘要：借款利息不得预先在本金中扣除，预先扣除的应按实际借款数额返还并计算利息。；约定违约金过分高于造成损失的，人民法院或仲裁机构可以予以调整。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "id": "risk_003_rr007",
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_003_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "title": "砍头息-到账低于本金",
+        "category": "cost_transparency",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE015",
+            "title": "短期现金贷砍头息案例15",
+            "similarity": 0.5366,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/015"
+          },
+          {
+            "caseId": "CASE030",
+            "title": "短期现金贷砍头息案例30",
+            "similarity": 0.5366,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/030"
+          },
+          {
+            "caseId": "CASE045",
+            "title": "短期现金贷砍头息案例45",
+            "similarity": 0.5366,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/045"
+          }
+        ],
+        "questionToAsk": "请机构说明实际到账金额低于合同本金的原因和扣费依据。",
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "riskLevel": "high"
+      },
+      {
+        "reason": "命中规则“真实年化高于名义利率10个百分点”。该判断参考 中国人民银行公告〔2021〕第3号；《民法典》第677条，规则依据为：中国人民银行公告〔2021〕第3号 法规摘要：所有从事贷款业务的机构应以明显方式向借款人展示年化利率。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "id": "risk_004_rr012",
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_004_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "title": "真实年化高于名义利率10个百分点",
+        "category": "interest_fee",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE_EXT_001",
+            "title": "外部接口导入的消费贷服务费争议",
+            "similarity": 0.3945,
+            "conclusion": "服务费是否充分披露并计入综合融资成本。；处理结果：待平台补充披露并退还部分费用。",
+            "sourceUrl": "https://example.com/external-case/001"
+          },
+          {
+            "caseId": "CASE013",
+            "title": "平台借款真实年化不明显案例13",
+            "similarity": 0.3792,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/013"
+          },
+          {
+            "caseId": "CASE028",
+            "title": "平台借款真实年化不明显案例28",
+            "similarity": 0.3792,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/028"
+          }
+        ],
+        "questionToAsk": "请机构解释名义利率和真实年化差异的来源。",
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "riskLevel": "high"
+      },
+      {
+        "reason": "命中规则“LPR倍数偏高”。该判断参考 中国人民银行公告〔2021〕第3号；最高人民法院关于审理民间借贷案件适用法律若干问题的规定，规则依据为：贷款市场报价利率管理规则；中国人民银行公告〔2021〕第3号 法规摘要：所有从事贷款业务的机构应以明显方式向借款人展示年化利率。；明确民间借贷利率司法保护规则，并对预扣利息、复利等作出规范。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "id": "risk_005_rr015",
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_005_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "title": "LPR倍数偏高",
+        "category": "interest_fee",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE015",
+            "title": "短期现金贷砍头息案例15",
+            "similarity": 0.3993,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/015"
+          },
+          {
+            "caseId": "CASE030",
+            "title": "短期现金贷砍头息案例30",
+            "similarity": 0.3993,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/030"
+          },
+          {
+            "caseId": "CASE045",
+            "title": "短期现金贷砍头息案例45",
+            "similarity": 0.3993,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/045"
+          }
+        ],
+        "questionToAsk": "请机构说明该产品利率相对同期LPR的倍数和定价依据。",
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "riskLevel": "medium"
+      },
+      {
+        "reason": "命中规则“提前还款收手续费”。该判断参考 《民法典》第677条；《消费者权益保护法实施条例》第10条，规则依据为：《民法典》第677条 法规摘要：借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。；经营者采取自动展期、自动续费等方式提供服务的，应以显著方式提请消费者注意。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "id": "risk_006_rr017",
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_006_01",
+            "clauseId": "clause_prepay_008",
+            "quote": "借款人申请提前结清，应按剩余未还本金的 2% 支付提前结清手续费。",
+            "location": {
+              "page": 7,
+              "section": "还款约定 第 8 条",
+              "paragraph": 2
+            }
+          }
+        ],
+        "title": "提前还款收手续费",
+        "category": "prepayment",
+        "clauseLocation": "还款约定 第 8 条",
+        "relatedClauseIds": [
+          "clause_prepay_008"
+        ],
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE008",
+            "title": "逾期罚息和违约金叠加案例08",
+            "similarity": 0.399,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/008"
+          },
+          {
+            "caseId": "CASE023",
+            "title": "逾期罚息和违约金叠加案例23",
+            "similarity": 0.399,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/023"
+          },
+          {
+            "caseId": "CASE038",
+            "title": "逾期罚息和违约金叠加案例38",
+            "similarity": 0.399,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/038"
+          }
+        ],
+        "questionToAsk": "请机构说明提前结清费用计算方式和已收费用退还规则。",
+        "clauseText": "借款人申请提前结清，应按剩余未还本金的 2% 支付提前结清手续费。",
+        "riskLevel": "medium"
+      },
+      {
+        "reason": "命中规则“高额违约金”。该判断参考 《民法典》第585条；《民法典》第677条，规则依据为：《民法典》第585条 法规摘要：约定违约金过分高于造成损失的，人民法院或仲裁机构可以予以调整。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "id": "risk_007_rr022",
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_007_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "title": "高额违约金",
+        "category": "overdue",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE008",
+            "title": "逾期罚息和违约金叠加案例08",
+            "similarity": 0.4666,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/008"
+          },
+          {
+            "caseId": "CASE023",
+            "title": "逾期罚息和违约金叠加案例23",
+            "similarity": 0.4666,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/023"
+          },
+          {
+            "caseId": "CASE038",
+            "title": "逾期罚息和违约金叠加案例38",
+            "similarity": 0.4666,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/038"
+          }
+        ],
+        "questionToAsk": "请机构说明违约金计算方式和是否可按实际损失调整。",
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "riskLevel": "medium"
+      }
+    ],
+    "riskSummary": {
+      "high": 4,
+      "medium": 3,
+      "low": 0
+    }
+  },
+  "warnings": [],
+  "errors": []
+}

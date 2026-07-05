@@ -1,0 +1,224 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "task_20260702_001",
+  "contractId": "contract_001",
+  "runId": "run_risk_case_task_20260702_001",
+  "agent": "risk_case",
+  "agentVersion": "c-0.2.0-dynamic-kb",
+  "status": "completed",
+  "generatedAt": "2026-07-04T20:24:45+08:00",
+  "inputRunIds": [
+    "run_b_001"
+  ],
+  "data": {
+    "riskItems": [
+      {
+        "id": "risk_001_rr001",
+        "title": "费用不透明",
+        "category": "cost_transparency",
+        "riskLevel": "high",
+        "confidence": 0.97,
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_001_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "reason": "命中规则“费用不透明”。该判断参考 中国人民银行公告〔2021〕第3号；《民法典》第496条，规则依据为：《中国人民银行公告〔2021〕第3号》要求贷款产品明示年化利率并纳入相关费用。 法规摘要：所有贷款产品均应明示贷款年化利率，年化利率应以对借款人收取的全部贷款成本与实际占用本金的比例计算。；提供格式条款的一方应遵循公平原则确定权利义务，并采取合理方式提示与对方有重大利害关系的条款。",
+        "possibleConsequence": "用户可能低估真实借款成本，签约后发现总还款额高于预期。",
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期服务费披露不足纠纷",
+            "similarity": 0.37,
+            "conclusion": "服务费是否充分披露，是否计入综合融资成本。；处理结果：经投诉后机构退还部分服务费，并重新出具费用明细。",
+            "sourceUrl": "https://example.com/cases/medical-installment-fee"
+          },
+          {
+            "caseId": "CASE002",
+            "title": "培训贷退费与贷款合同分离纠纷",
+            "similarity": 0.349,
+            "conclusion": "培训服务合同解除后，贷款合同是否同步处理。；处理结果：调解后培训机构承担部分退款，用户与贷款机构重新协商还款。",
+            "sourceUrl": "https://example.com/cases/training-loan-refund"
+          },
+          {
+            "caseId": "CASE003",
+            "title": "信用卡分期免息但手续费偏高纠纷",
+            "similarity": 0.2792,
+            "conclusion": "免息宣传是否充分披露手续费和折算年化成本。；处理结果：银行补充解释费用口径，用户提前结清时仍需关注手续费政策。",
+            "sourceUrl": "https://example.com/cases/credit-card-installment-fee"
+          }
+        ],
+        "questionToAsk": "请机构列明所有费用项目，并说明是否已计入明示年化利率。"
+      },
+      {
+        "id": "risk_002_rr003",
+        "title": "提前还款限制",
+        "category": "prepayment",
+        "riskLevel": "medium",
+        "confidence": 0.97,
+        "clauseText": "借款人申请提前结清，应按剩余未还本金的 2% 支付提前结清手续费。",
+        "clauseLocation": "还款约定 第 8 条",
+        "relatedClauseIds": [
+          "clause_prepay_008"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_002_01",
+            "clauseId": "clause_prepay_008",
+            "quote": "借款人申请提前结清，应按剩余未还本金的 2% 支付提前结清手续费。",
+            "location": {
+              "page": 7,
+              "section": "还款约定 第 8 条",
+              "paragraph": 2
+            }
+          }
+        ],
+        "reason": "命中规则“提前还款限制”。该判断参考 《民法典》第677条；《民法典》第670条，规则依据为：《民法典》第677条规定借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 法规摘要：借款人提前返还借款的，除另有约定外，应按实际借款期间计算利息。；借款利息不得预先在本金中扣除；预先扣除的，应按实际借款数额返还借款并计算利息。",
+        "possibleConsequence": "未来提前结清时，节省的利息可能被手续费或违约金抵消。",
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期服务费披露不足纠纷",
+            "similarity": 0.2623,
+            "conclusion": "服务费是否充分披露，是否计入综合融资成本。；处理结果：经投诉后机构退还部分服务费，并重新出具费用明细。",
+            "sourceUrl": "https://example.com/cases/medical-installment-fee"
+          },
+          {
+            "caseId": "CASE002",
+            "title": "培训贷退费与贷款合同分离纠纷",
+            "similarity": 0.2508,
+            "conclusion": "培训服务合同解除后，贷款合同是否同步处理。；处理结果：调解后培训机构承担部分退款，用户与贷款机构重新协商还款。",
+            "sourceUrl": "https://example.com/cases/training-loan-refund"
+          },
+          {
+            "caseId": "CASE005",
+            "title": "租房贷合同与租赁服务纠纷",
+            "similarity": 0.2249,
+            "conclusion": "租赁服务失败后，分期贷款责任如何承担。；处理结果：多方协调后暂停部分扣款，用户通过投诉渠道申请处理。",
+            "sourceUrl": "https://example.com/cases/rent-loan-dispute"
+          }
+        ],
+        "questionToAsk": "请机构说明提前结清时手续费如何计算，已收费用是否退还。"
+      },
+      {
+        "id": "risk_003_rr004",
+        "title": "砍头息",
+        "category": "cost_transparency",
+        "riskLevel": "high",
+        "confidence": 0.97,
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_003_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "reason": "命中规则“砍头息”。该判断参考 《民法典》第670条；《民法典》第677条，规则依据为：《民法典》第670条禁止利息预先在本金中扣除。 法规摘要：借款利息不得预先在本金中扣除；预先扣除的，应按实际借款数额返还借款并计算利息。；借款人提前返还借款的，除另有约定外，应按实际借款期间计算利息。",
+        "possibleConsequence": "名义本金与实际到手金额不一致，会推高真实年化成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期服务费披露不足纠纷",
+            "similarity": 0.3212,
+            "conclusion": "服务费是否充分披露，是否计入综合融资成本。；处理结果：经投诉后机构退还部分服务费，并重新出具费用明细。",
+            "sourceUrl": "https://example.com/cases/medical-installment-fee"
+          },
+          {
+            "caseId": "CASE002",
+            "title": "培训贷退费与贷款合同分离纠纷",
+            "similarity": 0.264,
+            "conclusion": "培训服务合同解除后，贷款合同是否同步处理。；处理结果：调解后培训机构承担部分退款，用户与贷款机构重新协商还款。",
+            "sourceUrl": "https://example.com/cases/training-loan-refund"
+          },
+          {
+            "caseId": "CASE003",
+            "title": "信用卡分期免息但手续费偏高纠纷",
+            "similarity": 0.2276,
+            "conclusion": "免息宣传是否充分披露手续费和折算年化成本。；处理结果：银行补充解释费用口径，用户提前结清时仍需关注手续费政策。",
+            "sourceUrl": "https://example.com/cases/credit-card-installment-fee"
+          }
+        ],
+        "questionToAsk": "请机构说明为什么实际到账金额低于合同本金，扣除费用是否有合法依据。"
+      },
+      {
+        "id": "risk_004_rr007",
+        "title": "逾期罚息过高",
+        "category": "overdue",
+        "riskLevel": "medium",
+        "confidence": 0.97,
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_004_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "reason": "命中规则“逾期罚息过高”。该判断参考 《民法典》第677条；《民法典》第670条，规则依据为：违约责任应与实际损失、合同约定和公平原则相匹配。 法规摘要：借款人提前返还借款的，除另有约定外，应按实际借款期间计算利息。；借款利息不得预先在本金中扣除；预先扣除的，应按实际借款数额返还借款并计算利息。",
+        "possibleConsequence": "一旦逾期，费用可能快速累积并影响征信。",
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期服务费披露不足纠纷",
+            "similarity": 0.3705,
+            "conclusion": "服务费是否充分披露，是否计入综合融资成本。；处理结果：经投诉后机构退还部分服务费，并重新出具费用明细。",
+            "sourceUrl": "https://example.com/cases/medical-installment-fee"
+          },
+          {
+            "caseId": "CASE002",
+            "title": "培训贷退费与贷款合同分离纠纷",
+            "similarity": 0.3222,
+            "conclusion": "培训服务合同解除后，贷款合同是否同步处理。；处理结果：调解后培训机构承担部分退款，用户与贷款机构重新协商还款。",
+            "sourceUrl": "https://example.com/cases/training-loan-refund"
+          },
+          {
+            "caseId": "CASE005",
+            "title": "租房贷合同与租赁服务纠纷",
+            "similarity": 0.2788,
+            "conclusion": "租赁服务失败后，分期贷款责任如何承担。；处理结果：多方协调后暂停部分扣款，用户通过投诉渠道申请处理。",
+            "sourceUrl": "https://example.com/cases/rent-loan-dispute"
+          }
+        ],
+        "questionToAsk": "请机构说明逾期罚息、违约金是否有上限，是否会重复计收。"
+      }
+    ],
+    "riskSummary": {
+      "high": 2,
+      "medium": 2,
+      "low": 0
+    }
+  },
+  "warnings": [],
+  "errors": []
+}
