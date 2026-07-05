@@ -1,0 +1,13 @@
+{
+  "generatedAt": "2026-07-04",
+  "counts": {
+    "risk_rules": 52,
+    "legal_regulations": 32,
+    "cases": 55,
+    "contract_templates": 24,
+    "financial_products": 24,
+    "market_rates": 48,
+    "financial_glossary": 32
+  },
+  "note": "Seed data is for local MVP demos and knowledge-base bootstrapping. Production use should verify sources and update records through the dynamic ingestion workflow."
+}
