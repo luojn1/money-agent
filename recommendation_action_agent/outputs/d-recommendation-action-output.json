@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "task_20260702_001",
+  "contractId": "contract_001",
+  "runId": "run_recommendation_action_task_20260702_001",
+  "agent": "recommendation_action",
+  "agentVersion": "d-0.1.0",
+  "status": "completed",
+  "generatedAt": "2026-07-05T22:36:34+08:00",
+  "inputRunIds": [
+    "run_b_001",
+    "run_risk_case_task_20260702_001"
+  ],
+  "data": {
+    "overallResult": {
+      "level": "high",
+      "summary": "真实年化利率约 23.4%（名义利率 12.8%），共识别出高风险 4 项、中风险 3 项、低风险 0 项。建议在获得机构对高风险条款的书面澄清之前暂缓签约，并按建议清单逐项核实。"
+    },
+    "recommendations": [
+      {
+        "id": "action_overall_001",
+        "priority": "must",
+        "action": "在上述高风险问题得到机构书面澄清之前，暂缓签约。",
+        "rationale": "本合同存在 4 项高风险条款，书面澄清是后续维权时最重要的证据。",
+        "timing": "before_signing",
+        "relatedRiskIds": [
+          "risk_001_rr001",
+          "risk_002_rr002",
+          "risk_003_rr007",
+          "risk_004_rr012"
+        ]
+      },
+      {
+        "id": "action_001_risk_001_rr001",
+        "priority": "must",
+        "action": "签约前要求机构书面回复：请机构列明所有费用项目，并说明是否计入明示年化利率。",
+        "rationale": "命中规则“费用不透明-存在额外费用”。该条款可能增加用户的资金、履约或维权成本。知识库中有 3 起同类纠纷案例可供参考。",
+        "timing": "before_signing",
+        "relatedRiskIds": [
+          "risk_001_rr001"
+        ]
+      },
+      {
+        "id": "action_002_risk_002_rr002",
+        "priority": "must",
+        "action": "签约前要求机构书面回复：请机构说明服务费扣除依据、金额和是否属于变相预扣利息。",
+        "rationale": "命中规则“服务费一次性扣除”。该条款可能增加用户的资金、履约或维权成本。知识库中有 3 起同类纠纷案例可供参考。",
+        "timing": "before_signing",
+        "relatedRiskIds": [
+          "risk_002_rr002"
+        ]
+      },
+      {
+        "id": "action_003_risk_003_rr007",
+        "priority": "must",
+        "action": "签约前要求机构书面回复：请机构说明实际到账金额低于合同本金的原因和扣费依据。",
+        "rationale": "命中规则“砍头息-到账低于本金”。该条款可能增加用户的资金、履约或维权成本。知识库中有 3 起同类纠纷案例可供参考。",
+        "timing": "before_signing",
+        "relatedRiskIds": [
+          "risk_003_rr007"
+        ]
+      },
+      {
+        "id": "action_004_risk_004_rr012",
+        "priority": "must",
+        "action": "签约前要求机构书面确认：请机构解释名义利率和真实年化差异的来源。",
+        "rationale": "命中规则“真实年化高于名义利率10个百分点”。该条款可能增加用户的资金、履约或维权成本。知识库中有 3 起同类纠纷案例可供参考。",
+        "timing": "before_signing",
+        "relatedRiskIds": [
+          "risk_004_rr012"
+        ]
+      },
+      {
+        "id": "action_005_risk_005_rr015",
+        "priority": "should",
+        "action": "签约前要求机构书面确认：请机构说明该产品利率相对同期LPR的倍数和定价依据。",
+        "rationale": "命中规则“LPR倍数偏高”。该条款可能增加用户的资金、履约或维权成本。知识库中有 3 起同类纠纷案例可供参考。",
+        "timing": "before_signing",
+        "relatedRiskIds": [
+          "risk_005_rr015"
+        ]
+      },
+      {
+        "id": "action_006_risk_006_rr017",
+        "priority": "should",
+        "action": "签约前与机构确认并保留书面答复：请机构说明提前结清费用计算方式和已收费用退还规则。",
+        "rationale": "命中规则“提前还款收手续费”。该条款可能增加用户的资金、履约或维权成本。知识库中有 3 起同类纠纷案例可供参考。",
+        "timing": "before_signing",
+        "relatedRiskIds": [
+          "risk_006_rr017"
+        ]
+      },
+      {
+        "id": "action_007_risk_007_rr022",
+        "priority": "should",
+        "action": "了解并记录逾期处理规则：请机构说明违约金计算方式和是否可按实际损失调整。",
+        "rationale": "命中规则“高额违约金”。该条款可能增加用户的资金、履约或维权成本。知识库中有 3 起同类纠纷案例可供参考。",
+        "timing": "when_overdue",
+        "relatedRiskIds": [
+          "risk_007_rr022"
+        ]
+      },
+      {
+        "id": "action_compare_001",
+        "priority": "should",
+        "action": "签约前用本合同的真实年化利率（约 23.4%）与银行消费贷、信用卡分期等其他渠道的年化成本做横向对比，再决定是否选择本产品。",
+        "rationale": "同额度、同期限下不同渠道的真实成本差异可能很大，横向对比是避免高成本借款最直接的方法。",
+        "timing": "before_signing",
+        "relatedRiskIds": [
+          "risk_004_rr012",
+          "risk_005_rr015"
+        ]
+      }
+    ],
+    "questionList": [
+      "请机构列明所有费用项目，并说明是否计入明示年化利率。",
+      "请机构说明服务费扣除依据、金额和是否属于变相预扣利息。",
+      "请机构说明实际到账金额低于合同本金的原因和扣费依据。",
+      "请机构解释名义利率和真实年化差异的来源。",
+      "请机构说明该产品利率相对同期LPR的倍数和定价依据。",
+      "请机构说明提前结清费用计算方式和已收费用退还规则。",
+      "请机构说明违约金计算方式和是否可按实际损失调整。"
+    ],
+    "disclaimer": "本报告仅用于帮助理解合同和识别信息风险，不构成法律、投资或信贷决策意见。"
+  },
+  "warnings": [],
+  "errors": []
+}
