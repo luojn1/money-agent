@@ -1,0 +1,11 @@
+﻿pydantic
+pyyaml
+numpy
+pytest
+apscheduler
+
+# Optional: install one of these backends when you want stronger embeddings.
+# sentence-transformers
+# openai
+# fastapi
+# uvicorn
