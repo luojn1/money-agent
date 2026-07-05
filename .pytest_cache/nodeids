@@ -1,0 +1,10 @@
+[
+  "tests/test_agent_core.py::test_build_output_can_omit_extension_fields",
+  "tests/test_agent_core.py::test_save_output_does_not_duplicate_matched_cases",
+  "tests/test_agent_core.py::test_validate_b_output_reports_missing_fields",
+  "tests/test_dynamic_ingestion.py::test_api_ingestion_creates_pending_and_skips_unchanged",
+  "tests/test_dynamic_ingestion.py::test_approve_pending_record_makes_it_active",
+  "tests/test_dynamic_ingestion.py::test_csv_import_creates_pending_record",
+  "tests/test_dynamic_ingestion.py::test_expire_old_version_and_history",
+  "tests/test_dynamic_ingestion.py::test_scheduler_configuration_without_running_jobs"
+]
