@@ -11,7 +11,6 @@ import { HandCoins } from "@phosphor-icons/react/HandCoins";
 import { Percent } from "@phosphor-icons/react/Percent";
 import { Question } from "@phosphor-icons/react/Question";
 import { Receipt } from "@phosphor-icons/react/Receipt";
-import { Robot } from "@phosphor-icons/react/Robot";
 import { SealWarning } from "@phosphor-icons/react/SealWarning";
 import { ShieldCheck } from "@phosphor-icons/react/ShieldCheck";
 import { Wallet } from "@phosphor-icons/react/Wallet";
@@ -38,20 +37,6 @@ const priorityLabel: Record<ActionItem["priority"], string> = {
   must: "必须确认",
   should: "建议确认",
   optional: "可选优化",
-};
-
-const agentRunLabel = {
-  contract_cost: "B 合同与成本 Agent",
-  risk_case: "C 风险与案例 Agent",
-  recommendation_action: "D 建议与行动 Agent",
-};
-
-const runStatusLabel = {
-  pending: "等待中",
-  processing: "处理中",
-  completed: "已完成",
-  partial: "部分完成",
-  failed: "失败",
 };
 
 export function ReportPage() {
@@ -87,7 +72,7 @@ export function ReportPage() {
   if (!report && !error) {
     return (
       <PageShell compactHeader>
-        <main className="state-page"><span className="loading-ring" /><h1>正在整理 B/C/D 报告…</h1></main>
+        <main className="state-page"><span className="loading-ring" /><h1>正在整理合同体检报告…</h1></main>
       </PageShell>
     );
   }
@@ -144,7 +129,7 @@ export function ReportPage() {
         <section className="report-intro" aria-labelledby="report-title">
           <div>
             <p className="eyebrow">完整分析报告</p>
-            <h1 id="report-title">B/C/D 合同体检结果</h1>
+            <h1 id="report-title">合同体检结果</h1>
             <p>{report.actions.summary}</p>
           </div>
           <div className="intro-summary" aria-label="真实年化">
@@ -153,26 +138,6 @@ export function ReportPage() {
             <small>{costLevelLabel[report.costAnalysis.costLevel]}</small>
           </div>
         </section>
-
-        <div className={`mode-banner report-mode-banner${report.mode === "mock" ? " mode-banner--mock" : " mode-banner--real"}`}>
-          <Robot size={21} weight="duotone" />
-          <div>
-            <strong>{report.mode === "mock" ? "演示数据模式" : "真实多 Agent 分析"}</strong>
-            <span>{report.mode === "mock" ? "本报告使用静态演示数据；未调用真实 C/D Agent。" : `runtimeMode = ${report.runtimeMode ?? "INTEGRATED"}`}</span>
-          </div>
-        </div>
-
-        {(report.sourceAgentRuns?.length ?? 0) > 0 && (
-          <section className="agent-run-strip" aria-label="真实 Agent 运行记录">
-            {report.sourceAgentRuns?.map((run) => (
-              <div key={`${run.agent}_${run.runId}`}>
-                <span>{agentRunLabel[run.agent]}</span>
-                <strong>{run.runId}</strong>
-                <small>{run.agentVersion} · {runStatusLabel[run.status]}</small>
-              </div>
-            ))}
-          </section>
-        )}
 
         <section className="report-section metrics-section" aria-labelledby="overview-title">
           <div className="report-section__heading">
