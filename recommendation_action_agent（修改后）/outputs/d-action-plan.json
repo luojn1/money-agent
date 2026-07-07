@@ -1,0 +1,92 @@
+{
+  "type": "action_plan_extension",
+  "schemaVersion": "1.0.0",
+  "taskId": "task_20260702_001",
+  "contractId": "contract_001",
+  "runId": "run_recommendation_action_task_20260702_001",
+  "agent": "recommendation_action",
+  "generatedAt": "2026-07-05T22:36:34+08:00",
+  "note": "本文件为 D 模块行动管理扩展输出，不属于协议 v1.0.0 RecommendationActionOutput 的一部分，前端可选用。",
+  "reminders": [
+    {
+      "reminderId": "reminder_001",
+      "title": "按期还款提醒",
+      "rule": "共 12 期，每期还款日前 1 天提醒，每期约 940 元。",
+      "relatedRiskIds": []
+    },
+    {
+      "reminderId": "reminder_002",
+      "title": "逾期防范提醒",
+      "rule": "该合同逾期罚息/违约金偏高，还款日当天增加一次二次提醒，避免因忘记还款触发高额罚息。",
+      "relatedRiskIds": [
+        "risk_007_rr022"
+      ]
+    },
+    {
+      "reminderId": "reminder_003",
+      "title": "提前还款前置确认",
+      "rule": "计划提前结清时，提前 5 个工作日向机构书面确认手续费金额及减免条件，拿到答复后再操作。",
+      "relatedRiskIds": [
+        "risk_006_rr017"
+      ]
+    },
+    {
+      "reminderId": "reminder_004",
+      "title": "合同到期结清确认",
+      "rule": "贷款期限 12 个月，到期当月确认合同已结清，并向机构索取结清证明。",
+      "relatedRiskIds": []
+    }
+  ],
+  "evidenceChecklist": [
+    "合同全文（PDF 或逐页拍照，含签署页）",
+    "费用说明、还款计划等关键页的单独截图",
+    "机构对问题清单的书面答复（聊天记录、邮件或纸质说明）",
+    "每期扣款凭证 / 银行流水",
+    "宣传页面或销售承诺的截图（如“零利息”“免手续费”等）"
+  ],
+  "communicationScripts": [
+    {
+      "scenario": "费用不透明-存在额外费用",
+      "script": "您好，我正在核对这份合同。请机构列明所有费用项目，并说明是否计入明示年化利率。麻烦提供书面说明，谢谢。"
+    },
+    {
+      "scenario": "服务费一次性扣除",
+      "script": "您好，我正在核对这份合同。请机构说明服务费扣除依据、金额和是否属于变相预扣利息。麻烦提供书面说明，谢谢。"
+    },
+    {
+      "scenario": "砍头息-到账低于本金",
+      "script": "您好，我正在核对这份合同。请机构说明实际到账金额低于合同本金的原因和扣费依据。麻烦提供书面说明，谢谢。"
+    }
+  ],
+  "followUpPlan": [
+    {
+      "stage": "before_signing",
+      "steps": [
+        "按问题清单逐项向机构确认，并要求书面答复",
+        "对照建议清单中的 must 项，未澄清前不签字、不授权扣款"
+      ]
+    },
+    {
+      "stage": "during_repayment",
+      "steps": [
+        "按提醒任务按期还款，并核对每期扣款金额",
+        "妥善保存扣款凭证与沟通记录"
+      ]
+    },
+    {
+      "stage": "when_overdue",
+      "steps": [
+        "第一时间与机构协商还款安排，避免罚息滚动",
+        "核对罚息计算方式是否与合同约定一致"
+      ]
+    },
+    {
+      "stage": "dispute",
+      "steps": [
+        "先与机构正式投诉并留存工单编号",
+        "协商不成时向金融监管部门投诉热线（如 12363 / 12378）反映",
+        "必要时凭证据材料申请调解或提起诉讼"
+      ]
+    }
+  ]
+}

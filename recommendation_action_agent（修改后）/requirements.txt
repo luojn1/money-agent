@@ -1,0 +1,4 @@
+# 主流程仅用 Python 标准库，无必装依赖。
+# 以下为可选：
+jsonschema>=4.18   # 启用对 A 协议 JSON Schema 的校验（--schema）
+pytest>=7.0        # 运行单元测试

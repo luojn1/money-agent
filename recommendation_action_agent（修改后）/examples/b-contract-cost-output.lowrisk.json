@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "task_20260702_002",
+  "contractId": "contract_002",
+  "runId": "run_b_002",
+  "agent": "contract_cost",
+  "agentVersion": "b-0.1.0",
+  "status": "completed",
+  "generatedAt": "2026-07-04T10:00:00+08:00",
+  "inputRunIds": [],
+  "data": {
+    "contract": {
+      "fileName": "bank-consumer-loan-demo.pdf",
+      "sha256": "demo0000000000000000000000000000000000000000000000000000000002",
+      "pageCount": 6
+    },
+    "contractSummary": {
+      "institution": "某商业银行股份有限公司",
+      "productType": "个人消费贷款",
+      "loanAmount": 10000,
+      "actualReceivedAmount": 10000,
+      "loanTermMonths": 12,
+      "installmentCount": 12,
+      "monthlyPayment": 860.66,
+      "repaymentMethod": "按月等额本息",
+      "nominalRate": 6.0,
+      "prepaymentRule": "借款人可随时提前结清，不收取任何手续费",
+      "overdueFee": "逾期按合同利率上浮30%计收罚息"
+    },
+    "clauses": [
+      {
+        "clauseId": "clause_rate_001",
+        "category": "interest_fee",
+        "text": "本合同贷款年利率为6.0%（单利），年化利率以显著方式展示于合同首页。",
+        "location": {"page": 1, "section": "利率条款 第 1 条", "paragraph": 2}
+      },
+      {
+        "clauseId": "clause_prepay_002",
+        "category": "prepayment",
+        "text": "借款人可随时申请提前结清全部或部分贷款，银行不收取提前还款手续费。",
+        "location": {"page": 3, "section": "提前还款 第 5 条", "paragraph": 1}
+      }
+    ],
+    "repaymentSchedule": [],
+    "costAnalysis": {
+      "totalRepayment": 10327.92,
+      "totalInterest": 327.92,
+      "additionalFees": 0,
+      "realAnnualRate": 6.0,
+      "calculationBasis": [
+        "实际到账金额与合同本金一致（10000 元）",
+        "按 12 期、每期 860.66 元的现金流计算真实年化成本，无额外费用"
+      ]
+    }
+  },
+  "warnings": [],
+  "errors": []
+}

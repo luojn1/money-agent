@@ -1,0 +1,1263 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "task_20260702_001",
+  "contractId": "contract_001",
+  "runId": "run_risk_case_task_20260702_001",
+  "agent": "risk_case",
+  "agentVersion": "c-0.2.0-dynamic-kb",
+  "status": "completed",
+  "generatedAt": "2026-07-04T22:07:33+08:00",
+  "inputRunIds": [
+    "run_b_001"
+  ],
+  "data": {
+    "riskItems": [
+      {
+        "id": "risk_001_rr001",
+        "title": "费用不透明-存在额外费用",
+        "category": "cost_transparency",
+        "riskLevel": "high",
+        "confidence": 0.97,
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_001_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "reason": "命中规则“费用不透明-存在额外费用”。该判断参考 中国人民银行公告〔2021〕第3号；《民法典》第677条，规则依据为：中国人民银行公告〔2021〕第3号；《民法典》第496条 法规摘要：所有从事贷款业务的机构应以明显方式向借款人展示年化利率。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE007",
+            "title": "消费贷预扣服务费案例07",
+            "similarity": 0.4954,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/007"
+          },
+          {
+            "caseId": "CASE022",
+            "title": "消费贷预扣服务费案例22",
+            "similarity": 0.4954,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/022"
+          },
+          {
+            "caseId": "CASE037",
+            "title": "消费贷预扣服务费案例37",
+            "similarity": 0.4954,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/037"
+          }
+        ],
+        "legalReferences": [
+          {
+            "regulationId": "LAW021",
+            "title": "中国人民银行公告〔2021〕第3号",
+            "summary": "所有从事贷款业务的机构应以明显方式向借款人展示年化利率。",
+            "sourceUrl": "",
+            "score": 0.4361
+          },
+          {
+            "regulationId": "LAW007",
+            "title": "《民法典》第677条",
+            "summary": "借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。",
+            "sourceUrl": "",
+            "score": 0.3188
+          },
+          {
+            "regulationId": "LAW022",
+            "title": "《消费金融公司管理办法》",
+            "summary": "规范消费金融公司经营行为、消费者保护、风险管理和合作机构管理。",
+            "sourceUrl": "",
+            "score": 0.3038
+          }
+        ],
+        "productReferences": [
+          {
+            "productId": "PROD024",
+            "productName": "医美消费分期",
+            "productType": "merchant_installment",
+            "institution": "消费金融公司/平台",
+            "typicalRateRange": "8%-24%",
+            "commonFees": "[\"服务费\", \"咨询费\", \"分期手续费\"]",
+            "prepaymentPolicy": "退费和提前还款需核实",
+            "overduePolicy": "服务失败仍可能被扣款",
+            "similarity": 0.4648
+          },
+          {
+            "productId": "PROD007",
+            "productName": "中银消费金融新易贷",
+            "productType": "consumer_finance",
+            "institution": "中银消费金融",
+            "typicalRateRange": "7%-24%",
+            "commonFees": "[\"利息\", \"可能有服务费\"]",
+            "prepaymentPolicy": "以合同和产品页面为准",
+            "overduePolicy": "逾期罚息并可能催收",
+            "similarity": 0.4386
+          },
+          {
+            "productId": "PROD023",
+            "productName": "汽车消费贷款",
+            "productType": "auto_loan",
+            "institution": "商业银行/汽车金融公司",
+            "typicalRateRange": "4%-15%",
+            "commonFees": "[\"利息\", \"GPS费\", \"评估费\"]",
+            "prepaymentPolicy": "提前还款可能有违约金",
+            "overduePolicy": "逾期可能处置抵押车辆",
+            "similarity": 0.4185
+          }
+        ],
+        "marketReferences": [
+          {
+            "rateId": "LPR_1Y_202606",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-06-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202605",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-05-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202604",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-04-20",
+            "source": "seed_manual_lpr_reference"
+          }
+        ],
+        "glossaryTerms": [
+          {
+            "termId": "TERM007",
+            "term": "服务费",
+            "definition": "除利息外收取的服务相关费用，需判断是否计入综合融资成本。",
+            "category": "cost",
+            "example": "平台服务费500元。"
+          },
+          {
+            "termId": "TERM013",
+            "term": "提前结清",
+            "definition": "在约定期限前一次性还清剩余债务。",
+            "category": "prepayment",
+            "example": "第6期提前还清剩余本金。"
+          },
+          {
+            "termId": "TERM015",
+            "term": "逾期罚息",
+            "definition": "逾期后按照约定利率或倍数加收的利息。",
+            "category": "overdue",
+            "example": "逾期按正常利率1.5倍计收。"
+          },
+          {
+            "termId": "TERM016",
+            "term": "违约金",
+            "definition": "合同违约时按约定支付的赔偿金额。",
+            "category": "overdue",
+            "example": "逾期每天收取违约金。"
+          }
+        ],
+        "ruleEvidence": {
+          "ruleId": "RR001",
+          "ruleName": "费用不透明-存在额外费用",
+          "condition": {
+            "field": "data.costAnalysis.additionalFees",
+            "operator": ">",
+            "value": 0
+          },
+          "legalBasis": "中国人民银行公告〔2021〕第3号；《民法典》第496条",
+          "weight": 24
+        },
+        "questionToAsk": "请机构列明所有费用项目，并说明是否计入明示年化利率。"
+      },
+      {
+        "id": "risk_002_rr002",
+        "title": "服务费一次性扣除",
+        "category": "cost_transparency",
+        "riskLevel": "high",
+        "confidence": 0.97,
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_002_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "reason": "命中规则“服务费一次性扣除”。该判断参考 《关于进一步规范信贷融资收费降低企业融资综合成本的通知》；《民法典》第670条，规则依据为：《民法典》第670条；《关于进一步规范信贷融资收费降低企业融资综合成本的通知》 法规摘要：规范信贷环节收费，要求不得违规转嫁成本或强制搭售。；借款利息不得预先在本金中扣除，预先扣除的应按实际借款数额返还并计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE007",
+            "title": "消费贷预扣服务费案例07",
+            "similarity": 0.554,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/007"
+          },
+          {
+            "caseId": "CASE022",
+            "title": "消费贷预扣服务费案例22",
+            "similarity": 0.554,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/022"
+          },
+          {
+            "caseId": "CASE037",
+            "title": "消费贷预扣服务费案例37",
+            "similarity": 0.554,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/037"
+          }
+        ],
+        "legalReferences": [
+          {
+            "regulationId": "LAW025",
+            "title": "《关于进一步规范信贷融资收费降低企业融资综合成本的通知》",
+            "summary": "规范信贷环节收费，要求不得违规转嫁成本或强制搭售。",
+            "sourceUrl": "",
+            "score": 0.4804
+          },
+          {
+            "regulationId": "LAW006",
+            "title": "《民法典》第670条",
+            "summary": "借款利息不得预先在本金中扣除，预先扣除的应按实际借款数额返还并计算利息。",
+            "sourceUrl": "",
+            "score": 0.382
+          },
+          {
+            "regulationId": "LAW022",
+            "title": "《消费金融公司管理办法》",
+            "summary": "规范消费金融公司经营行为、消费者保护、风险管理和合作机构管理。",
+            "sourceUrl": "",
+            "score": 0.3338
+          }
+        ],
+        "productReferences": [
+          {
+            "productId": "PROD024",
+            "productName": "医美消费分期",
+            "productType": "merchant_installment",
+            "institution": "消费金融公司/平台",
+            "typicalRateRange": "8%-24%",
+            "commonFees": "[\"服务费\", \"咨询费\", \"分期手续费\"]",
+            "prepaymentPolicy": "退费和提前还款需核实",
+            "overduePolicy": "服务失败仍可能被扣款",
+            "similarity": 0.5167
+          },
+          {
+            "productId": "PROD011",
+            "productName": "捷信消费贷",
+            "productType": "consumer_finance",
+            "institution": "捷信消费金融",
+            "typicalRateRange": "10%-24%",
+            "commonFees": "[\"利息\", \"服务费\"]",
+            "prepaymentPolicy": "提前还款政策需核实",
+            "overduePolicy": "逾期催收和罚息",
+            "similarity": 0.4962
+          },
+          {
+            "productId": "PROD007",
+            "productName": "中银消费金融新易贷",
+            "productType": "consumer_finance",
+            "institution": "中银消费金融",
+            "typicalRateRange": "7%-24%",
+            "commonFees": "[\"利息\", \"可能有服务费\"]",
+            "prepaymentPolicy": "以合同和产品页面为准",
+            "overduePolicy": "逾期罚息并可能催收",
+            "similarity": 0.477
+          }
+        ],
+        "marketReferences": [
+          {
+            "rateId": "LPR_1Y_202606",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-06-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202605",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-05-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202604",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-04-20",
+            "source": "seed_manual_lpr_reference"
+          }
+        ],
+        "glossaryTerms": [
+          {
+            "termId": "TERM007",
+            "term": "服务费",
+            "definition": "除利息外收取的服务相关费用，需判断是否计入综合融资成本。",
+            "category": "cost",
+            "example": "平台服务费500元。"
+          },
+          {
+            "termId": "TERM013",
+            "term": "提前结清",
+            "definition": "在约定期限前一次性还清剩余债务。",
+            "category": "prepayment",
+            "example": "第6期提前还清剩余本金。"
+          },
+          {
+            "termId": "TERM015",
+            "term": "逾期罚息",
+            "definition": "逾期后按照约定利率或倍数加收的利息。",
+            "category": "overdue",
+            "example": "逾期按正常利率1.5倍计收。"
+          },
+          {
+            "termId": "TERM016",
+            "term": "违约金",
+            "definition": "合同违约时按约定支付的赔偿金额。",
+            "category": "overdue",
+            "example": "逾期每天收取违约金。"
+          }
+        ],
+        "ruleEvidence": {
+          "ruleId": "RR002",
+          "ruleName": "服务费一次性扣除",
+          "condition": {
+            "clauses_contains_any": [
+              "服务费",
+              "一次性扣除",
+              "放款金额中扣除"
+            ]
+          },
+          "legalBasis": "《民法典》第670条；《关于进一步规范信贷融资收费降低企业融资综合成本的通知》",
+          "weight": 22
+        },
+        "questionToAsk": "请机构说明服务费扣除依据、金额和是否属于变相预扣利息。"
+      },
+      {
+        "id": "risk_003_rr007",
+        "title": "砍头息-到账低于本金",
+        "category": "cost_transparency",
+        "riskLevel": "high",
+        "confidence": 0.97,
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_003_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "reason": "命中规则“砍头息-到账低于本金”。该判断参考 《民法典》第670条；《民法典》第585条，规则依据为：《民法典》第670条 法规摘要：借款利息不得预先在本金中扣除，预先扣除的应按实际借款数额返还并计算利息。；约定违约金过分高于造成损失的，人民法院或仲裁机构可以予以调整。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE015",
+            "title": "短期现金贷砍头息案例15",
+            "similarity": 0.5366,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/015"
+          },
+          {
+            "caseId": "CASE030",
+            "title": "短期现金贷砍头息案例30",
+            "similarity": 0.5366,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/030"
+          },
+          {
+            "caseId": "CASE045",
+            "title": "短期现金贷砍头息案例45",
+            "similarity": 0.5366,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/045"
+          }
+        ],
+        "legalReferences": [
+          {
+            "regulationId": "LAW006",
+            "title": "《民法典》第670条",
+            "summary": "借款利息不得预先在本金中扣除，预先扣除的应按实际借款数额返还并计算利息。",
+            "sourceUrl": "",
+            "score": 0.4981
+          },
+          {
+            "regulationId": "LAW005",
+            "title": "《民法典》第585条",
+            "summary": "约定违约金过分高于造成损失的，人民法院或仲裁机构可以予以调整。",
+            "sourceUrl": "",
+            "score": 0.3834
+          },
+          {
+            "regulationId": "LAW024",
+            "title": "《关于规范整顿“现金贷”业务的通知》",
+            "summary": "要求规范现金贷业务，禁止暴力催收、砍头息和畸高利率。",
+            "sourceUrl": "",
+            "score": 0.3274
+          }
+        ],
+        "productReferences": [
+          {
+            "productId": "PROD007",
+            "productName": "中银消费金融新易贷",
+            "productType": "consumer_finance",
+            "institution": "中银消费金融",
+            "typicalRateRange": "7%-24%",
+            "commonFees": "[\"利息\", \"可能有服务费\"]",
+            "prepaymentPolicy": "以合同和产品页面为准",
+            "overduePolicy": "逾期罚息并可能催收",
+            "similarity": 0.4442
+          },
+          {
+            "productId": "PROD024",
+            "productName": "医美消费分期",
+            "productType": "merchant_installment",
+            "institution": "消费金融公司/平台",
+            "typicalRateRange": "8%-24%",
+            "commonFees": "[\"服务费\", \"咨询费\", \"分期手续费\"]",
+            "prepaymentPolicy": "退费和提前还款需核实",
+            "overduePolicy": "服务失败仍可能被扣款",
+            "similarity": 0.436
+          },
+          {
+            "productId": "PROD011",
+            "productName": "捷信消费贷",
+            "productType": "consumer_finance",
+            "institution": "捷信消费金融",
+            "typicalRateRange": "10%-24%",
+            "commonFees": "[\"利息\", \"服务费\"]",
+            "prepaymentPolicy": "提前还款政策需核实",
+            "overduePolicy": "逾期催收和罚息",
+            "similarity": 0.4271
+          }
+        ],
+        "marketReferences": [
+          {
+            "rateId": "LPR_1Y_202606",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-06-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202605",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-05-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202604",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-04-20",
+            "source": "seed_manual_lpr_reference"
+          }
+        ],
+        "glossaryTerms": [
+          {
+            "termId": "TERM006",
+            "term": "砍头息",
+            "definition": "放款前或放款时先扣利息/费用，实际到手金额低于合同本金。",
+            "category": "cost",
+            "example": "合同写借10000元，到手只有9500元。"
+          },
+          {
+            "termId": "TERM007",
+            "term": "服务费",
+            "definition": "除利息外收取的服务相关费用，需判断是否计入综合融资成本。",
+            "category": "cost",
+            "example": "平台服务费500元。"
+          },
+          {
+            "termId": "TERM013",
+            "term": "提前结清",
+            "definition": "在约定期限前一次性还清剩余债务。",
+            "category": "prepayment",
+            "example": "第6期提前还清剩余本金。"
+          },
+          {
+            "termId": "TERM015",
+            "term": "逾期罚息",
+            "definition": "逾期后按照约定利率或倍数加收的利息。",
+            "category": "overdue",
+            "example": "逾期按正常利率1.5倍计收。"
+          },
+          {
+            "termId": "TERM016",
+            "term": "违约金",
+            "definition": "合同违约时按约定支付的赔偿金额。",
+            "category": "overdue",
+            "example": "逾期每天收取违约金。"
+          }
+        ],
+        "ruleEvidence": {
+          "ruleId": "RR007",
+          "ruleName": "砍头息-到账低于本金",
+          "condition": {
+            "left": "data.contractSummary.actualReceivedAmount",
+            "operator": "<",
+            "right": "data.contractSummary.loanAmount"
+          },
+          "legalBasis": "《民法典》第670条",
+          "weight": 25
+        },
+        "questionToAsk": "请机构说明实际到账金额低于合同本金的原因和扣费依据。"
+      },
+      {
+        "id": "risk_004_rr012",
+        "title": "真实年化高于名义利率10个百分点",
+        "category": "interest_fee",
+        "riskLevel": "high",
+        "confidence": 0.97,
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_004_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "reason": "命中规则“真实年化高于名义利率10个百分点”。该判断参考 中国人民银行公告〔2021〕第3号；《民法典》第677条，规则依据为：中国人民银行公告〔2021〕第3号 法规摘要：所有从事贷款业务的机构应以明显方式向借款人展示年化利率。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE_EXT_001",
+            "title": "外部接口导入的消费贷服务费争议",
+            "similarity": 0.3945,
+            "conclusion": "服务费是否充分披露并计入综合融资成本。；处理结果：待平台补充披露并退还部分费用。",
+            "sourceUrl": "https://example.com/external-case/001"
+          },
+          {
+            "caseId": "CASE013",
+            "title": "平台借款真实年化不明显案例13",
+            "similarity": 0.3792,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/013"
+          },
+          {
+            "caseId": "CASE028",
+            "title": "平台借款真实年化不明显案例28",
+            "similarity": 0.3792,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/028"
+          }
+        ],
+        "legalReferences": [
+          {
+            "regulationId": "LAW021",
+            "title": "中国人民银行公告〔2021〕第3号",
+            "summary": "所有从事贷款业务的机构应以明显方式向借款人展示年化利率。",
+            "sourceUrl": "",
+            "score": 0.6085
+          },
+          {
+            "regulationId": "LAW007",
+            "title": "《民法典》第677条",
+            "summary": "借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。",
+            "sourceUrl": "",
+            "score": 0.3353
+          },
+          {
+            "regulationId": "LAW006",
+            "title": "《民法典》第670条",
+            "summary": "借款利息不得预先在本金中扣除，预先扣除的应按实际借款数额返还并计算利息。",
+            "sourceUrl": "",
+            "score": 0.3218
+          }
+        ],
+        "productReferences": [
+          {
+            "productId": "PROD024",
+            "productName": "医美消费分期",
+            "productType": "merchant_installment",
+            "institution": "消费金融公司/平台",
+            "typicalRateRange": "8%-24%",
+            "commonFees": "[\"服务费\", \"咨询费\", \"分期手续费\"]",
+            "prepaymentPolicy": "退费和提前还款需核实",
+            "overduePolicy": "服务失败仍可能被扣款",
+            "similarity": 0.4041
+          },
+          {
+            "productId": "PROD019",
+            "productName": "平安银行信用卡分期",
+            "productType": "credit_card_installment",
+            "institution": "平安银行",
+            "typicalRateRange": "折算年化约7%-18%",
+            "commonFees": "[\"分期手续费\"]",
+            "prepaymentPolicy": "提前结清手续费政策需核实",
+            "overduePolicy": "逾期利息和违约金",
+            "similarity": 0.3959
+          },
+          {
+            "productId": "PROD007",
+            "productName": "中银消费金融新易贷",
+            "productType": "consumer_finance",
+            "institution": "中银消费金融",
+            "typicalRateRange": "7%-24%",
+            "commonFees": "[\"利息\", \"可能有服务费\"]",
+            "prepaymentPolicy": "以合同和产品页面为准",
+            "overduePolicy": "逾期罚息并可能催收",
+            "similarity": 0.3956
+          }
+        ],
+        "marketReferences": [
+          {
+            "rateId": "LPR_1Y_202606",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-06-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202605",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-05-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202604",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-04-20",
+            "source": "seed_manual_lpr_reference"
+          }
+        ],
+        "glossaryTerms": [
+          {
+            "termId": "TERM007",
+            "term": "服务费",
+            "definition": "除利息外收取的服务相关费用，需判断是否计入综合融资成本。",
+            "category": "cost",
+            "example": "平台服务费500元。"
+          },
+          {
+            "termId": "TERM013",
+            "term": "提前结清",
+            "definition": "在约定期限前一次性还清剩余债务。",
+            "category": "prepayment",
+            "example": "第6期提前还清剩余本金。"
+          },
+          {
+            "termId": "TERM015",
+            "term": "逾期罚息",
+            "definition": "逾期后按照约定利率或倍数加收的利息。",
+            "category": "overdue",
+            "example": "逾期按正常利率1.5倍计收。"
+          },
+          {
+            "termId": "TERM016",
+            "term": "违约金",
+            "definition": "合同违约时按约定支付的赔偿金额。",
+            "category": "overdue",
+            "example": "逾期每天收取违约金。"
+          },
+          {
+            "termId": "TERM032",
+            "term": "真实年化",
+            "definition": "把利息和费用按现金流折算后的年化成本。",
+            "category": "interest",
+            "example": "服务费计入后真实年化上升。"
+          }
+        ],
+        "ruleEvidence": {
+          "ruleId": "RR012",
+          "ruleName": "真实年化高于名义利率10个百分点",
+          "condition": {
+            "left": "data.costAnalysis.realAnnualRate",
+            "operator": ">",
+            "right": "data.contractSummary.nominalRate",
+            "delta": 10
+          },
+          "legalBasis": "中国人民银行公告〔2021〕第3号",
+          "weight": 22
+        },
+        "questionToAsk": "请机构解释名义利率和真实年化差异的来源。"
+      },
+      {
+        "id": "risk_005_rr015",
+        "title": "LPR倍数偏高",
+        "category": "interest_fee",
+        "riskLevel": "medium",
+        "confidence": 0.97,
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_005_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "reason": "命中规则“LPR倍数偏高”。该判断参考 中国人民银行公告〔2021〕第3号；最高人民法院关于审理民间借贷案件适用法律若干问题的规定，规则依据为：贷款市场报价利率管理规则；中国人民银行公告〔2021〕第3号 法规摘要：所有从事贷款业务的机构应以明显方式向借款人展示年化利率。；明确民间借贷利率司法保护规则，并对预扣利息、复利等作出规范。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE015",
+            "title": "短期现金贷砍头息案例15",
+            "similarity": 0.3993,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/015"
+          },
+          {
+            "caseId": "CASE030",
+            "title": "短期现金贷砍头息案例30",
+            "similarity": 0.3993,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/030"
+          },
+          {
+            "caseId": "CASE045",
+            "title": "短期现金贷砍头息案例45",
+            "similarity": 0.3993,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/045"
+          }
+        ],
+        "legalReferences": [
+          {
+            "regulationId": "LAW021",
+            "title": "中国人民银行公告〔2021〕第3号",
+            "summary": "所有从事贷款业务的机构应以明显方式向借款人展示年化利率。",
+            "sourceUrl": "",
+            "score": 0.4254
+          },
+          {
+            "regulationId": "LAW026",
+            "title": "最高人民法院关于审理民间借贷案件适用法律若干问题的规定",
+            "summary": "明确民间借贷利率司法保护规则，并对预扣利息、复利等作出规范。",
+            "sourceUrl": "",
+            "score": 0.3532
+          },
+          {
+            "regulationId": "LAW007",
+            "title": "《民法典》第677条",
+            "summary": "借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。",
+            "sourceUrl": "",
+            "score": 0.353
+          }
+        ],
+        "productReferences": [
+          {
+            "productId": "PROD007",
+            "productName": "中银消费金融新易贷",
+            "productType": "consumer_finance",
+            "institution": "中银消费金融",
+            "typicalRateRange": "7%-24%",
+            "commonFees": "[\"利息\", \"可能有服务费\"]",
+            "prepaymentPolicy": "以合同和产品页面为准",
+            "overduePolicy": "逾期罚息并可能催收",
+            "similarity": 0.4231
+          },
+          {
+            "productId": "PROD023",
+            "productName": "汽车消费贷款",
+            "productType": "auto_loan",
+            "institution": "商业银行/汽车金融公司",
+            "typicalRateRange": "4%-15%",
+            "commonFees": "[\"利息\", \"GPS费\", \"评估费\"]",
+            "prepaymentPolicy": "提前还款可能有违约金",
+            "overduePolicy": "逾期可能处置抵押车辆",
+            "similarity": 0.3937
+          },
+          {
+            "productId": "PROD024",
+            "productName": "医美消费分期",
+            "productType": "merchant_installment",
+            "institution": "消费金融公司/平台",
+            "typicalRateRange": "8%-24%",
+            "commonFees": "[\"服务费\", \"咨询费\", \"分期手续费\"]",
+            "prepaymentPolicy": "退费和提前还款需核实",
+            "overduePolicy": "服务失败仍可能被扣款",
+            "similarity": 0.3871
+          }
+        ],
+        "marketReferences": [
+          {
+            "rateId": "LPR_1Y_202606",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-06-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202605",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-05-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202604",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-04-20",
+            "source": "seed_manual_lpr_reference"
+          }
+        ],
+        "glossaryTerms": [
+          {
+            "termId": "TERM007",
+            "term": "服务费",
+            "definition": "除利息外收取的服务相关费用，需判断是否计入综合融资成本。",
+            "category": "cost",
+            "example": "平台服务费500元。"
+          },
+          {
+            "termId": "TERM013",
+            "term": "提前结清",
+            "definition": "在约定期限前一次性还清剩余债务。",
+            "category": "prepayment",
+            "example": "第6期提前还清剩余本金。"
+          },
+          {
+            "termId": "TERM015",
+            "term": "逾期罚息",
+            "definition": "逾期后按照约定利率或倍数加收的利息。",
+            "category": "overdue",
+            "example": "逾期按正常利率1.5倍计收。"
+          },
+          {
+            "termId": "TERM016",
+            "term": "违约金",
+            "definition": "合同违约时按约定支付的赔偿金额。",
+            "category": "overdue",
+            "example": "逾期每天收取违约金。"
+          },
+          {
+            "termId": "TERM031",
+            "term": "LPR",
+            "definition": "贷款市场报价利率，可作为贷款利率定价参考基准。",
+            "category": "interest",
+            "example": "1年期LPR为市场基准之一。"
+          }
+        ],
+        "ruleEvidence": {
+          "ruleId": "RR015",
+          "ruleName": "LPR倍数偏高",
+          "condition": {
+            "field": "data.costAnalysis.realAnnualRate",
+            "operator": ">",
+            "value": 15
+          },
+          "legalBasis": "贷款市场报价利率管理规则；中国人民银行公告〔2021〕第3号",
+          "weight": 12
+        },
+        "questionToAsk": "请机构说明该产品利率相对同期LPR的倍数和定价依据。"
+      },
+      {
+        "id": "risk_006_rr017",
+        "title": "提前还款收手续费",
+        "category": "prepayment",
+        "riskLevel": "medium",
+        "confidence": 0.97,
+        "clauseText": "借款人申请提前结清，应按剩余未还本金的 2% 支付提前结清手续费。",
+        "clauseLocation": "还款约定 第 8 条",
+        "relatedClauseIds": [
+          "clause_prepay_008"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_006_01",
+            "clauseId": "clause_prepay_008",
+            "quote": "借款人申请提前结清，应按剩余未还本金的 2% 支付提前结清手续费。",
+            "location": {
+              "page": 7,
+              "section": "还款约定 第 8 条",
+              "paragraph": 2
+            }
+          }
+        ],
+        "reason": "命中规则“提前还款收手续费”。该判断参考 《民法典》第677条；《消费者权益保护法实施条例》第10条，规则依据为：《民法典》第677条 法规摘要：借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。；经营者采取自动展期、自动续费等方式提供服务的，应以显著方式提请消费者注意。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE008",
+            "title": "逾期罚息和违约金叠加案例08",
+            "similarity": 0.399,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/008"
+          },
+          {
+            "caseId": "CASE023",
+            "title": "逾期罚息和违约金叠加案例23",
+            "similarity": 0.399,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/023"
+          },
+          {
+            "caseId": "CASE038",
+            "title": "逾期罚息和违约金叠加案例38",
+            "similarity": 0.399,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/038"
+          }
+        ],
+        "legalReferences": [
+          {
+            "regulationId": "LAW007",
+            "title": "《民法典》第677条",
+            "summary": "借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。",
+            "sourceUrl": "",
+            "score": 0.6196
+          },
+          {
+            "regulationId": "LAW017",
+            "title": "《消费者权益保护法实施条例》第10条",
+            "summary": "经营者采取自动展期、自动续费等方式提供服务的，应以显著方式提请消费者注意。",
+            "sourceUrl": "",
+            "score": 0.3654
+          },
+          {
+            "regulationId": "LAW001",
+            "title": "《民法典》第496条",
+            "summary": "格式条款提供方应履行提示说明义务，免除或减轻自身责任、加重对方责任、限制对方主要权利的条款应以显著方式提示。",
+            "sourceUrl": "",
+            "score": 0.3181
+          }
+        ],
+        "productReferences": [
+          {
+            "productId": "PROD024",
+            "productName": "医美消费分期",
+            "productType": "merchant_installment",
+            "institution": "消费金融公司/平台",
+            "typicalRateRange": "8%-24%",
+            "commonFees": "[\"服务费\", \"咨询费\", \"分期手续费\"]",
+            "prepaymentPolicy": "退费和提前还款需核实",
+            "overduePolicy": "服务失败仍可能被扣款",
+            "similarity": 0.4771
+          },
+          {
+            "productId": "PROD011",
+            "productName": "捷信消费贷",
+            "productType": "consumer_finance",
+            "institution": "捷信消费金融",
+            "typicalRateRange": "10%-24%",
+            "commonFees": "[\"利息\", \"服务费\"]",
+            "prepaymentPolicy": "提前还款政策需核实",
+            "overduePolicy": "逾期催收和罚息",
+            "similarity": 0.4539
+          },
+          {
+            "productId": "PROD019",
+            "productName": "平安银行信用卡分期",
+            "productType": "credit_card_installment",
+            "institution": "平安银行",
+            "typicalRateRange": "折算年化约7%-18%",
+            "commonFees": "[\"分期手续费\"]",
+            "prepaymentPolicy": "提前结清手续费政策需核实",
+            "overduePolicy": "逾期利息和违约金",
+            "similarity": 0.438
+          }
+        ],
+        "marketReferences": [
+          {
+            "rateId": "LPR_1Y_202606",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-06-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202605",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-05-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202604",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-04-20",
+            "source": "seed_manual_lpr_reference"
+          }
+        ],
+        "glossaryTerms": [
+          {
+            "termId": "TERM013",
+            "term": "提前结清",
+            "definition": "在约定期限前一次性还清剩余债务。",
+            "category": "prepayment",
+            "example": "第6期提前还清剩余本金。"
+          },
+          {
+            "termId": "TERM015",
+            "term": "逾期罚息",
+            "definition": "逾期后按照约定利率或倍数加收的利息。",
+            "category": "overdue",
+            "example": "逾期按正常利率1.5倍计收。"
+          },
+          {
+            "termId": "TERM016",
+            "term": "违约金",
+            "definition": "合同违约时按约定支付的赔偿金额。",
+            "category": "overdue",
+            "example": "逾期每天收取违约金。"
+          }
+        ],
+        "ruleEvidence": {
+          "ruleId": "RR017",
+          "ruleName": "提前还款收手续费",
+          "condition": {
+            "field": "data.contractSummary.prepaymentRule",
+            "operator": "contains_any",
+            "value": [
+              "手续费",
+              "提前结清费"
+            ]
+          },
+          "legalBasis": "《民法典》第677条",
+          "weight": 15
+        },
+        "questionToAsk": "请机构说明提前结清费用计算方式和已收费用退还规则。"
+      },
+      {
+        "id": "risk_007_rr022",
+        "title": "高额违约金",
+        "category": "overdue",
+        "riskLevel": "medium",
+        "confidence": 0.97,
+        "clauseText": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+        "clauseLocation": "费用说明 第 3 条",
+        "relatedClauseIds": [
+          "clause_fee_003"
+        ],
+        "evidence": [
+          {
+            "evidenceId": "evidence_007_01",
+            "clauseId": "clause_fee_003",
+            "quote": "贷款发放时，平台服务费人民币 500 元由放款金额中一次性扣除。",
+            "location": {
+              "page": 4,
+              "section": "费用说明 第 3 条",
+              "paragraph": 1
+            }
+          }
+        ],
+        "reason": "命中规则“高额违约金”。该判断参考 《民法典》第585条；《民法典》第677条，规则依据为：《民法典》第585条 法规摘要：约定违约金过分高于造成损失的，人民法院或仲裁机构可以予以调整。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "matchedCases": [
+          {
+            "caseId": "CASE008",
+            "title": "逾期罚息和违约金叠加案例08",
+            "similarity": 0.4666,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/008"
+          },
+          {
+            "caseId": "CASE023",
+            "title": "逾期罚息和违约金叠加案例23",
+            "similarity": 0.4666,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/023"
+          },
+          {
+            "caseId": "CASE038",
+            "title": "逾期罚息和违约金叠加案例38",
+            "similarity": 0.4666,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/038"
+          }
+        ],
+        "legalReferences": [
+          {
+            "regulationId": "LAW005",
+            "title": "《民法典》第585条",
+            "summary": "约定违约金过分高于造成损失的，人民法院或仲裁机构可以予以调整。",
+            "sourceUrl": "",
+            "score": 0.6233
+          },
+          {
+            "regulationId": "LAW007",
+            "title": "《民法典》第677条",
+            "summary": "借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。",
+            "sourceUrl": "",
+            "score": 0.3754
+          },
+          {
+            "regulationId": "LAW006",
+            "title": "《民法典》第670条",
+            "summary": "借款利息不得预先在本金中扣除，预先扣除的应按实际借款数额返还并计算利息。",
+            "sourceUrl": "",
+            "score": 0.3351
+          }
+        ],
+        "productReferences": [
+          {
+            "productId": "PROD023",
+            "productName": "汽车消费贷款",
+            "productType": "auto_loan",
+            "institution": "商业银行/汽车金融公司",
+            "typicalRateRange": "4%-15%",
+            "commonFees": "[\"利息\", \"GPS费\", \"评估费\"]",
+            "prepaymentPolicy": "提前还款可能有违约金",
+            "overduePolicy": "逾期可能处置抵押车辆",
+            "similarity": 0.4429
+          },
+          {
+            "productId": "PROD024",
+            "productName": "医美消费分期",
+            "productType": "merchant_installment",
+            "institution": "消费金融公司/平台",
+            "typicalRateRange": "8%-24%",
+            "commonFees": "[\"服务费\", \"咨询费\", \"分期手续费\"]",
+            "prepaymentPolicy": "退费和提前还款需核实",
+            "overduePolicy": "服务失败仍可能被扣款",
+            "similarity": 0.4261
+          },
+          {
+            "productId": "PROD007",
+            "productName": "中银消费金融新易贷",
+            "productType": "consumer_finance",
+            "institution": "中银消费金融",
+            "typicalRateRange": "7%-24%",
+            "commonFees": "[\"利息\", \"可能有服务费\"]",
+            "prepaymentPolicy": "以合同和产品页面为准",
+            "overduePolicy": "逾期罚息并可能催收",
+            "similarity": 0.4171
+          }
+        ],
+        "marketReferences": [
+          {
+            "rateId": "LPR_1Y_202606",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-06-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202605",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-05-20",
+            "source": "seed_manual_lpr_reference"
+          },
+          {
+            "rateId": "LPR_1Y_202604",
+            "rateType": "LPR_1Y",
+            "rateValue": 3.0,
+            "effectiveDate": "2026-04-20",
+            "source": "seed_manual_lpr_reference"
+          }
+        ],
+        "glossaryTerms": [
+          {
+            "termId": "TERM007",
+            "term": "服务费",
+            "definition": "除利息外收取的服务相关费用，需判断是否计入综合融资成本。",
+            "category": "cost",
+            "example": "平台服务费500元。"
+          },
+          {
+            "termId": "TERM013",
+            "term": "提前结清",
+            "definition": "在约定期限前一次性还清剩余债务。",
+            "category": "prepayment",
+            "example": "第6期提前还清剩余本金。"
+          },
+          {
+            "termId": "TERM015",
+            "term": "逾期罚息",
+            "definition": "逾期后按照约定利率或倍数加收的利息。",
+            "category": "overdue",
+            "example": "逾期按正常利率1.5倍计收。"
+          },
+          {
+            "termId": "TERM016",
+            "term": "违约金",
+            "definition": "合同违约时按约定支付的赔偿金额。",
+            "category": "overdue",
+            "example": "逾期每天收取违约金。"
+          }
+        ],
+        "ruleEvidence": {
+          "ruleId": "RR022",
+          "ruleName": "高额违约金",
+          "condition": {
+            "field": "data.contractSummary.overdueFee",
+            "operator": "contains_any",
+            "value": [
+              "高额违约金",
+              "违约金"
+            ]
+          },
+          "legalBasis": "《民法典》第585条",
+          "weight": 12
+        },
+        "questionToAsk": "请机构说明违约金计算方式和是否可按实际损失调整。"
+      }
+    ],
+    "riskSummary": {
+      "high": 4,
+      "medium": 3,
+      "low": 0
+    },
+    "knowledgeUsage": {
+      "riskRulesLoaded": 52,
+      "riskRulesHit": 7,
+      "regulationsRetrieved": 10,
+      "casesRetrieved": 12,
+      "productsRetrieved": 5,
+      "marketRatesRetrieved": 3,
+      "glossaryTermsRetrieved": 7,
+      "knowledgeSource": "local_sqlite_database",
+      "databasePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\risk_case_agent\\risk_case_agent.db",
+      "databaseUpdatedAt": "2026-06-20"
+    }
+  },
+  "warnings": [],
+  "errors": []
+}
