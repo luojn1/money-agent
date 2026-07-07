@@ -168,6 +168,13 @@ export function ReportPage() {
           </div>
         </section>
 
+        {result.localPreview.enabled && (
+          <aside className="preview-mode-banner" aria-label="本地预览提示">
+            <strong>{result.runtimeMode}</strong>
+            <span>{result.localPreview.note}</span>
+          </aside>
+        )}
+
         <section className="report-section metrics-section" aria-labelledby="metrics-title">
           <div className="report-section__heading">
             <span className="section-number">01</span>

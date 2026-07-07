@@ -5,7 +5,6 @@ import mammoth from "mammoth";
 import { PDFParse } from "pdf-parse";
 import { createWorker } from "tesseract.js";
 import type { DocumentIntakeMethod, DocumentIntakeResult } from "../../../../shared/analysis.js";
-import { DEMO_CONTRACT_NAME, DEMO_CONTRACT_TEXT } from "./demoContract.js";
 
 type UploadedFile = {
   originalname: string;
@@ -151,21 +150,21 @@ export const runDocumentIntakeAgent = async (input: IntakeInput): Promise<Docume
 
   if (!input.file && !pastedText) {
     return {
-      contractName: DEMO_CONTRACT_NAME,
-      contractText: DEMO_CONTRACT_TEXT,
+      contractName: "未提供合同",
+      contractText: "",
       intakeResult: {
         taskId: input.taskId,
-        contractName: DEMO_CONTRACT_NAME,
-        method: "demo",
+        contractName: "未提供合同",
+        method: "unsupported_file",
         sourceFileName: null,
         mimeType: null,
         fileSha256: null,
         pageCount: null,
-        extractedTextLength: DEMO_CONTRACT_TEXT.length,
-        extractedTextPreview: previewText(DEMO_CONTRACT_TEXT),
+        extractedTextLength: 0,
+        extractedTextPreview: "",
         usedOcr: false,
-        confidence: 0.96,
-        warnings: [],
+        confidence: 0,
+        warnings: ["未提供可分析的合同文件或合同文本。示例合同仅可通过 /api/analysis/demo 创建。"],
       },
     };
   }
@@ -182,12 +181,12 @@ export const runDocumentIntakeAgent = async (input: IntakeInput): Promise<Docume
       };
 
   const mergedText = normalizeExtractedText([extracted.text, pastedText && pastedText !== extracted.text ? pastedText : ""].filter(Boolean).join("\n\n"));
-  const fallbackWarnings = mergedText ? [] : ["没有识别到可用于分析的合同文字，请补充清晰文件或粘贴合同全文。"];
+  const fallbackWarnings = mergedText ? [] : ["没有识别到可用于分析的合同文字，请补充清晰文件或粘贴合同全文；系统不会自动改用示例合同。"];
   const contractName = input.file?.originalname ?? "粘贴的合同文字";
 
   return {
     contractName,
-    contractText: mergedText || DEMO_CONTRACT_TEXT,
+    contractText: mergedText,
     intakeResult: {
       taskId: input.taskId,
       contractName,

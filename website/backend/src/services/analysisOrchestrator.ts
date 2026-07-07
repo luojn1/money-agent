@@ -162,6 +162,12 @@ export const createAnalysisResult = (input: AnalysisInput): AnalysisResult => {
     taskId: input.taskId,
     contractId: input.contractId,
     status: "completed",
+    runtimeMode: "LOCAL_PREVIEW",
+    localPreview: {
+      enabled: true,
+      simulatedAgents: ["risk_case", "recommendation_action"],
+      note: "风险、建议和 C/D 运行状态由 B 模块本地预览生成；正式联调时由总控使用真实 C、D 输出覆盖。",
+    },
     generatedAt: toProtocolDateTime(),
     contractName: input.contractName,
     documentIntake: input.documentIntake,
@@ -209,13 +215,13 @@ export const createAnalysisResult = (input: AnalysisInput): AnalysisResult => {
         agent: "risk_case",
         runId: `run_risk_case_${input.taskId}`,
         agentVersion: "local-preview-0.1.0",
-        status: "completed",
+        status: "partial",
       },
       {
         agent: "recommendation_action",
         runId: `run_recommendation_action_${input.taskId}`,
         agentVersion: "local-preview-0.1.0",
-        status: "completed",
+        status: "partial",
       },
     ],
   };

@@ -152,6 +152,9 @@ textarea:focus, select:focus, input:focus { border-color: var(--terracotta); box
 }
 .intro-summary span, .intro-summary small { color: #dbe8e0; font-size: 13px; }
 .intro-summary strong { margin: 8px 0 6px; color: #fff; font-size: 36px; letter-spacing: 0; line-height: 1; }
+.preview-mode-banner { margin: 0 0 18px; padding: 14px 16px; border: 1px solid #d8b46e; border-radius: 8px; display: flex; align-items: center; gap: 12px; color: #66440c; background: #fff6df; font-size: 14px; line-height: 1.55; }
+.preview-mode-banner strong { flex: 0 0 auto; padding: 4px 8px; border-radius: 6px; color: #fff; background: var(--amber); font-size: 12px; letter-spacing: 0.08em; }
+.preview-mode-banner span { min-width: 0; }
 .report-section { margin-top: 18px; padding: 28px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); box-shadow: 0 10px 28px rgba(31, 54, 46, 0.04); }
 .report-section__heading { margin-bottom: 22px; display: grid; grid-template-columns: 38px minmax(0, 1fr); align-items: start; gap: 14px; }
 .section-number { width: 38px; height: 38px; display: grid; place-items: center; color: var(--sage-dark); background: #e8f0eb; border-radius: 8px; font-size: 12px; font-weight: 900; letter-spacing: 0; }

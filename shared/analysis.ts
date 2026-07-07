@@ -211,6 +211,12 @@ export type AnalysisResult = {
   taskId: string;
   contractId: string;
   status: "completed";
+  runtimeMode: "LOCAL_PREVIEW" | "INTEGRATED";
+  localPreview: {
+    enabled: boolean;
+    simulatedAgents: Array<"risk_case" | "recommendation_action">;
+    note: string;
+  };
   generatedAt: string;
   contractName: string;
   documentIntake: DocumentIntakeResult;
