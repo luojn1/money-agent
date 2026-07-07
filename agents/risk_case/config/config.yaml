@@ -1,0 +1,15 @@
+database:
+  url: sqlite:///risk_case_agent.db
+
+rag:
+  embedding_backend: local_tfidf
+  top_k_cases: 3
+  top_k_regulations: 3
+
+agent:
+  agent_version: c-0.1.0
+  default_timezone: "+08:00"
+  score:
+    initial: 100
+    high_max: 40
+    medium_max: 70

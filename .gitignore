@@ -9,3 +9,13 @@ coverage/
 *.tsbuildinfo
 .DS_Store
 Thumbs.db
+
+# C risk_case agent local runtime artifacts
+agents/risk_case/outputs/
+agents/risk_case/risk_case_agent.db
+agents/risk_case/.pytest_cache/
+agents/risk_case/**/__pycache__/
+agents/risk_case/**/*.pyc
+preview_demo/server.out.log
+preview_demo/server.err.log
+*.zip

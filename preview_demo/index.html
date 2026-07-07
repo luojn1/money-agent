@@ -1,0 +1,209 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>看得懂的钱｜C Agent 风险识别预览</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="#top" aria-label="看得懂的钱预览首页">
+        <span class="brand__mark">元</span>
+        <span>看得懂的钱</span>
+      </a>
+      <div class="header-trust">C Agent 风险识别与案例匹配预览</div>
+    </div>
+  </header>
+
+  <main id="top" class="preview-page">
+    <div class="toolbar">
+      <a class="back-link" href="../agents/risk_case/outputs/c-risk-case-output.json">查看 C 输出 JSON</a>
+      <span id="report-id">报告编号：等待加载</span>
+    </div>
+
+    <section class="hero-panel" aria-labelledby="hero-title">
+      <div>
+        <p class="eyebrow">风险识别报告</p>
+        <h1 id="hero-title">C Agent 风险预览</h1>
+        <p id="hero-summary">读取 B 的合同解析与成本测算结果，展示 C 输出的风险项、合同证据、法规依据和相似案例。</p>
+      </div>
+      <div class="hero-score" aria-label="风险摘要">
+        <span>高风险项</span>
+        <strong id="high-count">0</strong>
+        <small id="status-label">等待数据</small>
+      </div>
+    </section>
+
+    <section class="report-section upload-section" aria-labelledby="upload-title">
+      <div class="report-section__heading">
+        <span class="section-number">00</span>
+        <div>
+          <h2 id="upload-title">运行 C Agent</h2>
+          <p>上传或粘贴 B 同学的 contract_cost JSON，点击开始分析后会调用本地 risk_case Agent，返回真实风险识别结果。</p>
+        </div>
+      </div>
+      <div class="upload-grid">
+        <label class="upload-card">
+          <span>B 输出 JSON</span>
+          <strong>选择文件后可直接分析</strong>
+          <input id="b-file" type="file" accept="application/json,.json" />
+        </label>
+        <label class="upload-card upload-card--primary">
+          <span>C 输出 JSON</span>
+          <strong>只预览已有 C 结果</strong>
+          <input id="c-file" type="file" accept="application/json,.json" />
+        </label>
+        <label class="upload-card">
+          <span>D 输出 JSON</span>
+          <strong>建议生成 + 行动管理</strong>
+          <input id="d-file" type="file" accept="application/json,.json" />
+        </label>
+      </div>
+      <div class="analysis-workbench">
+        <label for="b-json-text">
+          <span>B JSON 内容</span>
+          <textarea id="b-json-text" spellcheck="false" placeholder="可以在这里粘贴 B Agent 输出的 JSON。"></textarea>
+        </label>
+        <div class="analysis-actions">
+          <button id="analyze-btn" type="button">开始分析</button>
+          <button id="fill-sample-btn" type="button" class="secondary-button">填入示例 B JSON</button>
+          <a id="download-output-link" class="secondary-button" href="#" download="c-risk-case-output.json">下载 C 输出</a>
+        </div>
+        <details class="trace-panel">
+          <summary>查看本次 Agent 运行日志</summary>
+          <pre id="trace-output">尚未运行。</pre>
+        </details>
+      </div>
+      <div id="load-message" class="load-message">正在尝试读取本地默认数据。</div>
+    </section>
+
+    <section class="report-section metrics-section" aria-labelledby="metrics-title">
+      <div class="report-section__heading">
+        <span class="section-number">01</span>
+        <div>
+          <h2 id="metrics-title">C 模块核心结果</h2>
+          <p>先看风险数量、来源链路和协议状态，快速判断 JSON 是否可交给 D。</p>
+        </div>
+      </div>
+      <div class="metric-grid">
+        <article class="metric-card">
+          <span class="metric-icon">H</span>
+          <p>高风险</p>
+          <strong id="metric-high">0</strong>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">M</span>
+          <p>中风险</p>
+          <strong id="metric-medium">0</strong>
+        </article>
+        <article class="metric-card">
+          <span class="metric-icon">L</span>
+          <p>低风险</p>
+          <strong id="metric-low">0</strong>
+        </article>
+        <article class="metric-card metric-card--emphasis">
+          <span class="metric-icon">ID</span>
+          <p>输入运行</p>
+          <strong id="metric-input-runs">0</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="report-section chain-section" aria-labelledby="chain-title">
+      <div class="report-section__heading">
+        <span class="section-number">02</span>
+        <div>
+          <h2 id="chain-title">B → C → D 联动预览</h2>
+          <p>左侧看 B 的成本测算，中间看 C 的风险识别，右侧为 D 的建议接入位。</p>
+        </div>
+      </div>
+      <div class="chain-grid">
+        <article class="agent-column" id="b-panel">
+          <div class="agent-column__header">
+            <span>B</span>
+            <div>
+              <h3>合同解析与成本</h3>
+              <p>contract_cost</p>
+            </div>
+          </div>
+          <div id="b-content" class="agent-content empty-state">暂无 B 数据</div>
+        </article>
+
+        <article class="agent-column agent-column--active" id="c-panel">
+          <div class="agent-column__header">
+            <span>C</span>
+            <div>
+              <h3>风险识别与案例</h3>
+              <p>risk_case</p>
+            </div>
+          </div>
+          <div id="c-content" class="agent-content empty-state">暂无 C 数据</div>
+        </article>
+
+        <article class="agent-column" id="d-panel">
+          <div class="agent-column__header">
+            <span>D</span>
+            <div>
+              <h3>建议生成与行动</h3>
+              <p>recommendation_action</p>
+            </div>
+          </div>
+          <div id="d-content" class="agent-content empty-state">等待 D 输出接入</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="report-section" aria-labelledby="risk-title">
+      <div class="report-section__heading">
+        <span class="section-number">03</span>
+        <div>
+          <h2 id="risk-title">风险卡片</h2>
+          <p>每张卡片展示风险等级、合同证据、法规理由、相似案例和给 D 的问题输入。</p>
+        </div>
+      </div>
+      <div id="risk-list" class="risk-list"></div>
+    </section>
+
+    <section class="report-section" aria-labelledby="handoff-title">
+      <div class="report-section__heading">
+        <span class="section-number">04</span>
+        <div>
+          <h2 id="handoff-title">交给 D 的字段</h2>
+          <p>D 生成建议时，应优先读取这些字段并保持 ID 关联。</p>
+        </div>
+      </div>
+      <div class="handoff-grid">
+        <div class="handoff-card">
+          <span>关联 ID</span>
+          <strong>riskItems[].id</strong>
+          <p>D 的 recommendations[].relatedRiskIds 必须引用它。</p>
+        </div>
+        <div class="handoff-card">
+          <span>行动问题</span>
+          <strong>riskItems[].questionToAsk</strong>
+          <p>可整理为 D 的 questionList 或 recommendation.action。</p>
+        </div>
+        <div class="handoff-card">
+          <span>建议理由</span>
+          <strong>reason + possibleConsequence</strong>
+          <p>可组成 D 的 rationale。</p>
+        </div>
+        <div class="handoff-card">
+          <span>依据支撑</span>
+          <strong>evidence + matchedCases</strong>
+          <p>展示合同原文和相似案例，提升可信度。</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="report-disclaimer">
+      <strong>说明</strong>
+      <p>本页面是 C Agent 交付预览工具，用于检查 RiskCaseOutput 的结构与展示效果，不构成法律或信贷决策意见。</p>
+    </footer>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
