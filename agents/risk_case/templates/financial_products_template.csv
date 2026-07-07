@@ -1,0 +1,4 @@
+﻿product_id,product_name,product_type,institution,typical_rate_range,common_fees,prepayment_policy,overdue_policy,effective_date,expiry_date,source_url
+PROD001,个人消费贷款,consumer_loan,消费金融公司/银行,"{""low"":0,""normalMax"":20,""warningMax"":24}","[""利息"",""服务费"",""管理费"",""担保费""]",提前还款可能存在手续费或未退还服务费应查看合同约定。,逾期通常涉及罚息违约金和征信影响。,2026-07-04,,
+PROD002,信用卡账单分期,bill_installment,银行信用卡中心,"{""low"":0,""normalMax"":18,""warningMax"":24}","[""分期手续费"",""提前结清手续费""]",提前结清可能仍收取剩余手续费。,逾期可能产生罚息违约金并影响征信。,2026-07-04,,
+PROD003,医美分期,merchant_installment,助贷平台/消费金融公司,"{""low"":0,""normalMax"":20,""warningMax"":24}","[""服务费"",""咨询费"",""保证保险费""]",退费时需确认贷款合同是否同步解除。,逾期可能由金融机构继续追偿。,2026-07-04,,
