@@ -12,7 +12,8 @@
     "lint": "eslint .",
     "typecheck": "pnpm -r --if-present run typecheck",
     "build": "pnpm --filter @money-agent/frontend run build && pnpm --filter @money-agent/backend run build",
-    "verify:b-agents": "pnpm --filter @money-agent/backend exec tsx ../../scripts/verify-b-agents.ts"
+    "verify:b-agents": "pnpm --filter @money-agent/backend exec tsx ../../scripts/verify-b-agents.ts",
+    "verify:bcd-pipeline": "pnpm --filter @money-agent/backend exec tsx ../../scripts/verify-bcd-pipeline.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

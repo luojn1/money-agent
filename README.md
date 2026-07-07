@@ -1,65 +1,96 @@
 # 看得懂的钱
 
-消费金融合同体检 MVP。当前版本已接入合同上传识别、合同结构化解析、真实成本测算和本地知识库规则调用，并按团队统一数据协议 `v1.0.0` 输出合同成本模块结果。
+消费金融合同体检 MVP。当前版本已接入真实 B/C/D 多 Agent Pipeline：
 
-## 本次交付范围
+```text
+Frontend
+→ Express Pipeline
+→ B TypeScript：合同解析与成本测算
+→ C Python：风险识别与案例匹配
+→ D Python：建议与行动方案
+→ Final Report
+```
 
-- 合同上传/OCR：支持粘贴文本、TXT/Markdown、DOCX、PDF 文本层、图片 OCR。
-- 合同解析：抽取机构、借款金额、实际到账、期限、还款方式、名义利率、费用与关键条款。
-- 真实成本测算：基于现金流计算真实年化、总还款、利息、额外费用、费用归类和或有成本。
-- 知识库训练/调用：读取 `knowledge_base/contract_finance` 下完整合同与金融产品知识库，包含原始资料、字段词典、合同规则、产品规则和 LPR 记录。
-- 协议输出：`GET /api/analysis/:taskId/contract-cost-output` 与 `/b-output` 返回统一 `ContractCostOutput`。
-- 失败处理：`POST /api/analysis` 不会在识别失败时自动套用示例合同；识别不到文本时会保留任务、返回 warning/failed 状态，示例合同仅通过 `POST /api/analysis/demo` 使用。
-- 联调标记：前端报告中的风险、建议与 C/D 运行状态仍作为 B 单模块本地预览保留，并在结果中显式标记 `LOCAL_PREVIEW`，正式整合时由总控真实 C/D 输出覆盖。
-
-## 运行
+## 本地启动
 
 ```bash
 pnpm install
+python -m pip install -r agents/risk_case/requirements.txt
+python -m pip install -r agents/recommendation_action/requirements.txt
 pnpm run dev
 ```
 
-- 前端预览：http://127.0.0.1:5173
-- 后端接口：http://127.0.0.1:3001
+- 前端：http://127.0.0.1:5173
+- 后端：http://127.0.0.1:3001
 - 健康检查：http://127.0.0.1:3001/api/health
+
+正式整合模式下，后端内部调用 C/D，不需要单独启动 D 的 8091 预览服务。
+
+## 环境变量
+
+```text
+VITE_USE_MOCK_PIPELINE
+PYTHON_BIN
+B_BASE_URL
+C_DIR
+SCHEMA_PATH
+```
+
+- `VITE_USE_MOCK_PIPELINE=true`：前端使用演示数据模式。
+- `VITE_USE_MOCK_PIPELINE=false`：前端调用真实 `/api/pipeline/*`。
+- `PYTHON_BIN`：后端调用 Python Agent 的命令或绝对路径；默认尝试 `python`、`py -3`、`python3`。
+- `B_BASE_URL`、`C_DIR`：D 独立预览服务兼容变量。
+- `SCHEMA_PATH`：D Schema 校验路径，默认使用 `shared/schemas/analysis-protocol-v1.schema.json`。
 
 ## 核心接口
 
-- `POST /api/analysis`：统一协议上传入口，multipart 字段名 `file`，也可带 `contractText`。
-- `POST /api/analysis/upload`：兼容旧上传入口。
-- `POST /api/analysis/demo`：创建示例合同任务。
-- `GET /api/analysis/:taskId/status`：返回协议版任务状态。
-- `GET /api/analysis/:taskId/result`：返回前端展示报告。
-- `GET /api/analysis/:taskId/contract-cost-output`：返回严格 B 模块协议输出。
-- `GET /api/analysis/:taskId/b-output`：同上，保留给原有联调路径。
+真实 BCD Pipeline：
+
+- `POST /api/pipeline/analyze`
+- `GET /api/pipeline/:taskId/status`
+- `GET /api/pipeline/:taskId/result`
+
+B 单模块兼容接口：
+
+- `POST /api/analysis`
+- `POST /api/analysis/upload`
+- `POST /api/analysis/demo`
+- `GET /api/analysis/:taskId/status`
+- `GET /api/analysis/:taskId/result`
+- `GET /api/analysis/:taskId/b-output`
+- `GET /api/analysis/:taskId/contract-cost-output`
 
 ## 验证
 
 ```bash
-pnpm run typecheck
 pnpm run verify:b-agents
-pnpm run build
-pnpm run lint
+pnpm run verify:bcd-pipeline
+pnpm --filter @money-agent/backend run typecheck
+pnpm --filter @money-agent/backend run build
+pnpm --filter @money-agent/frontend run typecheck
+pnpm --filter @money-agent/frontend run build
+cd agents/risk_case && python -m pytest
+cd ../recommendation_action && python -m pytest
 ```
 
-`verify:b-agents` 会校验示例合同的借款金额、实际到账、月供、服务费归类、现金流、真实年化、知识库完整性，以及 `ContractCostOutput` 的 `schemaVersion/agent/contractId/clauseId/calculationBasis`。同时校验空上传不会回退示例合同、`/demo` 是唯一示例入口、最终报告含 `LOCAL_PREVIEW` 标记。
-
-当前知识库完整性基线：145 份资料文件，133 条来源目录记录。
+`verify:bcd-pipeline` 使用 `tests/fixtures/integration-demo-contract.txt` 运行真实 B→C→D，检查 ID 链路、clause/risk 引用、D mismatch 失败处理和 `runtimeMode = INTEGRATED`。
 
 ## 目录
 
 ```text
-docs/data-protocol-v1.md                  # 团队统一数据协议
-shared/analysis.ts                        # 前端展示与本地分析类型
-shared/analysisProtocol.ts                # 协议类型
+agents/risk_case                         # C Agent
+agents/recommendation_action             # D Agent
+docs/bcd-integration-plan.md
+docs/bcd-integration-checklist.md
+shared/analysis.ts
+shared/analysisProtocol.ts
 shared/schemas/analysis-protocol-v1.schema.json
-website/backend/src/services/documentIntakeAgent.ts
-website/backend/src/services/contractParserAgent.ts
-website/backend/src/services/costCalculatorAgent.ts
-website/backend/src/services/protocolAdapter.ts
-website/backend/src/routes/analysis.ts
-website/frontend/src/pages/UploadPage.tsx
-website/frontend/src/pages/ReportPage.tsx
-knowledge_base/contract_finance           # 完整知识库与 raw_sources
+website/backend/src/routes/pipeline.ts
+website/backend/src/services/pipelineOrchestrator.ts
+website/frontend/src/services/pipelineApi.ts
+tests/fixtures/integration-demo-contract.txt
 scripts/verify-b-agents.ts
+scripts/verify-bcd-pipeline.ts
 ```
+
+运行文件写入 `.runtime/pipeline/<taskId>/`，该目录已加入 `.gitignore`。
