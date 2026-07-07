@@ -52,6 +52,8 @@ type ActionPlanOutput = {
 
 const serviceDir = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(serviceDir, "../../../..");
+const defaultRuntimeRoot =
+  process.env.NODE_ENV === "production" ? "/tmp/money-agent-runtime" : join(projectRoot, ".runtime");
 const riskCaseDir = join(projectRoot, "agents", "risk_case");
 const recommendationActionDir = join(projectRoot, "agents", "recommendation_action");
 const schemaPath = join(projectRoot, "shared", "schemas", "analysis-protocol-v1.schema.json");
@@ -325,6 +327,7 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
   const bPath = join(task.runtimeDir, "b-output.json");
   const cPath = join(task.runtimeDir, "c-output.json");
   const cTracePath = join(task.runtimeDir, "c-trace.json");
+  const cDatabasePath = join(getRuntimeRoot(), "risk_case_agent.db");
   const dPath = join(task.runtimeDir, "d-output.json");
   const dActionPlanPath = join(task.runtimeDir, "d-action-plan.json");
 
@@ -366,7 +369,18 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
     await runPythonAgent({
       cwd: riskCaseDir,
       label: "C 风险识别 Agent",
-      args: ["main.py", "--input", bPath, "--output", cPath, "--trace-output", cTracePath, "--trace"],
+      args: [
+        "main.py",
+        "--input",
+        bPath,
+        "--output",
+        cPath,
+        "--trace-output",
+        cTracePath,
+        "--trace",
+        "--db",
+        cDatabasePath,
+      ],
     });
     riskCase = await readJson<RiskCaseOutput>(cPath);
     updatePipelineStep(taskId, "risk_case", stepStatusFromAgent(riskCase.status), `C 输出 ${riskCase.status}`);
@@ -436,4 +450,6 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
   }
 };
 
-export const createRuntimeDir = (taskId: string) => join(projectRoot, ".runtime", "pipeline", taskId);
+export const getRuntimeRoot = () => resolve(process.env.RUNTIME_ROOT?.trim() || defaultRuntimeRoot);
+
+export const createRuntimeDir = (taskId: string) => join(getRuntimeRoot(), "pipeline", taskId);
