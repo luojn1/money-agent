@@ -1,5 +1,6 @@
 import { Router, type NextFunction, type Request, type Response } from "express";
 import multer from "multer";
+import { normalizeUploadedFileName } from "../services/documentIntakeAgent.js";
 import { createRuntimeDir, runIntegratedPipeline } from "../services/pipelineOrchestrator.js";
 import {
   createPipelineTask,
@@ -29,7 +30,8 @@ const notFound = (response: Response, taskId: string) =>
 
 const getUploadedFile = (request: Request) => {
   const files = request.files as Record<string, Express.Multer.File[] | undefined> | undefined;
-  return files?.contractFile?.[0] ?? files?.file?.[0];
+  const file = files?.contractFile?.[0] ?? files?.file?.[0];
+  return file ? { ...file, originalname: normalizeUploadedFileName(file.originalname) } : undefined;
 };
 
 pipelineRouter.post("/analyze", uploadFields, (request: Request, response: Response, next: NextFunction) => {

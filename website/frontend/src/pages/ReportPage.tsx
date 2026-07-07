@@ -40,6 +40,20 @@ const priorityLabel: Record<ActionItem["priority"], string> = {
   optional: "可选优化",
 };
 
+const agentRunLabel = {
+  contract_cost: "B 合同与成本 Agent",
+  risk_case: "C 风险与案例 Agent",
+  recommendation_action: "D 建议与行动 Agent",
+};
+
+const runStatusLabel = {
+  pending: "等待中",
+  processing: "处理中",
+  completed: "已完成",
+  partial: "部分完成",
+  failed: "失败",
+};
+
 export function ReportPage() {
   const { taskId = "mock_bcd_demo" } = useParams();
   const [report, setReport] = useState<PipelineReport | null>(null);
@@ -147,6 +161,18 @@ export function ReportPage() {
             <span>{report.mode === "mock" ? "本报告使用静态演示数据；未调用真实 C/D Agent。" : `runtimeMode = ${report.runtimeMode ?? "INTEGRATED"}`}</span>
           </div>
         </div>
+
+        {(report.sourceAgentRuns?.length ?? 0) > 0 && (
+          <section className="agent-run-strip" aria-label="真实 Agent 运行记录">
+            {report.sourceAgentRuns?.map((run) => (
+              <div key={`${run.agent}_${run.runId}`}>
+                <span>{agentRunLabel[run.agent]}</span>
+                <strong>{run.runId}</strong>
+                <small>{run.agentVersion} · {runStatusLabel[run.status]}</small>
+              </div>
+            ))}
+          </section>
+        )}
 
         <section className="report-section metrics-section" aria-labelledby="overview-title">
           <div className="report-section__heading">

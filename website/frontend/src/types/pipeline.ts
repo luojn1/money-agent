@@ -143,6 +143,13 @@ export type RecommendationActionView = {
   actionPlan: ActionSection[];
 };
 
+export type SourceAgentRun = {
+  agent: AgentId;
+  runId: string;
+  agentVersion: string;
+  status: AgentStepStatus;
+};
+
 export type PipelineReport = {
   taskId: string;
   contractId: string;
@@ -162,4 +169,5 @@ export type PipelineReport = {
   actions: RecommendationActionView;
   warnings: string[];
   errors?: ProtocolError[];
+  sourceAgentRuns?: SourceAgentRun[];
 };

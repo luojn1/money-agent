@@ -37,6 +37,8 @@ const progressWidth = (steps: PipelineStep[]) => {
   return `${Math.max(14, ratio * 100)}%`;
 };
 
+const isReportReady = (status: AgentStepStatus | undefined) => status === "completed" || status === "partial";
+
 export function AnalysisPage() {
   const { taskId = "mock_bcd_demo" } = useParams();
   const location = useLocation();
@@ -59,7 +61,7 @@ export function AnalysisPage() {
         setStatus(nextStatus);
         setError(nextStatus.error ?? "");
 
-        if (nextStatus.status === "completed") {
+        if (isReportReady(nextStatus.status)) {
           timer = setTimeout(() => navigate(`/report/${taskId}`, { replace: true }), 520);
           return;
         }
@@ -86,14 +88,15 @@ export function AnalysisPage() {
     () => status?.steps.find((step) => step.status === "processing"),
     [status?.steps],
   );
+  const reportReady = isReportReady(status?.status);
 
   return (
     <PageShell compactHeader>
       <main className="analysis-page">
         <Link className="back-link" to="/"><ArrowLeft size={18} />返回上传页</Link>
         <section className="progress-panel" aria-labelledby="analysis-title">
-          <p className="eyebrow">合同体检进行中</p>
-          <h1 id="analysis-title">B/C/D Pipeline 正在整理合同报告</h1>
+          <p className="eyebrow">{reportReady ? "合同体检已完成" : "合同体检进行中"}</p>
+          <h1 id="analysis-title">{reportReady ? "B/C/D Pipeline 已生成合同报告" : "B/C/D Pipeline 正在整理合同报告"}</h1>
           <p className="contract-file"><FileMagnifyingGlass size={19} weight="duotone" />{contractName}</p>
 
           <div className={`pipeline-mode-card${status?.mode === "integrated" ? " pipeline-mode-card--real" : ""}`}>
@@ -110,7 +113,7 @@ export function AnalysisPage() {
 
           <div className="progress-summary">
             <span>{activeStep ? `当前执行：${activeStep.label}` : status?.currentMessage ?? "准备开始分析"}</span>
-            <strong>{status?.currentStage === "completed" ? "报告生成完成" : status?.currentMessage ?? "合同读取中"}</strong>
+            <strong>{reportReady ? "报告生成完成，正在打开" : status?.currentMessage ?? "合同读取中"}</strong>
           </div>
           <div className="progress-track" aria-label="分析阶段进度">
             <span style={{ width: status ? progressWidth(status.steps) : "14%" }} />

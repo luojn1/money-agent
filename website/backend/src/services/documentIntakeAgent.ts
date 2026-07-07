@@ -42,6 +42,12 @@ const normalizeExtractedText = (text: string) =>
 
 const previewText = (text: string) => normalizeExtractedText(text).slice(0, 180);
 
+export const normalizeUploadedFileName = (fileName: string) => {
+  const decoded = Buffer.from(fileName, "latin1").toString("utf8");
+  const looksMojibake = /[ÃÂÄÅÆÇÈÉÊËÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ]/.test(fileName);
+  return looksMojibake && !decoded.includes("\uFFFD") ? decoded : fileName;
+};
+
 const extensionOf = (fileName: string) => extname(fileName).toLowerCase();
 
 const looksLikePdf = (file: UploadedFile) =>
@@ -182,7 +188,7 @@ export const runDocumentIntakeAgent = async (input: IntakeInput): Promise<Docume
 
   const mergedText = normalizeExtractedText([extracted.text, pastedText && pastedText !== extracted.text ? pastedText : ""].filter(Boolean).join("\n\n"));
   const fallbackWarnings = mergedText ? [] : ["没有识别到可用于分析的合同文字，请补充清晰文件或粘贴合同全文；系统不会自动改用示例合同。"];
-  const contractName = input.file?.originalname ?? "粘贴的合同文字";
+  const contractName = input.file ? normalizeUploadedFileName(input.file.originalname) : "粘贴的合同文字";
 
   return {
     contractName,
@@ -191,7 +197,7 @@ export const runDocumentIntakeAgent = async (input: IntakeInput): Promise<Docume
       taskId: input.taskId,
       contractName,
       method: extracted.method,
-      sourceFileName: input.file?.originalname ?? null,
+      sourceFileName: input.file ? normalizeUploadedFileName(input.file.originalname) : null,
       mimeType: input.file?.mimetype ?? null,
       fileSha256: input.file ? sha256(input.file.buffer) : null,
       pageCount: extracted.pageCount,
