@@ -5,3 +5,4 @@
 - 系统架构
 - 开发计划
 - 最终报告
+- 腾讯云 CloudBase Run 部署说明：`tencent-cloudbase-deployment.md`

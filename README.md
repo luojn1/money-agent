@@ -21,8 +21,8 @@ pnpm run dev
 ```
 
 - 前端：http://127.0.0.1:5173
-- 后端：http://127.0.0.1:3001
-- 健康检查：http://127.0.0.1:3001/api/health
+- 后端：http://127.0.0.1:8080
+- 健康检查：http://127.0.0.1:8080/api/health
 
 正式整合模式下，后端内部调用 C/D，不需要单独启动 D 的 8091 预览服务。
 
@@ -30,6 +30,12 @@ pnpm run dev
 
 ```text
 VITE_USE_MOCK_PIPELINE
+VITE_API_BASE_URL
+PORT
+SERVE_FRONTEND
+FRONTEND_DIST
+RUNTIME_ROOT
+CORS_ORIGIN
 PYTHON_BIN
 B_BASE_URL
 C_DIR
@@ -38,9 +44,38 @@ SCHEMA_PATH
 
 - `VITE_USE_MOCK_PIPELINE=true`：前端使用演示数据模式。
 - `VITE_USE_MOCK_PIPELINE=false`：前端调用真实 `/api/pipeline/*`。
+- `VITE_API_BASE_URL`：前端 API 前缀；生产同源部署留空，本地开发由 Vite 代理 `/api` 到后端。
+- `PORT`：后端监听端口，默认 `8080`。
+- `SERVE_FRONTEND=true`：后端托管 `website/frontend/dist`，用于单容器部署。
+- `FRONTEND_DIST`：前端静态目录，默认 `<repo>/website/frontend/dist`。
+- `RUNTIME_ROOT`：真实 Pipeline 的运行文件根目录；本地默认 `.runtime`，生产默认 `/tmp/money-agent-runtime`。
+- `CORS_ORIGIN`：跨域允许来源，逗号分隔；同源部署可不配置。
 - `PYTHON_BIN`：后端调用 Python Agent 的命令或绝对路径；默认尝试 `python`、`py -3`、`python3`。
 - `B_BASE_URL`、`C_DIR`：D 独立预览服务兼容变量。
 - `SCHEMA_PATH`：D Schema 校验路径，默认使用 `shared/schemas/analysis-protocol-v1.schema.json`。
+
+## 单容器部署
+
+腾讯云 CloudBase Run 使用根目录 `Dockerfile` 构建单容器镜像：
+
+```bash
+docker build -t money-agent-cloudbase .
+docker run --rm -p 8080:8080 money-agent-cloudbase
+```
+
+部署时建议设置：
+
+```text
+NODE_ENV=production
+PORT=8080
+SERVE_FRONTEND=true
+RUNTIME_ROOT=/tmp/money-agent-runtime
+PYTHON_BIN=/opt/venv/bin/python
+VITE_USE_MOCK_PIPELINE=false
+VITE_API_BASE_URL=
+```
+
+健康检查路径为 `GET /api/health`。当前任务状态存储是内存态，只适合单实例 MVP；多实例或容器重启会导致任务状态丢失。CloudBase Run 的详细步骤、资源建议和 0% -> 100% 流量切换说明见 `docs/tencent-cloudbase-deployment.md`。
 
 ## 核心接口
 
@@ -93,4 +128,4 @@ scripts/verify-b-agents.ts
 scripts/verify-bcd-pipeline.ts
 ```
 
-运行文件写入 `.runtime/pipeline/<taskId>/`，该目录已加入 `.gitignore`。
+本地运行文件默认写入 `.runtime/pipeline/<taskId>/`，生产容器默认写入 `/tmp/money-agent-runtime/pipeline/<taskId>/`；`.runtime` 已加入 `.gitignore`。
