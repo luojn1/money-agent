@@ -4,6 +4,7 @@ import { ClipboardText } from "@phosphor-icons/react/ClipboardText";
 import { FileText } from "@phosphor-icons/react/FileText";
 import { LockKey } from "@phosphor-icons/react/LockKey";
 import { Receipt } from "@phosphor-icons/react/Receipt";
+import { Robot } from "@phosphor-icons/react/Robot";
 import { ShieldCheck } from "@phosphor-icons/react/ShieldCheck";
 import { UploadSimple } from "@phosphor-icons/react/UploadSimple";
 import { type DragEvent, type FormEvent, useRef, useState } from "react";
@@ -15,6 +16,7 @@ const acceptedFileTypes = ".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp";
 
 export function UploadPage() {
   const navigate = useNavigate();
+  const mockModeEnabled = api.isMockPipelineEnabled();
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [contractText, setContractText] = useState("");
@@ -49,11 +51,15 @@ export function UploadPage() {
       setError("请先上传合同、粘贴合同文字，或选择示例合同。值得看的报告，需要先有一份合同。");
       return;
     }
+    if (!mockModeEnabled) {
+      setError("真实 Pipeline 模式暂未接入；本阶段不会调用旧 Mock 冒充真实 C/D。请设置 VITE_USE_MOCK_PIPELINE=true 查看完整演示流程。");
+      return;
+    }
 
     setSubmitting(true);
     setError("");
     try {
-      const contractName = selectedFile?.name ?? (exampleSelected ? "示例消费贷合同.pdf" : "粘贴的合同文字");
+      const contractName = selectedFile?.name ?? (exampleSelected ? "课程项目测试合同.txt" : "粘贴的合同文字");
       const task = exampleSelected && !selectedFile && !contractText.trim()
         ? await api.createDemoAnalysis({ contractName })
         : await api.createUploadAnalysis({
@@ -79,6 +85,17 @@ export function UploadPage() {
             <span><ShieldCheck size={20} weight="duotone" />保护隐私，仅用于分析</span>
             <span><LockKey size={20} weight="duotone" />本轮不保存合同内容</span>
             <span><CheckCircle size={20} weight="duotone" />结果中立，不偏不倚</span>
+          </div>
+          <div className={`mode-banner${mockModeEnabled ? " mode-banner--mock" : " mode-banner--real"}`}>
+            <Robot size={21} weight="duotone" />
+            <div>
+              <strong>{mockModeEnabled ? "Mock 演示模式" : "真实 Pipeline 模式（暂未接入）"}</strong>
+              <span>
+                {mockModeEnabled
+                  ? "将使用静态 B/C/D 数据演示完整流程，不调用真实 C、D Agent。"
+                  : "等待 B、C、D 分支确认后联调；当前不会用旧 Mock 伪装真实运行。"}
+              </span>
+            </div>
           </div>
         </section>
 
@@ -119,6 +136,7 @@ export function UploadPage() {
                 <strong>{selectedFile ? selectedFile.name : "点击或拖拽合同到这里"}</strong>
                 <span>{selectedFile ? "将读取文本层；图片会尝试 OCR 识别" : "支持 PDF、DOCX、TXT、JPG、PNG、WEBP"}</span>
               </button>
+              <p className="support-note">支持 PDF、Word、图片和文本文件；Mock 演示会保留文件名，但不会上传或调用真实 C/D。</p>
 
               <div className="or-divider"><span>或</span></div>
 
@@ -176,19 +194,19 @@ export function UploadPage() {
             <button className="primary-button primary-button--wide" type="submit" disabled={submitting}>
               {submitting ? "正在创建分析任务…" : "开始分析"}
             </button>
-            <p className="privacy-note"><ShieldCheck size={18} weight="duotone" />文件仅保存在本地演示服务内存中，用于本次识别和测算。</p>
+            <p className="privacy-note"><ShieldCheck size={18} weight="duotone" />Mock 模式仅在浏览器本地生成演示任务；真实 Pipeline 接入前不会发送到 C/D。</p>
           </div>
 
           <aside className="upload-side-panel" aria-label="分析路径">
             <div className="side-panel__heading">
               <span>分析路径</span>
-              <strong>从合同文字到真实成本</strong>
+              <strong>从合同文字到完整行动报告</strong>
             </div>
             <ol className="capability-list">
               <li><FileText size={20} weight="duotone" /><span>上传识别</span><small>PDF 文本层、Word、图片 OCR</small></li>
-              <li><ClipboardText size={20} weight="duotone" /><span>合同解析</span><small>金额、期限、利率、费用、条款定位</small></li>
-              <li><Calculator size={20} weight="duotone" /><span>成本测算</span><small>调用知识库规则生成现金流和真实年化</small></li>
-              <li><Receipt size={20} weight="duotone" /><span>报告输出</span><small>保留原文依据和签约前追问清单</small></li>
+              <li><Calculator size={20} weight="duotone" /><span>B 合同与成本 Agent</span><small>金额、期限、费用、现金流和真实年化</small></li>
+              <li><ClipboardText size={20} weight="duotone" /><span>C 风险与案例 Agent</span><small>风险条款、clauseId、典型情景匹配</small></li>
+              <li><Receipt size={20} weight="duotone" /><span>D 建议与行动 Agent</span><small>确认问题、证据清单、沟通话术和行动计划</small></li>
             </ol>
           </aside>
         </form>
