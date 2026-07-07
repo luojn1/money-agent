@@ -51,12 +51,16 @@ type ActionPlanOutput = {
 };
 
 const serviceDir = dirname(fileURLToPath(import.meta.url));
-const projectRoot = resolve(serviceDir, "../../../..");
+const inferredProjectRoot = resolve(serviceDir, "../../../..");
+export const projectRoot = resolve(process.env.PROJECT_ROOT?.trim() || inferredProjectRoot);
 const defaultRuntimeRoot =
   process.env.NODE_ENV === "production" ? "/tmp/money-agent-runtime" : join(projectRoot, ".runtime");
-const riskCaseDir = join(projectRoot, "agents", "risk_case");
-const recommendationActionDir = join(projectRoot, "agents", "recommendation_action");
-const schemaPath = join(projectRoot, "shared", "schemas", "analysis-protocol-v1.schema.json");
+export const riskCaseDir = join(projectRoot, "agents", "risk_case");
+export const recommendationActionDir = join(projectRoot, "agents", "recommendation_action");
+export const riskCaseMainPath = join(riskCaseDir, "main.py");
+export const recommendationActionMainPath = join(recommendationActionDir, "main.py");
+const defaultSchemaPath = join(projectRoot, "shared", "schemas", "analysis-protocol-v1.schema.json");
+export const schemaPath = resolve(process.env.SCHEMA_PATH?.trim() || defaultSchemaPath);
 
 const writeJson = async (path: string, value: unknown) => {
   await mkdir(dirname(path), { recursive: true });
@@ -406,7 +410,7 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
         "--action-plan",
         dActionPlanPath,
         "--schema",
-        process.env.SCHEMA_PATH || schemaPath,
+        schemaPath,
       ],
     });
     recommendationAction = await readJson<RecommendationActionOutput>(dPath);

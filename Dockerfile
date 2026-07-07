@@ -21,6 +21,10 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 ENV SERVE_FRONTEND=true
+ENV PROJECT_ROOT=/app
+ENV KNOWLEDGE_BASE_ROOT=/app/knowledge_base/contract_finance
+ENV SCHEMA_PATH=/app/shared/schemas/analysis-protocol-v1.schema.json
+ENV FRONTEND_DIST=/app/website/frontend/dist
 ENV RUNTIME_ROOT=/tmp/money-agent-runtime
 ENV PYTHON_BIN=/opt/venv/bin/python
 ENV VITE_USE_MOCK_PIPELINE=false

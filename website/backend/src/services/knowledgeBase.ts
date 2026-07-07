@@ -6,7 +6,8 @@ import type { FeeType, RepaymentMethodCode } from "../../../../shared/analysis.j
 const EXTERNAL_KNOWLEDGE_ROOT =
   "E:/妖/在中大/学习/大三下/金融科技/小组作业/agent/合同与金融产品知识库";
 const serviceDir = dirname(fileURLToPath(import.meta.url));
-const projectRoot = resolve(serviceDir, "../../../..");
+const inferredProjectRoot = resolve(serviceDir, "../../../..");
+export const projectRoot = resolve(process.env.PROJECT_ROOT?.trim() || inferredProjectRoot);
 const LOCAL_KNOWLEDGE_ROOT = join(projectRoot, "knowledge_base", "contract_finance");
 
 type FieldAliasDictionary = {
@@ -67,15 +68,18 @@ const readJsonl = (path: string): KnowledgeEntry[] => {
     .map((line) => JSON.parse(line) as KnowledgeEntry);
 };
 
-const hasKnowledgeBundle = (rootDir: string) =>
+export const hasKnowledgeBundle = (rootDir: string) =>
   existsSync(join(rootDir, "knowledge_base", "字段别名与费用词典.json")) &&
   existsSync(join(rootDir, "knowledge_base", "合同知识库_entries.jsonl")) &&
   existsSync(join(rootDir, "knowledge_base", "金融产品知识库_entries.jsonl"));
 
-const resolveKnowledgeRoot = () => {
-  const candidates = [process.env.KNOWLEDGE_BASE_ROOT, LOCAL_KNOWLEDGE_ROOT, EXTERNAL_KNOWLEDGE_ROOT].filter(
-    (candidate): candidate is string => Boolean(candidate),
+export const getKnowledgeRootCandidates = () =>
+  [process.env.KNOWLEDGE_BASE_ROOT?.trim(), LOCAL_KNOWLEDGE_ROOT, EXTERNAL_KNOWLEDGE_ROOT].filter(
+    (candidate): candidate is string => Boolean(candidate?.trim()),
   );
+
+const resolveKnowledgeRoot = () => {
+  const candidates = getKnowledgeRootCandidates();
 
   const matched = candidates.find(hasKnowledgeBundle);
   if (!matched) {
