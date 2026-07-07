@@ -3,6 +3,7 @@ import {
   ANALYSIS_PROTOCOL_VERSION,
   type ContractClause,
   type ContractCostOutput,
+  type ProtocolError,
   type ProtocolWarning,
   type RepaymentScheduleItem,
   type SourceLocation,
@@ -73,6 +74,17 @@ export const createContractCostOutput = (task: AnalysisTask, result: AnalysisRes
   const warnings = toProtocolWarnings(result);
   const parseResult = result.bAgentOutput.contractParseResult;
   const costAnalysis = result.costAnalysis;
+  const noRecognizedText = !task.contractText.trim();
+  const errors: ProtocolError[] = noRecognizedText
+    ? [
+        {
+          code: "document_intake_failed",
+          message: "No usable contract text was recognized from the upload or pasted input.",
+          fieldPath: "documentIntake.extractedTextLength",
+          recoverable: true,
+        },
+      ]
+    : [];
 
   return {
     schemaVersion: ANALYSIS_PROTOCOL_VERSION,
@@ -81,7 +93,7 @@ export const createContractCostOutput = (task: AnalysisTask, result: AnalysisRes
     runId: `run_contract_cost_${task.taskId}`,
     agent: "contract_cost",
     agentVersion: "b-0.1.0",
-    status: warnings.length > 0 ? "partial" : "completed",
+    status: errors.length > 0 ? "failed" : warnings.length > 0 ? "partial" : "completed",
     generatedAt: toProtocolDateTime(),
     inputRunIds: [],
     data: {
@@ -104,6 +116,6 @@ export const createContractCostOutput = (task: AnalysisTask, result: AnalysisRes
       },
     },
     warnings,
-    errors: [],
+    errors,
   };
 };

@@ -82,19 +82,7 @@ export const createDemoTask = (input: CreateDemoTaskInput = {}): AnalysisTask =>
   return task;
 };
 
-export const getAnalysisTask = (taskId: string): AnalysisTask => {
-  const task = tasks.get(taskId) ?? {
-    taskId,
-    contractId: taskId === DEMO_TASK_ID ? "contract_001" : createContractId(),
-    startedAt: Date.now() - STEP_DURATION_MS * TOTAL_STEPS,
-    contractName: DEMO_CONTRACT_NAME,
-    contractText: DEMO_CONTRACT_TEXT,
-    documentIntake: createDemoIntake(taskId, DEMO_CONTRACT_NAME, DEMO_CONTRACT_TEXT),
-  };
-
-  tasks.set(taskId, task);
-  return task;
-};
+export const getAnalysisTask = (taskId: string): AnalysisTask | null => tasks.get(taskId) ?? null;
 
 export const toTaskCreatedResponse = (task: AnalysisTask): AnalysisTaskCreatedV1 => ({
   schemaVersion: ANALYSIS_PROTOCOL_VERSION,
@@ -126,6 +114,28 @@ const stageStatus = (
 
 export const getTaskStatus = (taskId: string): AnalysisTaskStatus => {
   const task = getAnalysisTask(taskId);
+  if (!task) {
+    throw new Error(`Analysis task not found: ${taskId}`);
+  }
+
+  if (!task.contractText.trim()) {
+    return {
+      schemaVersion: ANALYSIS_PROTOCOL_VERSION,
+      taskId,
+      contractId: task.contractId,
+      status: "failed",
+      currentStage: "failed",
+      currentStep: 0,
+      progress: 100,
+      contractName: task.contractName,
+      updatedAt: toProtocolDateTime(),
+      stages: [
+        { agent: "contract_cost", status: "failed" },
+        { agent: "risk_case", status: "pending" },
+        { agent: "recommendation_action", status: "pending" },
+      ],
+    };
+  }
 
   const elapsed = Math.max(0, Date.now() - task.startedAt);
   const currentStep = Math.min(TOTAL_STEPS, Math.floor(elapsed / STEP_DURATION_MS));

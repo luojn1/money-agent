@@ -2,6 +2,12 @@
   "schemaVersion": "1.0.0",
   "taskId": "task_20260702_001",
   "status": "completed",
+  "runtimeMode": "LOCAL_PREVIEW",
+  "localPreview": {
+    "enabled": true,
+    "simulatedAgents": ["risk_case", "recommendation_action"],
+    "note": "风险、建议和 C/D 运行状态由 B 模块本地预览生成；正式联调时由总控使用真实 C、D 输出覆盖。"
+  },
   "generatedAt": "2026-07-02T15:33:00+08:00",
   "contractName": "示例消费贷合同.pdf",
   "contractSummary": {
@@ -65,14 +71,14 @@
     {
       "agent": "risk_case",
       "runId": "run_c_001",
-      "agentVersion": "c-0.1.0",
-      "status": "completed"
+      "agentVersion": "local-preview-0.1.0",
+      "status": "partial"
     },
     {
       "agent": "recommendation_action",
       "runId": "run_d_001",
-      "agentVersion": "d-0.1.0",
-      "status": "completed"
+      "agentVersion": "local-preview-0.1.0",
+      "status": "partial"
     }
   ]
 }

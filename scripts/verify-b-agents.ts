@@ -1,5 +1,6 @@
 import { createAnalysisResult } from "../website/backend/src/services/analysisOrchestrator.js";
 import { DEMO_CONTRACT_NAME, DEMO_CONTRACT_TEXT, DEMO_TASK_ID } from "../website/backend/src/services/demoContract.js";
+import { runDocumentIntakeAgent } from "../website/backend/src/services/documentIntakeAgent.js";
 import { createContractCostOutput } from "../website/backend/src/services/protocolAdapter.js";
 import type { AnalysisTask } from "../website/backend/src/services/taskStore.js";
 
@@ -52,6 +53,22 @@ assert(contractCostOutput.agent === "contract_cost", "B output should use contra
 assert(contractCostOutput.contractId === "contract_001", "B output should carry contractId");
 assert(contractCostOutput.data?.clauses.every((clause) => clause.clauseId.startsWith("clause_")), "B output clauses should have stable clauseId");
 assert(contractCostOutput.data?.costAnalysis.calculationBasis.length, "B output should expose calculation basis");
+assert(contractCostOutput.data?.contractSummary, "B output should include contractSummary");
+assert(contractCostOutput.data?.clauses, "B output should include clauses");
+assert(contractCostOutput.data?.costAnalysis, "B output should include costAnalysis");
+assert(contractCostOutput.warnings, "B output should include warnings array");
+assert(contractCostOutput.errors, "B output should include errors array");
+
+assert(result.runtimeMode === "LOCAL_PREVIEW", "Result should expose LOCAL_PREVIEW mode");
+assert(result.localPreview.simulatedAgents.includes("risk_case"), "Result should mark C risk output as local preview");
+assert(result.localPreview.simulatedAgents.includes("recommendation_action"), "Result should mark D recommendation output as local preview");
+assert(result.sourceAgentRuns.some((run) => run.agent === "risk_case" && run.agentVersion.startsWith("local-preview")), "C run should be marked as local-preview");
+assert(result.sourceAgentRuns.some((run) => run.agent === "recommendation_action" && run.agentVersion.startsWith("local-preview")), "D run should be marked as local-preview");
+
+const emptyIntake = await runDocumentIntakeAgent({ taskId: "task_empty_input" });
+assert(emptyIntake.contractText === "", "Empty upload should not fall back to the demo contract");
+assert(emptyIntake.intakeResult.method !== "demo", "Only POST /api/analysis/demo may create demo intake");
+assert(emptyIntake.intakeResult.warnings.some((warning) => warning.includes("/api/analysis/demo")), "Empty upload should explain the demo-only path");
 
 console.log(JSON.stringify({
   status: "ok",
@@ -62,6 +79,7 @@ console.log(JSON.stringify({
   protocolVersion: contractCostOutput.schemaVersion,
   protocolAgent: contractCostOutput.agent,
   protocolClauseCount: contractCostOutput.data?.clauses.length,
+  runtimeMode: result.runtimeMode,
   knowledgeSourceFiles: costResult.knowledgeTraining.sourceFileCount,
   knowledgeCatalogRows: costResult.knowledgeTraining.sourceCatalogCount,
 }, null, 2));

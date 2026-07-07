@@ -9,6 +9,8 @@
 - 真实成本测算：基于现金流计算真实年化、总还款、利息、额外费用、费用归类和或有成本。
 - 知识库训练/调用：读取 `knowledge_base/contract_finance` 下完整合同与金融产品知识库，包含原始资料、字段词典、合同规则、产品规则和 LPR 记录。
 - 协议输出：`GET /api/analysis/:taskId/contract-cost-output` 与 `/b-output` 返回统一 `ContractCostOutput`。
+- 失败处理：`POST /api/analysis` 不会在识别失败时自动套用示例合同；识别不到文本时会保留任务、返回 warning/failed 状态，示例合同仅通过 `POST /api/analysis/demo` 使用。
+- 联调标记：前端报告中的风险、建议与 C/D 运行状态仍作为 B 单模块本地预览保留，并在结果中显式标记 `LOCAL_PREVIEW`，正式整合时由总控真实 C/D 输出覆盖。
 
 ## 运行
 
@@ -40,7 +42,7 @@ pnpm run build
 pnpm run lint
 ```
 
-`verify:b-agents` 会校验示例合同的借款金额、实际到账、月供、服务费归类、现金流、真实年化、知识库完整性，以及 `ContractCostOutput` 的 `schemaVersion/agent/contractId/clauseId/calculationBasis`。
+`verify:b-agents` 会校验示例合同的借款金额、实际到账、月供、服务费归类、现金流、真实年化、知识库完整性，以及 `ContractCostOutput` 的 `schemaVersion/agent/contractId/clauseId/calculationBasis`。同时校验空上传不会回退示例合同、`/demo` 是唯一示例入口、最终报告含 `LOCAL_PREVIEW` 标记。
 
 当前知识库完整性基线：145 份资料文件，133 条来源目录记录。
 

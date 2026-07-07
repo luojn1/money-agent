@@ -3,7 +3,7 @@ import multer from "multer";
 import { createAnalysisResult } from "../services/analysisOrchestrator.js";
 import { runDocumentIntakeAgent } from "../services/documentIntakeAgent.js";
 import { createContractCostOutput } from "../services/protocolAdapter.js";
-import { createAnalysisTask, createDemoTask, getAnalysisTask, getTaskStatus, toTaskCreatedResponse } from "../services/taskStore.js";
+import { createAnalysisTask, createDemoTask, getAnalysisTask, getTaskStatus, type AnalysisTask, toTaskCreatedResponse } from "../services/taskStore.js";
 
 export const analysisRouter = Router();
 const upload = multer({
@@ -22,8 +22,12 @@ type DemoAnalysisRequestBody = {
   contractText?: string;
 };
 
-const createResultForTask = (taskId: string) => {
-  const task = getAnalysisTask(taskId);
+const notFound = (response: Response, taskId: string) =>
+  response.status(404).json({
+    message: `Analysis task not found: ${taskId}. Create a task with POST /api/analysis or POST /api/analysis/demo first.`,
+  });
+
+const createResultForTask = (task: AnalysisTask) => {
   return createAnalysisResult({
     taskId: task.taskId,
     contractId: task.contractId,
@@ -73,21 +77,43 @@ analysisRouter.post("/", uploadFields, handleUploadAnalysis);
 analysisRouter.post("/upload", uploadFields, handleUploadAnalysis);
 
 analysisRouter.get("/:taskId/status", (request, response) => {
+  const task = getAnalysisTask(request.params.taskId);
+  if (!task) {
+    notFound(response, request.params.taskId);
+    return;
+  }
+
   response.json(getTaskStatus(request.params.taskId));
 });
 
 analysisRouter.get("/:taskId/result", (request, response) => {
-  response.json(createResultForTask(request.params.taskId));
+  const task = getAnalysisTask(request.params.taskId);
+  if (!task) {
+    notFound(response, request.params.taskId);
+    return;
+  }
+
+  response.json(createResultForTask(task));
 });
 
 analysisRouter.get("/:taskId/b-output", (request, response) => {
   const task = getAnalysisTask(request.params.taskId);
-  const result = createResultForTask(request.params.taskId);
+  if (!task) {
+    notFound(response, request.params.taskId);
+    return;
+  }
+
+  const result = createResultForTask(task);
   response.json(createContractCostOutput(task, result));
 });
 
 analysisRouter.get("/:taskId/contract-cost-output", (request, response) => {
   const task = getAnalysisTask(request.params.taskId);
-  const result = createResultForTask(request.params.taskId);
+  if (!task) {
+    notFound(response, request.params.taskId);
+    return;
+  }
+
+  const result = createResultForTask(task);
   response.json(createContractCostOutput(task, result));
 });
