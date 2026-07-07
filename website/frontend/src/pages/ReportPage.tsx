@@ -143,8 +143,8 @@ export function ReportPage() {
         <div className={`mode-banner report-mode-banner${report.mode === "mock" ? " mode-banner--mock" : " mode-banner--real"}`}>
           <Robot size={21} weight="duotone" />
           <div>
-            <strong>{report.mode === "mock" ? "Mock 演示模式" : "真实 Pipeline 模式（暂未接入）"}</strong>
-            <span>{report.mode === "mock" ? "本报告使用静态演示数据；未调用真实 C/D Agent。" : "真实 B/C/D Pipeline 尚未联调完成。"}</span>
+            <strong>{report.mode === "mock" ? "演示数据模式" : "真实多 Agent 分析"}</strong>
+            <span>{report.mode === "mock" ? "本报告使用静态演示数据；未调用真实 C/D Agent。" : `runtimeMode = ${report.runtimeMode ?? "INTEGRATED"}`}</span>
           </div>
         </div>
 

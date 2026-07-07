@@ -93,16 +93,16 @@ export function AnalysisPage() {
         <Link className="back-link" to="/"><ArrowLeft size={18} />返回上传页</Link>
         <section className="progress-panel" aria-labelledby="analysis-title">
           <p className="eyebrow">合同体检进行中</p>
-          <h1 id="analysis-title">B/C/D Pipeline 正在整理演示报告</h1>
+          <h1 id="analysis-title">B/C/D Pipeline 正在整理合同报告</h1>
           <p className="contract-file"><FileMagnifyingGlass size={19} weight="duotone" />{contractName}</p>
 
-          <div className={`pipeline-mode-card${status?.mode === "real_unconnected" ? " pipeline-mode-card--real" : ""}`}>
+          <div className={`pipeline-mode-card${status?.mode === "integrated" ? " pipeline-mode-card--real" : ""}`}>
             <Robot size={22} weight="duotone" />
             <div>
-              <strong>{status?.mode === "real_unconnected" ? "真实 Pipeline 模式（暂未接入）" : "Mock 演示模式"}</strong>
+              <strong>{status?.mode === "integrated" ? "真实多 Agent 分析" : "演示数据模式"}</strong>
               <span>
-                {status?.mode === "real_unconnected"
-                  ? "当前不会调用旧 Mock 伪装真实 C/D 结果。"
+                {status?.mode === "integrated"
+                  ? `runtimeMode = ${status.runtimeMode ?? "INTEGRATED"}`
                   : "正在使用静态 Mock 数据演示完整链路，未调用真实 C/D Agent。"}
               </span>
             </div>
@@ -160,7 +160,7 @@ export function AnalysisPage() {
               重新分析
             </Link>
           </div>
-          <p className="progress-note">Mock 进度约 3 至 6 秒完成；真实 Pipeline 接入前，本页只展示明确标记的演示状态。</p>
+          <p className="progress-note">演示数据模式约 3 至 6 秒完成；真实模式进度来自后端实际 B/C/D 执行状态。</p>
         </section>
       </main>
     </PageShell>

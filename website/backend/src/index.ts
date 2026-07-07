@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import { analysisRouter } from "./routes/analysis.js";
+import { pipelineRouter } from "./routes/pipeline.js";
 
 const app = express();
 const port = Number(process.env.PORT ?? 3001);
@@ -14,6 +15,7 @@ app.get("/api/health", (_request, response) => {
 });
 
 app.use("/api/analysis", analysisRouter);
+app.use("/api/pipeline", pipelineRouter);
 
 app.use((_request, response) => {
   response.status(404).json({ message: "接口不存在" });

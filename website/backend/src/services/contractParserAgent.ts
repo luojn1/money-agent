@@ -371,7 +371,7 @@ export const runContractParserAgent = (input: ParserInput): ContractParseResult 
   const fragments = toFragments(input.contractText);
   const aliases = knowledgeBase.dictionary.field_aliases;
 
-  const loanAmount = extractMoneyField(fragments, aliases.loanAmount ?? []);
+  const loanAmount = extractMoneyField(fragments, [...(aliases.loanAmount ?? []), "借款本金"]);
   const fees = extractFees(fragments, knowledgeBase);
   const actualReceivedAmount = deriveActualReceivedAmount(
     loanAmount,
@@ -392,7 +392,7 @@ export const runContractParserAgent = (input: ParserInput): ContractParseResult 
     taskId: input.taskId,
     contractName: input.contractName,
     contractType,
-    institution: extractTextField(fragments, aliases.institution ?? []),
+    institution: extractTextField(fragments, [...(aliases.institution ?? []), "签约机构"]),
     borrower: {
       ...borrower,
       value: maskPersonalName(borrower.value),
@@ -403,7 +403,7 @@ export const runContractParserAgent = (input: ParserInput): ContractParseResult 
     termMonths: extractNumberField(fragments, aliases.termMonths ?? []),
     installmentCount: extractInstallmentCount(fragments, aliases.installmentCount ?? []),
     repaymentMethod,
-    monthlyPayment: extractMoneyField(fragments, aliases.monthlyPayment ?? []),
+    monthlyPayment: extractMoneyField(fragments, [...(aliases.monthlyPayment ?? []), "每月应还"]),
     nominalRate: extractNominalRate(fragments, [...(aliases.nominalRate ?? []), "名义年化利率", "年化利率"]),
     fees,
     clauses,

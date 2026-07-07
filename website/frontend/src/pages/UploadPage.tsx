@@ -51,8 +51,8 @@ export function UploadPage() {
       setError("请先上传合同、粘贴合同文字，或选择示例合同。值得看的报告，需要先有一份合同。");
       return;
     }
-    if (!mockModeEnabled) {
-      setError("真实 Pipeline 模式暂未接入；本阶段不会调用旧 Mock 冒充真实 C/D。请设置 VITE_USE_MOCK_PIPELINE=true 查看完整演示流程。");
+    if (!mockModeEnabled && exampleSelected && !selectedFile && !contractText.trim()) {
+      setError("真实多 Agent 分析需要上传合同文件或粘贴合同文字；示例合同只在演示数据模式下使用。");
       return;
     }
 
@@ -89,11 +89,11 @@ export function UploadPage() {
           <div className={`mode-banner${mockModeEnabled ? " mode-banner--mock" : " mode-banner--real"}`}>
             <Robot size={21} weight="duotone" />
             <div>
-              <strong>{mockModeEnabled ? "Mock 演示模式" : "真实 Pipeline 模式（暂未接入）"}</strong>
+              <strong>{mockModeEnabled ? "演示数据模式" : "真实多 Agent 分析"}</strong>
               <span>
                 {mockModeEnabled
                   ? "将使用静态 B/C/D 数据演示完整流程，不调用真实 C、D Agent。"
-                  : "等待 B、C、D 分支确认后联调；当前不会用旧 Mock 伪装真实运行。"}
+                  : "将上传到 Express Pipeline，依次运行 B、C、D 并生成真实报告。"}
               </span>
             </div>
           </div>
@@ -136,7 +136,7 @@ export function UploadPage() {
                 <strong>{selectedFile ? selectedFile.name : "点击或拖拽合同到这里"}</strong>
                 <span>{selectedFile ? "将读取文本层；图片会尝试 OCR 识别" : "支持 PDF、DOCX、TXT、JPG、PNG、WEBP"}</span>
               </button>
-              <p className="support-note">支持 PDF、Word、图片和文本文件；Mock 演示会保留文件名，但不会上传或调用真实 C/D。</p>
+              <p className="support-note">支持 PDF、Word、图片和文本文件；演示数据模式不会上传文件，真实模式会发送到本地后端分析。</p>
 
               <div className="or-divider"><span>或</span></div>
 
@@ -194,7 +194,7 @@ export function UploadPage() {
             <button className="primary-button primary-button--wide" type="submit" disabled={submitting}>
               {submitting ? "正在创建分析任务…" : "开始分析"}
             </button>
-            <p className="privacy-note"><ShieldCheck size={18} weight="duotone" />Mock 模式仅在浏览器本地生成演示任务；真实 Pipeline 接入前不会发送到 C/D。</p>
+            <p className="privacy-note"><ShieldCheck size={18} weight="duotone" />演示数据模式仅在浏览器本地生成任务；真实模式会调用本地 B/C/D Pipeline。</p>
           </div>
 
           <aside className="upload-side-panel" aria-label="分析路径">

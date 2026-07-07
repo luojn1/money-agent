@@ -2,6 +2,7 @@ import type { CostLevel, OverallLevel, RiskLevel } from "../../../../shared/anal
 import type {
   AgentId,
   ContractCostOutput,
+  ProtocolError,
   MatchedCase,
   RecommendationActionOutput,
   RiskCaseOutput,
@@ -15,7 +16,7 @@ export type AgentStepStatus =
   | "partial"
   | "failed";
 
-export type PipelineMode = "mock" | "real_unconnected";
+export type PipelineMode = "mock" | "integrated" | "real_unconnected";
 
 export type PipelineStep = {
   agent: AgentId;
@@ -29,7 +30,8 @@ export type PipelineTaskCreated = {
   taskId: string;
   contractId: string;
   status: "processing";
-  mode: PipelineMode;
+  mode?: PipelineMode;
+  runtimeMode?: "INTEGRATED";
   createdAt: string;
 };
 
@@ -39,12 +41,15 @@ export type PipelineStatus = {
   contractId: string;
   status: AgentStepStatus;
   mode: PipelineMode;
+  runtimeMode?: "INTEGRATED";
   contractName: string;
   currentStage: AgentId | "queued" | "completed" | "failed";
+  currentAgent?: AgentId | "queued" | "completed" | "failed";
   currentMessage: string;
   steps: PipelineStep[];
   updatedAt: string;
   error?: string;
+  errors?: ProtocolError[];
 };
 
 export type DisplayAmount = number | null;
@@ -143,15 +148,18 @@ export type PipelineReport = {
   contractId: string;
   status: AgentStepStatus;
   mode: PipelineMode;
+  runtimeMode?: "LOCAL_PREVIEW" | "INTEGRATED";
   generatedAt: string;
   steps: PipelineStep[];
   contractCost: ContractCostOutput | unknown;
   riskCase: RiskCaseOutput | unknown;
   recommendationAction: RecommendationActionOutput | unknown;
+  actionPlan?: unknown;
   overview: ContractOverview;
   costAnalysis: CostAnalysisView;
   risks: PipelineRiskItem[];
   references: ReferenceGroup[];
   actions: RecommendationActionView;
   warnings: string[];
+  errors?: ProtocolError[];
 };
