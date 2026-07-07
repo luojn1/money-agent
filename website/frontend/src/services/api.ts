@@ -1,38 +1,81 @@
-import type { AnalysisResult, AnalysisTaskStatus } from "../types/analysis";
+import { createMockPipelineReport } from "../mocks/pipelineReport";
+import {
+  createMockPipelineStatus,
+  createMockPipelineTask,
+} from "../mocks/pipelineStatus";
+import type { PipelineStatus, PipelineTaskCreated } from "../types/pipeline";
+import { pipelineApi, requestJson } from "./pipelineApi";
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/$/, "") ?? "";
+const USE_MOCK_PIPELINE = (import.meta.env.VITE_USE_MOCK_PIPELINE as string | undefined)?.toLowerCase() === "true";
 
-type DemoTaskResponse = {
+type MockTaskState = {
   taskId: string;
-  status: "processing";
+  contractName: string;
+  startedAt: number;
 };
 
-type ApiErrorBody = {
-  message?: string;
+type CreateDemoAnalysisPayload = {
+  contractName?: string;
+  contractText?: string;
 };
 
-const request = async <T>(path: string, init?: RequestInit): Promise<T> => {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...init,
-    headers: {
-      "Content-Type": "application/json",
-      ...init?.headers,
-    },
-  });
+const mockTaskStore = new Map<string, MockTaskState>();
 
-  if (!response.ok) {
-    const body = (await response.json().catch(() => ({}))) as ApiErrorBody;
-    throw new Error(body.message ?? `请求失败（${response.status}）`);
+const storeMockTask = (state: MockTaskState) => {
+  mockTaskStore.set(state.taskId, state);
+  window.sessionStorage.setItem(`pipeline:${state.taskId}`, JSON.stringify(state));
+};
+
+const readMockTask = (taskId: string): MockTaskState => {
+  const cached = mockTaskStore.get(taskId);
+  if (cached) return cached;
+
+  const raw = window.sessionStorage.getItem(`pipeline:${taskId}`);
+  if (raw) {
+    const parsed = JSON.parse(raw) as MockTaskState;
+    mockTaskStore.set(taskId, parsed);
+    return parsed;
   }
 
-  return response.json() as Promise<T>;
+  const fallback = {
+    taskId,
+    contractName: "课程项目测试合同.txt",
+    startedAt: Date.now(),
+  };
+  storeMockTask(fallback);
+  return fallback;
+};
+
+const createMockAnalysis = (contractName: string): PipelineTaskCreated => {
+  const task = createMockPipelineTask();
+  storeMockTask({
+    taskId: task.taskId,
+    contractName,
+    startedAt: Date.now(),
+  });
+  return task;
 };
 
 export const api = {
-  health: () => request<{ status: "ok" }>("/api/health"),
-  createDemoAnalysis: () => request<DemoTaskResponse>("/api/analysis/demo", { method: "POST" }),
-  getAnalysisStatus: (taskId: string) =>
-    request<AnalysisTaskStatus>(`/api/analysis/${encodeURIComponent(taskId)}/status`),
+  health: () => requestJson<{ status: "ok" }>("/api/health"),
+  isMockPipelineEnabled: () => USE_MOCK_PIPELINE,
+  createDemoAnalysis: (payload?: CreateDemoAnalysisPayload) => {
+    if (!USE_MOCK_PIPELINE) return Promise.reject(new Error("真实模式请上传合同文件或粘贴合同文字；示例合同仅用于演示数据模式。"));
+    return Promise.resolve(createMockAnalysis(payload?.contractName ?? "课程项目测试合同.txt"));
+  },
+  createUploadAnalysis: (payload: { contractFile?: File; contractText?: string }) => {
+    if (!USE_MOCK_PIPELINE) return pipelineApi.createAnalysis(payload);
+
+    const contractName = payload.contractFile?.name ?? (payload.contractText ? "粘贴的合同文字" : "课程项目测试合同.txt");
+    return Promise.resolve(createMockAnalysis(contractName));
+  },
+  getAnalysisStatus: (taskId: string): Promise<PipelineStatus> => {
+    if (!USE_MOCK_PIPELINE) return pipelineApi.getStatus(taskId);
+    const task = readMockTask(taskId);
+    return Promise.resolve(createMockPipelineStatus(taskId, task.startedAt, task.contractName));
+  },
   getAnalysisResult: (taskId: string) =>
-    request<AnalysisResult>(`/api/analysis/${encodeURIComponent(taskId)}/result`),
+    USE_MOCK_PIPELINE
+      ? Promise.resolve(createMockPipelineReport(taskId))
+      : pipelineApi.getResult(taskId),
 };

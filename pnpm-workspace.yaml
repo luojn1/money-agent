@@ -1,0 +1,6 @@
+packages:
+  - "website/frontend"
+  - "website/backend"
+allowBuilds:
+  esbuild: true
+  tesseract.js: true

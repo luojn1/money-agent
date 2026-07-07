@@ -207,6 +207,8 @@ Content-Type: application/json
 - `completedWithWarnings`：任一来源 Agent 为 `partial` 或存在警告时为 `true`。
 - `warnings`：仅放可安全展示或记录的结构化警告，不放模型思维过程。
 - `sourceAgentRuns`：B/C/D 的版本、运行 ID 和状态。
+- `runtimeMode`：当前交付为 `LOCAL_PREVIEW`，表示风险、建议和 C/D 运行状态由 B 模块本地预览生成。
+- `localPreview`：列明被本地模拟的 Agent；正式整合时由总控真实 C/D 输出覆盖。
 
 最终示例见 [`../data_samples/protocol/final-analysis-result.json`](../data_samples/protocol/final-analysis-result.json)。
 

@@ -1,0 +1,25 @@
+﻿product_id,product_name,product_type,institution,typical_rate_range,common_fees,prepayment_policy,overdue_policy,version,effective_date,expiry_date,is_active,source,source_url,imported_at,review_status
+PROD001,建行快贷,bank_consumer_loan,中国建设银行,3.5%-12%,"[""利息"", ""可能有提前结清规则""]",支持提前还款，具体以页面为准,逾期可能产生罚息并影响征信,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD002,招行闪电贷,bank_consumer_loan,招商银行,3.2%-15%,"[""利息""]",通常支持提前还款,逾期罚息和征信报送,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD003,工行融e借,bank_consumer_loan,中国工商银行,3.7%-14%,"[""利息""]",按合同约定提前还款,逾期影响征信,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD004,中银E贷,bank_consumer_loan,中国银行,3.5%-15%,"[""利息""]",支持提前还款,逾期罚息,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD005,农行网捷贷,bank_consumer_loan,中国农业银行,3.5%-14%,"[""利息""]",支持提前还款,逾期罚息和征信,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD006,邮享贷,bank_consumer_loan,邮储银行,4%-16%,"[""利息""]",以合同为准,逾期罚息,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD007,中银消费金融新易贷,consumer_finance,中银消费金融,7%-24%,"[""利息"", ""可能有服务费""]",以合同和产品页面为准,逾期罚息并可能催收,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD008,马上消费金融安逸花,consumer_finance,马上消费金融,7.2%-24%,"[""利息"", ""服务费""]",以页面为准,逾期罚息及征信影响,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD009,招联好期贷,consumer_finance,招联消费金融,7.3%-24%,"[""利息""]",可申请提前还款,逾期影响征信,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD010,兴业消费金融家庭消费贷,consumer_finance,兴业消费金融,8%-24%,"[""利息""]",以合同为准,逾期罚息,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD011,捷信消费贷,consumer_finance,捷信消费金融,10%-24%,"[""利息"", ""服务费""]",提前还款政策需核实,逾期催收和罚息,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD012,蚂蚁借呗,internet_platform_loan,蚂蚁集团合作金融机构,5%-24%,"[""利息""]",支持提前还款,逾期影响芝麻信用/征信,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD013,花呗分期,platform_installment,蚂蚁集团,折算年化随期数变化,"[""分期手续费""]",提前结清政策以页面为准,逾期费用和信用影响,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD014,京东白条,platform_installment,京东科技,折算年化随期数变化,"[""分期服务费""]",支持提前结清，费用规则需核实,逾期违约金和信用影响,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD015,美团月付,platform_installment,美团,折算年化随期数变化,"[""分期手续费""]",以页面为准,逾期费用,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD016,度小满有钱花,internet_platform_loan,度小满合作金融机构,7.2%-24%,"[""利息""]",支持提前还款,逾期罚息和征信,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD017,360借条,internet_platform_loan,奇富科技合作金融机构,7.2%-24%,"[""利息""]",以合同为准,逾期罚息和催收,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD018,微粒贷,internet_bank_loan,微众银行,7%-18%,"[""利息""]",支持提前还款,逾期影响征信,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD019,平安银行信用卡分期,credit_card_installment,平安银行,折算年化约7%-18%,"[""分期手续费""]",提前结清手续费政策需核实,逾期利息和违约金,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD020,招商银行信用卡分期,credit_card_installment,招商银行,折算年化约7%-18%,"[""分期手续费""]",提前结清规则以账单为准,逾期利息,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD021,工商银行信用卡分期,credit_card_installment,中国工商银行,折算年化约6%-16%,"[""分期手续费""]",以信用卡协议为准,逾期利息,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD022,建设银行信用卡分期,credit_card_installment,中国建设银行,折算年化约6%-17%,"[""分期手续费""]",以信用卡协议为准,逾期利息,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD023,汽车消费贷款,auto_loan,商业银行/汽车金融公司,4%-15%,"[""利息"", ""GPS费"", ""评估费""]",提前还款可能有违约金,逾期可能处置抵押车辆,1,2026-07-04,,1,seed,,2026-07-04,approved
+PROD024,医美消费分期,merchant_installment,消费金融公司/平台,8%-24%,"[""服务费"", ""咨询费"", ""分期手续费""]",退费和提前还款需核实,服务失败仍可能被扣款,1,2026-07-04,,1,seed,,2026-07-04,approved

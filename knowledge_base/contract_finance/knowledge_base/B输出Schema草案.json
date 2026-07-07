@@ -1,0 +1,145 @@
+{
+  "ContractParseResult": {
+    "taskId": "string",
+    "contractName": "string",
+    "contractType": "consumer_loan|cash_installment|bill_installment|merchant_installment|unknown",
+    "institution": {
+      "value": "string|null",
+      "evidenceText": "string",
+      "location": "string|null",
+      "confidence": 0
+    },
+    "borrower": {
+      "value": "string|null",
+      "masked": true,
+      "evidenceText": "string",
+      "location": "string|null",
+      "confidence": 0
+    },
+    "loanAmount": {
+      "value": "number|null",
+      "unit": "CNY",
+      "evidenceText": "string",
+      "location": "string|null",
+      "confidence": 0
+    },
+    "actualReceivedAmount": {
+      "value": "number|null",
+      "unit": "CNY",
+      "evidenceText": "string",
+      "location": "string|null",
+      "confidence": 0
+    },
+    "termMonths": {
+      "value": "number|null",
+      "evidenceText": "string",
+      "location": "string|null",
+      "confidence": 0
+    },
+    "installmentCount": {
+      "value": "number|null",
+      "evidenceText": "string",
+      "location": "string|null",
+      "confidence": 0
+    },
+    "repaymentMethod": {
+      "value": "equal_installment|equal_principal|interest_first_principal_later|bullet|equal_principal_fee|revolving_daily_interest|unknown",
+      "evidenceText": "string",
+      "location": "string|null",
+      "confidence": 0
+    },
+    "monthlyPayment": {
+      "value": "number|null",
+      "unit": "CNY",
+      "evidenceText": "string",
+      "location": "string|null",
+      "confidence": 0
+    },
+    "nominalRate": {
+      "value": "number|null",
+      "unit": "annual|month|day|period|unknown",
+      "method": "simple|compound|unknown",
+      "evidenceText": "string",
+      "location": "string|null",
+      "confidence": 0
+    },
+    "fees": [
+      {
+        "name": "string",
+        "type": "service_fee|management_fee|consulting_fee|guarantee_fee|insurance_fee|installment_fee|prepayment_fee|overdue_penalty|other",
+        "amount": "number|null",
+        "rate": "number|null",
+        "rateUnit": "annual|month|day|period|once|unknown",
+        "chargeTiming": "upfront_deducted|upfront_paid|per_period|on_prepayment|on_overdue|unknown",
+        "includedInNormalCost": true,
+        "chargedBy": "string|null",
+        "evidenceText": "string",
+        "location": "string|null",
+        "confidence": 0
+      }
+    ],
+    "clauses": [
+      {
+        "type": "fee|repayment|prepayment|overdue|autoDebit|purpose|rateAdjustment|guarantee|other",
+        "text": "string",
+        "location": "string|null",
+        "confidence": 0
+      }
+    ],
+    "missingFields": [
+      "string"
+    ],
+    "assumptions": [
+      "string"
+    ],
+    "needsManualReview": false
+  },
+  "CostCalculationResult": {
+    "taskId": "string",
+    "actualReceivedAmount": "number|null",
+    "totalRepayment": "number|null",
+    "totalInterest": "number|null",
+    "totalFees": "number|null",
+    "extraCost": "number|null",
+    "irrMonthly": "number|null",
+    "realAnnualRateSimple": "number|null",
+    "realAnnualRateCompound": "number|null",
+    "displayAnnualRateMethod": "simple|compound",
+    "cashFlows": [
+      {
+        "period": 0,
+        "date": "string|null",
+        "amount": 0,
+        "description": "string"
+      }
+    ],
+    "includedFees": [
+      {
+        "name": "string",
+        "amount": "number|null",
+        "reason": "string"
+      }
+    ],
+    "excludedContingentCosts": [
+      {
+        "name": "string",
+        "amountOrFormula": "string",
+        "reason": "string"
+      }
+    ],
+    "costFlags": {
+      "aboveLpr4x": false,
+      "above20Percent": false,
+      "above24Percent": false
+    },
+    "calculationBasis": [
+      "string"
+    ],
+    "missingFields": [
+      "string"
+    ],
+    "warnings": [
+      "string"
+    ]
+  }
+}

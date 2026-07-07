@@ -1,32 +1,50 @@
+import { ArrowCounterClockwise } from "@phosphor-icons/react/ArrowCounterClockwise";
 import { ArrowLeft } from "@phosphor-icons/react/ArrowLeft";
 import { Calculator } from "@phosphor-icons/react/Calculator";
 import { Check } from "@phosphor-icons/react/Check";
+import { ClipboardText } from "@phosphor-icons/react/ClipboardText";
+import { Clock } from "@phosphor-icons/react/Clock";
 import { FileMagnifyingGlass } from "@phosphor-icons/react/FileMagnifyingGlass";
-import { Receipt } from "@phosphor-icons/react/Receipt";
+import { Robot } from "@phosphor-icons/react/Robot";
+import { SealWarning } from "@phosphor-icons/react/SealWarning";
 import { ShieldWarning } from "@phosphor-icons/react/ShieldWarning";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { PageShell } from "../components/PageShell";
 import { api } from "../services/api";
+import type { AgentStepStatus, PipelineStatus, PipelineStep } from "../types/pipeline";
 
-const steps = [
-  { label: "正在读取合同", detail: "识别合同结构和关键段落", icon: FileMagnifyingGlass },
-  { label: "正在提取金额和费用", detail: "整理借款、到账、还款与服务费", icon: Receipt },
-  { label: "正在计算真实成本", detail: "换算总成本和真实年化利率", icon: Calculator },
-  { label: "正在检查风险条款", detail: "查找提前还款、逾期和授权范围", icon: ShieldWarning },
-];
+const statusText: Record<AgentStepStatus, string> = {
+  pending: "等待中",
+  processing: "处理中",
+  completed: "已完成",
+  partial: "部分完成",
+  failed: "失败",
+};
+
+const stepIcons = {
+  contract_cost: Calculator,
+  risk_case: ShieldWarning,
+  recommendation_action: ClipboardText,
+};
 
 type LocationState = { contractName?: string } | null;
 
+const progressWidth = (steps: PipelineStep[]) => {
+  const completed = steps.filter((step) => step.status === "completed" || step.status === "partial").length;
+  const processing = steps.some((step) => step.status === "processing") ? 0.55 : 0;
+  const ratio = Math.min(1, (completed + processing) / steps.length);
+  return `${Math.max(14, ratio * 100)}%`;
+};
+
 export function AnalysisPage() {
-  const { taskId = "demo_001" } = useParams();
+  const { taskId = "mock_bcd_demo" } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as LocationState;
   const storedName = sessionStorage.getItem(`analysis:${taskId}:contractName`);
-  const contractName = state?.contractName ?? storedName ?? "示例消费贷合同.pdf";
-  const [currentStep, setCurrentStep] = useState(0);
-  const [progress, setProgress] = useState(8);
+  const fallbackContractName = state?.contractName ?? storedName ?? "课程项目测试合同.txt";
+  const [status, setStatus] = useState<PipelineStatus | null>(null);
   const [error, setError] = useState("");
   const [retryKey, setRetryKey] = useState(0);
 
@@ -36,21 +54,19 @@ export function AnalysisPage() {
 
     const poll = async () => {
       try {
-        const status = await api.getAnalysisStatus(taskId);
+        const nextStatus = await api.getAnalysisStatus(taskId);
         if (disposed) return;
-        setCurrentStep(status.currentStep);
-        setProgress(status.progress);
-        setError("");
+        setStatus(nextStatus);
+        setError(nextStatus.error ?? "");
 
-        if (status.status === "completed") {
-          await api.getAnalysisResult(taskId);
-          if (disposed) return;
-          setProgress(100);
-          timer = setTimeout(() => navigate(`/report/${taskId}`, { replace: true }), 450);
+        if (nextStatus.status === "completed") {
+          timer = setTimeout(() => navigate(`/report/${taskId}`, { replace: true }), 520);
           return;
         }
 
-        timer = setTimeout(poll, 780);
+        if (nextStatus.status !== "failed") {
+          timer = setTimeout(poll, 520);
+        }
       } catch (requestError) {
         if (!disposed) {
           setError(requestError instanceof Error ? requestError.message : "分析进度暂时无法加载。");
@@ -65,50 +81,86 @@ export function AnalysisPage() {
     };
   }, [navigate, retryKey, taskId]);
 
+  const contractName = status?.contractName ?? fallbackContractName;
+  const activeStep = useMemo(
+    () => status?.steps.find((step) => step.status === "processing"),
+    [status?.steps],
+  );
+
   return (
     <PageShell compactHeader>
       <main className="analysis-page">
         <Link className="back-link" to="/"><ArrowLeft size={18} />返回上传页</Link>
         <section className="progress-panel" aria-labelledby="analysis-title">
           <p className="eyebrow">合同体检进行中</p>
-          <h1 id="analysis-title">正在把复杂条款，变成你看得懂的结果</h1>
+          <h1 id="analysis-title">B/C/D Pipeline 正在整理合同报告</h1>
           <p className="contract-file"><FileMagnifyingGlass size={19} weight="duotone" />{contractName}</p>
 
-          <div className="progress-summary">
-            <span>分析进度</span>
-            <strong>{Math.round(progress)}%</strong>
+          <div className={`pipeline-mode-card${status?.mode === "integrated" ? " pipeline-mode-card--real" : ""}`}>
+            <Robot size={22} weight="duotone" />
+            <div>
+              <strong>{status?.mode === "integrated" ? "真实多 Agent 分析" : "演示数据模式"}</strong>
+              <span>
+                {status?.mode === "integrated"
+                  ? `runtimeMode = ${status.runtimeMode ?? "INTEGRATED"}`
+                  : "正在使用静态 Mock 数据演示完整链路，未调用真实 C/D Agent。"}
+              </span>
+            </div>
           </div>
-          <div className="progress-track" aria-label={`分析进度 ${Math.round(progress)}%`}>
-            <span style={{ width: `${progress}%` }} />
+
+          <div className="progress-summary">
+            <span>{activeStep ? `当前执行：${activeStep.label}` : status?.currentMessage ?? "准备开始分析"}</span>
+            <strong>{status?.currentStage === "completed" ? "报告生成完成" : status?.currentMessage ?? "合同读取中"}</strong>
+          </div>
+          <div className="progress-track" aria-label="分析阶段进度">
+            <span style={{ width: status ? progressWidth(status.steps) : "14%" }} />
           </div>
 
           <ol className="analysis-steps">
-            {steps.map((step, index) => {
-              const complete = index < currentStep;
-              const active = index === currentStep && currentStep < steps.length;
-              const IconComponent = step.icon;
+            {(status?.steps ?? []).map((step) => {
+              const IconComponent = step.status === "completed" ? Check : step.status === "failed" ? SealWarning : stepIcons[step.agent];
               return (
-                <li key={step.label} className={`${complete ? "is-complete" : ""}${active ? " is-active" : ""}`}>
+                <li key={step.agent} className={`is-${step.status}`}>
                   <span className="step-icon" aria-hidden="true">
-                    {complete ? <Check size={20} weight="bold" /> : <IconComponent size={22} weight="duotone" />}
+                    <IconComponent size={22} weight={step.status === "completed" ? "bold" : "duotone"} />
                   </span>
                   <span>
                     <strong>{step.label}</strong>
-                    <small>{complete ? "已完成" : step.detail}</small>
+                    <small>{step.message ?? statusText[step.status]}</small>
                   </span>
-                  {active && <span className="step-pulse" aria-label="处理中" />}
+                  <span className={`agent-status agent-status--step agent-status--${step.status}`}>{statusText[step.status]}</span>
+                  {step.status === "processing" && <span className="step-pulse" aria-label="处理中" />}
                 </li>
               );
             })}
           </ol>
 
+          {!status && !error && (
+            <div className="loading-inline">
+              <Clock size={18} weight="duotone" />
+              <span>正在读取任务状态…</span>
+            </div>
+          )}
+
           {error && (
             <div className="inline-error" role="alert">
               <span>{error}</span>
-              <button type="button" onClick={() => setRetryKey((value) => value + 1)}>重新加载</button>
+              <button type="button" onClick={() => {
+                setError("");
+                setRetryKey((value) => value + 1);
+              }}>
+                重新加载
+              </button>
             </div>
           )}
-          <p className="progress-note">本轮使用固定示例数据，预计几秒后完成。</p>
+
+          <div className="analysis-actions">
+            <Link className="secondary-button" to="/">
+              <ArrowCounterClockwise size={18} />
+              重新分析
+            </Link>
+          </div>
+          <p className="progress-note">演示数据模式约 3 至 6 秒完成；真实模式进度来自后端实际 B/C/D 执行状态。</p>
         </section>
       </main>
     </PageShell>

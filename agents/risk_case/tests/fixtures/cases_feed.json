@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "id": "CASE_EXT_001",
+      "title": "外部接口导入的消费贷服务费争议",
+      "category": "消费贷",
+      "riskType": "cost_transparency",
+      "content": "用户投诉消费贷放款时先扣服务费，实际到账金额少于合同本金。",
+      "focus": "服务费是否充分披露并计入综合融资成本。",
+      "loss": "用户实际到账减少，真实年化成本上升。",
+      "result": "待平台补充披露并退还部分费用。",
+      "url": "https://example.com/external-case/001"
+    }
+  ]
+}

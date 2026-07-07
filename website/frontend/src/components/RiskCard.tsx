@@ -2,9 +2,10 @@ import { CaretDown } from "@phosphor-icons/react/CaretDown";
 import { CaretUp } from "@phosphor-icons/react/CaretUp";
 import { WarningCircle } from "@phosphor-icons/react/WarningCircle";
 import { useState } from "react";
-import type { AnalysisResult, RiskLevel } from "../types/analysis";
+import type { RiskLevel } from "../types/analysis";
+import type { PipelineRiskItem } from "../types/pipeline";
 
-type RiskItem = AnalysisResult["riskItems"][number];
+type RiskItem = PipelineRiskItem;
 
 const riskLabels: Record<RiskLevel, string> = {
   high: "高风险",
@@ -34,7 +35,7 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
           <WarningCircle size={24} weight="fill" aria-hidden="true" />
           <span>
             <strong>{item.title}</strong>
-            <small>{item.clauseLocation ?? "合同条款"}</small>
+            <small>{item.categoryLabel} · {item.clauseLocation ?? "合同条款"}</small>
           </span>
         </span>
         <span className="risk-card__trailing">
@@ -50,7 +51,16 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
           </div>
           <dl className="risk-explanation-grid">
             <div>
-              <dt>通俗解释</dt>
+              <dt>风险类别</dt>
+              <dd>
+                {item.categoryLabel}
+                {item.confidence !== null && item.confidence !== undefined ? ` · 置信度 ${Math.round(item.confidence * 100)}%` : ""}
+                <br />
+                条款 ID：{item.relatedClauseIds.join("、")}
+              </dd>
+            </div>
+            <div>
+              <dt>判断原因</dt>
               <dd>{item.reason}</dd>
             </div>
             <div>

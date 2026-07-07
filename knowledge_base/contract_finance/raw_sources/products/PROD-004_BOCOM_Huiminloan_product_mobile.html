@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title></title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no,target-densitydpi=device-dpi">
+<meta name="MobileOptimized" content="640"/>
+<meta name="Iphone-content" content="640"/>
+<meta name="format-detection" content="telephone=no" />
+<!--<meta name="viewport" content="width=640, initial-scale=1" >-->
+<!--<meta content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.0,user-scalable=no" name="viewport"/>-->
+<link rel="stylesheet" href="/wap/shtml/wap/cn/css/index.css">
+<script type="text/javascript" src="/wap/shtml/wap/cn/js/jquery.js"></script>
+<script type="text/javascript" src="/wap/shtml/wap/cn/js/main.js"></script>
+<link href="/wap/shtml/wap/cn/css/swiper-3.4.1.min.css" rel="stylesheet">
+<script type="text/javascript" src="/wap/shtml/wap/cn/js/swiper-3.4.1.jquery.min.js"></script>
+</head>
+<style>
+	#ljblid,#zxzx,#ljbl{
+		background-color:#014eab !important;
+		color:#ffffff;
+	}
+	.waps-t-p p{
+		text-indent:2em;
+	}
+	.bom-link{
+		display:none;
+		position: fixed !important;
+	}
+</style>
+<script>
+	var cTitle="";
+	var fastStr="";
+	var channelName=["整存整取","零存整取","存本取息","定活两便","通知存款","双利理财",
+										"教育储蓄","个人大额存单","薪金理财A款","惠享存","交行优选",
+										"净值排行","交银基金","第三方存管和融资融券","银期转账","沃德投资金— —金条",
+										"沃德投资银","沃德收藏金","玖玖黄金交易","黄金定投","记账式原油",
+										"个人售汇","个人结汇","外汇宝","e贷通","得利宝个人理财产品质押贷款",
+										"个人储蓄国债质押贷款","个人存单（国债）质押贷款","个人外汇宝项下外汇存款质押贷款","卡片挂失"];									
+</script>
+<body>
+	<div id="openapp" style="width: 640px;height: 100px;background: url(/wap/shtml/wap/cn/img/bgroud.png);position: fixed;z-index: 9999;display: none;">
+		<div onclick="closedown();" style="width:50px;height:100px;float:left;background: url(/wap/shtml/wap/cn/img/closed.png) center center no-repeat;"></div>
+		<div onclick="checkapp();" style="width:185px;height:100px;float:right;"><img style="margin-left: 30px;margin-top: 28px;" src="/wap/shtml/wap/cn/img/ljdk.png" aria-label="立即打开" /></div>
+	</div>
+		<div class="con_main" style="position:relative">
+			<div id="ljblid" class="bom-link" style="z-index: 31;bottom: 0;display: none;">
+				<a id="ljbl" href="#">立即办理</a>
+			</div>
+			<div id="helpdiv" style="width: 100%;height: 100px;z-index: -1;display: none;"></div>
+				<div class="main-top inner">
+						<!--页头模板-->
+						<script defer async type="text/javascript" src="/wza/dist/aria.js?appid=9b72c312571f790f03391ba364ff4dbf" aria-autofixedbtn="true" callback="callback" callbackexit="callbackexit" callbackfixed="callbackfixed" charset="utf-8"></script>
+<script type="text/javascript">
+		resize();
+</script>
+<script type="text/javascript">
+ //截取字符串的方法
+ function cutString(string, strLength) {
+	  var currentLength = 0;
+	  for (var i=0; i<=string.length; i++ ) {
+	   if (currentLength>strLength) {
+		return string.substring(0,i-1)+"...";
+	   }
+	   var ch = string.charCodeAt(i);
+	   if (ch > 256) {
+		currentLength++;
+	   }
+	   currentLength++;
+	  }
+	  return string;
+ }
+</script>
+
+
+<div class="two-top">
+        <div class="menu" id="top-menu"></div>
+		<div class="two-title"><script>document.write(cutString('个人消费贷款','12'));</script></div>
+		<div class="go-home">
+		    <a href="/wap/shtml/wap/cn/15539/list.shtml?channelId=15539"></a>
+		</div>
+</div>
+<!--二级页面登录下拉 -->
+<div class="top-login-list" style="padding-top:0px">
+		   		<ul>
+		   			<li class="lanse" id="mobleAppS">手机银行登录</li>
+		   			<li><a href="/wap/getDispatcherUrl.html?reqTypeValue=40" target="_blank">信用卡买单吧登录</a></li>
+		   		</ul>
+</div>
+
+<div class="side-menu">
+	 		<div class="side-menu-top">
+	 			<a href="#" class="arrow-left" id="closeSideMenu"><i></i></a>
+	 			<a href="/wap/shtml/wap/cn/15539/list.shtml?channelId=15539"  target="_blank">
+				 <img src="/wap/shtml/wap/cn/img/top_inner.jpg" aria-label="交通银行"></a>
+	 			<a href="#" class="menu-user" id="top-user"></a>
+	 		</div>
+	 		<div class="side-menu-overflow">
+		 		<div class="side-menu-list">
+					<dl  class="atv">
+					  <!--当前频道父频道-->
+					   <h1>
+								<a href="http://m.bankcomm.com/wap/shtml/wap/cn/15421/15429/15510/15522/list.shtml?channelId=15421" target="_blank">
+						 <script>document.write(cutString('个人消费贷款','12'));</script></a>
+					   	<span><i></i></span>
+					   </h1>
+					    <ul>
+						     <!--二级菜单（当前频道的同级频道名）-->
+							    <li>
+									<a id="leftP15522" 										href="/wap/shtml/wap/cn/15421/15429/15510/15522/list.shtml?channelId=2600145"
+									target="_blank">
+										 <script>document.write(cutString('惠民贷','24'));</script>
+										</a><i></i>
+                                    <!--三级菜单 -->	
+								</li>
+ 
+							    <li>
+									<a id="leftP15520" 										href="/wap/shtml/wap/cn/15421/15429/15510/15520/list.shtml?channelId=2600145"
+									target="_blank">
+										 <script>document.write(cutString('个人汽车消费贷款','24'));</script>
+										</a><i></i>
+                                    <!--三级菜单 -->	
+								</li>
+ 
+							    <li>
+									<a id="leftP15519" 										href="/wap/shtml/wap/cn/15421/15429/15510/15519/list.shtml?channelId=2600145"
+									target="_blank">
+										 <script>document.write(cutString('个人住房装修贷款','24'));</script>
+										</a><i></i>
+                                    <!--三级菜单 -->	
+								</li>
+ 
+					    </ul>  
+					</dl>	 
+		 	    </div>
+	 		</div>      
+</div>
+<script>
+		$(function(){
+			var _href = location.href;
+			var _substrlenth=_href.lastIndexOf("/");
+			var _substr=_href.substr(0,_substrlenth);
+			var _start= _substr.lastIndexOf("/")+1, _offset =_substrlenth - _start;
+			var infoId= _href.substr(_start, _offset);
+			
+			var menuTag = $("#leftP" + infoId);
+			var menuText = $("#leftP" + infoId).text();
+			if(menuText != "" && menuText != null){
+				var menuName = menuText.split(";");
+				$(".two-title").html(menuName[1]);
+			}
+		});
+		
+	<!-- addby tsh 20170925-->
+   $("#mobleAppS").click(function(){
+    //打开手机银行app
+     var appLink = "/wap/getDispatcherUrl.html?reqTypeValue=61";
+	 window.location = appLink;
+	 window.setTimeout(function(){
+		window.location = "/wap/getDispatcherUrl.html?reqTypeValue=87";//下载app页面
+	 },4000);
+   });
+</script>
+
+				</div>
+				<div class="waps-block main">
+				<div class="page-mian-block"> 
+					
+						<!--信息条目-->
+								<!--信息正文-->
+								
+								<!--立即办理-->
+										<script>
+											fastStr="http://m.bankcomm.com/wap/getDispatcherUrl.do?reqTypeValue=32";
+											$("#ljblid").show();
+											$(".con_main").css("margin-bottom","100px");
+										</script>
+									<div class="waps-t-title" style="text-align: center;line-height: 200%;">
+											业务简介
+											<div class="waps-t-line" style="width: 100%;"></div>
+									</div>
+									<div class="waps-t-p">
+											<p><p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">惠民贷，线上申请的消费贷款——手机轻松申请、即时获知审批结果、用款方便、还款灵活。满足您对提升生活品质的即时财务需求。</span></p></p>
+									</div>
+								<!--信息正文-->
+								
+								<!--立即办理-->
+									<div class="waps-t-title" style="text-align: center;line-height: 200%;">
+											业务特色
+											<div class="waps-t-line" style="width: 100%;"></div>
+									</div>
+									<div class="waps-t-p">
+											<p><p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">* 易申请 — 无需递交纸质资料，随时随地手机申请。</span></p>
+<p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">* 无担保 — 纯信用，无需抵押或担保。</span></p>
+<p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">* 速审批 — 自动审批，即时获知结果。 </span></p>
+<p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">* 额度高 — 全流程线上办理最高30万元，增加线下审核后最高100万元。</span></p>
+<p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">* 期限长 — 贷款期限最长为84个月。 </span></p>
+<p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">* 成本低 — 申请额度无任何费用，不提款不产生利息。</span></p>
+<p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">* 自由还 — 想还就还，自助办理。</span></p>
+<p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">* 灵活用 — POS刷卡、取现、转账灵活使用。</span> </p>
+<p style="margin-bottom: 0px; font-size: 22pt; font-family: 黑体; text-align: justify; margin-top: 0px; line-height: 1.5;"><span style="font-size: 14pt;">（取现、转账功能使用规则，以各地分行规定为准。）</span></p></p>
+									</div>
+								<!--信息正文-->
+								
+								<!--立即办理-->
+									<div class="waps-t-title" style="text-align: center;line-height: 200%;">
+											服务对象
+											<div class="waps-t-line" style="width: 100%;"></div>
+									</div>
+									<div class="waps-t-p">
+											<p><p style="margin-bottom: 0px; font-family: 黑体; text-align: justify; margin-top: 0px; line-height: 1.5; text-indent: 2em;"><span style="font-size: 18.6667px;">只要您收入稳定，正常缴纳公积金、社保，即符合惠民贷申请条件。</span></p>
+<p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"></p></p>
+									</div>
+								<!--信息正文-->
+								
+								<!--立即办理-->
+									<div class="waps-t-title" style="text-align: center;line-height: 200%;">
+											温馨提示
+											<div class="waps-t-line" style="width: 100%;"></div>
+									</div>
+									<div class="waps-t-p">
+											<p><p style="margin-bottom: 0px; font-family: 黑体; text-align: justify; margin-top: 0px; line-height: 1.5;"><span style="font-size: 14pt;">惠民贷资金仅能用于消费，不得用于以下用途：</span><br>
+<span style="font-size: 14pt;">
+购房；</span><br>
+<span style="font-size: 14pt;">
+股票、期货或其他金融衍生品交易；</span><br>
+<span style="font-size: 14pt;">
+股本权益性投资或借贷；</span><br>
+<span style="font-size: 14pt;">
+其它法律法规或相关监管规定禁止的用途。</span></p></p>
+									</div>
+								<!--信息正文-->
+								
+								<!--立即办理-->
+									<div class="waps-t-title" style="text-align: center;line-height: 200%;">
+											办理流程
+											<div class="waps-t-line" style="width: 100%;"></div>
+									</div>
+									<div class="waps-t-p">
+											<p><p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">第1步—登录交通银行手机银行或交通银行贷款小程序，线上申请。</span></p>
+<p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">第2步—系统审批，审批通过后成功领取额度。</span></p>
+<p style="MARGIN-BOTTOM: 0px; FONT-SIZE: 22pt; FONT-FAMILY: 黑体; TEXT-ALIGN: justify; TEXT-JUSTIFY: inter-ideograph; MARGIN-TOP: 0px; LINE-HEIGHT: 1.5; TEXT-INDENT: 2em"><span style="font-size: 14pt;">第3步—用贷款，手机银行提款，轻松用、灵活还。</span></p>
+<p style="margin-bottom: 0px; font-family: 黑体; text-align: justify; margin-top: 0px; line-height: 1.5; text-indent: 2em;">&ensp;&ensp;&ensp;&ensp;&ensp;<span style="font-size: 14pt;">注：更多</span><span style="font-size: 14pt; text-indent: 2em;">产品信息请咨询95559或交通银行网点，具体贷款额度和利率以银行审批结果为准。</span></p>
+<p style="margin-bottom: 0px; font-family: 黑体; text-align: justify; margin-top: 0px; line-height: 1.5; text-indent: 2em;"></p>
+<p style="margin-bottom: 0px; font-family: 黑体; text-align: justify; margin-top: 0px; line-height: 1.5; text-indent: 2em;"></p></p>
+									</div>
+			
+				<div class="attachments">
+					</br>
+					</br>
+				</div>
+				</div>
+				</div>
+				<!-- 精彩推荐 -->
+				
+	
+				<!-- 页脚模板 -->
+				<div class="waps-block bottom">
+	<div class="nav-over-link" id="hw-ul">海外机构链接<i class="arrow-bottom"></i></div>
+	<div class="nav-over-link" id="fh-ul">分行机构链接<i class="arrow-bottom"></i></div>
+	<div class="nav-over-link" id="zi-ul">子公司链接<i class="arrow-bottom"></i></div>
+	<div class="clear"></div>
+	<ul class="hw-ul-bttom bottom-ul">
+	 			<li><a href="/wap/shtml/wap/cn/15847/16236/list.shtml?channelId=15847" target="_blank">台北分行</a></li>
+	 			<li><a href="/wap/shtml/wap/cn/15847/16237/list.shtml?channelId=15847" target="_blank">澳门分行</a></li>
+	 			<li><a href="/wap/shtml/wap/cn/15847/16231/list.shtml?channelId=15847" target="_blank">东京分行</a></li>
+	 			<li><a href="/wap/shtml/wap/cn/15847/16151/list.shtml?channelId=15847" target="_blank">香港分行</a></li>
+				 <li><a href="/wap/shtml/wap/cn/15847/16232/list.shtml?channelId=15847" target="_blank">首尔分行</a></li>
+	 			<li><a href="https://www.hk.bankcomm.com" target="_blank">香港子行</a></li>
+	 		</ul>
+	 		<ul class="fh-ul-bttom bottom-ul">
+	 			<!--<li><a href="/wap/shtml/wap/cn/15857/15858/list.shtml?channelId=15857" target="_blank">北京市分行</a></li>
+	 			<li><a href="/wap/shtml/wap/cn/15857/16165/list.shtml?channelId=15857" target="_blank">广东省分行</a></li>
+	 			<li><a href="/wap/shtml/wap/cn/15857/16164/list.shtml?channelId=15857" target="_blank">湖北省分行</a></li>
+	 			<li><a href="/wap/shtml/wap/cn/15857/16166/list.shtml?channelId=15857" target="_blank">河南省分行</a></li>-->
+	 			<li><a href="/wap/shtml/wap/cn/15857/15859/list.shtml?channelId=15857" target="_blank">上海市分行</a></li>
+	 			<!--<li><a href="/wap/shtml/wap/cn/15857/16163/list.shtml?channelId=15857" target="_blank">深圳分行</a></li>-->
+	 			<li><a href="/wap/shtml/wap/cn/15857/16162/list.shtml?channelId=15857" target="_blank">无锡分行</a></li>
+	 			<li><a href="/wap/shtml/wap/cn/15857/16161/list.shtml?channelId=15857" target="_blank">江苏省分行</a></li>
+	 			<!--<li><a href="/wap/shtml/wap/cn/15857/16160/list.shtml?channelId=15857" target="_blank">陕西省分行</a></li>-->
+	 			<!--<li><a href="/wap/shtml/wap/cn/15857/16159/list.shtml?channelId=15857" target="_blank">青岛分行</a></li>-->
+	 		</ul>
+	 		<ul class="zi-ul-bttom bottom-ul">
+							<li><a href="/wap/getDispatcherUrl.html?reqTypeValue=116" target="_blank">交银人寿保险有限公司</a></li>
+			        <li><a href="/wap/getDispatcherUrl.html?reqTypeValue=83" target="_blank">交银国际信托有限公司</a></li>
+	 			<li><a href="/wap/getDispatcherUrl.html?reqTypeValue=50" target="_blank">交银金融租赁有限责任公司</a></li>
+				<li><a href="/wap/getDispatcherUrl.html?reqTypeValue=73" target="_blank">交银施罗德基金管理有限公司</a></li>
+	 		</ul>
+</div>
+<div class="main-bttom">
+	<ul>
+		<li><a href="http://m.bankcomm.com/wap/shtml/wap/cn/15605/list.shtml?channelId=15605" target="_blank">投资者关系</a></li>
+		<li><a href="http://m.bankcomm.com/wap/shtml/wap/cn/15698/15871/list.shtml#" target="_blank">网站地图</a></li>
+		<li><a href="http://m.bankcomm.com/wap/shtml/wap/cn/16218/list.shtml?channelId=16218" target="_blank">消保专栏</a></li>
+		<!--<li><a href="http://m.bankcomm.com/wap/shtml/wap/cn/15539/15751/78635.shtml?channelId=15539" target="_blank">人才招聘</a></li>-->
+		<!--<li><a href="http://m.bankcomm.com/wap/shtml/wap/cn/15539/15753/78968.shtml?channelId=15539" target="_blank">安全专栏</a></li>-->
+	</ul>
+	<div>
+     
+	</div>
+	<p style="color: #333;">
+		  交通银行版权所有<br/>
+		  <a href="https://beian.miit.gov.cn" class="beianaddress" style="display: inline-block;">沪ICP备05036189号-1</a>|
+		  <a href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011502019354" style="display: inline-block;">沪公网安备31011502019354号</a>
+	</p>
+	<p>Email:95559@bankcomm.com 服务热线（国内）<span class="bottom-telicon">95559<i class="arrow-bottom b-blue"></i></span></p>
+	<ul class="telphone-ul-bttom bottom-ul">
+				<li>海外及香港地区服务热线<span>+862195559</span></li>
+	 			<li>交银施罗德<span>4007-005-000</span></li>
+	 			<li>交银国信<span>4007-888-559</span></li>
+	 			<li>交银租赁<span>(86)21-53559858</span></li>
+	 			<li>交银人寿<span>4008-211-211</span></li>
+	</ul>
+</div>
+<script>
+    //addby  20220304
+   var domain = document.domain;
+   if("m.bankcomm.com" == document.domain){
+	 $('.beianaddress').html('沪ICP备05036189号-1')
+   }else if("m.bankcomm.cn" == document.domain){
+	 $('.beianaddress').html('沪ICP备05036189号-7')
+   }
+
+</script>
+
+		</div>
+</body>
+<script type="text/javascript">
+/***手机门户调起手机银行APP START***/
+//手机APP调起url
+var openurl = "/wap/getDispatcherUrl.html?reqTypeValue=61";
+
+//关闭按钮1
+function closedown(){
+	$("#openapp").hide();
+	$("#helpdiv").hide();	
+	$(".side-menu").css({"margin-top":"0px"});
+}
+//打开按钮1
+function opendown(){
+	$("#openapp").show();
+	$("#helpdiv").show();	
+}
+
+function checkapp(){
+	window.location = openurl;
+	window.setTimeout(function(){
+		window.location = "/wap/getDispatcherUrl.html?reqTypeValue=87";
+	},4000);
+}
+/***手机门户调起手机银行APP END***/
+
+$(function(){
+	if(fastStr!=""){
+		$(".bom-link a#ljbl").attr("href",fastStr);
+		$(".bom-link").css({"display":"block","position":"relative"});
+	}
+	
+	var wheight = $(window).height();
+	var mheight = $(".con_main").height();
+	$('#open-dialog-1').click(function(){
+		$('.mask-bk').css('height',mheight).show();
+		var mtop=wheight/2+$(document).scrollTop()-$('.dialog-p').height();
+		$('.dialog-p').css('top',mtop).show();
+	});
+
+	$(".dialog-close").click(function(){
+		$('.mask-bk').hide();
+		$('.dialog-p').hide();
+	});
+	
+	var zoom=parseFloat($("body").css("zoom"));
+	var mmHeight=$(".con_main").height();
+
+	if($("#waps-blocks").html()==undefined){
+		$(".page-mian-block").css("min-height","730px");
+	}
+	
+	/*判断页面是否有立即办理按钮链接，否则设置频道默认图片*/
+	if($("#ljbl").attr("href")!="#"){
+		cTitle=$(".two-title").html().trim();
+		if(channelName.indexOf(cTitle)!=-1){
+			$(".side-menu").css({"margin-top":"100px"});
+			opendown();
+			opendown1();
+			$("#ljbl").css({"width":"100%"});
+		}
+	}
+		
+})
+</script>
+</html>

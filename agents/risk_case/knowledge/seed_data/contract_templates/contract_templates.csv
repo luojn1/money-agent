@@ -1,0 +1,25 @@
+﻿template_id,contract_type,clause_category,common_patterns,field_mapping,risk_indicators,version,effective_date,expiry_date,is_active,source,source_url,imported_at,review_status
+TPL001,消费贷合同,费用条款,"[""服务费"", ""管理费"", ""综合费用"", ""一次性扣除""]","{""additionalFees"": ""costAnalysis.additionalFees""}","[""费用"", ""扣除"", ""服务费""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL002,消费贷合同,利率条款,"[""年化利率"", ""月利率"", ""日利率"", ""IRR""]","{""realAnnualRate"": ""costAnalysis.realAnnualRate""}","[""真实年化"", ""名义利率""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL003,消费贷合同,提前还款条款,"[""提前结清"", ""提前还款"", ""手续费"", ""违约金""]","{""prepaymentRule"": ""contractSummary.prepaymentRule""}","[""提前"", ""结清""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL004,信用卡分期协议,手续费条款,"[""分期手续费"", ""免息"", ""每期费率""]","{""feeRate"": ""costAnalysis.additionalFees""}","[""免息"", ""手续费""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL005,信用卡分期协议,最低还款条款,"[""最低还款"", ""循环利息"", ""复利""]","{""repaymentMethod"": ""contractSummary.repaymentMethod""}","[""最低还款"", ""循环""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL006,医美分期合同,服务失败条款,"[""项目取消"", ""服务未完成"", ""退款""]","{""refundRule"": ""clauses.refund""}","[""退费"", ""服务""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL007,医美分期合同,贷款协同条款,"[""合作金融机构"", ""分期平台"", ""贷款继续""]","{""institution"": ""contractSummary.institution""}","[""医美"", ""分期""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL008,教育培训贷款合同,退课退费条款,"[""退课"", ""退费"", ""课程服务""]","{""refundRule"": ""clauses.refund""}","[""培训"", ""退费""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL009,教育培训贷款合同,机构跑路条款,"[""课程中止"", ""服务终止"", ""贷款仍需偿还""]","{""repayment"": ""contractSummary.repaymentMethod""}","[""培训贷"", ""服务失败""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL010,租房贷款合同,租赁服务条款,"[""租赁合同"", ""租金分期"", ""退租""]","{""productType"": ""contractSummary.productType""}","[""租房贷"", ""退租""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL011,车贷合同,车辆抵押条款,"[""车辆抵押"", ""抵押登记"", ""处置车辆""]","{""collateral"": ""clauses.collateral""}","[""抵押"", ""车辆""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL012,车贷合同,GPS服务条款,"[""GPS"", ""定位"", ""服务费""]","{""privacy"": ""clauses.privacy""}","[""定位"", ""服务费""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL013,保险保单,退保条款,"[""现金价值"", ""退保"", ""扣费""]","{""surrender"": ""clauses.surrender""}","[""退保"", ""现金价值""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL014,保险保单,免责条款,"[""责任免除"", ""不予理赔"", ""等待期""]","{""exemption"": ""clauses.exemption""}","[""免责"", ""理赔""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL015,担保合同,连带责任条款,"[""连带责任保证"", ""全部债务"", ""保证期间""]","{""guarantee"": ""clauses.guarantee""}","[""担保"", ""连带""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL016,担保合同,保证范围条款,"[""本金"", ""利息"", ""罚息"", ""律师费""]","{""guaranteeScope"": ""clauses.guarantee""}","[""保证范围"", ""实现债权费用""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL017,互联网平台贷,自动扣款条款,"[""自动扣款"", ""代扣授权"", ""扣款账户""]","{""autoDebit"": ""clauses.authorization""}","[""扣款"", ""授权""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL018,互联网平台贷,个人信息条款,"[""征信授权"", ""信息共享"", ""关联公司""]","{""privacy"": ""clauses.privacy""}","[""征信"", ""共享""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL019,融资租赁合同,提前解约条款,"[""提前解约"", ""剩余租金"", ""违约金""]","{""termination"": ""clauses.termination""}","[""解约"", ""租金""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL020,融资租赁合同,残值处置条款,"[""车辆处置"", ""残值"", ""拍卖""]","{""collateral"": ""clauses.collateral""}","[""处置"", ""残值""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL021,现金贷协议,短期借款费用条款,"[""服务费"", ""借款期限7天"", ""到期一次性还款""]","{""fees"": ""costAnalysis.additionalFees""}","[""现金贷"", ""砍头息""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL022,消费分期协议,商户合作条款,"[""合作商户"", ""商品服务"", ""贷款发放""]","{""merchant"": ""contractSummary.institution""}","[""商户"", ""分期""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL023,消费分期协议,退款还款衔接条款,"[""退款"", ""还款计划"", ""贷款合同""]","{""refund"": ""clauses.refund""}","[""退款"", ""还款""]",1,2026-07-04,,1,seed,,2026-07-04,approved
+TPL024,小额贷款合同,催收条款,"[""催收"", ""紧急联系人"", ""外访""]","{""collection"": ""clauses.collection""}","[""催收"", ""联系人""]",1,2026-07-04,,1,seed,,2026-07-04,approved

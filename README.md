@@ -1,44 +1,96 @@
 # 看得懂的钱
 
-“看得懂的钱”消费金融合同体检 MVP：上传合同或使用示例合同，查看模拟分析进度，并获得一份可展开阅读的合同体检报告。
+消费金融合同体检 MVP。当前版本已接入真实 B/C/D 多 Agent Pipeline：
 
-> 当前版本仅使用固定 Mock 数据，不包含真实文件解析、OCR、AI、RAG、向量数据库、数据库或用户系统。
+```text
+Frontend
+→ Express Pipeline
+→ B TypeScript：合同解析与成本测算
+→ C Python：风险识别与案例匹配
+→ D Python：建议与行动方案
+→ Final Report
+```
 
-## 环境要求
-
-- Node.js 20.19+（推荐使用当前 LTS）
-- npm 10+
-
-## 本地运行
+## 本地启动
 
 ```bash
-npm install
-npm run dev
+pnpm install
+python -m pip install -r agents/risk_case/requirements.txt
+python -m pip install -r agents/recommendation_action/requirements.txt
+pnpm run dev
 ```
 
 - 前端：http://127.0.0.1:5173
 - 后端：http://127.0.0.1:3001
 - 健康检查：http://127.0.0.1:3001/api/health
 
-## 常用命令
+正式整合模式下，后端内部调用 C/D，不需要单独启动 D 的 8091 预览服务。
 
-```bash
-npm run lint
-npm run typecheck
-npm run build
-```
-
-## 项目结构
+## 环境变量
 
 ```text
-website/frontend/  React + Vite 前端
-website/backend/   Express + TypeScript 后端
-shared/            前后端共用的分析结果类型与 Mock 数据
-docs/              项目文档与设计参考
+VITE_USE_MOCK_PIPELINE
+PYTHON_BIN
+B_BASE_URL
+C_DIR
+SCHEMA_PATH
 ```
 
-## 后续接入位置
+- `VITE_USE_MOCK_PIPELINE=true`：前端使用演示数据模式。
+- `VITE_USE_MOCK_PIPELINE=false`：前端调用真实 `/api/pipeline/*`。
+- `PYTHON_BIN`：后端调用 Python Agent 的命令或绝对路径；默认尝试 `python`、`py -3`、`python3`。
+- `B_BASE_URL`、`C_DIR`：D 独立预览服务兼容变量。
+- `SCHEMA_PATH`：D Schema 校验路径，默认使用 `shared/schemas/analysis-protocol-v1.schema.json`。
 
-- 真实上传/OCR：替换 `website/backend/src/routes/analysis.ts` 中的演示任务创建逻辑。
-- 真实 AI/RAG：在 `website/backend/src/services/` 增加独立分析服务，并保持现有 `AnalysisResult` 返回结构。
-- 持久化任务：替换内存中的 `taskStore`，前端 service 层无需跟着页面散改。
+## 核心接口
+
+真实 BCD Pipeline：
+
+- `POST /api/pipeline/analyze`
+- `GET /api/pipeline/:taskId/status`
+- `GET /api/pipeline/:taskId/result`
+
+B 单模块兼容接口：
+
+- `POST /api/analysis`
+- `POST /api/analysis/upload`
+- `POST /api/analysis/demo`
+- `GET /api/analysis/:taskId/status`
+- `GET /api/analysis/:taskId/result`
+- `GET /api/analysis/:taskId/b-output`
+- `GET /api/analysis/:taskId/contract-cost-output`
+
+## 验证
+
+```bash
+pnpm run verify:b-agents
+pnpm run verify:bcd-pipeline
+pnpm --filter @money-agent/backend run typecheck
+pnpm --filter @money-agent/backend run build
+pnpm --filter @money-agent/frontend run typecheck
+pnpm --filter @money-agent/frontend run build
+cd agents/risk_case && python -m pytest
+cd ../recommendation_action && python -m pytest
+```
+
+`verify:bcd-pipeline` 使用 `tests/fixtures/integration-demo-contract.txt` 运行真实 B→C→D，检查 ID 链路、clause/risk 引用、D mismatch 失败处理和 `runtimeMode = INTEGRATED`。
+
+## 目录
+
+```text
+agents/risk_case                         # C Agent
+agents/recommendation_action             # D Agent
+docs/bcd-integration-plan.md
+docs/bcd-integration-checklist.md
+shared/analysis.ts
+shared/analysisProtocol.ts
+shared/schemas/analysis-protocol-v1.schema.json
+website/backend/src/routes/pipeline.ts
+website/backend/src/services/pipelineOrchestrator.ts
+website/frontend/src/services/pipelineApi.ts
+tests/fixtures/integration-demo-contract.txt
+scripts/verify-b-agents.ts
+scripts/verify-bcd-pipeline.ts
+```
+
+运行文件写入 `.runtime/pipeline/<taskId>/`，该目录已加入 `.gitignore`。

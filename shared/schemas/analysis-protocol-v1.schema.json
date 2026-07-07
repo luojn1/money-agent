@@ -578,6 +578,8 @@
         "schemaVersion",
         "taskId",
         "status",
+        "runtimeMode",
+        "localPreview",
         "generatedAt",
         "contractName",
         "contractSummary",
@@ -594,6 +596,21 @@
         "schemaVersion": { "const": "1.0.0" },
         "taskId": { "type": "string", "minLength": 1 },
         "status": { "const": "completed" },
+        "runtimeMode": { "enum": ["LOCAL_PREVIEW", "INTEGRATED"] },
+        "localPreview": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled", "simulatedAgents", "note"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "simulatedAgents": {
+              "type": "array",
+              "items": { "enum": ["risk_case", "recommendation_action"] },
+              "uniqueItems": true
+            },
+            "note": { "type": "string", "minLength": 1 }
+          }
+        },
         "generatedAt": { "type": "string", "format": "date-time" },
         "contractName": { "type": "string", "minLength": 1 },
         "contractSummary": { "$ref": "#/$defs/contractSummary" },

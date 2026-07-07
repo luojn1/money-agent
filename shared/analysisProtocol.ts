@@ -69,6 +69,14 @@ export type RepaymentScheduleItem = {
   payment: number | null;
 };
 
+export type ContractCostAnalysisV1 = {
+  totalRepayment: number | null;
+  totalInterest: number | null;
+  additionalFees: number | null;
+  realAnnualRate: number | null;
+  calculationBasis: string[];
+};
+
 export type ContractCostData = {
   contract: {
     contractName: string;
@@ -78,9 +86,7 @@ export type ContractCostData = {
   contractSummary: AnalysisResult["contractSummary"];
   clauses: ContractClause[];
   repaymentSchedule: RepaymentScheduleItem[];
-  costAnalysis: AnalysisResult["costAnalysis"] & {
-    calculationBasis: string[];
-  };
+  costAnalysis: ContractCostAnalysisV1;
 };
 
 export type ContractCostOutput = AgentEnvelope<"contract_cost", ContractCostData>;

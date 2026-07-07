@@ -1,0 +1,1381 @@
+[
+  {
+    "rule_id": "RR001",
+    "rule_name": "费用不透明-存在额外费用",
+    "category": "cost_transparency",
+    "condition": {
+      "field": "data.costAnalysis.additionalFees",
+      "operator": ">",
+      "value": 0
+    },
+    "risk_level": "high",
+    "weight": 24,
+    "legal_basis": "中国人民银行公告〔2021〕第3号；《民法典》第496条",
+    "question_to_ask": "请机构列明所有费用项目，并说明是否计入明示年化利率。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR002",
+    "rule_name": "服务费一次性扣除",
+    "category": "cost_transparency",
+    "condition": {
+      "clauses_contains_any": [
+        "服务费",
+        "一次性扣除",
+        "放款金额中扣除"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 22,
+    "legal_basis": "《民法典》第670条；《关于进一步规范信贷融资收费降低企业融资综合成本的通知》",
+    "question_to_ask": "请机构说明服务费扣除依据、金额和是否属于变相预扣利息。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR003",
+    "rule_name": "管理费未纳入成本",
+    "category": "cost_transparency",
+    "condition": {
+      "clauses_contains_any": [
+        "管理费",
+        "账户管理",
+        "贷后管理费"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 14,
+    "legal_basis": "中国人民银行公告〔2021〕第3号",
+    "question_to_ask": "请机构说明管理费是否纳入综合融资成本和真实年化利率。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR004",
+    "rule_name": "咨询费或顾问费异常",
+    "category": "cost_transparency",
+    "condition": {
+      "clauses_contains_any": [
+        "咨询费",
+        "顾问费",
+        "信息服务费"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 14,
+    "legal_basis": "《消费者权益保护法》第8条",
+    "question_to_ask": "请机构说明咨询服务的具体内容、定价依据和取消方式。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR005",
+    "rule_name": "担保费或保证金另收",
+    "category": "cost_transparency",
+    "condition": {
+      "clauses_contains_any": [
+        "担保费",
+        "保证金",
+        "履约保证"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 16,
+    "legal_basis": "《民法典》合同编；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明担保费是否必要、是否可退、是否影响贷款审批。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR006",
+    "rule_name": "保险费疑似强制",
+    "category": "cost_transparency",
+    "condition": {
+      "clauses_contains_any": [
+        "保险费",
+        "保障服务费",
+        "必须购买保险"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 15,
+    "legal_basis": "《银行保险机构消费者权益保护管理办法》",
+    "question_to_ask": "请机构说明保险是否自愿购买，取消后是否影响贷款。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR007",
+    "rule_name": "砍头息-到账低于本金",
+    "category": "cost_transparency",
+    "condition": {
+      "left": "data.contractSummary.actualReceivedAmount",
+      "operator": "<",
+      "right": "data.contractSummary.loanAmount"
+    },
+    "risk_level": "high",
+    "weight": 25,
+    "legal_basis": "《民法典》第670条",
+    "question_to_ask": "请机构说明实际到账金额低于合同本金的原因和扣费依据。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR008",
+    "rule_name": "费用名称模糊",
+    "category": "cost_transparency",
+    "condition": {
+      "clauses_contains_any": [
+        "其他费用",
+        "相关费用",
+        "综合费用",
+        "平台费用"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "《民法典》第496条；《消费者权益保护法》第8条",
+    "question_to_ask": "请机构逐项解释费用名称、金额、收取时间和退费条件。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR009",
+    "rule_name": "名义免息但有手续费",
+    "category": "interest_fee",
+    "condition": {
+      "clauses_contains_all": [
+        "免息"
+      ],
+      "clauses_contains_any": [
+        "手续费",
+        "服务费",
+        "分期费"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 23,
+    "legal_basis": "中国人民银行公告〔2021〕第3号",
+    "question_to_ask": "请机构把手续费折算为真实年化成本并书面说明。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR010",
+    "rule_name": "真实年化超过24%",
+    "category": "interest_fee",
+    "condition": {
+      "field": "data.costAnalysis.realAnnualRate",
+      "operator": ">",
+      "value": 24
+    },
+    "risk_level": "high",
+    "weight": 25,
+    "legal_basis": "最高人民法院民间借贷利率司法政策；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明真实年化利率计算口径和是否包含全部费用。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR011",
+    "rule_name": "真实年化超过36%",
+    "category": "interest_fee",
+    "condition": {
+      "field": "data.costAnalysis.realAnnualRate",
+      "operator": ">",
+      "value": 36
+    },
+    "risk_level": "high",
+    "weight": 35,
+    "legal_basis": "最高人民法院关于民间借贷案件适用法律若干问题的规定",
+    "question_to_ask": "请机构说明是否存在超过司法保护上限的利息或费用。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR012",
+    "rule_name": "真实年化高于名义利率10个百分点",
+    "category": "interest_fee",
+    "condition": {
+      "left": "data.costAnalysis.realAnnualRate",
+      "operator": ">",
+      "right": "data.contractSummary.nominalRate",
+      "delta": 10
+    },
+    "risk_level": "high",
+    "weight": 22,
+    "legal_basis": "中国人民银行公告〔2021〕第3号",
+    "question_to_ask": "请机构解释名义利率和真实年化差异的来源。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR013",
+    "rule_name": "IRR口径未披露",
+    "category": "interest_fee",
+    "condition": {
+      "clauses_contains_any": [
+        "IRR",
+        "内部收益率",
+        "折算年化"
+      ],
+      "clauses_not_contains_any": [
+        "计算公式",
+        "现金流"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "中国人民银行公告〔2021〕第3号",
+    "question_to_ask": "请机构提供IRR现金流、计算公式和费用纳入口径。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR014",
+    "rule_name": "日利率月利率混用",
+    "category": "interest_fee",
+    "condition": {
+      "clauses_contains_any": [
+        "日利率",
+        "月利率",
+        "按日计息"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 10,
+    "legal_basis": "《消费者权益保护法》第8条",
+    "question_to_ask": "请机构把日利率、月利率统一折算成年化利率。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR015",
+    "rule_name": "LPR倍数偏高",
+    "category": "interest_fee",
+    "condition": {
+      "field": "data.costAnalysis.realAnnualRate",
+      "operator": ">",
+      "value": 15
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "贷款市场报价利率管理规则；中国人民银行公告〔2021〕第3号",
+    "question_to_ask": "请机构说明该产品利率相对同期LPR的倍数和定价依据。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR016",
+    "rule_name": "复利或利滚利表述",
+    "category": "interest_fee",
+    "condition": {
+      "clauses_contains_any": [
+        "复利",
+        "利滚利",
+        "按月复计"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 22,
+    "legal_basis": "《民法典》公平原则；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明是否对利息、罚息再计息。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR017",
+    "rule_name": "提前还款收手续费",
+    "category": "prepayment",
+    "condition": {
+      "field": "data.contractSummary.prepaymentRule",
+      "operator": "contains_any",
+      "value": [
+        "手续费",
+        "提前结清费"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 15,
+    "legal_basis": "《民法典》第677条",
+    "question_to_ask": "请机构说明提前结清费用计算方式和已收费用退还规则。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR018",
+    "rule_name": "提前还款收违约金",
+    "category": "prepayment",
+    "condition": {
+      "field": "data.contractSummary.prepaymentRule",
+      "operator": "contains_any",
+      "value": [
+        "违约金",
+        "补偿金"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 15,
+    "legal_basis": "《民法典》第677条",
+    "question_to_ask": "请机构说明提前还款违约金上限和减免费条件。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR019",
+    "rule_name": "提前还款需审批",
+    "category": "prepayment",
+    "condition": {
+      "field": "data.contractSummary.prepaymentRule",
+      "operator": "contains_any",
+      "value": [
+        "需审批",
+        "经同意",
+        "申请通过"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 10,
+    "legal_basis": "《民法典》第677条",
+    "question_to_ask": "请机构说明审批标准、处理时限和拒绝提前还款的依据。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR020",
+    "rule_name": "提前还款仍收全期利息",
+    "category": "prepayment",
+    "condition": {
+      "clauses_contains_any": [
+        "仍按全部期限计收",
+        "已收利息不退",
+        "剩余利息照收"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 22,
+    "legal_basis": "《民法典》第677条",
+    "question_to_ask": "请机构说明提前还款后利息是否按实际借款期间计算。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR021",
+    "rule_name": "逾期罚息1.5倍",
+    "category": "overdue",
+    "condition": {
+      "field": "data.contractSummary.overdueFee",
+      "operator": "contains_any",
+      "value": [
+        "1.5倍",
+        "150%"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "金融借款合同监管规则；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明逾期罚息上限、计收基数和是否重复计收。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR022",
+    "rule_name": "高额违约金",
+    "category": "overdue",
+    "condition": {
+      "field": "data.contractSummary.overdueFee",
+      "operator": "contains_any",
+      "value": [
+        "高额违约金",
+        "违约金"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "《民法典》第585条",
+    "question_to_ask": "请机构说明违约金计算方式和是否可按实际损失调整。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR023",
+    "rule_name": "还款方式模糊",
+    "category": "repayment",
+    "condition": {
+      "field": "data.contractSummary.repaymentMethod",
+      "operator": "contains_any",
+      "value": [
+        "不详",
+        "约定方式",
+        "另行通知",
+        ""
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 10,
+    "legal_basis": "《民法典》第496条",
+    "question_to_ask": "请机构明确还款方式、期数、每期金额和还款日。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR024",
+    "rule_name": "最低还款误导",
+    "category": "repayment",
+    "condition": {
+      "clauses_contains_any": [
+        "最低还款",
+        "只需还最低",
+        "循环利息"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "《消费者权益保护法》第8条",
+    "question_to_ask": "请机构说明最低还款后的利息、复利和还款周期。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR025",
+    "rule_name": "格式条款未提示",
+    "category": "dispute_resolution",
+    "condition": {
+      "clauses_contains_any": [
+        "本合同为格式合同",
+        "格式条款"
+      ],
+      "clauses_not_contains_any": [
+        "特别提示",
+        "加粗",
+        "显著提示"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 14,
+    "legal_basis": "《民法典》第496条",
+    "question_to_ask": "请机构说明是否已对重要格式条款进行显著提示和说明。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR026",
+    "rule_name": "单方变更条款",
+    "category": "dispute_resolution",
+    "condition": {
+      "clauses_contains_any": [
+        "有权单方调整",
+        "无需另行通知",
+        "平台可变更"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 20,
+    "legal_basis": "《民法典》第497条；《消费者权益保护法》第26条",
+    "question_to_ask": "请机构说明哪些内容可单方变更，以及消费者是否有拒绝或解除权。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR027",
+    "rule_name": "免责条款过宽",
+    "category": "dispute_resolution",
+    "condition": {
+      "clauses_contains_any": [
+        "不承担任何责任",
+        "概不负责",
+        "免责"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 20,
+    "legal_basis": "《民法典》第497条",
+    "question_to_ask": "请机构说明免责条款是否排除或限制消费者主要权利。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR028",
+    "rule_name": "管辖法院不便利",
+    "category": "dispute_resolution",
+    "condition": {
+      "clauses_contains_any": [
+        "由贷款人所在地法院管辖",
+        "平台所在地法院",
+        "仲裁委员会"
+      ]
+    },
+    "risk_level": "low",
+    "weight": 8,
+    "legal_basis": "《民事诉讼法》协议管辖规则",
+    "question_to_ask": "请机构说明争议解决地点和维权成本。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR029",
+    "rule_name": "自动扣款授权过宽",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_any": [
+        "自动扣款",
+        "代扣",
+        "委托扣款"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 15,
+    "legal_basis": "《消费者权益保护法实施条例》第10条",
+    "question_to_ask": "请机构说明扣款授权范围、期限、取消方式和失败处理。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR030",
+    "rule_name": "自动续费提示不足",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_any": [
+        "自动续费",
+        "自动展期"
+      ],
+      "clauses_not_contains_any": [
+        "提前提醒",
+        "取消方式"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 15,
+    "legal_basis": "《消费者权益保护法实施条例》第10条",
+    "question_to_ask": "请机构说明续费前提醒方式和取消入口。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR031",
+    "rule_name": "征信授权范围过宽",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_any": [
+        "征信授权",
+        "报送征信",
+        "查询征信"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 20,
+    "legal_basis": "《征信业管理条例》；《个人信息保护法》",
+    "question_to_ask": "请机构说明征信查询和报送的目的、范围、期限及撤回方式。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR032",
+    "rule_name": "信息共享范围过宽",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_any": [
+        "关联公司共享",
+        "合作伙伴共享",
+        "第三方共享"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 20,
+    "legal_basis": "《个人信息保护法》第13条、第23条",
+    "question_to_ask": "请机构列明共享对象、目的、字段和用户拒绝方式。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR033",
+    "rule_name": "担保连带责任",
+    "category": "other",
+    "condition": {
+      "clauses_contains_any": [
+        "连带责任",
+        "连带保证"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 22,
+    "legal_basis": "《民法典》担保制度相关规定",
+    "question_to_ask": "请机构说明担保责任范围、期限、触发条件和是否为连带责任。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR034",
+    "rule_name": "担保范围含全部费用",
+    "category": "other",
+    "condition": {
+      "clauses_contains_all": [
+        "担保"
+      ],
+      "clauses_contains_any": [
+        "全部债务",
+        "律师费",
+        "实现债权费用"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 15,
+    "legal_basis": "《民法典》担保制度相关规定",
+    "question_to_ask": "请机构列明担保覆盖的本金、利息、罚息和实现债权费用。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR035",
+    "rule_name": "保证期间不清",
+    "category": "other",
+    "condition": {
+      "clauses_contains_all": [
+        "保证"
+      ],
+      "clauses_not_contains_any": [
+        "保证期间",
+        "担保期限"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "《民法典》保证合同规则",
+    "question_to_ask": "请机构明确保证期间和责任终止条件。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR036",
+    "rule_name": "抵押物处置授权过宽",
+    "category": "other",
+    "condition": {
+      "clauses_contains_any": [
+        "抵押物",
+        "质押物",
+        "处置抵押"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 14,
+    "legal_basis": "《民法典》物权编",
+    "question_to_ask": "请机构说明抵押物处置条件、评估方式和剩余价款返还。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR037",
+    "rule_name": "贷款搭售保险",
+    "category": "other",
+    "condition": {
+      "clauses_contains_any": [
+        "贷款需购买保险",
+        "保险为放款条件",
+        "保障服务"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 16,
+    "legal_basis": "《银行保险机构消费者权益保护管理办法》",
+    "question_to_ask": "请机构说明保险是否为自愿选择及取消后是否影响贷款。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR038",
+    "rule_name": "贷款搭售会员服务",
+    "category": "other",
+    "condition": {
+      "clauses_contains_any": [
+        "会员费",
+        "权益包",
+        "增值服务"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 14,
+    "legal_basis": "《消费者权益保护法》第9条",
+    "question_to_ask": "请机构说明会员服务是否可单独取消并退费。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR039",
+    "rule_name": "贷款搭售评估服务",
+    "category": "other",
+    "condition": {
+      "clauses_contains_any": [
+        "评估费",
+        "审核费",
+        "资料服务费"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "《关于进一步规范信贷融资收费降低企业融资综合成本的通知》",
+    "question_to_ask": "请机构说明评估服务内容、必要性和收费依据。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR040",
+    "rule_name": "强制购买第三方服务",
+    "category": "other",
+    "condition": {
+      "clauses_contains_any": [
+        "强制购买",
+        "必须开通",
+        "捆绑",
+        "搭售"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 20,
+    "legal_basis": "《消费者权益保护法》第9条",
+    "question_to_ask": "请机构说明消费者是否可拒绝第三方服务。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR041",
+    "rule_name": "个人信息收集过度",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_any": [
+        "通讯录",
+        "定位",
+        "相册",
+        "设备信息"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 20,
+    "legal_basis": "《个人信息保护法》第6条",
+    "question_to_ask": "请机构说明收集这些信息的必要性和最小范围。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR042",
+    "rule_name": "敏感个人信息处理",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_any": [
+        "身份证照片",
+        "人脸识别",
+        "生物识别",
+        "银行卡信息"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 22,
+    "legal_basis": "《个人信息保护法》第28条、第29条",
+    "question_to_ask": "请机构说明敏感个人信息处理的单独同意和保护措施。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR043",
+    "rule_name": "个人信息保存期限不明",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_any": [
+        "长期保存",
+        "永久保存",
+        "保存期限"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 10,
+    "legal_basis": "《个人信息保护法》第19条",
+    "question_to_ask": "请机构说明个人信息保存期限和删除路径。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR044",
+    "rule_name": "营销授权默认同意",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_any": [
+        "营销短信",
+        "商业推广",
+        "默认同意"
+      ]
+    },
+    "risk_level": "low",
+    "weight": 8,
+    "legal_basis": "《个人信息保护法》；《消费者权益保护法》",
+    "question_to_ask": "请机构说明营销授权是否可单独拒绝和撤回。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR045",
+    "rule_name": "催收联系人披露",
+    "category": "overdue",
+    "condition": {
+      "clauses_contains_any": [
+        "联系紧急联系人",
+        "通知亲友",
+        "联系单位"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 20,
+    "legal_basis": "金融消费者权益保护和催收行为规范",
+    "question_to_ask": "请机构说明逾期催收是否会向无关第三人披露债务信息。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR046",
+    "rule_name": "暴力催收或威胁性措辞",
+    "category": "overdue",
+    "condition": {
+      "clauses_contains_any": [
+        "上门施压",
+        "公开曝光",
+        "威胁",
+        "骚扰"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 24,
+    "legal_basis": "《个人信息保护法》；金融催收自律规范",
+    "question_to_ask": "请机构承诺不得骚扰、威胁或向无关人员披露信息。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR047",
+    "rule_name": "催收费用另收",
+    "category": "overdue",
+    "condition": {
+      "clauses_contains_any": [
+        "催收费",
+        "外访费",
+        "催告费"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "《民法典》第585条；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明催收费用的合法依据和计算上限。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR048",
+    "rule_name": "退费条件苛刻",
+    "category": "repayment",
+    "condition": {
+      "clauses_contains_any": [
+        "不予退费",
+        "概不退款",
+        "退费需扣除"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 15,
+    "legal_basis": "《消费者权益保护法》；《民法典》合同解除规则",
+    "question_to_ask": "请机构说明退费条件、扣费项目和处理时限。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR049",
+    "rule_name": "解约成本过高",
+    "category": "repayment",
+    "condition": {
+      "clauses_contains_any": [
+        "解约金",
+        "退出费",
+        "解除合同费用"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 14,
+    "legal_basis": "《民法典》第563条、第585条",
+    "question_to_ask": "请机构说明解约成本是否与实际损失相匹配。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR050",
+    "rule_name": "服务合同解除但贷款继续",
+    "category": "repayment",
+    "condition": {
+      "clauses_contains_any": [
+        "服务解除",
+        "贷款仍需偿还",
+        "合作商户"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 22,
+    "legal_basis": "《消费者权益保护法》；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明服务失败或退费时贷款合同如何同步处理。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR051",
+    "rule_name": "冷静期缺失",
+    "category": "repayment",
+    "condition": {
+      "clauses_contains_any": [
+        "培训贷",
+        "医美分期",
+        "服务分期"
+      ],
+      "clauses_not_contains_any": [
+        "冷静期",
+        "无理由解除"
+      ]
+    },
+    "risk_level": "low",
+    "weight": 8,
+    "legal_basis": "消费者权益保护规则",
+    "question_to_ask": "请机构说明是否提供冷静期或签约后的撤销路径。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR052",
+    "rule_name": "还款日变更通知不足",
+    "category": "repayment",
+    "condition": {
+      "clauses_contains_any": [
+        "调整还款日",
+        "变更扣款日"
+      ],
+      "clauses_not_contains_any": [
+        "提前通知"
+      ]
+    },
+    "risk_level": "low",
+    "weight": 8,
+    "legal_basis": "《消费者权益保护法》第8条",
+    "question_to_ask": "请机构说明还款日调整是否提前通知并允许用户确认。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  }
+]
