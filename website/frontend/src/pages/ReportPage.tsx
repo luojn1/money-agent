@@ -2,7 +2,6 @@ import { ArrowLeft } from "@phosphor-icons/react/ArrowLeft";
 import { Bank } from "@phosphor-icons/react/Bank";
 import { CalendarBlank } from "@phosphor-icons/react/CalendarBlank";
 import { Calculator } from "@phosphor-icons/react/Calculator";
-import { CheckCircle } from "@phosphor-icons/react/CheckCircle";
 import { ClipboardText } from "@phosphor-icons/react/ClipboardText";
 import { Coins } from "@phosphor-icons/react/Coins";
 import { CurrencyCny } from "@phosphor-icons/react/CurrencyCny";
@@ -85,7 +84,7 @@ const actionStageOrder: ActionStage[] = [
 type RankedAction = ActionItem & {
   focusKey: string;
   primaryRisk: PipelineRiskItem | null;
-  riskTitle: string;
+  riskTitle: string | null;
   displayTitle: string;
   displayDetail: string;
   score: number;
@@ -113,6 +112,54 @@ const reportTabs: Array<{ id: ReportTab; label: string }> = [
   { id: "actions", label: "建议行动" },
 ];
 
+type RiskGroupId = "cost" | "exit" | "overdue" | "repayment" | "privacy" | "dispute" | "other";
+
+type DisplayRiskItem = PipelineRiskItem & {
+  mergedCount: number;
+  mergedRiskTitles: string[];
+};
+
+type RiskGroupView = {
+  id: RiskGroupId;
+  title: string;
+  summary: string;
+  counts: Record<PipelineRiskItem["riskLevel"], number>;
+  items: DisplayRiskItem[];
+  defaultOpen: boolean;
+};
+
+const riskGroupOrder: RiskGroupId[] = ["cost", "repayment", "overdue", "privacy", "exit", "dispute", "other"];
+
+const riskGroupTitle: Record<RiskGroupId, string> = {
+  cost: "费用与真实成本",
+  exit: "提前还款 / 退出限制",
+  overdue: "逾期与违约责任",
+  repayment: "自动扣款与还款安排",
+  privacy: "隐私与信息授权",
+  dispute: "合同变更与争议解决",
+  other: "其他风险",
+};
+
+const riskGroupSummary: Record<RiskGroupId, string> = {
+  cost: "核心问题：费用、实际到账或真实年化可能影响总成本判断。",
+  exit: "核心问题：提前结清、解除或退款条件需要在操作前确认。",
+  overdue: "核心问题：逾期后的费用、违约责任或催收边界需要确认。",
+  repayment: "核心问题：还款安排、自动扣款或付款义务可能影响资金安全和履约安排。",
+  privacy: "核心问题：个人信息授权范围、使用目的或撤回路径需要确认。",
+  dispute: "核心问题：合同变更、争议解决或管辖安排可能影响后续维权。",
+  other: "核心问题：还有部分条款需要结合合同上下文进一步确认。",
+};
+
+const riskImpactWeight: Record<RiskGroupId, number> = {
+  cost: 70,
+  repayment: 60,
+  overdue: 50,
+  privacy: 40,
+  exit: 30,
+  dispute: 20,
+  other: 10,
+};
+
 const normalizeText = (text: string) =>
   text
     .trim()
@@ -128,6 +175,116 @@ const uniqueTextList = (items: string[]) => {
     return true;
   });
 };
+
+const riskText = (risk: PipelineRiskItem) =>
+  `${risk.title}${risk.categoryLabel}${risk.reason}${risk.possibleConsequence}${risk.questionToAsk}${risk.clauseText}`;
+
+const riskGroupFor = (risk: PipelineRiskItem): RiskGroupId => {
+  const text = riskText(risk);
+  if (risk.category === "cost_transparency" || risk.category === "interest_fee" || /真实年化|综合年化|名义利率|服务费|手续费|费用|实际到账|前置|预扣|本金/.test(text)) return "cost";
+  if (risk.category === "prepayment" || /提前还款|提前结清|提前终止|提前解除|退出|退款|退费|结清/.test(text)) return "exit";
+  if (risk.category === "overdue" || /逾期|违约|罚息|违约金|催收|加速到期/.test(text)) return "overdue";
+  if (risk.category === "repayment" || /还款|月供|扣款|划扣|银行卡|付款|代扣|账户/.test(text)) return "repayment";
+  if (risk.category === "authorization_privacy" || /个人信息|隐私|授权|征信|共享|查询|使用范围|合作机构/.test(text)) return "privacy";
+  if (risk.category === "dispute_resolution" || /单方变更|默示同意|合同变更|争议|仲裁|诉讼|管辖|送达|投诉|维权/.test(text)) return "dispute";
+  return "other";
+};
+
+const riskTopicFor = (risk: PipelineRiskItem) => {
+  const text = riskText(risk);
+  if (/服务费|手续费|前置|预扣|实际到账|到账|本金/.test(text)) return "upfront_fee";
+  if (/真实年化|综合年化|名义利率|利率|资金成本/.test(text)) return "real_rate";
+  if (/提前还款|提前结清|提前终止|退款|退费|退出|结清/.test(text)) return "exit";
+  if (/逾期|违约|罚息|违约金|催收/.test(text)) return "overdue";
+  if (/自动扣款|扣款|划扣|银行卡|代扣/.test(text)) return "debit";
+  if (/个人信息|隐私|授权|征信|共享|查询/.test(text)) return "privacy";
+  if (/仲裁|管辖|送达|争议|诉讼|投诉|维权/.test(text)) return "dispute";
+  if (/单方变更|默示同意|合同变更|调整/.test(text)) return "change";
+  return "other";
+};
+
+const riskMergeKey = (risk: PipelineRiskItem) => {
+  const group = riskGroupFor(risk);
+  const topic = riskTopicFor(risk);
+  const clauseKey = risk.relatedClauseIds[0] ?? "";
+  if (topic !== "other" && clauseKey) return `${group}:${topic}:${clauseKey}`;
+  if (clauseKey) return `${group}:clause:${clauseKey}`;
+  const consequence = normalizeText(risk.possibleConsequence).slice(0, 24);
+  const title = normalizeText(risk.title).slice(0, 24);
+  return `${group}:${topic}:${consequence || title}`;
+};
+
+const mergedRiskTitle = (group: RiskGroupId, topic: string, primary: PipelineRiskItem, count: number) => {
+  if (count === 1) return primary.title;
+  if (group === "cost" && topic === "upfront_fee") return "前置费用影响实际到账和真实成本";
+  if (group === "cost" && topic === "real_rate") return "真实成本与表面利率差异需确认";
+  if (group === "exit") return "提前结清或退出规则需确认";
+  if (group === "overdue") return "逾期费用和违约后果需确认";
+  if (group === "repayment") return "还款和扣款安排需确认";
+  if (group === "privacy") return "信息授权范围需确认";
+  if (group === "dispute") return "合同变更或争议处理需确认";
+  return `${primary.title}等相关风险`;
+};
+
+const mergeDisplayRisks = (risks: PipelineRiskItem[]) => {
+  const byKey = new Map<string, PipelineRiskItem[]>();
+  risks.forEach((risk) => {
+    const key = riskMergeKey(risk);
+    byKey.set(key, [...(byKey.get(key) ?? []), risk]);
+  });
+
+  return [...byKey.values()].map((items): DisplayRiskItem => {
+    const sorted = sortRisks(items);
+    const primary = sorted[0]!;
+    const group = riskGroupFor(primary);
+    const topic = riskTopicFor(primary);
+    const titles = uniqueTextList(sorted.map((risk) => risk.title));
+    const clauseTexts = uniqueTextList(sorted.map((risk) => risk.clauseText)).slice(0, 2);
+
+    return {
+      ...primary,
+      title: mergedRiskTitle(group, topic, primary, sorted.length),
+      clauseText: clauseTexts.join("\n\n"),
+      reason: oneSentence(primary.reason, primary.possibleConsequence),
+      possibleConsequence: oneSentence(primary.possibleConsequence, primary.reason),
+      questionToAsk: oneSentence(primary.questionToAsk, "请机构书面确认该条款的适用条件、费用边界和处理方式。"),
+      mergedCount: sorted.length,
+      mergedRiskTitles: titles,
+    };
+  });
+};
+
+function sortRisks<T extends PipelineRiskItem>(risks: T[]) {
+  return [...risks].sort((left, right) => {
+    const levelDiff = riskLevelWeight[right.riskLevel] - riskLevelWeight[left.riskLevel];
+    if (levelDiff !== 0) return levelDiff;
+    const impactDiff = riskImpactWeight[riskGroupFor(right)] - riskImpactWeight[riskGroupFor(left)];
+    if (impactDiff !== 0) return impactDiff;
+    const topicDiff = riskTopicFor(left).localeCompare(riskTopicFor(right), "zh-CN");
+    if (topicDiff !== 0) return topicDiff;
+    return left.title.localeCompare(right.title, "zh-CN");
+  });
+}
+
+const buildRiskGroups = (risks: PipelineRiskItem[]): RiskGroupView[] =>
+  riskGroupOrder.flatMap((groupId) => {
+    const groupRisks = risks.filter((risk) => riskGroupFor(risk) === groupId);
+    if (!groupRisks.length) return [];
+    const items = sortRisks(mergeDisplayRisks(groupRisks));
+    const counts = {
+      high: groupRisks.filter((risk) => risk.riskLevel === "high").length,
+      medium: groupRisks.filter((risk) => risk.riskLevel === "medium").length,
+      low: groupRisks.filter((risk) => risk.riskLevel === "low").length,
+    };
+    return [{
+      id: groupId,
+      title: riskGroupTitle[groupId],
+      summary: riskGroupSummary[groupId],
+      counts,
+      items,
+      defaultOpen: counts.high > 0,
+    }];
+  });
 
 const strongerPriority = (left: ActionItem["priority"], right: ActionItem["priority"]) =>
   priorityRank[left] <= priorityRank[right] ? left : right;
@@ -169,6 +326,25 @@ const oneSentence = (text: string, fallback: string) => {
   return /[。！？]$/.test(sentence) ? sentence : `${sentence}。`;
 };
 
+const genericAdvicePattern = /该条款可能增加用户的资金、履约或维权成本|可能增加用户的资金、履约或维权成本|资金、履约或维权成本/;
+
+const specificActionDetail = (focusKey: string, primaryRisk: PipelineRiskItem | null) => {
+  if (focusKey === "money") return "重点确认所有费用是否计入真实成本，以及实际到账与合同本金是否一致。";
+  if (focusKey === "privacy") return "重点确认授权范围、使用目的、共享对象和撤回方式。";
+  if (focusKey === "default") return "重点确认逾期费用是否叠加、是否封顶，以及违约后果触发条件。";
+  if (focusKey === "exit") return "重点确认提前结清、退款或解除时的费用和条件。";
+  if (focusKey === "dispute") return "重点确认投诉、仲裁、诉讼、送达或管辖安排。";
+  if (primaryRisk?.category === "repayment") return "重点确认扣款时间、金额、失败处理和异常扣款退款方式。";
+  return "";
+};
+
+const actionDisplayDetail = (item: ActionItem, primaryRisk: PipelineRiskItem | null, focusKey: string) => {
+  const fallbackDetail = primaryRisk?.questionToAsk || primaryRisk?.possibleConsequence || primaryRisk?.reason || "";
+  const detail = oneSentence(item.detail, fallbackDetail);
+  if (!detail || genericAdvicePattern.test(detail)) return specificActionDetail(focusKey, primaryRisk);
+  return detail;
+};
+
 const riskFocusKey = (risk: PipelineRiskItem | null, fallbackText = "") => {
   const text = `${risk?.title ?? ""}${risk?.reason ?? ""}${risk?.possibleConsequence ?? ""}${fallbackText}`;
   if (risk?.category === "cost_transparency" || risk?.category === "interest_fee" || risk?.category === "repayment") return "money";
@@ -181,9 +357,10 @@ const riskFocusKey = (risk: PipelineRiskItem | null, fallbackText = "") => {
 
 const resolveActionStage = (item: ActionItem, primaryRisk: PipelineRiskItem | null): ActionStage => {
   const text = `${item.title}${item.detail}${primaryRisk?.title ?? ""}${primaryRisk?.reason ?? ""}${primaryRisk?.possibleConsequence ?? ""}`;
-  if (primaryRisk?.category === "dispute_resolution" || /仲裁|送达|管辖|投诉|维权|争议|诉讼|调解|异议/.test(text)) return "when_dispute";
-  if (primaryRisk?.category === "prepayment" || /提前还款|提前结清|提前终止|提前解除|退款|退费|退出|结清试算|最终结清|解除条件|终止条件/.test(text)) return "before_prepayment";
+  if (/(签约前|签署前|申请前|下单前).*(要求|说明|回复|确认|核实|问清|澄清)/.test(text)) return "before_signing";
   if (/单方变更|默示同意|不同意变更|立即结清|合同变更|变更通知|调整条款/.test(text)) return "before_signing";
+  if (primaryRisk?.category === "dispute_resolution" || /仲裁|送达|管辖|投诉|维权路径|争议处理|诉讼|调解|异议|证据保存|保存证据/.test(text)) return "when_dispute";
+  if (primaryRisk?.category === "prepayment" || /提前还款|提前结清|提前终止|提前解除|退款|退费|退出|结清试算|最终结清|解除条件|终止条件/.test(text)) return "before_prepayment";
   if (primaryRisk?.category === "overdue" || /逾期|违约|催收|罚息|违约金/.test(text)) return "when_overdue";
   if (primaryRisk?.category === "authorization_privacy" && /授权范围|自动扣款授权|个人信息|隐私|解绑银行卡|更换银行卡/.test(text)) return "before_signing";
   return item.stage;
@@ -273,21 +450,21 @@ const rankActions = (report: PipelineReport) => {
         keywordBoost;
       const topScore =
         score +
-        (stage === "before_signing" ? 45 : 0) +
-        (isLoanLike && focusKey === "money" ? 45 : 0) +
+        (stage === "before_signing" ? 60 : 0) +
+        (isLoanLike && focusKey === "money" ? 60 : 0) +
+        (focusKey === "privacy" ? 48 : 0) +
         (focusKey === "exit" ? 15 : 0) +
-        (stage === "when_overdue" ? -45 : 0) +
-        (stage === "when_dispute" ? -20 : 0);
-      const fallbackDetail = primaryRisk?.questionToAsk || primaryRisk?.possibleConsequence || primaryRisk?.reason || "";
+        (stage === "when_overdue" ? -70 : 0) +
+        (stage === "when_dispute" ? -55 : 0);
 
       return {
         ...item,
         stage,
         focusKey,
         primaryRisk,
-        riskTitle: primaryRisk?.title ?? "当前合同风险",
+        riskTitle: primaryRisk?.title ?? null,
         displayTitle: cleanAdviceText(item.title) || primaryRisk?.title || "确认合同关键问题",
-        displayDetail: oneSentence(item.detail, fallbackDetail),
+        displayDetail: actionDisplayDetail(item, primaryRisk, focusKey),
         score,
         topScore,
       };
@@ -462,6 +639,7 @@ export function ReportPage() {
   ] as const;
 
   const actionDigest = buildActionDigest(report);
+  const riskGroups = buildRiskGroups(report.risks);
   const isPartialReport = report.status === "partial";
 
   return (
@@ -567,11 +745,44 @@ export function ReportPage() {
         <section id="report-panel-risks" role="tabpanel" className="report-section" aria-labelledby="risk-title">
           <div className="report-section__heading">
             <span className="section-number">C</span>
-            <div><h2 id="risk-title">风险识别</h2><p>每项风险都保留风险等级、类别、条款、原因、后果和建议确认问题。</p></div>
+            <div><h2 id="risk-title">风险识别</h2><p>按风险类型先看地图概况，再展开查看合同原文和确认问题。</p></div>
           </div>
-          <div className="risk-list">
-            {report.risks.map((item, index) => <RiskCard key={item.id} item={item} defaultExpanded={index === 0} />)}
-          </div>
+          {riskGroups.length > 0 ? (
+            <div className="risk-map">
+              {riskGroups.map((group) => {
+                const visibleItems = group.items.slice(0, 3);
+                const extraItems = group.items.slice(3);
+                return (
+                  <details key={group.id} className="risk-group" open={group.defaultOpen}>
+                    <summary className="risk-group__summary">
+                      <div>
+                        <strong>{group.title}</strong>
+                        <p>{group.summary}</p>
+                      </div>
+                      <span>
+                        高风险 {group.counts.high} 项｜需关注 {group.counts.medium} 项｜低风险 {group.counts.low} 项
+                      </span>
+                    </summary>
+                    <div className="risk-list">
+                      {visibleItems.map((item, index) => (
+                        <RiskCard key={item.id} item={item} defaultExpanded={group.defaultOpen && index === 0} />
+                      ))}
+                    </div>
+                    {extraItems.length > 0 && (
+                      <details className="risk-group__more">
+                        <summary>展开更多风险</summary>
+                        <div className="risk-list">
+                          {extraItems.map((item) => <RiskCard key={item.id} item={item} />)}
+                        </div>
+                      </details>
+                    )}
+                  </details>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="risk-empty">当前报告暂未识别出明确风险。</p>
+          )}
         </section>
         )}
 
@@ -628,8 +839,8 @@ export function ReportPage() {
                     </span>
                     <div>
                       <strong>{item.displayTitle}</strong>
-                      <p>{item.displayDetail}</p>
-                      <small>关联风险：{item.riskTitle}</small>
+                      {item.displayDetail && <p>{item.displayDetail}</p>}
+                      {item.riskTitle && <small>关联风险：{item.riskTitle}</small>}
                     </div>
                   </li>
                 ))}
@@ -654,8 +865,8 @@ export function ReportPage() {
                     {section.items.map((item) => (
                       <li key={item.id}>
                         <strong>{item.displayTitle}</strong>
-                        <p>{item.displayDetail}</p>
-                        <small>关联风险：{item.riskTitle}</small>
+                        {item.displayDetail && <p>{item.displayDetail}</p>}
+                        {item.riskTitle && <small>关联风险：{item.riskTitle}</small>}
                       </li>
                     ))}
                   </ul>
@@ -675,21 +886,13 @@ export function ReportPage() {
                   {actionDigest.moreActions.map((item) => (
                     <li key={item.id}>
                       <strong>{item.displayTitle}</strong>
-                      <p>{item.displayDetail}</p>
-                      <small>关联风险：{item.riskTitle}</small>
+                      {item.displayDetail && <p>{item.displayDetail}</p>}
+                      {item.riskTitle && <small>关联风险：{item.riskTitle}</small>}
                     </li>
                   ))}
                 </ul>
               )}
-              <div className="supporting-advice-grid">
-                {actionDigest.questionList.length > 0 && (
-                  <article>
-                    <h3><Question size={20} weight="duotone" />可追问问题</h3>
-                    <ul className="compact-check-list">
-                      {actionDigest.questionList.map((question) => <li key={question}>{question}</li>)}
-                    </ul>
-                  </article>
-                )}
+              <div className="supporting-advice-stack">
                 {actionDigest.evidenceChecklist.length > 0 && (
                   <article>
                     <h3><FileText size={20} weight="duotone" />证据保存</h3>
@@ -698,13 +901,13 @@ export function ReportPage() {
                     </ul>
                   </article>
                 )}
-                {actionDigest.communicationScripts.length > 0 && (
-                  <article>
-                    <h3><CheckCircle size={20} weight="duotone" />沟通话术</h3>
+                {actionDigest.questionList.length > 0 && (
+                  <details className="supporting-advice-details">
+                    <summary><Question size={20} weight="duotone" />可追问问题</summary>
                     <ul className="compact-check-list">
-                      {actionDigest.communicationScripts.map((script) => <li key={script}>{script}</li>)}
+                      {actionDigest.questionList.map((question) => <li key={question}>{question}</li>)}
                     </ul>
-                  </article>
+                  </details>
                 )}
               </div>
             </div>

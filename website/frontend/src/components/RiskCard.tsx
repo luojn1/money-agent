@@ -5,7 +5,10 @@ import { useState } from "react";
 import type { RiskLevel } from "../types/analysis";
 import type { PipelineRiskItem } from "../types/pipeline";
 
-type RiskItem = PipelineRiskItem;
+type RiskItem = PipelineRiskItem & {
+  mergedCount?: number;
+  mergedRiskTitles?: string[];
+};
 
 const riskLabels: Record<RiskLevel, string> = {
   high: "高风险",
@@ -35,7 +38,10 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
           <WarningCircle size={24} weight="fill" aria-hidden="true" />
           <span>
             <strong>{item.title}</strong>
-            <small>{item.categoryLabel} · {item.clauseLocation ?? "合同条款"}</small>
+            <small>
+              {item.categoryLabel} · {item.clauseLocation ?? "合同条款"}
+              {item.mergedCount && item.mergedCount > 1 ? ` · 已合并 ${item.mergedCount} 项相似风险` : ""}
+            </small>
           </span>
         </span>
         <span className="risk-card__trailing">
@@ -45,31 +51,27 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
       </button>
       {expanded && (
         <div className="risk-card__details" id={contentId}>
-          <div className="clause-quote">
-            <span>合同原文</span>
-            <blockquote>{item.clauseText}</blockquote>
+          <div className="risk-detail-stack">
+            <section>
+              <h4>风险是什么</h4>
+              <p>{item.possibleConsequence || item.title}</p>
+              {item.mergedRiskTitles && item.mergedRiskTitles.length > 1 && (
+                <small>合并展示：{item.mergedRiskTitles.slice(0, 3).join("、")}</small>
+              )}
+            </section>
+            <section>
+              <h4>为什么要关注</h4>
+              <p>{item.reason}</p>
+            </section>
+            <section className="clause-quote">
+              <h4>合同原文</h4>
+              <blockquote>{item.clauseText}</blockquote>
+            </section>
+            <section>
+              <h4>建议确认</h4>
+              <p>{item.questionToAsk}</p>
+            </section>
           </div>
-          <dl className="risk-explanation-grid">
-            <div>
-              <dt>风险类别</dt>
-              <dd>
-                {item.categoryLabel}
-                {item.confidence !== null && item.confidence !== undefined ? ` · 置信度 ${Math.round(item.confidence * 100)}%` : ""}
-              </dd>
-            </div>
-            <div>
-              <dt>判断原因</dt>
-              <dd>{item.reason}</dd>
-            </div>
-            <div>
-              <dt>可能后果</dt>
-              <dd>{item.possibleConsequence}</dd>
-            </div>
-            <div>
-              <dt>建议确认</dt>
-              <dd>{item.questionToAsk}</dd>
-            </div>
-          </dl>
         </div>
       )}
     </article>
