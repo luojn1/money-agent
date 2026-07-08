@@ -4,6 +4,7 @@ import { WarningCircle } from "@phosphor-icons/react/WarningCircle";
 import { useState } from "react";
 import type { RiskLevel } from "../types/analysis";
 import type { PipelineRiskItem } from "../types/pipeline";
+import { cleanUserFacingText } from "../utils/userFacingText";
 
 type RiskItem = PipelineRiskItem & {
   mergedCount?: number;
@@ -24,6 +25,17 @@ type RiskCardProps = {
 export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
   const [expanded, setExpanded] = useState(defaultExpanded);
   const contentId = `risk-${item.id}`;
+  const displayTitle = cleanUserFacingText(item.title, "需要确认的风险");
+  const displayCategory = cleanUserFacingText(item.categoryLabel, "合同条款");
+  const displayConsequence = cleanUserFacingText(item.possibleConsequence, displayTitle);
+  const displayReason = cleanUserFacingText(
+    item.reason,
+    "请结合合同原文确认该条款对费用、还款或权利义务的影响。",
+  );
+  const displayQuestion = cleanUserFacingText(item.questionToAsk, "建议向机构要求书面说明。");
+  const mergedRiskTitles = (item.mergedRiskTitles ?? [])
+    .map((title) => cleanUserFacingText(title, ""))
+    .filter(Boolean);
 
   return (
     <article className={`risk-card risk-card--${item.riskLevel}`}>
@@ -37,9 +49,9 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
         <span className="risk-card__leading">
           <WarningCircle size={24} weight="fill" aria-hidden="true" />
           <span>
-            <strong>{item.title}</strong>
+            <strong>{displayTitle}</strong>
             <small>
-              {item.categoryLabel} · {item.clauseLocation ?? "合同条款"}
+              {displayCategory} · {item.clauseLocation ?? "合同条款"}
               {item.mergedCount && item.mergedCount > 1 ? ` · 已合并 ${item.mergedCount} 项相似风险` : ""}
             </small>
           </span>
@@ -54,14 +66,14 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
           <div className="risk-detail-stack">
             <section>
               <h4>风险是什么</h4>
-              <p>{item.possibleConsequence || item.title}</p>
-              {item.mergedRiskTitles && item.mergedRiskTitles.length > 1 && (
-                <small>合并展示：{item.mergedRiskTitles.slice(0, 3).join("、")}</small>
+              <p>{displayConsequence}</p>
+              {mergedRiskTitles.length > 1 && (
+                <small>合并展示：{mergedRiskTitles.slice(0, 3).join("、")}</small>
               )}
             </section>
             <section>
               <h4>为什么要关注</h4>
-              <p>{item.reason}</p>
+              <p>{displayReason}</p>
             </section>
             <section className="clause-quote">
               <h4>合同原文</h4>
@@ -69,7 +81,7 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
             </section>
             <section>
               <h4>建议确认</h4>
-              <p>{item.questionToAsk}</p>
+              <p>{displayQuestion}</p>
             </section>
           </div>
         </div>

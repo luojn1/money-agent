@@ -20,6 +20,7 @@ import { PageShell } from "../components/PageShell";
 import { RiskCard } from "../components/RiskCard";
 import { api } from "../services/api";
 import type { ActionItem, ActionStage, PipelineReport, PipelineRiskItem } from "../types/pipeline";
+import { cleanUserFacingText } from "../utils/userFacingText";
 
 const money = (value: number | null) => value === null ? "信息不足" : `${value.toLocaleString("zh-CN")} 元`;
 const percent = (value: number | null) => value === null ? "信息不足" : `${value.toFixed(1)}%`;
@@ -111,6 +112,33 @@ const reportTabs: Array<{ id: ReportTab; label: string }> = [
   { id: "references", label: "案例依据" },
   { id: "actions", label: "建议行动" },
 ];
+
+const reportStatusLabel: Record<PipelineReport["status"], string> = {
+  pending: "等待分析",
+  processing: "分析进行中",
+  completed: "分析已完成",
+  partial: "部分分析可能未完成",
+  failed: "分析未完成",
+};
+
+const reportStatusDescription = (status: PipelineReport["status"]) => {
+  if (status === "partial") return "部分分析可能未完成，建议重新分析后再作决策。";
+  if (status === "failed") return "分析未完成，请稍后重试。";
+  if (status === "pending" || status === "processing") return "系统正在整理合同分析结果，请稍后查看。";
+  return "系统已完成成本、风险和建议分析，结果仅供参考，请结合合同原文核实。";
+};
+
+const reportWarningText = (status: PipelineReport["status"]) =>
+  status === "partial"
+    ? "部分分析可能未完成，建议重新分析后再作决策。"
+    : "分析结果仅供参考，请结合合同原文核实。";
+
+const referenceTagLabel = (tag: string) => tag === "演示案例" ? "典型情景" : tag;
+
+const referenceSummaryFallback = (tag: string) =>
+  tag === "产品参考"
+    ? "可用于对照还款金额、到账金额和综合成本口径。"
+    : "请结合合同原文和风险识别结果核对该项内容。";
 
 type RiskGroupId = "cost" | "exit" | "overdue" | "repayment" | "privacy" | "dispute" | "other";
 
@@ -310,7 +338,7 @@ const dedupeActions = (items: ActionItem[]) => {
 };
 
 const cleanAdviceText = (text: string) =>
-  text
+  cleanUserFacingText(text)
     .replace(/命中规则[:：]?[^。；\n]*/g, "")
     .replace(/知识库中?有?\s*\d+\s*起?同类纠纷案例可供参考/g, "")
     .replace(/知识库[^。；\n]*(案例|纠纷|规则|依据|参考)[^。；\n]*/g, "")
@@ -456,14 +484,15 @@ const rankActions = (report: PipelineReport) => {
         (focusKey === "exit" ? 15 : 0) +
         (stage === "when_overdue" ? -70 : 0) +
         (stage === "when_dispute" ? -55 : 0);
+      const cleanRiskTitle = cleanUserFacingText(primaryRisk?.title ?? "", "");
 
       return {
         ...item,
         stage,
         focusKey,
         primaryRisk,
-        riskTitle: primaryRisk?.title ?? null,
-        displayTitle: cleanAdviceText(item.title) || primaryRisk?.title || "确认合同关键问题",
+        riskTitle: cleanRiskTitle || null,
+        displayTitle: cleanAdviceText(item.title) || cleanRiskTitle || "确认合同关键问题",
         displayDetail: actionDisplayDetail(item, primaryRisk, focusKey),
         score,
         topScore,
@@ -557,9 +586,9 @@ const buildActionDigest = (report: PipelineReport): ActionDigest => {
     topActions,
     stages,
     moreActions: dedupeActions(moreActions) as RankedAction[],
-    questionList: uniqueTextList(report.actions.questionList),
-    evidenceChecklist: uniqueTextList(report.actions.evidenceChecklist),
-    communicationScripts: uniqueTextList(report.actions.communicationScripts),
+    questionList: uniqueTextList(report.actions.questionList.map((item) => cleanUserFacingText(item)).filter(Boolean)),
+    evidenceChecklist: uniqueTextList(report.actions.evidenceChecklist.map((item) => cleanUserFacingText(item)).filter(Boolean)),
+    communicationScripts: uniqueTextList(report.actions.communicationScripts.map((item) => cleanUserFacingText(item)).filter(Boolean)),
   };
 };
 
@@ -580,8 +609,8 @@ export function ReportPage() {
           setError("");
         }
       })
-      .catch((requestError: unknown) => {
-        if (!disposed) setError(requestError instanceof Error ? requestError.message : "报告暂时无法加载。");
+      .catch(() => {
+        if (!disposed) setError("分析未完成，请稍后重试。");
       });
     return () => { disposed = true; };
   }, [retryKey, taskId]);
@@ -608,7 +637,7 @@ export function ReportPage() {
       <PageShell compactHeader>
         <main className="state-page">
           <SealWarning size={44} weight="duotone" />
-          <h1>报告暂时没能打开</h1>
+          <h1>分析未完成</h1>
           <p>{error || "请稍后重试。"}</p>
           <button
             className="primary-button"
@@ -641,20 +670,23 @@ export function ReportPage() {
   const actionDigest = buildActionDigest(report);
   const riskGroups = buildRiskGroups(report.risks);
   const isPartialReport = report.status === "partial";
+  const visibleCalculationBasis = uniqueTextList(
+    report.costAnalysis.calculationBasis.map((basis) => cleanUserFacingText(basis)).filter(Boolean),
+  );
 
   return (
     <PageShell compactHeader>
       <main className="report-page">
         <div className="report-toolbar">
           <Link className="back-link" to="/"><ArrowLeft size={18} />重新分析一份合同</Link>
-          <span>报告编号：{report.taskId}</span>
+          <span>{reportStatusLabel[report.status]}</span>
         </div>
 
         <section className="report-intro" aria-labelledby="report-title">
           <div>
-            <p className="eyebrow">{isPartialReport ? "部分分析报告" : "完整分析报告"}</p>
+            <p className="eyebrow">{reportStatusLabel[report.status]}</p>
             <h1 id="report-title">合同体检结果</h1>
-            <p>{report.actions.summary}</p>
+            <p>{reportStatusDescription(report.status)}</p>
           </div>
           <div className="intro-summary" aria-label="真实年化">
             <span>真实年化</span>
@@ -665,7 +697,7 @@ export function ReportPage() {
         {isPartialReport && (
           <div className="preview-mode-banner" role="status">
             <strong>提示</strong>
-            <span>部分分析模块未完成，本报告可能遗漏部分风险，请重新分析后再作决策。</span>
+            <span>部分分析可能未完成，建议重新分析后再作决策。</span>
           </div>
         )}
 
@@ -735,9 +767,11 @@ export function ReportPage() {
               </div>
             ))}
           </div>
-          <div className="basis-list">
-            {report.costAnalysis.calculationBasis.map((basis) => <p key={basis}>{basis}</p>)}
-          </div>
+          {visibleCalculationBasis.length > 0 && (
+            <div className="basis-list">
+              {visibleCalculationBasis.map((basis) => <p key={basis}>{basis}</p>)}
+            </div>
+          )}
         </section>
         )}
 
@@ -790,7 +824,7 @@ export function ReportPage() {
         <section id="report-panel-references" role="tabpanel" className="report-section references-section" aria-labelledby="references-title">
           <div className="report-section__heading">
             <span className="section-number">D</span>
-            <div><h2 id="references-title">案例和依据</h2><p>演示数据只展示典型情景和规则口径，不包装成真实判例来源。</p></div>
+            <div><h2 id="references-title">案例和依据</h2><p>以下内容用于帮助理解风险来源和判断依据，结果仅供参考。</p></div>
           </div>
           <div className="reference-list">
             {report.references.map((group) => (
@@ -799,10 +833,10 @@ export function ReportPage() {
                 <div className="reference-items">
                   {group.items.map((item) => (
                     <article key={item.id} className="reference-item">
-                      <span>{item.tag}</span>
-                      <strong>{item.title}</strong>
-                      <p>{item.summary}</p>
-                      {item.sourceUrl && <a href={item.sourceUrl}>{item.sourceLabel ?? "查看来源"}</a>}
+                      <span>{referenceTagLabel(item.tag)}</span>
+                      <strong>{cleanUserFacingText(item.title.replace(/演示/g, "参考"), "参考内容")}</strong>
+                      <p>{cleanUserFacingText(item.summary, referenceSummaryFallback(item.tag))}</p>
+                      {item.sourceUrl && <a href={item.sourceUrl}>{cleanUserFacingText(item.sourceLabel, "查看来源")}</a>}
                     </article>
                   ))}
                 </div>
@@ -918,7 +952,7 @@ export function ReportPage() {
         {report.warnings.length > 0 && (
           <footer className="report-disclaimer">
             <Calculator size={22} weight="duotone" />
-            <p><strong>提示</strong>{report.warnings.join(" ")}</p>
+            <p><strong>提示</strong>{reportWarningText(report.status)}</p>
           </footer>
         )}
       </main>

@@ -16,16 +16,34 @@ import type { AgentStepStatus, PipelineStatus, PipelineStep } from "../types/pip
 
 const statusText: Record<AgentStepStatus, string> = {
   pending: "等待中",
-  processing: "处理中",
-  completed: "已完成",
-  partial: "部分完成",
-  failed: "失败",
+  processing: "分析中",
+  completed: "已生成",
+  partial: "已生成",
+  failed: "未完成",
 };
 
 const stepIcons = {
   contract_cost: Calculator,
   risk_case: ShieldWarning,
   recommendation_action: ClipboardText,
+};
+
+const stepText: Record<PipelineStep["agent"], { title: string; description: string; processing: string }> = {
+  contract_cost: {
+    title: "成本分析",
+    description: "核对金额、费用、还款安排和真实年化",
+    processing: "正在核对成本信息",
+  },
+  risk_case: {
+    title: "风险识别",
+    description: "识别重点条款和可能后果",
+    processing: "正在识别风险条款",
+  },
+  recommendation_action: {
+    title: "建议行动",
+    description: "整理确认事项和行动清单",
+    processing: "正在整理行动建议",
+  },
 };
 
 type LocationState = { contractName?: string } | null;
@@ -38,6 +56,13 @@ const progressWidth = (steps: PipelineStep[]) => {
 };
 
 const isReportReady = (status: AgentStepStatus | undefined) => status === "completed" || status === "partial";
+
+const progressMessage = (status: PipelineStatus | null, reportReady: boolean) => {
+  if (reportReady) return "分析结果已生成，正在打开";
+  if (status?.status === "failed") return "分析未完成，请稍后重试";
+  if (status?.status === "partial") return "部分分析可能未完成，建议重新分析后再作决策";
+  return "正在整理合同分析结果";
+};
 
 export function AnalysisPage() {
   const { taskId = "mock_bcd_demo" } = useParams();
@@ -59,7 +84,7 @@ export function AnalysisPage() {
         const nextStatus = await api.getAnalysisStatus(taskId);
         if (disposed) return;
         setStatus(nextStatus);
-        setError(nextStatus.error ?? "");
+        setError(nextStatus.error ? "分析未完成，请稍后重试。" : "");
 
         if (isReportReady(nextStatus.status)) {
           timer = setTimeout(() => navigate(`/report/${taskId}`, { replace: true }), 520);
@@ -69,9 +94,9 @@ export function AnalysisPage() {
         if (nextStatus.status !== "failed") {
           timer = setTimeout(poll, 520);
         }
-      } catch (requestError) {
+      } catch {
         if (!disposed) {
-          setError(requestError instanceof Error ? requestError.message : "分析进度暂时无法加载。");
+          setError("分析未完成，请稍后重试。");
         }
       }
     };
@@ -96,24 +121,20 @@ export function AnalysisPage() {
         <Link className="back-link" to="/"><ArrowLeft size={18} />返回上传页</Link>
         <section className="progress-panel" aria-labelledby="analysis-title">
           <p className="eyebrow">{reportReady ? "合同体检已完成" : "合同体检进行中"}</p>
-          <h1 id="analysis-title">{reportReady ? "B/C/D Pipeline 已生成合同报告" : "B/C/D Pipeline 正在整理合同报告"}</h1>
+          <h1 id="analysis-title">{reportReady ? "合同分析已完成" : "正在整理合同分析结果"}</h1>
           <p className="contract-file"><FileMagnifyingGlass size={19} weight="duotone" />{contractName}</p>
 
           <div className={`pipeline-mode-card${status?.mode === "integrated" ? " pipeline-mode-card--real" : ""}`}>
             <Robot size={22} weight="duotone" />
             <div>
-              <strong>{status?.mode === "integrated" ? "真实多 Agent 分析" : "演示数据模式"}</strong>
-              <span>
-                {status?.mode === "integrated"
-                  ? `runtimeMode = ${status.runtimeMode ?? "INTEGRATED"}`
-                  : "正在使用静态 Mock 数据演示完整链路，未调用真实 C/D Agent。"}
-              </span>
+              <strong>{reportReady ? "合同分析已完成" : "合同分析进行中"}</strong>
+              <span>系统会整理成本、风险和建议，结果仅供参考，请结合合同原文核实。</span>
             </div>
           </div>
 
           <div className="progress-summary">
-            <span>{activeStep ? `当前执行：${activeStep.label}` : status?.currentMessage ?? "准备开始分析"}</span>
-            <strong>{reportReady ? "报告生成完成，正在打开" : status?.currentMessage ?? "合同读取中"}</strong>
+            <span>{activeStep ? `当前阶段：${stepText[activeStep.agent].title}` : "准备分析合同"}</span>
+            <strong>{progressMessage(status, reportReady)}</strong>
           </div>
           <div className="progress-track" aria-label="分析阶段进度">
             <span style={{ width: status ? progressWidth(status.steps) : "14%" }} />
@@ -128,8 +149,8 @@ export function AnalysisPage() {
                     <IconComponent size={22} weight={step.status === "completed" ? "bold" : "duotone"} />
                   </span>
                   <span>
-                    <strong>{step.label}</strong>
-                    <small>{step.message ?? statusText[step.status]}</small>
+                    <strong>{stepText[step.agent].title}</strong>
+                    <small>{step.status === "processing" ? stepText[step.agent].processing : stepText[step.agent].description}</small>
                   </span>
                   <span className={`agent-status agent-status--step agent-status--${step.status}`}>{statusText[step.status]}</span>
                   {step.status === "processing" && <span className="step-pulse" aria-label="处理中" />}
@@ -163,7 +184,7 @@ export function AnalysisPage() {
               重新分析
             </Link>
           </div>
-          <p className="progress-note">演示数据模式约 3 至 6 秒完成；真实模式进度来自后端实际 B/C/D 执行状态。</p>
+          <p className="progress-note">分析完成后会自动打开报告；如长时间无响应，可以重新上传合同再试。</p>
         </section>
       </main>
     </PageShell>

@@ -52,7 +52,7 @@ export function UploadPage() {
       return;
     }
     if (!mockModeEnabled && exampleSelected && !selectedFile && !contractText.trim()) {
-      setError("真实多 Agent 分析需要上传合同文件或粘贴合同文字；示例合同只在演示数据模式下使用。");
+      setError("请上传合同文件或粘贴合同文字；示例合同仅用于体验示例分析。");
       return;
     }
 
@@ -68,8 +68,8 @@ export function UploadPage() {
           });
       sessionStorage.setItem(`analysis:${task.taskId}:contractName`, contractName);
       navigate(`/analysis/${task.taskId}`, { state: { contractName } });
-    } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : "暂时无法开始分析，请稍后重试。");
+    } catch {
+      setError("暂时无法开始分析，请稍后重试。");
       setSubmitting(false);
     }
   };
@@ -89,11 +89,11 @@ export function UploadPage() {
           <div className={`mode-banner${mockModeEnabled ? " mode-banner--mock" : " mode-banner--real"}`}>
             <Robot size={21} weight="duotone" />
             <div>
-              <strong>{mockModeEnabled ? "演示数据模式" : "真实多 Agent 分析"}</strong>
+              <strong>{mockModeEnabled ? "示例分析模式" : "合同分析服务"}</strong>
               <span>
                 {mockModeEnabled
-                  ? "将使用静态 B/C/D 数据演示完整流程，不调用真实 C、D Agent。"
-                  : "将上传到 Express Pipeline，依次运行 B、C、D 并生成真实报告。"}
+                  ? "将使用示例合同生成一份体验报告，方便先了解报告结构。"
+                  : "将读取合同内容，生成成本、风险和建议报告。"}
               </span>
             </div>
           </div>
@@ -136,7 +136,7 @@ export function UploadPage() {
                 <strong>{selectedFile ? selectedFile.name : "点击或拖拽合同到这里"}</strong>
                 <span>{selectedFile ? "将读取文本层；图片会尝试 OCR 识别" : "支持 PDF、DOCX、TXT、JPG、PNG、WEBP"}</span>
               </button>
-              <p className="support-note">支持 PDF、Word、图片和文本文件；演示数据模式不会上传文件，真实模式会发送到本地后端分析。</p>
+              <p className="support-note">支持 PDF、Word、图片和文本文件；请确认合同内容清晰完整。</p>
 
               <div className="or-divider"><span>或</span></div>
 
@@ -192,9 +192,9 @@ export function UploadPage() {
             {error && <div className="form-error" role="alert">{error}</div>}
 
             <button className="primary-button primary-button--wide" type="submit" disabled={submitting}>
-              {submitting ? "正在创建分析任务…" : "开始分析"}
+              {submitting ? "正在开始分析…" : "开始分析"}
             </button>
-            <p className="privacy-note"><ShieldCheck size={18} weight="duotone" />演示数据模式仅在浏览器本地生成任务；真实模式会调用本地 B/C/D Pipeline。</p>
+            <p className="privacy-note"><ShieldCheck size={18} weight="duotone" />分析过程仅用于生成本次报告；结果仅供参考，请结合合同原文核实。</p>
           </div>
 
           <aside className="upload-side-panel" aria-label="分析路径">
@@ -204,9 +204,9 @@ export function UploadPage() {
             </div>
             <ol className="capability-list">
               <li><FileText size={20} weight="duotone" /><span>上传识别</span><small>PDF 文本层、Word、图片 OCR</small></li>
-              <li><Calculator size={20} weight="duotone" /><span>B 合同与成本 Agent</span><small>金额、期限、费用、现金流和真实年化</small></li>
-              <li><ClipboardText size={20} weight="duotone" /><span>C 风险与案例 Agent</span><small>风险条款、clauseId、典型情景匹配</small></li>
-              <li><Receipt size={20} weight="duotone" /><span>D 建议与行动 Agent</span><small>确认问题、证据清单、沟通话术和行动计划</small></li>
+              <li><Calculator size={20} weight="duotone" /><span>成本分析</span><small>金额、期限、费用、现金流和真实年化</small></li>
+              <li><ClipboardText size={20} weight="duotone" /><span>风险识别</span><small>风险条款、合同原文和典型情景</small></li>
+              <li><Receipt size={20} weight="duotone" /><span>建议行动</span><small>确认问题、证据清单和行动计划</small></li>
             </ol>
           </aside>
         </form>
