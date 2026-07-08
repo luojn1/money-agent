@@ -195,9 +195,6 @@ textarea:focus, select:focus, input:focus { border-color: var(--terracotta); box
 }
 .intro-summary span, .intro-summary small { color: #dbe8e0; font-size: 13px; }
 .intro-summary strong { margin: 8px 0 6px; color: #fff; font-size: 36px; letter-spacing: 0; line-height: 1; }
-.preview-mode-banner { margin: 0 0 18px; padding: 14px 16px; border: 1px solid #d8b46e; border-radius: 8px; display: flex; align-items: center; gap: 12px; color: #66440c; background: #fff6df; font-size: 14px; line-height: 1.55; }
-.preview-mode-banner strong { flex: 0 0 auto; padding: 4px 8px; border-radius: 6px; color: #fff; background: var(--amber); font-size: 12px; letter-spacing: 0.08em; }
-.preview-mode-banner span { min-width: 0; }
 .report-tabs { margin-top: 18px; padding: 6px; border: 1px solid var(--line); border-radius: 10px; display: flex; gap: 6px; background: #fffdf8; overflow-x: auto; scrollbar-width: thin; }
 .report-tab { flex: 1 0 auto; min-width: 104px; border: 0; border-radius: 8px; padding: 11px 16px; color: var(--ink-soft); background: transparent; font-size: 14px; font-weight: 850; white-space: nowrap; cursor: pointer; }
 .report-tab:hover { color: var(--ink); background: #f8efe5; }

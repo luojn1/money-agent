@@ -117,21 +117,15 @@ const reportStatusLabel: Record<PipelineReport["status"], string> = {
   pending: "等待分析",
   processing: "分析进行中",
   completed: "分析已完成",
-  partial: "部分信息待核对",
+  partial: "报告已生成",
   failed: "分析未完成",
 };
 
 const reportStatusDescription = (status: PipelineReport["status"]) => {
-  if (status === "partial") return "部分关键信息未能完整识别，报告已基于现有内容生成，请结合合同原文核对。";
   if (status === "failed") return "分析未完成，请稍后重试。";
   if (status === "pending" || status === "processing") return "系统正在整理合同分析结果，请稍后查看。";
   return "系统已完成成本、风险和建议分析，结果仅供参考，请结合合同原文核实。";
 };
-
-const reportWarningText = (status: PipelineReport["status"]) =>
-  status === "partial"
-    ? "部分关键信息未能完整识别，请结合合同原文核对后再作决策。"
-    : "分析已完成，但发现需要重点核对的信息，请结合合同原文确认。";
 
 const referenceTagLabel = (tag: string) => tag === "演示案例" ? "典型情景" : tag;
 
@@ -670,7 +664,6 @@ export function ReportPage() {
 
   const actionDigest = buildActionDigest(report);
   const riskGroups = buildRiskGroups(report.risks);
-  const isPartialReport = report.status === "partial";
   const visibleCalculationBasis = uniqueTextList(
     report.costAnalysis.calculationBasis.map((basis) => cleanUserFacingText(basis)).filter(Boolean),
   );
@@ -695,12 +688,6 @@ export function ReportPage() {
             <small>{costLevelLabel[report.costAnalysis.costLevel]}</small>
           </div>
         </section>
-        {isPartialReport && (
-          <div className="preview-mode-banner" role="status">
-            <strong>提示</strong>
-            <span>部分关键信息未能完整识别，报告已基于现有内容生成，请结合合同原文核对。</span>
-          </div>
-        )}
 
         <nav className="report-tabs" role="tablist" aria-label="报告内容导航">
           {reportTabs.map((tab) => (
@@ -954,12 +941,6 @@ export function ReportPage() {
         </section>
         )}
 
-        {report.warnings.length > 0 && (
-          <footer className="report-disclaimer">
-            <Calculator size={22} weight="duotone" />
-            <p><strong>提示</strong>{reportWarningText(report.status)}</p>
-          </footer>
-        )}
       </main>
     </PageShell>
   );
