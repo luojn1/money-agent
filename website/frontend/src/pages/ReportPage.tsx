@@ -117,12 +117,12 @@ const reportStatusLabel: Record<PipelineReport["status"], string> = {
   pending: "等待分析",
   processing: "分析进行中",
   completed: "分析已完成",
-  partial: "部分分析可能未完成",
+  partial: "部分信息待核对",
   failed: "分析未完成",
 };
 
 const reportStatusDescription = (status: PipelineReport["status"]) => {
-  if (status === "partial") return "部分分析可能未完成，建议重新分析后再作决策。";
+  if (status === "partial") return "部分关键信息未能完整识别，报告已基于现有内容生成，请结合合同原文核对。";
   if (status === "failed") return "分析未完成，请稍后重试。";
   if (status === "pending" || status === "processing") return "系统正在整理合同分析结果，请稍后查看。";
   return "系统已完成成本、风险和建议分析，结果仅供参考，请结合合同原文核实。";
@@ -130,8 +130,8 @@ const reportStatusDescription = (status: PipelineReport["status"]) => {
 
 const reportWarningText = (status: PipelineReport["status"]) =>
   status === "partial"
-    ? "部分分析可能未完成，建议重新分析后再作决策。"
-    : "分析结果仅供参考，请结合合同原文核实。";
+    ? "部分关键信息未能完整识别，请结合合同原文核对后再作决策。"
+    : "分析已完成，但发现需要重点核对的信息，请结合合同原文确认。";
 
 const referenceTagLabel = (tag: string) => tag === "演示案例" ? "典型情景" : tag;
 
@@ -597,11 +597,12 @@ export function ReportPage() {
   const [report, setReport] = useState<PipelineReport | null>(null);
   const [error, setError] = useState("");
   const [retryKey, setRetryKey] = useState(0);
-  const [activeTab, setActiveTab] = useState<ReportTab>("overview");
+  const [activeTabState, setActiveTabState] = useState<{ taskId: string; tab: ReportTab }>({ taskId, tab: "overview" });
+  const activeTab = activeTabState.taskId === taskId ? activeTabState.tab : "overview";
+  const setActiveTab = (tab: ReportTab) => setActiveTabState({ taskId, tab });
 
   useEffect(() => {
     let disposed = false;
-    setActiveTab("overview");
     api.getAnalysisResult(taskId)
       .then((data) => {
         if (!disposed) {
@@ -697,7 +698,7 @@ export function ReportPage() {
         {isPartialReport && (
           <div className="preview-mode-banner" role="status">
             <strong>提示</strong>
-            <span>部分分析可能未完成，建议重新分析后再作决策。</span>
+            <span>部分关键信息未能完整识别，报告已基于现有内容生成，请结合合同原文核对。</span>
           </div>
         )}
 
@@ -776,18 +777,22 @@ export function ReportPage() {
         )}
 
         {activeTab === "risks" && (
-        <section id="report-panel-risks" role="tabpanel" className="report-section" aria-labelledby="risk-title">
+        <section id="report-panel-risks" role="tabpanel" className="report-section risks-section" aria-labelledby="risk-title">
           <div className="report-section__heading">
             <span className="section-number">C</span>
-            <div><h2 id="risk-title">风险识别</h2><p>按风险类型先看地图概况，再展开查看合同原文和确认问题。</p></div>
+            <div><h2 id="risk-title">风险识别</h2><p>按风险类型先看概况，再展开查看合同原文、风险说明和参考依据。</p></div>
           </div>
           {riskGroups.length > 0 ? (
             <div className="risk-map">
-              {riskGroups.map((group) => {
+              {riskGroups.map((group, groupIndex) => {
                 const visibleItems = group.items.slice(0, 3);
                 const extraItems = group.items.slice(3);
                 return (
-                  <details key={group.id} className="risk-group" open={group.defaultOpen}>
+                  <details
+                    key={group.id}
+                    className={`risk-group ${groupIndex % 2 === 0 ? "risk-group--tinted" : "risk-group--plain"}`}
+                    open={group.defaultOpen}
+                  >
                     <summary className="risk-group__summary">
                       <div>
                         <strong>{group.title}</strong>
@@ -798,8 +803,8 @@ export function ReportPage() {
                       </span>
                     </summary>
                     <div className="risk-list">
-                      {visibleItems.map((item, index) => (
-                        <RiskCard key={item.id} item={item} defaultExpanded={group.defaultOpen && index === 0} />
+                      {visibleItems.map((item) => (
+                        <RiskCard key={item.id} item={item} />
                       ))}
                     </div>
                     {extraItems.length > 0 && (

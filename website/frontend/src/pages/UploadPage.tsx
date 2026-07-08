@@ -217,7 +217,7 @@ export function UploadPage() {
           <button className="primary-button primary-button--wide" type="submit" disabled={submitting}>
             {submitting ? "正在开始分析…" : "开始分析"}
           </button>
-          <p className="privacy-note"><ShieldCheck size={18} weight="duotone" />分析过程仅用于生成本次报告；结果仅供参考，请结合合同原文核实。</p>
+          <p className="privacy-note"><ShieldCheck size={18} weight="duotone" />分析结果仅供参考，请结合合同原文核实。</p>
         </form>
 
         <section className="value-section" aria-labelledby="value-title">
