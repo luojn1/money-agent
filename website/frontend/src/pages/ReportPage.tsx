@@ -828,7 +828,16 @@ export function ReportPage() {
                       <span>{referenceTagLabel(item.tag)}</span>
                       <strong>{cleanUserFacingText(item.title.replace(/演示/g, "参考"), "参考内容")}</strong>
                       <p>{cleanUserFacingText(item.summary, referenceSummaryFallback(item.tag))}</p>
-                      {item.sourceUrl && <a href={item.sourceUrl}>{cleanUserFacingText(item.sourceLabel, "查看来源")}</a>}
+                      {item.sourceUrl ? (
+                        <a href={item.sourceUrl} target="_blank" rel="noreferrer">
+                          {cleanUserFacingText(item.sourceLabel, "查看来源")}
+                        </a>
+                      ) : (
+                        <details className="reference-source-details">
+                          <summary>查看来源</summary>
+                          <p>当前依据来自系统内置参考库，暂未提供可打开的外部链接。请以报告摘要和合同原文核对。</p>
+                        </details>
+                      )}
                     </article>
                   ))}
                 </div>

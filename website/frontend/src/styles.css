@@ -310,7 +310,7 @@ textarea:focus, select:focus, input:focus { border-color: var(--terracotta); box
 .risk-card--medium .risk-card__leading > svg { color: var(--amber); }
 .risk-card--low .risk-card__leading > svg { color: var(--sage); }
 .risk-card__toggle { color: var(--muted); font-size: 12px; font-weight: 850; }
-.risk-badge { min-width: 62px; padding: 5px 9px; border-radius: 999px; display: inline-flex; justify-content: center; font-size: 12px; font-weight: 800; }
+.risk-badge { min-width: 62px; padding: 5px 9px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
 .risk-badge--high { color: #9b231e; background: #ffe1dc; }
 .risk-badge--medium { color: #8f520c; background: #ffedcf; }
 .risk-badge--low { color: #376b3d; background: #e4f1e1; }
@@ -347,7 +347,8 @@ textarea:focus, select:focus, input:focus { border-color: var(--terracotta); box
 .reference-item span { display: inline-flex; margin-bottom: 8px; padding: 4px 8px; border-radius: 999px; color: #6e542f; background: #f4ead5; font-size: 12px; font-weight: 850; }
 .reference-item strong { display: block; color: var(--ink); font-size: 15px; }
 .reference-item p { margin: 8px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.65; }
-.reference-item a { display: inline-flex; margin-top: 10px; color: var(--terracotta); font-size: 13px; font-weight: 800; }
+.reference-item a, .reference-source-details summary { display: inline-flex; margin-top: 10px; color: var(--terracotta); font-size: 13px; font-weight: 800; cursor: pointer; }
+.reference-source-details p { margin-top: 8px; color: var(--muted); font-size: 12px; }
 .actions-section { background: #fffdf8; }
 .action-summary-card { margin-bottom: 18px; padding: 18px; border: 1px solid #cfded4; border-radius: 8px; display: flex; align-items: flex-start; gap: 12px; background: #f3faf5; }
 .action-summary-card svg { flex: 0 0 auto; color: var(--sage); }
@@ -357,7 +358,8 @@ textarea:focus, select:focus, input:focus { border-color: var(--terracotta); box
 .important-actions { margin-top: 18px; }
 .important-actions h3, .stage-action-card h3, .more-actions-panel h3 { margin: 0; color: var(--ink); font-size: 16px; letter-spacing: 0; }
 .important-action-list { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-.important-action-list li { min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: 8px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; background: #fff; }
+.important-action-list li { min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: 8px; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; background: #fff; }
+.important-action-list .risk-badge { align-self: center; }
 .important-action-list strong, .stage-action-card strong, .more-actions-list strong { display: block; color: var(--ink); font-size: 14px; line-height: 1.45; }
 .important-action-list p, .stage-action-card p, .more-actions-list p { margin: 6px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.65; }
 .important-action-list small, .stage-action-card small, .more-actions-list small { display: block; margin-top: 7px; color: var(--muted); font-size: 12px; line-height: 1.45; }
