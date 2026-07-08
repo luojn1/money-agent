@@ -782,7 +782,9 @@ export function ReportPage() {
                   >
                     <summary className="risk-group__summary">
                       <div>
-                        <strong>{group.title}</strong>
+                        <strong className="risk-group__title">
+                          <span className="risk-group__index">{groupIndex + 1}.</span>{group.title}
+                        </strong>
                         <p>{group.summary}</p>
                       </div>
                       <span>
