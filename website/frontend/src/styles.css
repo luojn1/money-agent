@@ -193,6 +193,10 @@ textarea:focus, select:focus, input:focus { border-color: var(--terracotta); box
 .preview-mode-banner { margin: 0 0 18px; padding: 14px 16px; border: 1px solid #d8b46e; border-radius: 8px; display: flex; align-items: center; gap: 12px; color: #66440c; background: #fff6df; font-size: 14px; line-height: 1.55; }
 .preview-mode-banner strong { flex: 0 0 auto; padding: 4px 8px; border-radius: 6px; color: #fff; background: var(--amber); font-size: 12px; letter-spacing: 0.08em; }
 .preview-mode-banner span { min-width: 0; }
+.report-tabs { margin-top: 18px; padding: 6px; border: 1px solid var(--line); border-radius: 10px; display: flex; gap: 6px; background: #fffdf8; overflow-x: auto; scrollbar-width: thin; }
+.report-tab { flex: 1 0 auto; min-width: 104px; border: 0; border-radius: 8px; padding: 11px 16px; color: var(--ink-soft); background: transparent; font-size: 14px; font-weight: 850; white-space: nowrap; cursor: pointer; }
+.report-tab:hover { color: var(--ink); background: #f8efe5; }
+.report-tab.is-active { color: #fff; background: var(--terracotta); box-shadow: 0 8px 18px rgba(149, 83, 56, 0.18); }
 .report-section { margin-top: 18px; padding: 28px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); box-shadow: 0 10px 28px rgba(31, 54, 46, 0.04); }
 .report-section__heading { margin-bottom: 22px; display: grid; grid-template-columns: 38px minmax(0, 1fr); align-items: start; gap: 14px; }
 .section-number { width: 38px; height: 38px; display: grid; place-items: center; color: var(--sage-dark); background: #e8f0eb; border-radius: 8px; font-size: 12px; font-weight: 900; letter-spacing: 0; }
@@ -316,8 +320,6 @@ textarea:focus, select:focus, input:focus { border-color: var(--terracotta); box
 .action-summary-card svg { flex: 0 0 auto; color: var(--sage); }
 .action-summary-card span { color: var(--sage-dark); font-size: 12px; font-weight: 850; }
 .action-summary-card p { margin: 6px 0 0; color: var(--ink); font-size: 16px; line-height: 1.65; }
-.summary-tag-row { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
-.summary-tag-row b { padding: 5px 9px; border-radius: 999px; color: #4f6a38; background: #e6f1de; font-size: 12px; line-height: 1; }
 .summary-next-step { display: block; margin-top: 12px; color: var(--ink-soft); font-size: 14px; line-height: 1.65; }
 .important-actions { margin-top: 18px; }
 .important-actions h3, .stage-action-card h3, .more-actions-panel h3 { margin: 0; color: var(--ink); font-size: 16px; letter-spacing: 0; }

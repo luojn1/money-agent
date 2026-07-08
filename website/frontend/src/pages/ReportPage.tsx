@@ -86,12 +86,14 @@ type RankedAction = ActionItem & {
   focusKey: string;
   primaryRisk: PipelineRiskItem | null;
   riskTitle: string;
+  displayTitle: string;
+  displayDetail: string;
   score: number;
+  topScore: number;
 };
 
 type ActionDigest = {
   conclusion: string;
-  tags: string[];
   nextAction: string;
   topActions: RankedAction[];
   stages: Array<{ stage: ActionStage; title: string; items: RankedAction[] }>;
@@ -100,6 +102,16 @@ type ActionDigest = {
   evidenceChecklist: string[];
   communicationScripts: string[];
 };
+
+type ReportTab = "overview" | "cost" | "risks" | "references" | "actions";
+
+const reportTabs: Array<{ id: ReportTab; label: string }> = [
+  { id: "overview", label: "合同概览" },
+  { id: "cost", label: "成本分析" },
+  { id: "risks", label: "风险识别" },
+  { id: "references", label: "案例依据" },
+  { id: "actions", label: "建议行动" },
+];
 
 const normalizeText = (text: string) =>
   text
@@ -140,6 +152,23 @@ const dedupeActions = (items: ActionItem[]) => {
   return [...byKey.values()];
 };
 
+const cleanAdviceText = (text: string) =>
+  text
+    .replace(/命中规则[:：]?[^。；\n]*/g, "")
+    .replace(/知识库中?有?\s*\d+\s*起?同类纠纷案例可供参考/g, "")
+    .replace(/知识库[^。；\n]*(案例|纠纷|规则|依据|参考)[^。；\n]*/g, "")
+    .replace(/同类纠纷案例[^。；\n]*/g, "")
+    .replace(/\s+/g, " ")
+    .replace(/^[，。；、:：\s]+|[，；、:：\s]+$/g, "")
+    .trim();
+
+const oneSentence = (text: string, fallback: string) => {
+  const cleaned = cleanAdviceText(text) || cleanAdviceText(fallback);
+  const sentence = cleaned.split(/[。！？；\n]/).map((item) => item.trim()).find(Boolean) ?? "";
+  if (!sentence) return "先向机构确认相关规则，并保留书面回复。";
+  return /[。！？]$/.test(sentence) ? sentence : `${sentence}。`;
+};
+
 const riskFocusKey = (risk: PipelineRiskItem | null, fallbackText = "") => {
   const text = `${risk?.title ?? ""}${risk?.reason ?? ""}${risk?.possibleConsequence ?? ""}${fallbackText}`;
   if (risk?.category === "cost_transparency" || risk?.category === "interest_fee" || risk?.category === "repayment") return "money";
@@ -148,6 +177,16 @@ const riskFocusKey = (risk: PipelineRiskItem | null, fallbackText = "") => {
   if (risk?.category === "prepayment" || /解除|终止|提前|结清|退出/.test(text)) return "exit";
   if (risk?.category === "dispute_resolution" || /争议|投诉|仲裁|诉讼|管辖/.test(text)) return "dispute";
   return risk?.category ?? "other";
+};
+
+const resolveActionStage = (item: ActionItem, primaryRisk: PipelineRiskItem | null): ActionStage => {
+  const text = `${item.title}${item.detail}${primaryRisk?.title ?? ""}${primaryRisk?.reason ?? ""}${primaryRisk?.possibleConsequence ?? ""}`;
+  if (primaryRisk?.category === "dispute_resolution" || /仲裁|送达|管辖|投诉|维权|争议|诉讼|调解|异议/.test(text)) return "when_dispute";
+  if (primaryRisk?.category === "prepayment" || /提前还款|提前结清|提前终止|提前解除|退款|退费|退出|结清试算|最终结清|解除条件|终止条件/.test(text)) return "before_prepayment";
+  if (/单方变更|默示同意|不同意变更|立即结清|合同变更|变更通知|调整条款/.test(text)) return "before_signing";
+  if (primaryRisk?.category === "overdue" || /逾期|违约|催收|罚息|违约金/.test(text)) return "when_overdue";
+  if (primaryRisk?.category === "authorization_privacy" && /授权范围|自动扣款授权|个人信息|隐私|解绑银行卡|更换银行卡/.test(text)) return "before_signing";
+  return item.stage;
 };
 
 const stageFromRisk = (risk: PipelineRiskItem): ActionStage => {
@@ -201,6 +240,8 @@ const makeRiskBackedAction = (risk: PipelineRiskItem): ActionItem => ({
 
 const rankActions = (report: PipelineReport) => {
   const riskById = new Map(report.risks.map((risk) => [risk.id, risk]));
+  const productType = report.overview.productType ?? "";
+  const isLoanLike = /贷|借款|贷款/.test(productType) || !/信用卡|分期|租赁|服务/.test(productType);
   const fromActionPlan = report.actions.actionPlan.flatMap((section) => section.items);
   const baseActions = dedupeActions([
     ...fromActionPlan,
@@ -220,6 +261,7 @@ const rankActions = (report: PipelineReport) => {
         .map((id) => riskById.get(id) ?? null)
         .filter((risk): risk is PipelineRiskItem => Boolean(risk))
         .sort((left, right) => riskLevelWeight[right.riskLevel] - riskLevelWeight[left.riskLevel])[0] ?? null;
+      const stage = resolveActionStage(item, primaryRisk);
       const focusKey = riskFocusKey(primaryRisk, `${item.title}${item.detail}`);
       const text = `${item.title}${item.detail}${primaryRisk?.possibleConsequence ?? ""}`;
       const keywordBoost = /成本|费用|利息|年化|违约|逾期|罚息|授权|扣款|个人信息|隐私|解除|终止|争议|仲裁|诉讼/.test(text) ? 8 : 0;
@@ -229,13 +271,25 @@ const rankActions = (report: PipelineReport) => {
         (primaryRisk ? importantCategoryWeight[primaryRisk.category] ?? 0 : 0) +
         (costIsElevated && focusKey === "money" ? 10 : 0) +
         keywordBoost;
+      const topScore =
+        score +
+        (stage === "before_signing" ? 45 : 0) +
+        (isLoanLike && focusKey === "money" ? 45 : 0) +
+        (focusKey === "exit" ? 15 : 0) +
+        (stage === "when_overdue" ? -45 : 0) +
+        (stage === "when_dispute" ? -20 : 0);
+      const fallbackDetail = primaryRisk?.questionToAsk || primaryRisk?.possibleConsequence || primaryRisk?.reason || "";
 
       return {
         ...item,
+        stage,
         focusKey,
         primaryRisk,
         riskTitle: primaryRisk?.title ?? "当前合同风险",
+        displayTitle: cleanAdviceText(item.title) || primaryRisk?.title || "确认合同关键问题",
+        displayDetail: oneSentence(item.detail, fallbackDetail),
         score,
+        topScore,
       };
     })
     .sort((left, right) => {
@@ -248,12 +302,42 @@ const rankActions = (report: PipelineReport) => {
 const buildTopActions = (actions: RankedAction[]) => {
   const usedFocusKeys = new Set<string>();
   const topActions: RankedAction[] = [];
-  actions.forEach((item) => {
-    if (!item.primaryRisk || usedFocusKeys.has(item.focusKey) || topActions.length >= 3) return;
-    usedFocusKeys.add(item.focusKey);
-    topActions.push(item);
-  });
+  const addFromPool = (pool: RankedAction[]) => {
+    pool
+      .sort((left, right) => right.topScore - left.topScore)
+      .forEach((item) => {
+        if (!item.primaryRisk || usedFocusKeys.has(item.focusKey) || topActions.length >= 3) return;
+        usedFocusKeys.add(item.focusKey);
+        topActions.push(item);
+      });
+  };
+  addFromPool(actions.filter((item) => item.stage !== "when_overdue" && item.stage !== "when_dispute"));
+  addFromPool(actions);
   return topActions;
+};
+
+const buildNaturalConclusion = (report: PipelineReport) => {
+  const riskCategories = new Set(report.risks.map((risk) => risk.category));
+  const highRiskCount = report.risks.filter((risk) => risk.riskLevel === "high").length;
+  const costNeedsAttention = report.costAnalysis.costLevel === "high" || report.costAnalysis.costLevel === "warning";
+  const parts: string[] = [];
+
+  if (costNeedsAttention) {
+    parts.push(report.overview.realAnnualRate !== null
+      ? `真实年化约 ${percent(report.overview.realAnnualRate)}，实际成本需要重点确认`
+      : "实际成本需要重点确认");
+  }
+  if ((report.costAnalysis.principalGap ?? 0) > 0) parts.push(`实际到账比合同本金少 ${money(report.costAnalysis.principalGap)}`);
+  if (riskCategories.has("cost_transparency") || riskCategories.has("interest_fee")) parts.push("部分费用说明还不够清楚");
+  if (riskCategories.has("prepayment")) parts.push("提前结清或退出规则需要先问清");
+  if (riskCategories.has("authorization_privacy")) parts.push("扣款授权和个人信息使用范围需要核实");
+  if (riskCategories.has("overdue")) parts.push("逾期后的费用和后果需要留意");
+  if (riskCategories.has("dispute_resolution")) parts.push("争议处理路径需要提前确认");
+
+  if (!parts.length) return "这份合同暂未识别出明显高风险，但签约前仍建议把费用、还款和争议处理方式问清楚。";
+
+  const opening = highRiskCount > 0 ? "这份合同签约前需要重点确认。" : "这份合同可以继续评估，但建议先做几项核实。";
+  return `${opening}主要问题是${parts.slice(0, 3).join("、")}。`;
 };
 
 const buildActionDigest = (report: PipelineReport): ActionDigest => {
@@ -278,31 +362,20 @@ const buildActionDigest = (report: PipelineReport): ActionDigest => {
         visibleCount += 1;
       });
     return { stage, title: stageTitleFor(stage, report.overview.productType), items };
-  });
+  }).filter((section) => section.items.length > 0);
 
   rankedActions.forEach((item) => {
     if (usedActionIds.has(item.id) || moreActions.some((action) => action.id === item.id)) return;
     moreActions.push(item);
   });
 
-  const highRiskCount = report.risks.filter((risk) => risk.riskLevel === "high").length;
-  const topRisk = topActions[0]?.primaryRisk ?? report.risks[0] ?? null;
-  const tags = [
-    report.costAnalysis.costLevel === "high" || report.costAnalysis.costLevel === "warning" ? costLevelLabel[report.costAnalysis.costLevel] : null,
-    ...report.risks.map((risk) => risk.categoryLabel),
-  ].filter((item): item is string => Boolean(item));
-  const uniqueTags = [...new Set(tags)].slice(0, 5);
-  const tagText = uniqueTags.slice(0, 2).join("、") || "合同关键信息";
-  const conclusion = topRisk
-    ? `这份合同的主要问题集中在${tagText}，${highRiskCount > 0 ? `其中 ${highRiskCount} 项高风险需要先澄清。` : "需要按阶段留痕确认。"}`
-    : "这份合同暂未识别出明确风险，仍建议补齐费用、还款和争议处理信息后再决策。";
+  const conclusion = buildNaturalConclusion(report);
   const nextAction = topActions[0]
-    ? `优先完成“${topActions[0].title}”，并保留机构书面回复。`
+    ? `优先完成“${topActions[0].displayTitle}”，并保留机构书面回复。`
     : "先补齐合同金额、利率、费用和还款安排，再判断是否签约或继续履行。";
 
   return {
     conclusion,
-    tags: uniqueTags.length ? uniqueTags : ["信息待核实"],
     nextAction,
     topActions,
     stages,
@@ -318,9 +391,11 @@ export function ReportPage() {
   const [report, setReport] = useState<PipelineReport | null>(null);
   const [error, setError] = useState("");
   const [retryKey, setRetryKey] = useState(0);
+  const [activeTab, setActiveTab] = useState<ReportTab>("overview");
 
   useEffect(() => {
     let disposed = false;
+    setActiveTab("overview");
     api.getAnalysisResult(taskId)
       .then((data) => {
         if (!disposed) {
@@ -416,7 +491,25 @@ export function ReportPage() {
           </div>
         )}
 
-        <section className="report-section metrics-section" aria-labelledby="overview-title">
+        <nav className="report-tabs" role="tablist" aria-label="报告内容导航">
+          {reportTabs.map((tab) => (
+            <button
+              key={tab.id}
+              id={`report-tab-${tab.id}`}
+              className={`report-tab ${activeTab === tab.id ? "is-active" : ""}`}
+              type="button"
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`report-panel-${tab.id}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+
+        {activeTab === "overview" && (
+        <section id="report-panel-overview" role="tabpanel" className="report-section metrics-section" aria-labelledby="overview-title">
           <div className="report-section__heading">
             <span className="section-number">A</span>
             <div><h2 id="overview-title">合同概览</h2><p>先核对合同主体、金额、期限、月供和利率口径。</p></div>
@@ -436,8 +529,10 @@ export function ReportPage() {
             ))}
           </dl>
         </section>
+        )}
 
-        <section className="report-section cost-section" aria-labelledby="cost-title">
+        {activeTab === "cost" && (
+        <section id="report-panel-cost" role="tabpanel" className="report-section cost-section" aria-labelledby="cost-title">
           <div className="report-section__heading">
             <span className="section-number">B</span>
             <div><h2 id="cost-title">成本分析</h2><p>把本金、利息、服务费和真实年化放在同一口径核对。</p></div>
@@ -466,8 +561,10 @@ export function ReportPage() {
             {report.costAnalysis.calculationBasis.map((basis) => <p key={basis}>{basis}</p>)}
           </div>
         </section>
+        )}
 
-        <section className="report-section" aria-labelledby="risk-title">
+        {activeTab === "risks" && (
+        <section id="report-panel-risks" role="tabpanel" className="report-section" aria-labelledby="risk-title">
           <div className="report-section__heading">
             <span className="section-number">C</span>
             <div><h2 id="risk-title">风险识别</h2><p>每项风险都保留风险等级、类别、条款、原因、后果和建议确认问题。</p></div>
@@ -476,8 +573,10 @@ export function ReportPage() {
             {report.risks.map((item, index) => <RiskCard key={item.id} item={item} defaultExpanded={index === 0} />)}
           </div>
         </section>
+        )}
 
-        <section className="report-section references-section" aria-labelledby="references-title">
+        {activeTab === "references" && (
+        <section id="report-panel-references" role="tabpanel" className="report-section references-section" aria-labelledby="references-title">
           <div className="report-section__heading">
             <span className="section-number">D</span>
             <div><h2 id="references-title">案例和依据</h2><p>演示数据只展示典型情景和规则口径，不包装成真实判例来源。</p></div>
@@ -500,8 +599,10 @@ export function ReportPage() {
             ))}
           </div>
         </section>
+        )}
 
-        <section className="report-section actions-section" aria-labelledby="actions-title">
+        {activeTab === "actions" && (
+        <section id="report-panel-actions" role="tabpanel" className="report-section actions-section" aria-labelledby="actions-title">
           <div className="report-section__heading">
             <span className="section-number">E</span>
             <div><h2 id="actions-title">建议与行动</h2><p>先看主要问题和前三件要务，再按阶段执行。</p></div>
@@ -512,9 +613,6 @@ export function ReportPage() {
             <div>
               <span>一句话结论</span>
               <p>{actionDigest.conclusion}</p>
-              <div className="summary-tag-row">
-                {actionDigest.tags.map((tag) => <b key={tag}>{tag}</b>)}
-              </div>
               <strong className="summary-next-step">{actionDigest.nextAction}</strong>
             </div>
           </article>
@@ -529,8 +627,8 @@ export function ReportPage() {
                       {item.primaryRisk ? riskLevelLabel[item.primaryRisk.riskLevel] : priorityLabel[item.priority]}
                     </span>
                     <div>
-                      <strong>{item.title}</strong>
-                      <p>{item.detail}</p>
+                      <strong>{item.displayTitle}</strong>
+                      <p>{item.displayDetail}</p>
                       <small>关联风险：{item.riskTitle}</small>
                     </div>
                   </li>
@@ -541,46 +639,44 @@ export function ReportPage() {
             )}
           </div>
 
-          <div className="stage-action-list">
-            {actionDigest.stages.map((section, index) => (
-              <article className="stage-action-card" key={section.stage}>
-                <header>
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <div>
-                    <h3>{section.title}</h3>
-                    <small>{section.items.length ? `${section.items.length} 项` : "暂无额外事项"}</small>
-                  </div>
-                </header>
-                {section.items.length ? (
+          {actionDigest.stages.length > 0 && (
+            <div className="stage-action-list">
+              {actionDigest.stages.map((section, index) => (
+                <article className="stage-action-card" key={section.stage}>
+                  <header>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <div>
+                      <h3>{section.title}</h3>
+                      <small>{section.items.length} 项</small>
+                    </div>
+                  </header>
                   <ul>
                     {section.items.map((item) => (
                       <li key={item.id}>
-                        <strong>{item.title}</strong>
-                        <p>{item.detail}</p>
-                        <small>{priorityLabel[item.priority]} · 关联风险：{item.riskTitle}</small>
+                        <strong>{item.displayTitle}</strong>
+                        <p>{item.displayDetail}</p>
+                        <small>关联风险：{item.riskTitle}</small>
                       </li>
                     ))}
                   </ul>
-                ) : (
-                  <p className="stage-empty">当前识别结果下，没有需要在这一阶段单独处理的事项。</p>
-                )}
-              </article>
-            ))}
-          </div>
+                </article>
+              ))}
+            </div>
+          )}
 
           <details className="more-actions-panel">
             <summary>
-              <span>查看更多建议</span>
-              <small>{actionDigest.moreActions.length} 条低优先级或已合并后的补充建议</small>
+              <span>展开补充建议</span>
+              <small>低优先级和已合并的补充内容</small>
             </summary>
             <div className="more-actions-content">
               {actionDigest.moreActions.length > 0 && (
                 <ul className="more-actions-list">
                   {actionDigest.moreActions.map((item) => (
                     <li key={item.id}>
-                      <strong>{item.title}</strong>
-                      <p>{item.detail}</p>
-                      <small>{priorityLabel[item.priority]} · 关联风险：{item.riskTitle}</small>
+                      <strong>{item.displayTitle}</strong>
+                      <p>{item.displayDetail}</p>
+                      <small>关联风险：{item.riskTitle}</small>
                     </li>
                   ))}
                 </ul>
@@ -614,6 +710,7 @@ export function ReportPage() {
             </div>
           </details>
         </section>
+        )}
 
         {report.warnings.length > 0 && (
           <footer className="report-disclaimer">
