@@ -35,6 +35,8 @@ export type Evidence = {
   clauseId: string;
   quote: string;
   location: SourceLocation;
+  evidenceStart?: number | null;
+  evidenceEnd?: number | null;
 };
 
 export type AgentEnvelope<TAgent extends AgentId, TData> = {
@@ -58,6 +60,8 @@ export type ContractClause = {
   heading: string | null;
   text: string;
   location: SourceLocation;
+  evidenceStart?: number | null;
+  evidenceEnd?: number | null;
 };
 
 export type RepaymentScheduleItem = {
@@ -74,6 +78,14 @@ export type ContractCostAnalysisV1 = {
   totalInterest: number | null;
   additionalFees: number | null;
   realAnnualRate: number | null;
+  baseRealAnnualRate: number | null;
+  baseMonthlyIrr: number | null;
+  baseRealAnnualRateCompound: number | null;
+  comprehensiveRealAnnualRate: number | null;
+  comprehensiveMonthlyIrr: number | null;
+  comprehensiveRealAnnualRateCompound: number | null;
+  includedFees: AnalysisResult["costAnalysis"]["includedFees"];
+  excludedContingentCosts: AnalysisResult["costAnalysis"]["excludedContingentCosts"];
   calculationBasis: string[];
 };
 

@@ -35,6 +35,7 @@ export type FeeRateUnit = "annual" | "month" | "day" | "period" | "once" | "unkn
 export type ChargeTiming =
   | "upfront_deducted"
   | "upfront_paid"
+  | "first_period"
   | "per_period"
   | "on_prepayment"
   | "on_overdue"
@@ -46,6 +47,9 @@ export type ClauseType =
   | "prepayment"
   | "overdue"
   | "autoDebit"
+  | "privacy"
+  | "contractChange"
+  | "disputeResolution"
   | "purpose"
   | "rateAdjustment"
   | "guarantee"
@@ -113,6 +117,10 @@ export type ParsedContractClause = {
   type: ClauseType;
   text: string;
   location: string | null;
+  page: number | null;
+  paragraph: number | null;
+  startOffset: number | null;
+  endOffset: number | null;
   confidence: number;
 };
 
@@ -173,6 +181,14 @@ export type CostCalculationResult = {
   irrMonthly: number | null;
   realAnnualRateSimple: number | null;
   realAnnualRateCompound: number | null;
+  baseCashFlows: CashFlowItem[];
+  baseIrrMonthly: number | null;
+  baseRealAnnualRateSimple: number | null;
+  baseRealAnnualRateCompound: number | null;
+  comprehensiveCashFlows: CashFlowItem[];
+  comprehensiveIrrMonthly: number | null;
+  comprehensiveRealAnnualRateSimple: number | null;
+  comprehensiveRealAnnualRateCompound: number | null;
   displayAnnualRateMethod: "simple" | "compound";
   cashFlows: CashFlowItem[];
   includedFees: IncludedFee[];

@@ -39,7 +39,22 @@ const repaymentMethodLabel = (method: string | null) => {
 const findClauseText = (
   result: AnalysisResult["bAgentOutput"]["contractParseResult"],
   type: "prepayment" | "overdue" | "autoDebit" | "fee",
-) => result.clauses.find((clause) => clause.type === type)?.text ?? null;
+) => {
+  const clauses = result.clauses.filter((clause) => clause.type === type);
+  if (type === "prepayment") {
+    return clauses
+      .filter((clause) => /提前还款|提前结清/.test(clause.text))
+      .map((clause) => clause.text)
+      .join("；") || null;
+  }
+  if (type === "overdue") {
+    return clauses
+      .filter((clause) => /逾期|违约金|催收|立即到期/.test(clause.text))
+      .map((clause) => clause.text)
+      .join("；") || null;
+  }
+  return clauses[0]?.text ?? null;
+};
 
 const riskFromCost = (level: AnalysisResult["costAnalysis"]["costLevel"]): RiskLevel => {
   if (level === "high") return "high";

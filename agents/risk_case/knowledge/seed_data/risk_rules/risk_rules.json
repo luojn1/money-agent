@@ -421,7 +421,8 @@
       "operator": "contains_any",
       "value": [
         "手续费",
-        "提前结清费"
+        "提前结清费",
+        "提前还款手续费"
       ]
     },
     "risk_level": "medium",
@@ -476,7 +477,9 @@
       "value": [
         "需审批",
         "经同意",
-        "申请通过"
+        "申请通过",
+        "批准",
+        "决定是否批准"
       ]
     },
     "risk_level": "medium",
@@ -667,7 +670,9 @@
       "clauses_contains_any": [
         "有权单方调整",
         "无需另行通知",
-        "平台可变更"
+        "平台可变更",
+        "有权对服务规则",
+        "收费标准及业务流程进行调整"
       ]
     },
     "risk_level": "high",
@@ -800,7 +805,8 @@
       "clauses_contains_any": [
         "征信授权",
         "报送征信",
-        "查询征信"
+        "查询征信",
+        "征信机构"
       ]
     },
     "risk_level": "high",
@@ -826,7 +832,10 @@
       "clauses_contains_any": [
         "关联公司共享",
         "合作伙伴共享",
-        "第三方共享"
+        "第三方共享",
+        "关联公司",
+        "第三方平台",
+        "提供给"
       ]
     },
     "risk_level": "high",
@@ -1119,7 +1128,8 @@
       "clauses_contains_any": [
         "长期保存",
         "永久保存",
-        "保存期限"
+        "保存期限",
+        "继续有效"
       ]
     },
     "risk_level": "medium",
@@ -1171,7 +1181,8 @@
       "clauses_contains_any": [
         "联系紧急联系人",
         "通知亲友",
-        "联系单位"
+        "联系单位",
+        "紧急联系人"
       ]
     },
     "risk_level": "high",
@@ -1224,7 +1235,9 @@
       "clauses_contains_any": [
         "催收费",
         "外访费",
-        "催告费"
+        "催告费",
+        "催收服务费",
+        "催收费用"
       ]
     },
     "risk_level": "medium",
@@ -1367,6 +1380,308 @@
     "weight": 8,
     "legal_basis": "《消费者权益保护法》第8条",
     "question_to_ask": "请机构说明还款日调整是否提前通知并允许用户确认。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR053",
+    "rule_name": "变更默示同意",
+    "category": "dispute_resolution",
+    "condition": {
+      "clauses_contains_all": [
+        "提出书面异议",
+        "视为接受"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 18,
+    "legal_basis": "《民法典》第497条；《消费者权益保护法》第26条",
+    "question_to_ask": "请机构说明用户未及时异议即视为同意的依据和救济路径。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR054",
+    "rule_name": "不同意变更需立即结清",
+    "category": "dispute_resolution",
+    "condition": {
+      "clauses_contains_all": [
+        "不同意",
+        "立即结清"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 18,
+    "legal_basis": "《民法典》第497条；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明不同意变更时是否可继续按原合同履行或分期退出。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR055",
+    "rule_name": "加速到期条款",
+    "category": "overdue",
+    "condition": {
+      "clauses_contains_any": [
+        "剩余借款立即到期",
+        "立即偿还全部剩余本金",
+        "宣布全部剩余借款立即到期"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 20,
+    "legal_basis": "《民法典》合同编；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明加速到期的触发条件、通知方式和申诉期限。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR056",
+    "rule_name": "任一期逾期触发解除",
+    "category": "overdue",
+    "condition": {
+      "clauses_contains_all": [
+        "任一期",
+        "逾期"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 18,
+    "legal_basis": "《民法典》第563条；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明单期逾期即解除合同是否有宽限期和补救路径。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR057",
+    "rule_name": "主观违约判断",
+    "category": "repayment",
+    "condition": {
+      "clauses_contains_any": [
+        "还款能力明显下降",
+        "认为乙方的还款能力"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 14,
+    "legal_basis": "《民法典》第496条；《消费者权益保护法》第26条",
+    "question_to_ask": "请机构说明主观判断违约的客观标准和申诉材料。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR058",
+    "rule_name": "电子送达范围过宽",
+    "category": "dispute_resolution",
+    "condition": {
+      "clauses_contains_any": [
+        "作为送达方式",
+        "电子邮件",
+        "App 站内通知"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "民事诉讼送达规则；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明电子送达的确认机制和未收到通知时的补救方式。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR059",
+    "rule_name": "旧联系方式视为有效送达",
+    "category": "dispute_resolution",
+    "condition": {
+      "clauses_contains_any": [
+        "有效送达地址",
+        "原联系方式仍视为有效"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "民事诉讼送达规则；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明联系方式变更后的通知责任和送达异议路径。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR060",
+    "rule_name": "撤回授权影响服务",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_all": [
+        "撤回授权",
+        "暂停或终止"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "《个人信息保护法》第15条、第16条",
+    "question_to_ask": "请机构说明撤回非必要授权后是否仍能继续履行借款合同。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR061",
+    "rule_name": "浏览和交易数据收集",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_any": [
+        "网络浏览记录",
+        "第三方平台产生的账户和交易信息"
+      ]
+    },
+    "risk_level": "high",
+    "weight": 18,
+    "legal_basis": "《个人信息保护法》第6条、第13条",
+    "question_to_ask": "请机构说明浏览记录、平台交易信息的必要性、范围和保存期限。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR062",
+    "rule_name": "还款冲抵顺序不利",
+    "category": "repayment",
+    "condition": {
+      "clauses_contains_all": [
+        "还款顺序",
+        "本金"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "《消费者权益保护法》第8条；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明还款优先冲抵费用和利息时对本金减少的影响。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR063",
+    "rule_name": "持续自动扣款",
+    "category": "authorization_privacy",
+    "condition": {
+      "clauses_contains_any": [
+        "持续发起扣款",
+        "直至应付款项全部结清"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 12,
+    "legal_basis": "《消费者权益保护法实施条例》第10条",
+    "question_to_ask": "请机构说明持续扣款授权的次数、期限、取消方式和异常扣款处理。",
+    "created_at": "2026-07-04",
+    "updated_at": "2026-07-04",
+    "version": 1,
+    "effective_date": "2026-07-04",
+    "expiry_date": "",
+    "is_active": 1,
+    "source": "seed",
+    "source_url": "",
+    "imported_at": "2026-07-04",
+    "review_status": "approved"
+  },
+  {
+    "rule_id": "RR064",
+    "rule_name": "超额转款不视为提前还款",
+    "category": "prepayment",
+    "condition": {
+      "clauses_contains_any": [
+        "超额款项不视为提前还款",
+        "不视为提前还款申请"
+      ]
+    },
+    "risk_level": "medium",
+    "weight": 10,
+    "legal_basis": "《民法典》第677条；金融消费者权益保护规则",
+    "question_to_ask": "请机构说明用户主动多还款的处理规则和退回路径。",
     "created_at": "2026-07-04",
     "updated_at": "2026-07-04",
     "version": 1,

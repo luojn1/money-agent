@@ -11,10 +11,10 @@ import {
 import type { AnalysisTask } from "./taskStore.js";
 import { toProtocolDateTime } from "./taskStore.js";
 
-const sourceLocation = (section: string | null): SourceLocation => ({
-  page: null,
-  section,
-  paragraph: null,
+const sourceLocation = (clause: ParsedContractClause): SourceLocation => ({
+  page: clause.page ?? null,
+  section: clause.location,
+  paragraph: clause.paragraph ?? null,
 });
 
 const clauseCategory = (clause: ParsedContractClause) => {
@@ -24,6 +24,9 @@ const clauseCategory = (clause: ParsedContractClause) => {
     prepayment: "prepayment",
     overdue: "overdue",
     autoDebit: "authorization_privacy",
+    privacy: "authorization_privacy",
+    contractChange: "dispute_resolution",
+    disputeResolution: "dispute_resolution",
     purpose: "other",
     rateAdjustment: "interest_fee",
     guarantee: "other",
@@ -41,7 +44,9 @@ const toProtocolClauses = (clauses: ParsedContractClause[]): ContractClause[] =>
     category: clauseCategory(clause),
     heading: clause.location,
     text: clause.text,
-    location: sourceLocation(clause.location),
+    location: sourceLocation(clause),
+    evidenceStart: clause.startOffset,
+    evidenceEnd: clause.endOffset,
   }));
 
 const toRepaymentSchedule = (result: AnalysisResult): RepaymentScheduleItem[] =>
@@ -110,6 +115,14 @@ export const createContractCostOutput = (task: AnalysisTask, result: AnalysisRes
         totalInterest: costAnalysis.totalInterest,
         additionalFees: costAnalysis.additionalFees,
         realAnnualRate: costAnalysis.realAnnualRate,
+        baseRealAnnualRate: costAnalysis.baseRealAnnualRateSimple,
+        baseMonthlyIrr: costAnalysis.baseIrrMonthly,
+        baseRealAnnualRateCompound: costAnalysis.baseRealAnnualRateCompound,
+        comprehensiveRealAnnualRate: costAnalysis.comprehensiveRealAnnualRateSimple,
+        comprehensiveMonthlyIrr: costAnalysis.comprehensiveIrrMonthly,
+        comprehensiveRealAnnualRateCompound: costAnalysis.comprehensiveRealAnnualRateCompound,
+        includedFees: costAnalysis.includedFees,
+        excludedContingentCosts: costAnalysis.excludedContingentCosts,
         calculationBasis: costAnalysis.calculationBasis.length
           ? costAnalysis.calculationBasis
           : ["Cost calculation is based on recognized contract fields and repayment cash flows."],

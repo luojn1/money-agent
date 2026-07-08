@@ -117,6 +117,7 @@ export function ReportPage() {
     { title: "建议确认事项", items: report.actions.shouldConfirm },
     { title: "可选优化事项", items: report.actions.optionalOptimizations },
   ];
+  const isPartialReport = report.status === "partial";
 
   return (
     <PageShell compactHeader>
@@ -128,7 +129,7 @@ export function ReportPage() {
 
         <section className="report-intro" aria-labelledby="report-title">
           <div>
-            <p className="eyebrow">完整分析报告</p>
+            <p className="eyebrow">{isPartialReport ? "部分分析报告" : "完整分析报告"}</p>
             <h1 id="report-title">合同体检结果</h1>
             <p>{report.actions.summary}</p>
           </div>
@@ -138,6 +139,12 @@ export function ReportPage() {
             <small>{costLevelLabel[report.costAnalysis.costLevel]}</small>
           </div>
         </section>
+        {isPartialReport && (
+          <div className="preview-mode-banner" role="status">
+            <strong>提示</strong>
+            <span>部分分析模块未完成，本报告可能遗漏部分风险，请重新分析后再作决策。</span>
+          </div>
+        )}
 
         <section className="report-section metrics-section" aria-labelledby="overview-title">
           <div className="report-section__heading">
@@ -174,6 +181,8 @@ export function ReportPage() {
             <div><span>实际到账与合同本金差额</span><strong>{money(report.costAnalysis.principalGap)}</strong></div>
             <div><span>名义利率与真实年化差异</span><strong>{percent(report.costAnalysis.rateGap)}</strong></div>
             <div><span>成本风险等级</span><strong>{costLevelLabel[report.costAnalysis.costLevel]}</strong></div>
+            <div><span>基础资金成本</span><strong>{percent(report.costAnalysis.baseRealAnnualRate ?? null)}</strong></div>
+            <div><span>综合资金成本</span><strong>{percent(report.costAnalysis.comprehensiveRealAnnualRate ?? report.overview.realAnnualRate)}</strong></div>
           </div>
           <div className="cost-chart" role="img" aria-label="合同本金、利息和额外费用对比">
             {costRows.map((row) => (

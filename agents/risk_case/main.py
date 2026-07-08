@@ -68,6 +68,8 @@ def evidence_from_clauses(item_index: int, clauses: list[dict[str, Any]]) -> lis
                 "clauseId": clause_id,
                 "quote": clause.get("text") or "",
                 "location": clause.get("location") or {},
+                "evidenceStart": clause.get("evidenceStart"),
+                "evidenceEnd": clause.get("evidenceEnd"),
             }
         )
     return evidence
@@ -104,6 +106,15 @@ def build_risk_item(hit: RuleHit, item_index: int) -> dict[str, Any] | None:
         latest_lpr = hit.market_rates[0]
         reason_parts.append(f"市场基准参考：{latest_lpr['rateType']} {latest_lpr['rateValue']}%（{latest_lpr['effectiveDate']}）。")
 
+    seen_case_ids = set()
+    matched_cases = []
+    for case in hit.cases:
+        case_id = case.get("caseId")
+        if not case_id or case_id in seen_case_ids:
+            continue
+        seen_case_ids.add(case_id)
+        matched_cases.append(case)
+
     return {
         "id": f"risk_{item_index:03d}_{hit.rule['rule_id'].lower()}",
         "title": title_for_hit(hit),
@@ -116,7 +127,7 @@ def build_risk_item(hit: RuleHit, item_index: int) -> dict[str, Any] | None:
         "evidence": evidence_from_clauses(item_index, clauses),
         "reason": " ".join(reason_parts),
         "possibleConsequence": possible_consequence(hit.rule),
-        "matchedCases": hit.cases,
+        "matchedCases": matched_cases,
         "legalReferences": hit.regulations,
         "productReferences": hit.products,
         "marketReferences": hit.market_rates,
@@ -130,6 +141,29 @@ def build_risk_item(hit: RuleHit, item_index: int) -> dict[str, Any] | None:
         },
         "questionToAsk": question_to_ask(hit.rule),
     }
+
+
+def risk_dedupe_key(item: dict[str, Any]) -> tuple[Any, ...]:
+    first_evidence = (item.get("evidence") or [{}])[0]
+    return (
+        item.get("category"),
+        item.get("title"),
+        tuple(item.get("relatedClauseIds") or []),
+        first_evidence.get("evidenceStart"),
+        first_evidence.get("evidenceEnd"),
+    )
+
+
+def deduplicate_risk_items(risk_items: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], int]:
+    seen = set()
+    unique_items = []
+    for item in risk_items:
+        key = risk_dedupe_key(item)
+        if key in seen:
+            continue
+        seen.add(key)
+        unique_items.append(item)
+    return unique_items, len(risk_items) - len(unique_items)
 
 
 def summarize_risks(risk_items: list[dict[str, Any]]) -> dict[str, int]:
@@ -307,6 +341,7 @@ def run_agent(
                 )
                 continue
             risk_items.append(item)
+        risk_items, duplicate_risk_count = deduplicate_risk_items(risk_items)
         unique_regulations = {reg["regulationId"] for hit in hits for reg in hit.regulations}
         unique_cases = {case["caseId"] for hit in hits for case in hit.cases}
         unique_products = {product["productId"] for hit in hits for product in hit.products}
@@ -358,6 +393,18 @@ def run_agent(
         "pendingReviewCounts": pending_counts,
         "scheduler": scheduler_info,
         "activeRuleCount": len(rules),
+        "riskItemsBeforeDedup": len(hits) - len(unlinked_hit_warnings),
+        "riskItemsAfterDedup": len(risk_items),
+        "duplicateRiskItemsRemoved": duplicate_risk_count,
+        "retrievalResults": [
+            {
+                "ruleId": hit.rule["rule_id"],
+                "caseCountBeforeDedup": len(hit.cases),
+                "caseCountAfterDedup": len({case.get("caseId") for case in hit.cases if case.get("caseId")}),
+                "cases": hit.cases,
+            }
+            for hit in hits
+        ],
         "hitRules": [
             {
                 "ruleId": hit.rule["rule_id"],

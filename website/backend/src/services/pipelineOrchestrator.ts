@@ -50,6 +50,17 @@ type ActionPlanOutput = {
   }>;
 };
 
+type TraceStage = {
+  name: string;
+  status: "processing" | AgentStatus;
+  startedAt: string;
+  endedAt: string | null;
+  durationMs: number | null;
+  errorType: string | null;
+  errorMessage: string | null;
+  degraded: boolean;
+};
+
 const serviceDir = dirname(fileURLToPath(import.meta.url));
 const inferredProjectRoot = resolve(serviceDir, "../../../..");
 export const projectRoot = resolve(process.env.PROJECT_ROOT?.trim() || inferredProjectRoot);
@@ -68,6 +79,62 @@ const writeJson = async (path: string, value: unknown) => {
 };
 
 const readJson = async <T>(path: string): Promise<T> => JSON.parse(await readFile(path, "utf8")) as T;
+
+const debugTraceEnabled = () =>
+  process.env.PIPELINE_DEBUG_TRACE?.trim() === "1" || process.env.NODE_ENV !== "production";
+
+const debugDirForTask = (taskId: string) => resolve(process.env.DEBUG_ROOT?.trim() || join(projectRoot, "debug"), taskId);
+
+const createDebugWriter = (taskId: string) => {
+  if (!debugTraceEnabled()) {
+    return {
+      stages: [] as TraceStage[],
+      startStage: () => undefined as unknown as TraceStage,
+      endStage: () => undefined,
+      write: async () => undefined,
+      writeTrace: async () => undefined,
+    };
+  }
+
+  const debugDir = debugDirForTask(taskId);
+  const stages: TraceStage[] = [];
+  return {
+    stages,
+    startStage: (name: string) => {
+      const stage: TraceStage = {
+        name,
+        status: "processing",
+        startedAt: new Date().toISOString(),
+        endedAt: null,
+        durationMs: null,
+        errorType: null,
+        errorMessage: null,
+        degraded: false,
+      };
+      stages.push(stage);
+      return stage;
+    },
+    endStage: (stage: TraceStage, status: AgentStatus, error?: unknown, degraded = false) => {
+      const endedAt = new Date();
+      stage.status = status;
+      stage.endedAt = endedAt.toISOString();
+      stage.durationMs = endedAt.getTime() - Date.parse(stage.startedAt);
+      stage.degraded = degraded;
+      if (error) {
+        stage.errorType = error instanceof Error ? error.name : typeof error;
+        stage.errorMessage = sanitizeError(error, "stage failed");
+      }
+    },
+    write: async (name: string, value: unknown) => writeJson(join(debugDir, name), value),
+    writeTrace: async (extra: Record<string, unknown> = {}) =>
+      writeJson(join(debugDir, "11_execution_trace.json"), {
+        taskId,
+        generatedAt: new Date().toISOString(),
+        stages,
+        ...extra,
+      }),
+  };
+};
 
 const protocolError = (code: string, message: string, fieldPath: string | null = null): ProtocolError => ({
   code,
@@ -142,15 +209,22 @@ const communicationScriptText = (script: string | { scenario?: string; script?: 
 
 const buildReferences = (riskCase: RiskCaseOutput, contractCost: ContractCostOutput) => {
   const riskItems = riskCase.data?.riskItems ?? [];
+  const seenCaseIds = new Set<string>();
   const caseItems = riskItems.flatMap((risk) =>
-    risk.matchedCases.map((item) => ({
-      id: `${risk.id}_${item.caseId}`,
-      title: item.title,
-      tag: "典型情景" as const,
-      summary: item.conclusion,
-      sourceLabel: item.sourceUrl ? "查看来源" : undefined,
-      sourceUrl: item.sourceUrl,
-    })),
+    risk.matchedCases.flatMap((item) => {
+      if (seenCaseIds.has(item.caseId)) return [];
+      seenCaseIds.add(item.caseId);
+      return [
+        {
+          id: item.caseId,
+          title: item.title,
+          tag: "典型情景" as const,
+          summary: item.conclusion,
+          sourceLabel: item.sourceUrl ? "查看来源" : undefined,
+          sourceUrl: item.sourceUrl,
+        },
+      ];
+    }),
   );
   const basisItems = (contractCost.data?.costAnalysis.calculationBasis ?? []).map((basis, index) => ({
     id: `basis_${index + 1}`,
@@ -272,6 +346,14 @@ const buildReport = (
       totalRepayment: cost?.totalRepayment ?? null,
       totalInterest,
       additionalFees,
+      baseMonthlyIrr: cost?.baseMonthlyIrr ?? null,
+      baseRealAnnualRate: cost?.baseRealAnnualRate ?? null,
+      baseRealAnnualRateCompound: cost?.baseRealAnnualRateCompound ?? null,
+      comprehensiveMonthlyIrr: cost?.comprehensiveMonthlyIrr ?? null,
+      comprehensiveRealAnnualRate: cost?.comprehensiveRealAnnualRate ?? null,
+      comprehensiveRealAnnualRateCompound: cost?.comprehensiveRealAnnualRateCompound ?? null,
+      includedFees: cost?.includedFees ?? [],
+      excludedContingentCosts: cost?.excludedContingentCosts ?? [],
       principalGap: loanAmount !== null && actualReceivedAmount !== null ? loanAmount - actualReceivedAmount : null,
       rateGap: realAnnualRate !== null && nominalRate !== null ? realAnnualRate - nominalRate : null,
       costLevel: costLevelFromRate(realAnnualRate),
@@ -322,6 +404,7 @@ const buildReport = (
 export const runIntegratedPipeline = async (taskId: string, input: PipelineInput) => {
   const task = getPipelineTask(taskId);
   if (!task) throw new Error(`Pipeline task not found: ${taskId}`);
+  const debug = createDebugWriter(taskId);
 
   let contractCost: ContractCostOutput | null = null;
   let riskCase: RiskCaseOutput | null = null;
@@ -339,10 +422,16 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
     await mkdir(task.runtimeDir, { recursive: true });
     updatePipelineStep(taskId, "contract_cost", "processing", "B 正在读取合同并测算真实成本");
 
+    const bStage = debug.startStage("contract_cost");
     const intake = await runDocumentIntakeAgent({
       taskId,
       file: input.file,
       pastedText: input.pastedText,
+    });
+    await debug.write("01_parsed_contract.json", {
+      contractName: intake.contractName,
+      contractText: intake.contractText,
+      documentIntake: intake.intakeResult,
     });
     const bTask = createAnalysisTask({
       taskId,
@@ -359,17 +448,29 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
       contractText: bTask.contractText,
       documentIntake: bTask.documentIntake,
     });
+    await debug.write("02_extracted_fields.json", bResult.bAgentOutput.contractParseResult);
+    await debug.write("03_cost_agent_input.json", {
+      contractSummary: bResult.contractSummary,
+      parseResult: bResult.bAgentOutput.contractParseResult,
+    });
     contractCost = createContractCostOutput(bTask, bResult);
+    await debug.write("04_cost_agent_output.json", contractCost);
     await writeJson(bPath, contractCost);
     updatePipelineStep(taskId, "contract_cost", stepStatusFromAgent(contractCost.status), `B 输出 ${contractCost.status}`);
+    debug.endStage(bStage, contractCost.status, undefined, contractCost.status === "partial");
+    await debug.writeTrace({ runtimeDir: task.runtimeDir });
 
     if (contractCost.status === "failed") {
       const result = buildReport(updatePipelineTask(taskId, { status: "failed" }), contractCost, null, null, null);
+      await debug.write("10_final_report_payload.json", result);
+      await debug.writeTrace({ runtimeDir: task.runtimeDir });
       await setTaskFailure(task, "contract_cost", "B 合同解析或成本测算失败，已停止 C/D。", contractCost.errors, result);
       return;
     }
 
     updatePipelineStep(taskId, "risk_case", "processing", "C 正在识别风险并匹配案例");
+    const cStage = debug.startStage("risk_case");
+    await debug.write("05_risk_agent_input.json", contractCost);
     await runPythonAgent({
       cwd: riskCaseDir,
       label: "C 风险识别 Agent",
@@ -387,15 +488,24 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
       ],
     });
     riskCase = await readJson<RiskCaseOutput>(cPath);
+    const cTrace = await readJson<Record<string, unknown>>(cTracePath);
+    await debug.write("06_risk_agent_output.json", riskCase);
+    await debug.write("07_retrieval_results.json", cTrace);
     updatePipelineStep(taskId, "risk_case", stepStatusFromAgent(riskCase.status), `C 输出 ${riskCase.status}`);
+    debug.endStage(cStage, riskCase.status, undefined, riskCase.status === "partial");
+    await debug.writeTrace({ runtimeDir: task.runtimeDir });
 
     if (riskCase.status === "failed") {
       const result = buildReport(updatePipelineTask(taskId, { status: "failed" }), contractCost, riskCase, null, null);
+      await debug.write("10_final_report_payload.json", result);
+      await debug.writeTrace({ runtimeDir: task.runtimeDir });
       await setTaskFailure(task, "risk_case", "C 风险识别失败，已停止 D。", riskCase.errors, result);
       return;
     }
 
     updatePipelineStep(taskId, "recommendation_action", "processing", "D 正在生成建议与行动方案");
+    const dStage = debug.startStage("recommendation_action");
+    await debug.write("08_action_agent_input.json", { contractCost, riskCase });
     await runPythonAgent({
       cwd: recommendationActionDir,
       label: "D 建议行动 Agent",
@@ -415,18 +525,22 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
     });
     recommendationAction = await readJson<RecommendationActionOutput>(dPath);
     actionPlan = await readJson<ActionPlanOutput>(dActionPlanPath);
+    await debug.write("09_action_agent_output.json", { recommendationAction, actionPlan });
     updatePipelineStep(
       taskId,
       "recommendation_action",
       stepStatusFromAgent(recommendationAction.status),
       `D 输出 ${recommendationAction.status}`,
     );
+    debug.endStage(dStage, recommendationAction.status, undefined, recommendationAction.status === "partial");
 
     const finalStatus = pipelineStatusFrom(contractCost.status, riskCase.status, recommendationAction.status);
     const currentAgent = finalStatus === "failed" ? "failed" : "completed";
     const currentMessage = finalStatus === "failed" ? "真实多 Agent 分析失败" : "真实多 Agent 分析完成";
     const nextTask = updatePipelineTask(taskId, { status: finalStatus, currentAgent, currentMessage });
     const result = buildReport(nextTask, contractCost, riskCase, recommendationAction, actionPlan);
+    await debug.write("10_final_report_payload.json", result);
+    await debug.writeTrace({ runtimeDir: task.runtimeDir, finalStatus });
 
     if (recommendationAction.status === "failed") {
       updatePipelineTask(taskId, {
@@ -450,7 +564,10 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
       currentMessage: message,
       errors: protocolErrors,
     });
-    updatePipelineTask(taskId, { result: buildReport(latestTask, contractCost, riskCase, recommendationAction, actionPlan) });
+    const result = buildReport(latestTask, contractCost, riskCase, recommendationAction, actionPlan);
+    await debug.write("10_final_report_payload.json", result);
+    await debug.writeTrace({ runtimeDir: task.runtimeDir, finalStatus: "failed", error: message });
+    updatePipelineTask(taskId, { result });
   }
 };
 

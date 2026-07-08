@@ -16,6 +16,7 @@ RISK_CATEGORY_TO_CLAUSE_CATEGORY = {
     "overdue": ["overdue"],
     "authorization_privacy": ["authorization_privacy", "autoDebit"],
     "repayment": ["repayment"],
+    "dispute_resolution": ["dispute_resolution"],
     "other": ["other", "guarantee"],
 }
 
@@ -73,6 +74,60 @@ def contains_all(value: str | None, needles: list[str]) -> bool:
     return bool(clean_needles) and all(needle in (value or "") for needle in clean_needles)
 
 
+def condition_terms(condition: dict[str, Any]) -> list[str]:
+    """Extract human terms from a rule condition for evidence matching."""
+    terms: list[str] = []
+    for key in ("clauses_contains_any", "clauses_contains_all"):
+        value = condition.get(key)
+        if isinstance(value, list):
+            terms.extend(str(item) for item in value if item)
+    value = condition.get("value")
+    if condition.get("operator") in {"contains_any", "contains", "regex"}:
+        if isinstance(value, list):
+            terms.extend(str(item) for item in value if item)
+        elif value:
+            terms.append(str(value))
+    return terms
+
+
+def field_evidence_terms(condition: dict[str, Any]) -> list[str]:
+    """Map field-based rules back to clause words without inventing quotes."""
+    fields = " ".join(str(condition.get(key) or "") for key in ("field", "left", "right"))
+    terms: list[str] = []
+    if "actualReceivedAmount" in fields or "loanAmount" in fields:
+        terms.extend(["实际到账", "实际收到", "借款本金", "扣除", "计息及还款本金"])
+    if "prepaymentRule" in fields:
+        terms.extend(["提前还款", "提前结清", "手续费", "申请", "批准"])
+    if "overdueFee" in fields:
+        terms.extend(["逾期", "违约金", "催收", "立即到期", "每日"])
+    if "realAnnualRate" in fields or "nominalRate" in fields:
+        terms.extend(["年利率", "年化", "名义利率", "费用", "服务费"])
+    if "repaymentMethod" in fields:
+        terms.extend(["还款方式", "每期应还", "还款日"])
+    return terms
+
+
+def score_clause(clause: dict[str, Any], rule: dict[str, Any], terms: list[str], preferred_categories: list[str]) -> int:
+    text = clause.get("text", "") or ""
+    category = clause.get("category")
+    score = 0
+    if category in preferred_categories:
+        score += 2
+    for term in terms:
+        if term and term in text:
+            score += 5
+    for token in re.split(r"[-\s_/]+", rule["rule_name"]):
+        if len(token) >= 2 and token in text:
+            score += 3
+    if re.search(r"人民币\s*[0-9,]+(?:\.\d+)?\s*元|[0-9]+(?:\.\d+)?%", text):
+        score += 2
+    if any(word in text for word in ["每月", "每期", "首期", "一次性", "扣除", "立即到期", "视为接受", "有效送达"]):
+        score += 2
+    if "未包含" in text and not re.search(r"人民币\s*[0-9,]+(?:\.\d+)?\s*元", text):
+        score -= 2
+    return score
+
+
 def find_relevant_clauses(b_data: dict[str, Any], rule: dict[str, Any]) -> list[dict[str, Any]]:
     """Find B clauses that should become evidence for a rule hit.
 
@@ -82,15 +137,13 @@ def find_relevant_clauses(b_data: dict[str, Any], rule: dict[str, Any]) -> list[
     clauses = b_data.get("clauses", [])
     category = rule["category"]
     preferred_categories = RISK_CATEGORY_TO_CLAUSE_CATEGORY.get(category, [])
-    matched = [
-        clause
+    terms = condition_terms(rule["condition"]) + field_evidence_terms(rule["condition"])
+    scored = [
+        (score_clause(clause, rule, terms, preferred_categories), clause)
         for clause in clauses
-        if clause.get("category") in preferred_categories
-        or any(token in clause.get("text", "") for token in [rule["rule_name"], category, "费用", "还款", "逾期", "扣款", "担保"])
     ]
-    if matched:
-        return matched[:2]
-    return []
+    matched = [clause for score, clause in sorted(scored, key=lambda item: item[0], reverse=True) if score >= 5]
+    return matched[:3]
 
 
 def evaluate_condition(condition: dict[str, Any], b_data: dict[str, Any]) -> bool:
@@ -239,6 +292,16 @@ def run_rule_engine(
                 reason=build_reason(rule, regulations),
             )
         )
+
+    has_specific_cost_hit = any(
+        hit.rule["category"] == "cost_transparency" and hit.rule["rule_id"] != "RR001"
+        for hit in hits
+    )
+    if has_specific_cost_hit:
+        generic_hits = [hit for hit in hits if hit.rule["rule_id"] == "RR001"]
+        if generic_hits:
+            total_deduction -= sum(int(hit.rule["weight"]) for hit in generic_hits)
+            hits = [hit for hit in hits if hit.rule["rule_id"] != "RR001"]
 
     risk_score = max(0, 100 - total_deduction)
     return hits, risk_score, skipped_rules

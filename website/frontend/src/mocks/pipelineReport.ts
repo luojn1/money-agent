@@ -143,6 +143,20 @@ const buildContractCostOutput = (taskId: string, generatedAt: string): ContractC
       totalInterest: 800,
       additionalFees: 500,
       realAnnualRate: 24.4,
+      baseRealAnnualRate: 24.4,
+      baseMonthlyIrr: 0.02033333,
+      baseRealAnnualRateCompound: 27.36,
+      comprehensiveRealAnnualRate: 24.4,
+      comprehensiveMonthlyIrr: 0.02033333,
+      comprehensiveRealAnnualRateCompound: 27.36,
+      includedFees: [
+        {
+          name: "服务费",
+          amount: 500,
+          reason: "Mock 数据：放款时预扣服务费计入综合融资成本。",
+        },
+      ],
+      excludedContingentCosts: [],
       calculationBasis: [
         "按实际到账 9500 元作为借款人收到现金流入。",
         "按 12 期、每期 900 元作为正常还款现金流出，总还款 10800 元。",

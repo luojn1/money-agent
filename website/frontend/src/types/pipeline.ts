@@ -70,6 +70,14 @@ export type CostAnalysisView = {
   totalRepayment: DisplayAmount;
   totalInterest: DisplayAmount;
   additionalFees: DisplayAmount;
+  baseMonthlyIrr?: number | null;
+  baseRealAnnualRate?: number | null;
+  baseRealAnnualRateCompound?: number | null;
+  comprehensiveMonthlyIrr?: number | null;
+  comprehensiveRealAnnualRate?: number | null;
+  comprehensiveRealAnnualRateCompound?: number | null;
+  includedFees?: Array<{ name: string; amount: number | null; reason: string }>;
+  excludedContingentCosts?: Array<{ name: string; amountOrFormula: string; reason: string }>;
   principalGap: DisplayAmount;
   rateGap: number | null;
   costLevel: CostLevel;

@@ -80,15 +80,32 @@ const upfrontPaidFeeTotal = (fees: ParsedFee[]) =>
     .filter((fee) => fee.includedInNormalCost && fee.chargeTiming === "upfront_paid" && fee.amount !== null)
     .reduce((sum, fee) => sum + (fee.amount ?? 0), 0);
 
-const knownFeeTotal = (fees: ParsedFee[]) =>
+const normalFeeTotal = (fees: ParsedFee[], periods: number | null | undefined) =>
   fees
     .filter((fee) => fee.includedInNormalCost && fee.amount !== null)
-    .reduce((sum, fee) => sum + (fee.amount ?? 0), 0);
+    .reduce((sum, fee) => {
+      const amount = fee.amount ?? 0;
+      if (fee.chargeTiming === "per_period") return sum + amount * (periods ?? 1);
+      if (fee.chargeTiming === "upfront_deducted" || fee.chargeTiming === "upfront_paid" || fee.chargeTiming === "first_period") {
+        return sum + amount;
+      }
+      return sum;
+    }, 0);
+
+const normalFeeForPeriod = (fees: ParsedFee[], period: number) =>
+  fees
+    .filter((fee) => fee.includedInNormalCost && fee.amount !== null)
+    .reduce((sum, fee) => {
+      if (fee.chargeTiming === "per_period") return sum + (fee.amount ?? 0);
+      if (fee.chargeTiming === "first_period" && period === 1) return sum + (fee.amount ?? 0);
+      return sum;
+    }, 0);
 
 const buildRepaymentFlows = (
   parseResult: ContractParseResult,
   assumptions: string[],
   warnings: string[],
+  includeNormalFees: boolean,
 ): CashFlowItem[] => {
   const actualReceivedAmount = parseResult.actualReceivedAmount.value;
   const periods = scheduledPeriodCount(parseResult);
@@ -107,7 +124,7 @@ const buildRepaymentFlows = (
     },
   ];
 
-  const upfrontPaid = upfrontPaidFeeTotal(parseResult.fees);
+  const upfrontPaid = includeNormalFees ? upfrontPaidFeeTotal(parseResult.fees) : 0;
   if (upfrontPaid > 0) {
     cashFlows.push({
       period: 0,
@@ -121,14 +138,22 @@ const buildRepaymentFlows = (
 
   if (monthlyPayment !== null) {
     for (let period = 1; period <= periods; period += 1) {
+      const periodFees = includeNormalFees ? normalFeeForPeriod(parseResult.fees, period) : 0;
       cashFlows.push({
         period,
         date: null,
-        amount: -roundMoney(monthlyPayment),
-        description: `第${period}期：合同约定固定还款额`,
+        amount: -roundMoney(monthlyPayment + periodFees),
+        description:
+          periodFees > 0
+            ? `第${period}期：合同约定固定还款额 + 正常履约费用`
+            : `第${period}期：合同约定固定还款额`,
       });
     }
-    assumptions.push("合同给出了固定月供/每期还款额，现金流优先采用合同还款计划。");
+    assumptions.push(
+      includeNormalFees
+        ? "综合口径在合同固定月供基础上叠加每月或首期正常履约费用。"
+        : "基础口径只使用实际到账金额和合同固定月供/每期还款额。",
+    );
     return cashFlows;
   }
 
@@ -139,11 +164,15 @@ const buildRepaymentFlows = (
   if (parseResult.repaymentMethod.value === "equal_installment") {
     const payment = equalInstallmentPayment(principal, nominalMonthlyRate, periods);
     for (let period = 1; period <= periods; period += 1) {
+      const periodFees = includeNormalFees ? normalFeeForPeriod(parseResult.fees, period) : 0;
       cashFlows.push({
         period,
         date: null,
-        amount: -roundMoney(payment),
-        description: `第${period}期：按等额本息公式估算还款额`,
+        amount: -roundMoney(payment + periodFees),
+        description:
+          periodFees > 0
+            ? `第${period}期：按等额本息公式估算还款额 + 正常履约费用`
+            : `第${period}期：按等额本息公式估算还款额`,
       });
     }
     assumptions.push("合同未给固定月供，按本金、名义利率和期数估算等额本息现金流。");
@@ -154,11 +183,15 @@ const buildRepaymentFlows = (
     const principalPerPeriod = principal / periods;
     for (let period = 1; period <= periods; period += 1) {
       const remainingPrincipal = principal - principalPerPeriod * (period - 1);
+      const periodFees = includeNormalFees ? normalFeeForPeriod(parseResult.fees, period) : 0;
       cashFlows.push({
         period,
         date: null,
-        amount: -roundMoney(principalPerPeriod + remainingPrincipal * nominalMonthlyRate),
-        description: `第${period}期：按等额本金公式估算还款额`,
+        amount: -roundMoney(principalPerPeriod + remainingPrincipal * nominalMonthlyRate + periodFees),
+        description:
+          periodFees > 0
+            ? `第${period}期：按等额本金公式估算还款额 + 正常履约费用`
+            : `第${period}期：按等额本金公式估算还款额`,
       });
     }
     assumptions.push("合同未给固定月供，按等额本金公式估算现金流。");
@@ -192,16 +225,18 @@ const countDictionaryTerms = (dictionary: ReturnType<typeof loadKnowledgeBase>["
 
 const toCalculationResult = (
   parseResult: ContractParseResult,
-  cashFlows: CashFlowItem[],
+  baseCashFlows: CashFlowItem[],
+  comprehensiveCashFlows: CashFlowItem[],
   assumptions: string[],
   warnings: string[],
 ): CostAnalysisOutput => {
   const knowledgeBase = loadKnowledgeBase();
-  const scheduledOutflows = cashFlows.filter((flow) => flow.period > 0 && flow.amount < 0);
+  const scheduledOutflows = comprehensiveCashFlows.filter((flow) => flow.period > 0 && flow.amount < 0);
   const totalRepayment = scheduledOutflows.length
     ? roundMoney(scheduledOutflows.reduce((sum, flow) => sum + Math.abs(flow.amount), 0))
     : null;
-  const totalFees = knownFeeTotal(parseResult.fees);
+  const periods = scheduledPeriodCount(parseResult);
+  const totalFees = normalFeeTotal(parseResult.fees, periods);
   const upfrontPaid = upfrontPaidFeeTotal(parseResult.fees);
   const loanAmount = parseResult.loanAmount.value;
   const actualReceivedAmount = parseResult.actualReceivedAmount.value;
@@ -211,18 +246,23 @@ const toCalculationResult = (
       ? roundMoney(totalRepayment + upfrontPaid - actualReceivedAmount)
       : null;
 
-  const irrMonthly = calculateMonthlyIrr(cashFlows);
-  const realAnnualRateSimple = irrMonthly === null ? null : roundRate(irrMonthly * 12 * 100);
-  const realAnnualRateCompound = irrMonthly === null ? null : roundRate(((1 + irrMonthly) ** 12 - 1) * 100);
+  const baseIrrMonthly = calculateMonthlyIrr(baseCashFlows);
+  const baseRealAnnualRateSimple = baseIrrMonthly === null ? null : roundRate(baseIrrMonthly * 12 * 100);
+  const baseRealAnnualRateCompound = baseIrrMonthly === null ? null : roundRate(((1 + baseIrrMonthly) ** 12 - 1) * 100);
+  const comprehensiveIrrMonthly = calculateMonthlyIrr(comprehensiveCashFlows);
+  const comprehensiveRealAnnualRateSimple =
+    comprehensiveIrrMonthly === null ? null : roundRate(comprehensiveIrrMonthly * 12 * 100);
+  const comprehensiveRealAnnualRateCompound =
+    comprehensiveIrrMonthly === null ? null : roundRate(((1 + comprehensiveIrrMonthly) ** 12 - 1) * 100);
   const displayAnnualRateMethod = "simple";
-  const realAnnualRate = realAnnualRateSimple;
+  const realAnnualRate = comprehensiveRealAnnualRateSimple;
   const nominalAnnualRate = annualNominalRate(parseResult.nominalRate.value, parseResult.nominalRate.unit);
   const costEntries = findKnowledgeEntries(
     knowledgeBase.productEntries,
     `${parseResult.institution.value ?? ""} ${parseResult.contractType} ${parseResult.repaymentMethod.value ?? ""}`,
     2,
   );
-  const missingFields = outputMissingFields(parseResult, cashFlows);
+  const missingFields = outputMissingFields(parseResult, comprehensiveCashFlows);
   const thresholds = knowledgeBase.costRules.licensedInstitutionThresholds;
 
   const calculationResult: CostCalculationResult = {
@@ -232,17 +272,28 @@ const toCalculationResult = (
     totalInterest,
     totalFees: totalFees || null,
     extraCost,
-    irrMonthly: irrMonthly === null ? null : Number(irrMonthly.toFixed(8)),
-    realAnnualRateSimple,
-    realAnnualRateCompound,
+    irrMonthly: comprehensiveIrrMonthly === null ? null : Number(comprehensiveIrrMonthly.toFixed(8)),
+    realAnnualRateSimple: comprehensiveRealAnnualRateSimple,
+    realAnnualRateCompound: comprehensiveRealAnnualRateCompound,
+    baseCashFlows,
+    baseIrrMonthly: baseIrrMonthly === null ? null : Number(baseIrrMonthly.toFixed(8)),
+    baseRealAnnualRateSimple,
+    baseRealAnnualRateCompound,
+    comprehensiveCashFlows,
+    comprehensiveIrrMonthly: comprehensiveIrrMonthly === null ? null : Number(comprehensiveIrrMonthly.toFixed(8)),
+    comprehensiveRealAnnualRateSimple,
+    comprehensiveRealAnnualRateCompound,
     displayAnnualRateMethod,
-    cashFlows,
+    cashFlows: comprehensiveCashFlows,
     includedFees: parseResult.fees
       .filter((fee) => fee.includedInNormalCost)
       .map((fee) => ({
         name: fee.name,
         amount: fee.amount,
-        reason: "知识库规则：正常履约且与贷款直接相关的费用进入真实成本测算。",
+        reason:
+          fee.chargeTiming === "upfront_deducted"
+            ? "知识库规则：放款时扣除的正常费用通过实际到账金额进入真实成本测算。"
+            : "知识库规则：正常履约且与贷款直接相关的费用进入综合真实成本测算。",
       })),
     excludedContingentCosts: parseResult.fees
       .filter((fee) => !fee.includedInNormalCost)
@@ -260,6 +311,8 @@ const toCalculationResult = (
       "REG-001：贷款成本包括利息及直接相关费用，不能只看名义利率。",
       "REG-002/003：正常履约息费按现金流折算年化，逾期等列为或有成本。",
       "REG-006：月度资金成本可转为单利/复利年化，本结果默认展示单利年化。",
+      `基础口径：不叠加正常履约费用，单利年化 ${baseRealAnnualRateSimple ?? "信息不足"}%，复利年化 ${baseRealAnnualRateCompound ?? "信息不足"}%。`,
+      `综合口径：叠加已识别的正常履约费用，单利年化 ${comprehensiveRealAnnualRateSimple ?? "信息不足"}%，复利年化 ${comprehensiveRealAnnualRateCompound ?? "信息不足"}%。`,
       `REG-005：本地知识库 LPR 最近记录为 ${knowledgeBase.latestLpr.date}，1年期 ${knowledgeBase.latestLpr.oneYear}%。`,
       ...costEntries.map((entry) => `参考产品知识条目：${entry.id}`),
     ],
@@ -311,6 +364,7 @@ export const runCostCalculatorAgent = (parseResult: ContractParseResult): CostAn
     }
   }
 
-  const cashFlows = buildRepaymentFlows(parseResult, assumptions, warnings);
-  return toCalculationResult(parseResult, cashFlows, assumptions, warnings);
+  const baseCashFlows = buildRepaymentFlows(parseResult, assumptions, warnings, false);
+  const comprehensiveCashFlows = buildRepaymentFlows(parseResult, assumptions, warnings, true);
+  return toCalculationResult(parseResult, baseCashFlows, comprehensiveCashFlows, assumptions, warnings);
 };

@@ -24,6 +24,10 @@ type ParserInput = {
 type Fragment = {
   text: string;
   location: string;
+  page: number | null;
+  paragraph: number;
+  startOffset: number | null;
+  endOffset: number | null;
 };
 
 const feeTypes = new Set<FeeType>([
@@ -58,17 +62,84 @@ const normalizeText = (text: string) =>
     .replace(/ ?第([0-9一二三四五六七八九十]+)条/g, "\n第$1条")
     .trim();
 
-const fragmentLocation = (text: string, index: number) => {
+const fragmentLocation = (text: string, index: number, page: number | null) => {
   const clauseMatch = text.match(/第[0-9一二三四五六七八九十]+条[^。；;\n]*/);
-  return clauseMatch?.[0]?.trim() ?? `段落 ${index + 1}`;
+  const paragraph = `段落 ${index + 1}`;
+  const pagePrefix = page ? `第${page}页 / ` : "";
+  return clauseMatch?.[0]?.trim() ?? `${pagePrefix}${paragraph}`;
 };
 
-const toFragments = (contractText: string): Fragment[] =>
-  normalizeText(contractText)
-    .split(/\n+|。/)
-    .map((text) => text.trim())
-    .filter(Boolean)
-    .map((text, index) => ({ text, location: fragmentLocation(text, index) }));
+const pageFromLine = (line: string) => {
+  const explicit = line.match(/第\s*([0-9]+)\s*页/);
+  if (explicit?.[1]) return Number(explicit[1]);
+  const footer = line.match(/^--\s*([0-9]+)\s+of\s+[0-9]+\s*--$/i);
+  return footer?.[1] ? Number(footer[1]) : null;
+};
+
+const isPageNoise = (line: string) =>
+  /^--\s*[0-9]+\s+of\s+[0-9]+\s*--$/i.test(line) ||
+  line.startsWith("看得懂的钱") ||
+  line.startsWith("系统测试样本 ·") ||
+  line.startsWith("特别声明：本文件仅供");
+
+const startsNewFragment = (line: string) =>
+  /^\d+\.\s*/.test(line) ||
+  /^第[0-9一二三四五六七八九十]+条/.test(line) ||
+  /^(合同编号|甲方|乙方|签署日期|签章|日期|签署确认|重要提示|个人消费借款|系统验收测试合同)/.test(line);
+
+const shouldAppendToPrevious = (line: string, previous: Fragment | undefined) =>
+  Boolean(previous) && !startsNewFragment(line) && !/[。；;：:]$/.test(previous?.text ?? "");
+
+const splitFragmentSentences = (fragment: Fragment): Fragment[] => {
+  const parts = fragment.text
+    .split(/。/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  if (parts.length <= 1) return [fragment];
+  return parts.map((text) => ({
+    ...fragment,
+    text,
+  }));
+};
+
+const toFragments = (contractText: string): Fragment[] => {
+  const normalized = normalizeText(contractText);
+  const fragments: Fragment[] = [];
+  let currentPage: number | null = null;
+
+  for (const rawLine of normalized.split(/\n+/)) {
+    const line = rawLine.trim();
+    if (!line) continue;
+
+    const detectedPage = pageFromLine(line);
+    if (detectedPage !== null) currentPage = detectedPage;
+    if (isPageNoise(line)) continue;
+
+    const startOffset = normalized.indexOf(line);
+    const previous = fragments[fragments.length - 1];
+    if (previous && shouldAppendToPrevious(line, previous)) {
+      previous.text = `${previous.text}${line}`;
+      previous.endOffset = startOffset >= 0 ? startOffset + line.length : previous.endOffset;
+      continue;
+    }
+
+    const paragraph = fragments.length + 1;
+    fragments.push({
+      text: line,
+      location: fragmentLocation(line, fragments.length, currentPage),
+      page: currentPage,
+      paragraph,
+      startOffset: startOffset >= 0 ? startOffset : null,
+      endOffset: startOffset >= 0 ? startOffset + line.length : null,
+    });
+  }
+
+  return fragments.flatMap(splitFragmentSentences).map((fragment, index) => ({
+    ...fragment,
+    paragraph: index + 1,
+    location: fragmentLocation(fragment.text, index, fragment.page),
+  }));
+};
 
 const findFragment = (fragments: Fragment[], aliases: string[]) =>
   fragments.find((fragment) => aliases.some((alias) => fragment.text.includes(alias))) ?? null;
@@ -256,9 +327,24 @@ const feeChargeTiming = (feeType: FeeType, text: string): ChargeTiming => {
   if (feeType === "prepayment_fee") return "on_prepayment";
   if (feeType === "overdue_penalty") return "on_overdue";
   if (/扣除|放款金额中|发放时|放款时|先扣|一次性扣/.test(text)) return "upfront_deducted";
+  if (/首期|第一期|第1期|首月/.test(text)) return "first_period";
   if (/每期|每月|按期/.test(text)) return "per_period";
   if (/一次性|签约时|放款前/.test(text)) return "upfront_paid";
   return "unknown";
+};
+
+const shouldSkipFeeCandidate = (feeType: FeeType, term: string, fragment: Fragment) => {
+  const text = fragment.text;
+  if (feeType === "service_fee" && term === "服务费" && /保障服务费|催收服务费|信息服务费|技术服务费/.test(text)) {
+    return true;
+  }
+  if (feeType === "service_fee" && /实际到账金额|实际收到/.test(text) && !/收取[^。；]*服务费/.test(text)) {
+    return true;
+  }
+  if (feeType !== "overdue_penalty" && /逾期|催收/.test(text) && !/每月|每期|首期|放款|一次性/.test(text)) {
+    return true;
+  }
+  return false;
 };
 
 const extractFees = (fragments: Fragment[], knowledgeBase: KnowledgeBase): ParsedFee[] => {
@@ -270,32 +356,36 @@ const extractFees = (fragments: Fragment[], knowledgeBase: KnowledgeBase): Parse
     if (rawType === "interest") continue;
 
     for (const term of terms ?? []) {
-      const fragment = fragments.find((candidate) => candidate.text.includes(term));
-      if (!fragment) continue;
+      const matchedFragments = fragments.filter((candidate) => candidate.text.includes(term));
 
-      const key = `${feeType}:${fragment.location}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
+      for (const fragment of matchedFragments) {
+        if (shouldSkipFeeCandidate(feeType, term, fragment)) continue;
+        const textAfterTerm = valueAfterAlias(fragment.text, [term]);
+        const amount = parseMoney(textAfterTerm) ?? parseMoney(fragment.text);
+        const rate = parseRate(textAfterTerm) ?? parseRate(fragment.text);
+        if (amount === null && rate === null) continue;
 
-      const textAfterTerm = valueAfterAlias(fragment.text, [term]);
-      const amount = parseMoney(textAfterTerm) ?? parseMoney(fragment.text);
-      const rate = parseRate(textAfterTerm) ?? parseRate(fragment.text);
-      const chargeTiming = feeChargeTiming(feeType, fragment.text);
-      const includedInNormalCost = knowledgeBase.costRules.normalCostFeeTypes.includes(feeType);
+        const chargeTiming = feeChargeTiming(feeType, fragment.text);
+        const key = `${feeType}:${chargeTiming}:${amount ?? ""}:${rate ?? ""}:${fragment.location}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
 
-      parsedFees.push({
-        name: term,
-        type: feeType,
-        amount,
-        rate,
-        rateUnit: feeRateUnitFromText(fragment.text),
-        chargeTiming,
-        includedInNormalCost,
-        chargedBy: null,
-        evidenceText: fragment.text,
-        location: fragment.location,
-        confidence: amount !== null || rate !== null ? 0.88 : 0.68,
-      });
+        const includedInNormalCost = knowledgeBase.costRules.normalCostFeeTypes.includes(feeType);
+
+        parsedFees.push({
+          name: term,
+          type: feeType,
+          amount,
+          rate,
+          rateUnit: feeRateUnitFromText(fragment.text),
+          chargeTiming,
+          includedInNormalCost,
+          chargedBy: null,
+          evidenceText: fragment.text,
+          location: fragment.location,
+          confidence: 0.88,
+        });
+      }
     }
   }
 
@@ -319,11 +409,14 @@ const deriveActualReceivedAmount = (loanAmount: MoneyField, actualReceivedAmount
 };
 
 const clauseMatchers: Array<[ClauseType, RegExp]> = [
+  ["fee", /服务费|管理费|咨询费|担保费|保险费|保障服务费|短信提醒费|短信费|分期手续费|费用|实际到账|实际收到|计息及还款本金|借款本金中扣除/],
   ["prepayment", /提前还款|提前结清/],
   ["overdue", /逾期|罚息|违约金|复利|滞纳金/],
   ["autoDebit", /自动扣款|扣款授权|不可撤销|绑定账户/],
+  ["privacy", /信息收集|个人信息|通讯录|通话记录|短信记录|定位信息|浏览记录|交易信息|关联公司|第三方平台|合作方|授权|征信机构|撤回授权|银行卡信息|设备信息/],
+  ["contractChange", /合同变更|服务规则|收费标准|业务流程|继续使用服务|提出书面异议|视为接受|立即结清|还款能力明显下降|解除本协议|立即偿还全部/],
+  ["disputeResolution", /争议解决|仲裁委员会|送达方式|有效送达地址|联系方式发生变化|终局裁决|线上方式/],
   ["repayment", /还款方式|每期应还|月供|等额|先息后本|到期一次/],
-  ["fee", /服务费|管理费|咨询费|担保费|保险费|分期手续费|费用/],
   ["purpose", /贷款用途|借款用途|资金用途|不得用于/],
   ["rateAdjustment", /LPR|浮动|调整|基点|BP/],
   ["guarantee", /担保|保证保险|增信|连带责任/],
@@ -348,6 +441,10 @@ const extractClauses = (fragments: Fragment[]): ParsedContractClause[] => {
       type,
       text: fragment.text,
       location: fragment.location,
+      page: fragment.page,
+      paragraph: fragment.paragraph,
+      startOffset: fragment.startOffset,
+      endOffset: fragment.endOffset,
       confidence: 0.84,
     });
   }
