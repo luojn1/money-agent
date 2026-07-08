@@ -79,137 +79,174 @@ export function UploadPage() {
       <main className="upload-page">
         <section className="upload-hero" aria-labelledby="upload-title">
           <p className="eyebrow">消费贷合同体检</p>
-          <h1 id="upload-title">上传消费贷合同，帮你看懂条款、算清成本、识别风险</h1>
+          <h1 id="upload-title">上传合同，帮你看清真实成本、关键风险和下一步行动</h1>
           <p className="upload-hero__subtitle">不绕术语，先把真正影响钱包的数字和条款讲清楚。</p>
           <div className="trust-row" aria-label="服务说明">
-            <span><ShieldCheck size={20} weight="duotone" />保护隐私，仅用于分析</span>
+            <span><ShieldCheck size={20} weight="duotone" />仅用于本次分析</span>
             <span><LockKey size={20} weight="duotone" />本轮不保存合同内容</span>
             <span><CheckCircle size={20} weight="duotone" />结果中立，不偏不倚</span>
           </div>
-          <div className={`mode-banner${mockModeEnabled ? " mode-banner--mock" : " mode-banner--real"}`}>
-            <Robot size={21} weight="duotone" />
+        </section>
+
+        <section className="analysis-flow" aria-labelledby="analysis-flow-title">
+          <div className="analysis-flow__heading">
+            <p className="section-kicker">分析流程</p>
+            <h2 id="analysis-flow-title">从合同内容到行动清单，分四步看清楚</h2>
+          </div>
+          <ol className="flow-steps" aria-label="分析路径">
+            <li>
+              <span>1</span>
+              <div>
+                <strong>上传识别</strong>
+                <small>PDF 文本层、Word、图片 OCR</small>
+              </div>
+            </li>
+            <li>
+              <span>2</span>
+              <div>
+                <strong>成本分析</strong>
+                <small>金额、期限、费用、现金流和真实年化</small>
+              </div>
+            </li>
+            <li>
+              <span>3</span>
+              <div>
+                <strong>风险识别</strong>
+                <small>风险条款、合同原文和典型情景</small>
+              </div>
+            </li>
+            <li>
+              <span>4</span>
+              <div>
+                <strong>建议行动</strong>
+                <small>确认问题、证据清单和行动计划</small>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <form className="analysis-form main-action-card" onSubmit={startAnalysis} noValidate aria-labelledby="contract-input-title">
+          <div className="main-action-card__header">
             <div>
-              <strong>{mockModeEnabled ? "示例分析模式" : "合同分析服务"}</strong>
-              <span>
-                {mockModeEnabled
-                  ? "将使用示例合同生成一份体验报告，方便先了解报告结构。"
-                  : "将读取合同内容，生成成本、风险和建议报告。"}
-              </span>
+              <p className="section-kicker">主操作区</p>
+              <h2 id="contract-input-title">开始分析你的合同</h2>
             </div>
+            <button
+              type="button"
+              className={`text-button${exampleSelected ? " text-button--selected" : ""}`}
+              onClick={selectExample}
+            >
+              {exampleSelected ? <CheckCircle size={19} weight="fill" /> : <FileText size={19} />}
+              {exampleSelected ? "已选择示例合同" : "使用示例合同"}
+            </button>
+          </div>
+
+          <input
+            className="visually-hidden"
+            ref={inputRef}
+            type="file"
+            accept={acceptedFileTypes}
+            onChange={(event) => chooseFile(event.target.files)}
+            aria-label="选择合同文件"
+          />
+          <button
+            className={`drop-zone${selectedFile ? " drop-zone--selected" : ""}`}
+            type="button"
+            onClick={() => inputRef.current?.click()}
+            onDragOver={(event) => event.preventDefault()}
+            onDrop={handleDrop}
+          >
+            {selectedFile ? <CheckCircle size={36} weight="duotone" /> : <UploadSimple size={36} weight="duotone" />}
+            <strong>{selectedFile ? selectedFile.name : "点击或拖拽合同到这里"}</strong>
+            <span>{selectedFile ? "将读取文本层；图片会尝试 OCR 识别" : "支持 PDF、DOCX、TXT、JPG、PNG、WEBP"}</span>
+          </button>
+
+          <div className="or-divider"><span>或粘贴合同文字</span></div>
+
+          <div className="text-input-wrap">
+            <textarea
+              id="contract-text"
+              aria-label="粘贴合同文字"
+              value={contractText}
+              onChange={(event) => {
+                setContractText(event.target.value);
+                if (event.target.value.trim()) setError("");
+              }}
+              placeholder="在此粘贴合同全部或部分文字内容（选填）"
+              rows={5}
+              maxLength={100_000}
+            />
+            <span className="character-count">{contractText.length.toLocaleString("zh-CN")} / 100,000</span>
+          </div>
+
+          <section className="repayment-context" aria-labelledby="context-title">
+            <div>
+              <h3 id="context-title">补充你的还款情况</h3>
+              <p>用于帮助你判断月供压力，不影响本次合同成本计算。</p>
+            </div>
+            <div className="field-grid">
+              <label>
+                <span>月收入区间</span>
+                <select value={incomeRange} onChange={(event) => setIncomeRange(event.target.value)}>
+                  <option value="">请选择月收入区间</option>
+                  <option value="under-5k">5,000 元以下</option>
+                  <option value="5k-10k">5,000-10,000 元</option>
+                  <option value="10k-20k">10,000-20,000 元</option>
+                  <option value="over-20k">20,000 元以上</option>
+                </select>
+              </label>
+              <label>
+                <span>当前已有月供</span>
+                <span className="input-with-suffix">
+                  <input
+                    type="number"
+                    min="0"
+                    inputMode="decimal"
+                    value={monthlyPayment}
+                    onChange={(event) => setMonthlyPayment(event.target.value)}
+                    placeholder="请输入金额"
+                  />
+                  <span>元</span>
+                </span>
+              </label>
+            </div>
+          </section>
+
+          {error && <div className="form-error" role="alert">{error}</div>}
+
+          <button className="primary-button primary-button--wide" type="submit" disabled={submitting}>
+            {submitting ? "正在开始分析…" : "开始分析"}
+          </button>
+          <p className="privacy-note"><ShieldCheck size={18} weight="duotone" />分析过程仅用于生成本次报告；结果仅供参考，请结合合同原文核实。</p>
+        </form>
+
+        <section className="value-section" aria-labelledby="value-title">
+          <div className="analysis-flow__heading">
+            <p className="section-kicker">你会得到什么</p>
+            <h2 id="value-title">把影响决策的内容放在报告里</h2>
+          </div>
+          <div className="value-grid">
+            <article>
+              <Calculator size={22} weight="duotone" />
+              <h3>看清真实成本</h3>
+              <p>金额、期限、费用、现金流和真实年化</p>
+            </article>
+            <article>
+              <ClipboardText size={22} weight="duotone" />
+              <h3>识别关键风险</h3>
+              <p>提前还款、逾期、费用、仲裁和送达条款</p>
+            </article>
+            <article>
+              <Receipt size={22} weight="duotone" />
+              <h3>生成行动清单</h3>
+              <p>告诉用户要核对什么、保存什么、下一步怎么做</p>
+            </article>
           </div>
         </section>
 
-        <form className="analysis-form upload-workspace" onSubmit={startAnalysis} noValidate>
-          <div className="upload-main-column">
-            <section className="form-section" aria-labelledby="contract-input-title">
-              <div className="section-heading-row">
-                <div>
-                  <p className="section-kicker">第 1 步</p>
-                  <h2 id="contract-input-title">选择合同内容</h2>
-                </div>
-                <button
-                  type="button"
-                  className={`text-button${exampleSelected ? " text-button--selected" : ""}`}
-                  onClick={selectExample}
-                >
-                  {exampleSelected ? <CheckCircle size={19} weight="fill" /> : <FileText size={19} />}
-                  {exampleSelected ? "已选择示例合同" : "使用示例合同"}
-                </button>
-              </div>
-
-              <input
-                className="visually-hidden"
-                ref={inputRef}
-                type="file"
-                accept={acceptedFileTypes}
-                onChange={(event) => chooseFile(event.target.files)}
-                aria-label="选择合同文件"
-              />
-              <button
-                className={`drop-zone${selectedFile ? " drop-zone--selected" : ""}`}
-                type="button"
-                onClick={() => inputRef.current?.click()}
-                onDragOver={(event) => event.preventDefault()}
-                onDrop={handleDrop}
-              >
-                {selectedFile ? <CheckCircle size={38} weight="duotone" /> : <UploadSimple size={38} weight="duotone" />}
-                <strong>{selectedFile ? selectedFile.name : "点击或拖拽合同到这里"}</strong>
-                <span>{selectedFile ? "将读取文本层；图片会尝试 OCR 识别" : "支持 PDF、DOCX、TXT、JPG、PNG、WEBP"}</span>
-              </button>
-              <p className="support-note">支持 PDF、Word、图片和文本文件；请确认合同内容清晰完整。</p>
-
-              <div className="or-divider"><span>或</span></div>
-
-              <label className="field-label" htmlFor="contract-text">粘贴合同文字</label>
-              <textarea
-                id="contract-text"
-                value={contractText}
-                onChange={(event) => {
-                  setContractText(event.target.value);
-                  if (event.target.value.trim()) setError("");
-                }}
-                placeholder="在此粘贴合同全部或部分文字内容（选填）"
-                rows={5}
-                maxLength={100_000}
-              />
-              <span className="character-count">{contractText.length.toLocaleString("zh-CN")} / 100,000</span>
-            </section>
-
-            <section className="form-section form-section--compact" aria-labelledby="context-title">
-              <div>
-                <p className="section-kicker">第 2 步 · 选填</p>
-                <h2 id="context-title">补充你的还款情况</h2>
-                <p className="section-description">用于帮助你判断月供压力，不影响本次合同成本计算。</p>
-              </div>
-              <div className="field-grid">
-                <label>
-                  <span>月收入区间</span>
-                  <select value={incomeRange} onChange={(event) => setIncomeRange(event.target.value)}>
-                    <option value="">请选择月收入区间</option>
-                    <option value="under-5k">5,000 元以下</option>
-                    <option value="5k-10k">5,000-10,000 元</option>
-                    <option value="10k-20k">10,000-20,000 元</option>
-                    <option value="over-20k">20,000 元以上</option>
-                  </select>
-                </label>
-                <label>
-                  <span>当前已有月供</span>
-                  <span className="input-with-suffix">
-                    <input
-                      type="number"
-                      min="0"
-                      inputMode="decimal"
-                      value={monthlyPayment}
-                      onChange={(event) => setMonthlyPayment(event.target.value)}
-                      placeholder="请输入金额"
-                    />
-                    <span>元</span>
-                  </span>
-                </label>
-              </div>
-            </section>
-
-            {error && <div className="form-error" role="alert">{error}</div>}
-
-            <button className="primary-button primary-button--wide" type="submit" disabled={submitting}>
-              {submitting ? "正在开始分析…" : "开始分析"}
-            </button>
-            <p className="privacy-note"><ShieldCheck size={18} weight="duotone" />分析过程仅用于生成本次报告；结果仅供参考，请结合合同原文核实。</p>
-          </div>
-
-          <aside className="upload-side-panel" aria-label="分析路径">
-            <div className="side-panel__heading">
-              <span>分析路径</span>
-              <strong>从合同文字到完整行动报告</strong>
-            </div>
-            <ol className="capability-list">
-              <li><FileText size={20} weight="duotone" /><span>上传识别</span><small>PDF 文本层、Word、图片 OCR</small></li>
-              <li><Calculator size={20} weight="duotone" /><span>成本分析</span><small>金额、期限、费用、现金流和真实年化</small></li>
-              <li><ClipboardText size={20} weight="duotone" /><span>风险识别</span><small>风险条款、合同原文和典型情景</small></li>
-              <li><Receipt size={20} weight="duotone" /><span>建议行动</span><small>确认问题、证据清单和行动计划</small></li>
-            </ol>
-          </aside>
-        </form>
+        <div className="upload-mascot" aria-hidden="true">
+          <Robot size={24} weight="duotone" />
+        </div>
       </main>
     </PageShell>
   );
