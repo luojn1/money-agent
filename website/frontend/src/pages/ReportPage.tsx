@@ -20,7 +20,7 @@ import { MetricCard } from "../components/MetricCard";
 import { PageShell } from "../components/PageShell";
 import { RiskCard } from "../components/RiskCard";
 import { api } from "../services/api";
-import type { ActionItem, PipelineReport } from "../types/pipeline";
+import type { ActionItem, ActionStage, PipelineReport, PipelineRiskItem } from "../types/pipeline";
 
 const money = (value: number | null) => value === null ? "信息不足" : `${value.toLocaleString("zh-CN")} 元`;
 const percent = (value: number | null) => value === null ? "信息不足" : `${value.toFixed(1)}%`;
@@ -37,6 +37,280 @@ const priorityLabel: Record<ActionItem["priority"], string> = {
   must: "必须确认",
   should: "建议确认",
   optional: "可选优化",
+};
+
+const riskLevelLabel: Record<PipelineRiskItem["riskLevel"], string> = {
+  high: "高风险",
+  medium: "需关注",
+  low: "低风险",
+};
+
+const riskLevelWeight: Record<PipelineRiskItem["riskLevel"], number> = {
+  high: 100,
+  medium: 60,
+  low: 20,
+};
+
+const priorityWeight: Record<ActionItem["priority"], number> = {
+  must: 30,
+  should: 15,
+  optional: 0,
+};
+
+const priorityRank: Record<ActionItem["priority"], number> = {
+  must: 0,
+  should: 1,
+  optional: 2,
+};
+
+const importantCategoryWeight: Record<string, number> = {
+  cost_transparency: 28,
+  interest_fee: 27,
+  overdue: 26,
+  authorization_privacy: 24,
+  prepayment: 22,
+  dispute_resolution: 21,
+  repayment: 18,
+  other: 4,
+};
+
+const actionStageOrder: ActionStage[] = [
+  "before_signing",
+  "during_repayment",
+  "before_prepayment",
+  "when_overdue",
+  "when_dispute",
+];
+
+type RankedAction = ActionItem & {
+  focusKey: string;
+  primaryRisk: PipelineRiskItem | null;
+  riskTitle: string;
+  score: number;
+};
+
+type ActionDigest = {
+  conclusion: string;
+  tags: string[];
+  nextAction: string;
+  topActions: RankedAction[];
+  stages: Array<{ stage: ActionStage; title: string; items: RankedAction[] }>;
+  moreActions: RankedAction[];
+  questionList: string[];
+  evidenceChecklist: string[];
+  communicationScripts: string[];
+};
+
+const normalizeText = (text: string) =>
+  text
+    .trim()
+    .toLowerCase()
+    .replace(/[，。；、,.!！?？:：\s"'“”‘’（）()]/g, "");
+
+const uniqueTextList = (items: string[]) => {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    const key = normalizeText(item);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
+const strongerPriority = (left: ActionItem["priority"], right: ActionItem["priority"]) =>
+  priorityRank[left] <= priorityRank[right] ? left : right;
+
+const dedupeActions = (items: ActionItem[]) => {
+  const byKey = new Map<string, ActionItem>();
+  items.forEach((item) => {
+    const key = normalizeText(item.title) || normalizeText(item.detail) || item.id;
+    const existing = byKey.get(key);
+    if (!existing) {
+      byKey.set(key, { ...item, relatedRiskIds: [...new Set(item.relatedRiskIds)] });
+      return;
+    }
+
+    byKey.set(key, {
+      ...existing,
+      priority: strongerPriority(existing.priority, item.priority),
+      detail: existing.detail.length >= item.detail.length ? existing.detail : item.detail,
+      relatedRiskIds: [...new Set([...existing.relatedRiskIds, ...item.relatedRiskIds])],
+    });
+  });
+  return [...byKey.values()];
+};
+
+const riskFocusKey = (risk: PipelineRiskItem | null, fallbackText = "") => {
+  const text = `${risk?.title ?? ""}${risk?.reason ?? ""}${risk?.possibleConsequence ?? ""}${fallbackText}`;
+  if (risk?.category === "cost_transparency" || risk?.category === "interest_fee" || risk?.category === "repayment") return "money";
+  if (risk?.category === "overdue" || /违约|逾期|罚息|催收/.test(text)) return "default";
+  if (risk?.category === "authorization_privacy" || /授权|扣款|个人信息|隐私|银行卡/.test(text)) return "privacy";
+  if (risk?.category === "prepayment" || /解除|终止|提前|结清|退出/.test(text)) return "exit";
+  if (risk?.category === "dispute_resolution" || /争议|投诉|仲裁|诉讼|管辖/.test(text)) return "dispute";
+  return risk?.category ?? "other";
+};
+
+const stageFromRisk = (risk: PipelineRiskItem): ActionStage => {
+  if (risk.category === "prepayment") return "before_prepayment";
+  if (risk.category === "overdue") return "when_overdue";
+  if (risk.category === "dispute_resolution") return "when_dispute";
+  if (risk.category === "authorization_privacy") return "before_signing";
+  return "before_signing";
+};
+
+const stageTitleFor = (stage: ActionStage, productType: string | null) => {
+  const product = productType ?? "";
+  if (/信用卡|分期/.test(product)) {
+    const titles: Record<ActionStage, string> = {
+      before_signing: "申请/下单前",
+      during_repayment: "分期履行期间",
+      before_prepayment: "退订/提前结清前",
+      when_overdue: "出现违约或逾期时",
+      when_dispute: "发生争议时",
+    };
+    return titles[stage];
+  }
+  if (/租赁|服务/.test(product)) {
+    const titles: Record<ActionStage, string> = {
+      before_signing: "签署前",
+      during_repayment: "履约期间",
+      before_prepayment: "解除/终止前",
+      when_overdue: "出现违约时",
+      when_dispute: "发生争议时",
+    };
+    return titles[stage];
+  }
+  const titles: Record<ActionStage, string> = {
+    before_signing: "签约前",
+    during_repayment: "履约/还款期间",
+    before_prepayment: "提前还款/终止前",
+    when_overdue: "出现违约或逾期时",
+    when_dispute: "发生争议时",
+  };
+  return titles[stage];
+};
+
+const makeRiskBackedAction = (risk: PipelineRiskItem): ActionItem => ({
+  id: `risk_action_${risk.id}`,
+  priority: risk.riskLevel === "high" ? "must" : risk.riskLevel === "medium" ? "should" : "optional",
+  title: `确认${risk.categoryLabel}问题`,
+  detail: risk.questionToAsk || risk.possibleConsequence || risk.reason,
+  stage: stageFromRisk(risk),
+  relatedRiskIds: [risk.id],
+});
+
+const rankActions = (report: PipelineReport) => {
+  const riskById = new Map(report.risks.map((risk) => [risk.id, risk]));
+  const fromActionPlan = report.actions.actionPlan.flatMap((section) => section.items);
+  const baseActions = dedupeActions([
+    ...fromActionPlan,
+    ...report.actions.mustConfirm,
+    ...report.actions.shouldConfirm,
+    ...report.actions.optionalOptimizations,
+  ]);
+  const coveredRiskIds = new Set(baseActions.flatMap((item) => item.relatedRiskIds));
+  const fallbackActions = report.risks
+    .filter((risk) => !coveredRiskIds.has(risk.id))
+    .map(makeRiskBackedAction);
+  const costIsElevated = report.costAnalysis.costLevel === "warning" || report.costAnalysis.costLevel === "high";
+
+  return dedupeActions([...baseActions, ...fallbackActions])
+    .map((item): RankedAction => {
+      const primaryRisk = item.relatedRiskIds
+        .map((id) => riskById.get(id) ?? null)
+        .filter((risk): risk is PipelineRiskItem => Boolean(risk))
+        .sort((left, right) => riskLevelWeight[right.riskLevel] - riskLevelWeight[left.riskLevel])[0] ?? null;
+      const focusKey = riskFocusKey(primaryRisk, `${item.title}${item.detail}`);
+      const text = `${item.title}${item.detail}${primaryRisk?.possibleConsequence ?? ""}`;
+      const keywordBoost = /成本|费用|利息|年化|违约|逾期|罚息|授权|扣款|个人信息|隐私|解除|终止|争议|仲裁|诉讼/.test(text) ? 8 : 0;
+      const score =
+        (primaryRisk ? riskLevelWeight[primaryRisk.riskLevel] : 0) +
+        priorityWeight[item.priority] +
+        (primaryRisk ? importantCategoryWeight[primaryRisk.category] ?? 0 : 0) +
+        (costIsElevated && focusKey === "money" ? 10 : 0) +
+        keywordBoost;
+
+      return {
+        ...item,
+        focusKey,
+        primaryRisk,
+        riskTitle: primaryRisk?.title ?? "当前合同风险",
+        score,
+      };
+    })
+    .sort((left, right) => {
+      if (right.score !== left.score) return right.score - left.score;
+      if (priorityRank[left.priority] !== priorityRank[right.priority]) return priorityRank[left.priority] - priorityRank[right.priority];
+      return left.title.localeCompare(right.title, "zh-CN");
+    });
+};
+
+const buildTopActions = (actions: RankedAction[]) => {
+  const usedFocusKeys = new Set<string>();
+  const topActions: RankedAction[] = [];
+  actions.forEach((item) => {
+    if (!item.primaryRisk || usedFocusKeys.has(item.focusKey) || topActions.length >= 3) return;
+    usedFocusKeys.add(item.focusKey);
+    topActions.push(item);
+  });
+  return topActions;
+};
+
+const buildActionDigest = (report: PipelineReport): ActionDigest => {
+  const rankedActions = rankActions(report);
+  const topActions = buildTopActions(rankedActions);
+  const usedActionIds = new Set(topActions.map((item) => item.id));
+  const visibleLimit = 12;
+  let visibleCount = topActions.length;
+  const moreActions: RankedAction[] = [];
+
+  const stages = actionStageOrder.map((stage) => {
+    const items: RankedAction[] = [];
+    rankedActions
+      .filter((item) => item.stage === stage && !usedActionIds.has(item.id))
+      .forEach((item) => {
+        if (item.priority === "optional" || items.length >= 3 || visibleCount >= visibleLimit) {
+          moreActions.push(item);
+          return;
+        }
+        items.push(item);
+        usedActionIds.add(item.id);
+        visibleCount += 1;
+      });
+    return { stage, title: stageTitleFor(stage, report.overview.productType), items };
+  });
+
+  rankedActions.forEach((item) => {
+    if (usedActionIds.has(item.id) || moreActions.some((action) => action.id === item.id)) return;
+    moreActions.push(item);
+  });
+
+  const highRiskCount = report.risks.filter((risk) => risk.riskLevel === "high").length;
+  const topRisk = topActions[0]?.primaryRisk ?? report.risks[0] ?? null;
+  const tags = [
+    report.costAnalysis.costLevel === "high" || report.costAnalysis.costLevel === "warning" ? costLevelLabel[report.costAnalysis.costLevel] : null,
+    ...report.risks.map((risk) => risk.categoryLabel),
+  ].filter((item): item is string => Boolean(item));
+  const uniqueTags = [...new Set(tags)].slice(0, 5);
+  const tagText = uniqueTags.slice(0, 2).join("、") || "合同关键信息";
+  const conclusion = topRisk
+    ? `这份合同的主要问题集中在${tagText}，${highRiskCount > 0 ? `其中 ${highRiskCount} 项高风险需要先澄清。` : "需要按阶段留痕确认。"}`
+    : "这份合同暂未识别出明确风险，仍建议补齐费用、还款和争议处理信息后再决策。";
+  const nextAction = topActions[0]
+    ? `优先完成“${topActions[0].title}”，并保留机构书面回复。`
+    : "先补齐合同金额、利率、费用和还款安排，再判断是否签约或继续履行。";
+
+  return {
+    conclusion,
+    tags: uniqueTags.length ? uniqueTags : ["信息待核实"],
+    nextAction,
+    topActions,
+    stages,
+    moreActions: dedupeActions(moreActions) as RankedAction[],
+    questionList: uniqueTextList(report.actions.questionList),
+    evidenceChecklist: uniqueTextList(report.actions.evidenceChecklist),
+    communicationScripts: uniqueTextList(report.actions.communicationScripts),
+  };
 };
 
 export function ReportPage() {
@@ -112,11 +386,7 @@ export function ReportPage() {
     ["名义利率", percent(report.overview.nominalAnnualRate), Percent],
   ] as const;
 
-  const actionGroups = [
-    { title: "必须确认事项", items: report.actions.mustConfirm },
-    { title: "建议确认事项", items: report.actions.shouldConfirm },
-    { title: "可选优化事项", items: report.actions.optionalOptimizations },
-  ];
+  const actionDigest = buildActionDigest(report);
   const isPartialReport = report.status === "partial";
 
   return (
@@ -234,69 +504,115 @@ export function ReportPage() {
         <section className="report-section actions-section" aria-labelledby="actions-title">
           <div className="report-section__heading">
             <span className="section-number">E</span>
-            <div><h2 id="actions-title">建议与行动</h2><p>按签约前、还款期间、提前还款前、逾期和争议阶段整理。</p></div>
+            <div><h2 id="actions-title">建议与行动</h2><p>先看主要问题和前三件要务，再按阶段执行。</p></div>
           </div>
 
-          <article className="conclusion-box">
+          <article className="action-summary-card">
             <ShieldCheck size={24} weight="duotone" />
             <div>
-              <span>综合结论</span>
-              <p>{report.actions.summary}</p>
+              <span>一句话结论</span>
+              <p>{actionDigest.conclusion}</p>
+              <div className="summary-tag-row">
+                {actionDigest.tags.map((tag) => <b key={tag}>{tag}</b>)}
+              </div>
+              <strong className="summary-next-step">{actionDigest.nextAction}</strong>
             </div>
           </article>
 
-          <div className="action-group-grid">
-            {actionGroups.map((group) => (
-              <article className="action-group" key={group.title}>
-                <h3>{group.title}</h3>
-                <ul>
-                  {group.items.map((item) => (
+          <div className="important-actions">
+            <h3>最重要的 3 件事</h3>
+            {actionDigest.topActions.length ? (
+              <ol className="important-action-list">
+                {actionDigest.topActions.map((item) => (
+                  <li key={item.id}>
+                    <span className={`risk-badge risk-badge--${item.primaryRisk?.riskLevel ?? "medium"}`}>
+                      {item.primaryRisk ? riskLevelLabel[item.primaryRisk.riskLevel] : priorityLabel[item.priority]}
+                    </span>
+                    <div>
+                      <strong>{item.title}</strong>
+                      <p>{item.detail}</p>
+                      <small>关联风险：{item.riskTitle}</small>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="stage-empty">暂未从当前风险识别结果中提取出需要优先处理的事项。</p>
+            )}
+          </div>
+
+          <div className="stage-action-list">
+            {actionDigest.stages.map((section, index) => (
+              <article className="stage-action-card" key={section.stage}>
+                <header>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3>{section.title}</h3>
+                    <small>{section.items.length ? `${section.items.length} 项` : "暂无额外事项"}</small>
+                  </div>
+                </header>
+                {section.items.length ? (
+                  <ul>
+                    {section.items.map((item) => (
+                      <li key={item.id}>
+                        <strong>{item.title}</strong>
+                        <p>{item.detail}</p>
+                        <small>{priorityLabel[item.priority]} · 关联风险：{item.riskTitle}</small>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="stage-empty">当前识别结果下，没有需要在这一阶段单独处理的事项。</p>
+                )}
+              </article>
+            ))}
+          </div>
+
+          <details className="more-actions-panel">
+            <summary>
+              <span>查看更多建议</span>
+              <small>{actionDigest.moreActions.length} 条低优先级或已合并后的补充建议</small>
+            </summary>
+            <div className="more-actions-content">
+              {actionDigest.moreActions.length > 0 && (
+                <ul className="more-actions-list">
+                  {actionDigest.moreActions.map((item) => (
                     <li key={item.id}>
                       <strong>{item.title}</strong>
-                      <span>{item.detail}</span>
-                      <small>{priorityLabel[item.priority]} · 关联风险：{item.relatedRiskIds.join("、")}</small>
+                      <p>{item.detail}</p>
+                      <small>{priorityLabel[item.priority]} · 关联风险：{item.riskTitle}</small>
                     </li>
                   ))}
                 </ul>
-              </article>
-            ))}
-          </div>
-
-          <div className="report-subsection-grid">
-            <article>
-              <h3><Question size={20} weight="duotone" />问题清单</h3>
-              <ol className="question-list question-list--single">
-                {report.actions.questionList.map((question) => (
-                  <li key={question}><span><CheckCircle size={21} weight="duotone" /></span><p>{question}</p></li>
-                ))}
-              </ol>
-            </article>
-            <article>
-              <h3><FileText size={20} weight="duotone" />证据保存清单</h3>
-              <ul className="plain-check-list">
-                {report.actions.evidenceChecklist.map((item) => <li key={item}>{item}</li>)}
-              </ul>
-            </article>
-          </div>
-
-          <article className="script-box">
-            <h3>沟通话术</h3>
-            {report.actions.communicationScripts.map((script) => <p key={script}>{script}</p>)}
-          </article>
-
-          <div className="timeline-plan">
-            {report.actions.actionPlan.map((section) => (
-              <article key={section.stage}>
-                <h3>{section.title}</h3>
-                {section.items.map((item) => (
-                  <div key={item.id}>
-                    <strong>{item.title}</strong>
-                    <p>{item.detail}</p>
-                  </div>
-                ))}
-              </article>
-            ))}
-          </div>
+              )}
+              <div className="supporting-advice-grid">
+                {actionDigest.questionList.length > 0 && (
+                  <article>
+                    <h3><Question size={20} weight="duotone" />可追问问题</h3>
+                    <ul className="compact-check-list">
+                      {actionDigest.questionList.map((question) => <li key={question}>{question}</li>)}
+                    </ul>
+                  </article>
+                )}
+                {actionDigest.evidenceChecklist.length > 0 && (
+                  <article>
+                    <h3><FileText size={20} weight="duotone" />证据保存</h3>
+                    <ul className="compact-check-list">
+                      {actionDigest.evidenceChecklist.map((item) => <li key={item}>{item}</li>)}
+                    </ul>
+                  </article>
+                )}
+                {actionDigest.communicationScripts.length > 0 && (
+                  <article>
+                    <h3><CheckCircle size={20} weight="duotone" />沟通话术</h3>
+                    <ul className="compact-check-list">
+                      {actionDigest.communicationScripts.map((script) => <li key={script}>{script}</li>)}
+                    </ul>
+                  </article>
+                )}
+              </div>
+            </div>
+          </details>
         </section>
 
         {report.warnings.length > 0 && (

@@ -55,8 +55,6 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
               <dd>
                 {item.categoryLabel}
                 {item.confidence !== null && item.confidence !== undefined ? ` · 置信度 ${Math.round(item.confidence * 100)}%` : ""}
-                <br />
-                条款 ID：{item.relatedClauseIds.join("、")}
               </dd>
             </div>
             <div>
