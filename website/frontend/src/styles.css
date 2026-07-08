@@ -320,10 +320,10 @@ textarea:focus, select:focus, input:focus { border-color: var(--terracotta); box
 .risk-detail-stack h4 { margin: 0 0 7px; color: var(--terracotta-dark); font-size: 12px; font-weight: 850; letter-spacing: 0; }
 .risk-detail-stack p { margin: 0; color: var(--ink-soft); font-size: 13px; line-height: 1.7; }
 .risk-detail-stack small { display: block; margin-top: 8px; color: var(--muted); font-size: 12px; line-height: 1.55; }
-.clause-quote { padding: 16px; border: 1px solid #ead7c7; border-left: 3px solid var(--terracotta); border-radius: 12px; background: #fff8f1; }
+.clause-quote { padding: 0; border: 0; border-radius: 0; background: #fff; }
 .clause-quote__header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .clause-quote__header small { margin-top: 0; text-align: right; }
-.clause-quote blockquote { margin: 8px 0 0; color: #5e4940; font-size: 14px; line-height: 1.75; white-space: pre-line; }
+.clause-quote blockquote { margin: 8px 0 0; color: var(--ink-soft); font-size: 14px; line-height: 1.75; white-space: pre-line; }
 .legal-reference-panel { border: 1px solid var(--line); border-radius: 12px; background: #fbfdfb; overflow: hidden; }
 .legal-reference-panel summary { min-height: 46px; padding: 0 14px; display: flex; align-items: center; color: var(--sage-dark); font-size: 13px; font-weight: 850; cursor: pointer; }
 .legal-reference-list { padding: 0 14px 14px; display: grid; gap: 10px; }
