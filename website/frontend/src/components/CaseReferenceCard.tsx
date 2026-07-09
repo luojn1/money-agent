@@ -19,6 +19,7 @@ export function CaseReferenceCard({ item }: CaseReferenceCardProps) {
   const [expanded, setExpanded] = useState(false);
   const contentId = `case-reference-${item.id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
   const similarity = formatSimilarity(item.similarity);
+  const hasSourceMeta = Boolean(item.sourceName || item.publishedAt || item.documentNumber);
 
   return (
     <article className="case-reference-card">
@@ -33,7 +34,7 @@ export function CaseReferenceCard({ item }: CaseReferenceCardProps) {
           <FileText size={20} weight="duotone" aria-hidden="true" />
           <span>
             <strong>{item.title}</strong>
-            <small>{shortenText(item.relation ?? item.summary ?? item.sourceName ?? "当前数据未提供来源机构", 72)}</small>
+            <small>{shortenText(item.relation ?? item.summary ?? item.sourceName ?? "匹配案例", 72)}</small>
           </span>
         </span>
         <span className="case-reference-card__meta">
@@ -51,24 +52,28 @@ export function CaseReferenceCard({ item }: CaseReferenceCardProps) {
             </div>
           )}
 
-          <dl className="case-source-grid">
-            <div>
-              <dt>来源机构</dt>
-              <dd>{item.sourceName ?? "当前数据未提供来源机构"}</dd>
-            </div>
-            {item.publishedAt && (
-              <div>
-                <dt>发布时间</dt>
-                <dd>{item.publishedAt}</dd>
-              </div>
-            )}
-            {item.documentNumber && (
-              <div>
-                <dt>可核验标识</dt>
-                <dd>{item.documentNumber}</dd>
-              </div>
-            )}
-          </dl>
+          {hasSourceMeta && (
+            <dl className="case-source-grid">
+              {item.sourceName && (
+                <div>
+                  <dt>来源机构</dt>
+                  <dd>{item.sourceName}</dd>
+                </div>
+              )}
+              {item.publishedAt && (
+                <div>
+                  <dt>发布时间</dt>
+                  <dd>{item.publishedAt}</dd>
+                </div>
+              )}
+              {item.documentNumber && (
+                <div>
+                  <dt>可核验标识</dt>
+                  <dd>{item.documentNumber}</dd>
+                </div>
+              )}
+            </dl>
+          )}
 
           {item.summary && (
             <div className="case-reference-card__block">

@@ -380,6 +380,8 @@ textarea:focus, select:focus, input:focus { border-color: var(--terracotta); box
 .legal-reference-list span { display: block; margin-top: 4px; color: var(--terracotta-dark); font-size: 12px; font-weight: 800; }
 .legal-reference-list p { margin: 9px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.7; }
 .legal-reference-list small { margin-top: 7px; }
+.legal-reference-list a { display: inline-flex; width: fit-content; margin-top: 8px; color: var(--terracotta); font-size: 12px; font-weight: 850; }
+.legal-reference-list a:hover { color: var(--terracotta-dark); }
 .case-reference-list { display: grid; gap: 9px; }
 .case-reference-card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #fbfaf6; }
 .case-reference-card__summary { width: 100%; min-height: 54px; border: 0; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 14px; background: transparent; text-align: left; cursor: pointer; }

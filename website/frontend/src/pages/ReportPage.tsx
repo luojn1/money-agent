@@ -860,12 +860,7 @@ export function ReportPage() {
                         <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
                           {cleanUserFacingText(item.sourceLabel, "查看来源")}
                         </a>
-                      ) : (
-                        <details className="reference-source-details">
-                          <summary>查看来源</summary>
-                          <p>当前依据来自系统内置参考库，暂未提供可打开的外部链接。请以报告摘要和合同原文核对。</p>
-                        </details>
-                      )}
+                      ) : null}
                     </article>
                   ))}
                 </div>

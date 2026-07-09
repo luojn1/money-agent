@@ -104,28 +104,30 @@ export function RiskCard({ item, defaultExpanded = false, variant = "full", keyM
                 </div>
               </section>
             )}
-            <details className="legal-reference-panel">
-              <summary>查看参考依据</summary>
-              <div className="legal-reference-list">
-                {legalReferences.length > 0 ? legalReferences.map((reference) => (
-                  <article key={`${reference.lawName}-${reference.articleNumber ?? reference.articleTitle ?? reference.fullText}`}>
-                    <strong>
-                      {reference.lawName}
-                      {reference.articleNumber ? ` ${reference.articleNumber}` : ""}
-                    </strong>
-                    {reference.articleTitle && <span>{reference.articleTitle}</span>}
-                    <p>{reference.fullText}</p>
-                    <small>{reference.relevance}</small>
-                    <small>{reference.sourceNote}</small>
-                  </article>
-                )) : (
-                  <article>
-                    <strong>参考依据</strong>
-                    <p>暂未识别到明确参考依据。请以合同原文和官方法律文本为准。</p>
-                  </article>
-                )}
-              </div>
-            </details>
+            {legalReferences.length > 0 && (
+              <details className="legal-reference-panel">
+                <summary>查看参考依据</summary>
+                <div className="legal-reference-list">
+                  {legalReferences.map((reference) => (
+                    <article key={`${reference.lawName}-${reference.articleNumber ?? reference.articleTitle ?? reference.fullText}`}>
+                      <strong>
+                        {reference.lawName}
+                        {reference.articleNumber ? ` ${reference.articleNumber}` : ""}
+                      </strong>
+                      {reference.articleTitle && <span>{reference.articleTitle}</span>}
+                      <p>{reference.fullText}</p>
+                      <small>{reference.relevance}</small>
+                      <small>{reference.sourceNote}</small>
+                      {reference.sourceUrl && (
+                        <a href={reference.sourceUrl} target="_blank" rel="noopener noreferrer">
+                          查看官方来源
+                        </a>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </details>
+            )}
           </div>
         </div>
       )}
