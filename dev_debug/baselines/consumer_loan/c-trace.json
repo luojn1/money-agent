@@ -1,0 +1,468 @@
+{
+  "inputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\dev_debug\\outputs\\latest\\consumer_loan\\b-output.json",
+  "upstreamStatus": "completed",
+  "riskScore": 0,
+  "overallRiskLevelByScore": "high",
+  "expiredKnowledgeRecords": 0,
+  "pendingReviewCounts": {
+    "risk_rules": 0,
+    "legal_regulations": 0,
+    "cases": 0,
+    "contract_clause_templates": 0,
+    "financial_products": 0,
+    "market_rates": 0,
+    "financial_glossary": 0
+  },
+  "scheduler": null,
+  "scenarioSignals": [],
+  "glossaryTerms": [
+    {
+      "termId": "TERM007",
+      "term": "服务费",
+      "definition": "除利息外收取的服务相关费用，需判断是否计入综合融资成本。",
+      "category": "cost",
+      "example": "平台服务费500元。"
+    },
+    {
+      "termId": "TERM013",
+      "term": "提前结清",
+      "definition": "在约定期限前一次性还清剩余债务。",
+      "category": "prepayment",
+      "example": "第6期提前还清剩余本金。"
+    },
+    {
+      "termId": "TERM015",
+      "term": "逾期罚息",
+      "definition": "逾期后按照约定利率或倍数加收的利息。",
+      "category": "overdue",
+      "example": "逾期按正常利率1.5倍计收。"
+    },
+    {
+      "termId": "TERM016",
+      "term": "违约金",
+      "definition": "合同违约时按约定支付的赔偿金额。",
+      "category": "overdue",
+      "example": "逾期每天收取违约金。"
+    },
+    {
+      "termId": "TERM006",
+      "term": "砍头息",
+      "definition": "放款前或放款时先扣利息/费用，实际到手金额低于合同本金。",
+      "category": "cost",
+      "example": "合同写借10000元，到手只有9500元。"
+    },
+    {
+      "termId": "TERM032",
+      "term": "真实年化",
+      "definition": "把利息和费用按现金流折算后的年化成本。",
+      "category": "interest",
+      "example": "服务费计入后真实年化上升。"
+    },
+    {
+      "termId": "TERM031",
+      "term": "LPR",
+      "definition": "贷款市场报价利率，可作为贷款利率定价参考基准。",
+      "category": "interest",
+      "example": "1年期LPR为市场基准之一。"
+    },
+    {
+      "termId": "TERM020",
+      "term": "自动扣款",
+      "definition": "授权机构到期从指定账户直接划扣款项。",
+      "category": "authorization",
+      "example": "每月还款日自动扣款。"
+    }
+  ],
+  "activeRuleCount": 80,
+  "hitRules": [
+    {
+      "ruleId": "RR001",
+      "ruleName": "费用不透明-存在额外费用",
+      "category": "cost_transparency",
+      "riskLevel": "high",
+      "weight": 24,
+      "matchedClauseIds": [
+        "clause_003_fee",
+        "clause_004_fee"
+      ],
+      "regulations": [
+        "《民法典》第677条",
+        "中国人民银行公告〔2021〕第3号",
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理"
+      ],
+      "cases": [
+        "账单分期提前还款手续费不退",
+        "消费贷预扣服务费案例07",
+        "消费贷预扣服务费案例22"
+      ],
+      "products": [
+        "医美消费分期",
+        "汽车消费贷款",
+        "捷信消费贷"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "服务费",
+        "提前结清",
+        "逾期罚息",
+        "违约金"
+      ]
+    },
+    {
+      "ruleId": "RR002",
+      "ruleName": "服务费一次性扣除",
+      "category": "cost_transparency",
+      "riskLevel": "high",
+      "weight": 22,
+      "matchedClauseIds": [
+        "clause_003_fee",
+        "clause_004_fee"
+      ],
+      "regulations": [
+        "《关于进一步规范信贷融资收费降低企业融资综合成本的通知》",
+        "《民法典》第677条",
+        "《民法典》第670条"
+      ],
+      "cases": [
+        "消费贷预扣服务费案例07",
+        "消费贷预扣服务费案例22",
+        "消费贷预扣服务费案例37"
+      ],
+      "products": [
+        "医美消费分期",
+        "捷信消费贷",
+        "汽车消费贷款"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "服务费",
+        "提前结清",
+        "逾期罚息",
+        "违约金"
+      ]
+    },
+    {
+      "ruleId": "RR007",
+      "ruleName": "砍头息-到账低于本金",
+      "category": "cost_transparency",
+      "riskLevel": "high",
+      "weight": 25,
+      "matchedClauseIds": [
+        "clause_003_fee",
+        "clause_004_fee"
+      ],
+      "regulations": [
+        "《民法典》第670条",
+        "《民法典》第677条",
+        "《金融消费者权益保护实施办法》- 金融信息保护"
+      ],
+      "cases": [
+        "短期现金贷砍头息案例15",
+        "短期现金贷砍头息案例30",
+        "短期现金贷砍头息案例45"
+      ],
+      "products": [
+        "医美消费分期",
+        "捷信消费贷",
+        "汽车消费贷款"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "砍头息",
+        "服务费",
+        "提前结清",
+        "逾期罚息",
+        "违约金"
+      ]
+    },
+    {
+      "ruleId": "RR012",
+      "ruleName": "真实年化高于名义利率10个百分点",
+      "category": "interest_fee",
+      "riskLevel": "high",
+      "weight": 22,
+      "matchedClauseIds": [
+        "clause_003_fee",
+        "clause_004_fee"
+      ],
+      "regulations": [
+        "中国人民银行公告〔2021〕第3号",
+        "《民法典》第677条",
+        "《民法典》第670条"
+      ],
+      "cases": [
+        "账单分期提前还款手续费不退",
+        "平台借款真实年化不明显案例13",
+        "平台借款真实年化不明显案例28"
+      ],
+      "products": [
+        "医美消费分期",
+        "汽车消费贷款",
+        "捷信消费贷"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "服务费",
+        "提前结清",
+        "逾期罚息",
+        "违约金",
+        "真实年化"
+      ]
+    },
+    {
+      "ruleId": "RR015",
+      "ruleName": "LPR倍数偏高",
+      "category": "interest_fee",
+      "riskLevel": "medium",
+      "weight": 12,
+      "matchedClauseIds": [
+        "clause_003_fee",
+        "clause_004_fee"
+      ],
+      "regulations": [
+        "《民法典》第677条",
+        "中国人民银行公告〔2021〕第3号",
+        "《商业银行互联网贷款管理暂行办法》"
+      ],
+      "cases": [
+        "账单分期提前还款手续费不退",
+        "短期现金贷砍头息案例15",
+        "短期现金贷砍头息案例30"
+      ],
+      "products": [
+        "汽车消费贷款",
+        "医美消费分期",
+        "捷信消费贷"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "服务费",
+        "提前结清",
+        "逾期罚息",
+        "违约金",
+        "LPR"
+      ]
+    },
+    {
+      "ruleId": "RR021",
+      "ruleName": "逾期罚息1.5倍",
+      "category": "overdue",
+      "riskLevel": "medium",
+      "weight": 12,
+      "matchedClauseIds": [
+        "clause_003_fee",
+        "clause_004_fee"
+      ],
+      "regulations": [
+        "《民法典》第677条",
+        "《金融消费者权益保护实施办法》- 金融信息保护",
+        "《消费金融公司管理办法》"
+      ],
+      "cases": [
+        "逾期罚息和违约金叠加案例08",
+        "逾期罚息和违约金叠加案例23",
+        "逾期罚息和违约金叠加案例38"
+      ],
+      "products": [
+        "捷信消费贷",
+        "医美消费分期",
+        "招联好期贷"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "服务费",
+        "提前结清",
+        "逾期罚息",
+        "违约金"
+      ]
+    },
+    {
+      "ruleId": "RR022",
+      "ruleName": "高额违约金",
+      "category": "overdue",
+      "riskLevel": "medium",
+      "weight": 12,
+      "matchedClauseIds": [
+        "clause_003_fee",
+        "clause_004_fee"
+      ],
+      "regulations": [
+        "《民法典》第677条",
+        "《民法典》第585条",
+        "《民法典》第496条"
+      ],
+      "cases": [
+        "逾期罚息和违约金叠加案例08",
+        "逾期罚息和违约金叠加案例23",
+        "逾期罚息和违约金叠加案例38"
+      ],
+      "products": [
+        "汽车消费贷款",
+        "医美消费分期",
+        "捷信消费贷"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "服务费",
+        "提前结清",
+        "逾期罚息",
+        "违约金"
+      ]
+    },
+    {
+      "ruleId": "RR029",
+      "ruleName": "自动扣款授权过宽",
+      "category": "authorization_privacy",
+      "riskLevel": "medium",
+      "weight": 15,
+      "matchedClauseIds": [
+        "clause_003_fee",
+        "clause_004_fee"
+      ],
+      "regulations": [
+        "《消费者权益保护法实施条例》第10条",
+        "《民法典》第677条",
+        "《民法典》第496条"
+      ],
+      "cases": [
+        "账单分期提前还款手续费不退",
+        "消费贷预扣服务费案例07",
+        "消费贷预扣服务费案例22"
+      ],
+      "products": [
+        "医美消费分期",
+        "捷信消费贷",
+        "汽车消费贷款"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "服务费",
+        "提前结清",
+        "逾期罚息",
+        "违约金",
+        "自动扣款"
+      ]
+    },
+    {
+      "ruleId": "RR067",
+      "ruleName": "费用退还规则缺失",
+      "category": "cost_transparency",
+      "riskLevel": "medium",
+      "weight": 13,
+      "matchedClauseIds": [
+        "clause_003_fee",
+        "clause_004_fee"
+      ],
+      "regulations": [
+        "《民法典》第677条",
+        "《消费者权益保护法》第8条",
+        "《消费者权益保护法实施条例》第10条"
+      ],
+      "cases": [
+        "账单分期提前还款手续费不退",
+        "消费贷预扣服务费案例07",
+        "消费贷预扣服务费案例22"
+      ],
+      "products": [
+        "医美消费分期",
+        "捷信消费贷",
+        "汽车消费贷款"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "服务费",
+        "提前结清",
+        "逾期罚息",
+        "违约金"
+      ]
+    },
+    {
+      "ruleId": "RR079",
+      "ruleName": "提前结清证明开具不清",
+      "category": "prepayment",
+      "riskLevel": "low",
+      "weight": 6,
+      "matchedClauseIds": [
+        "clause_003_fee",
+        "clause_004_fee"
+      ],
+      "regulations": [
+        "《民法典》第677条",
+        "《金融消费者权益保护实施办法》- 金融信息保护",
+        "《消费金融公司管理办法》"
+      ],
+      "cases": [
+        "账单分期提前还款手续费不退",
+        "逾期罚息和违约金叠加案例08",
+        "逾期罚息和违约金叠加案例23"
+      ],
+      "products": [
+        "医美消费分期",
+        "捷信消费贷",
+        "汽车消费贷款"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "服务费",
+        "提前结清",
+        "逾期罚息",
+        "违约金"
+      ]
+    }
+  ],
+  "skippedRules": [],
+  "knowledgeUsage": {
+    "riskRulesLoaded": 80,
+    "riskRulesHit": 10,
+    "regulationsRetrieved": 12,
+    "casesRetrieved": 12,
+    "productsRetrieved": 4,
+    "marketRatesRetrieved": 3,
+    "glossaryTermsRetrieved": 8,
+    "knowledgeSource": "local_sqlite_database",
+    "databasePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\dev_debug\\outputs\\latest\\consumer_loan\\risk_case_debug.db",
+    "databaseUpdatedAt": "2026-06-20"
+  },
+  "outputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\dev_debug\\outputs\\latest\\consumer_loan\\c-output.json",
+  "traceOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\dev_debug\\outputs\\latest\\consumer_loan\\c-trace.json"
+}

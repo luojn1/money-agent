@@ -1,0 +1,38 @@
+[
+  {
+    "template_id": "tpl_credit_card_installment_001",
+    "scenario_id": "credit_card_installment",
+    "contract_type": "credit_card_installment",
+    "template_name": "信用卡分期协议通用模板",
+    "keyword_patterns": [
+      "信用卡分期",
+      "账单分期",
+      "消费分期",
+      "分期手续费",
+      "信用卡账单",
+      "分期还款"
+    ],
+    "typical_clause_structure": [
+      "分期金额",
+      "期数",
+      "手续费率",
+      "提前还款规则"
+    ],
+    "field_mapping": {
+      "installment_amount": ["分期金额", "账单金额", "消费金额", "本金"],
+      "installment_periods": ["分期期数", "期数", "分为", "共"],
+      "service_fee_rate": ["手续费率", "每期手续费", "分期手续费率"],
+      "prepayment_rule": ["提前还款", "提前结清", "手续费退还"]
+    },
+    "risk_indicators": [
+      "免息",
+      "手续费",
+      "提前结清手续费不退",
+      "最低还款额",
+      "循环利息"
+    ],
+    "created_at": "2026-07-09",
+    "updated_at": "2026-07-09"
+  }
+]
+

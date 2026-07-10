@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>看得懂的钱｜摘要版报告</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f5f7f2;
+        --ink: #16231f;
+        --muted: #61716b;
+        --line: #d7ded7;
+        --green: #16483d;
+        --green-soft: #e6f0eb;
+        --amber: #9a5b14;
+        --red: #b9382d;
+        --card: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      }
+
+      .page {
+        width: min(960px, calc(100% - 32px));
+        margin: 28px auto 48px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-weight: 800;
+      }
+
+      .logo {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        background: #9f6228;
+        font-weight: 900;
+      }
+
+      .upload {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      input[type="file"] {
+        max-width: 220px;
+      }
+
+      .hero {
+        background: var(--green);
+        color: #fff;
+        border-radius: 8px;
+        padding: 28px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 24px;
+        align-items: center;
+        box-shadow: 0 18px 48px rgba(18, 48, 39, 0.18);
+      }
+
+      .eyebrow {
+        color: #f1cc8f;
+        font-size: 13px;
+        font-weight: 800;
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(30px, 5vw, 52px);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .hero p {
+        margin: 14px 0 0;
+        color: #d8eee7;
+        line-height: 1.7;
+      }
+
+      .decision {
+        min-width: 168px;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 8px;
+        padding: 18px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .decision span {
+        display: block;
+        font-size: 13px;
+        color: #d8eee7;
+      }
+
+      .decision strong {
+        display: block;
+        margin-top: 8px;
+        font-size: 30px;
+      }
+
+      .section {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        margin-top: 18px;
+        padding: 22px;
+      }
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .number {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        background: var(--green-soft);
+        color: var(--green);
+        font-weight: 900;
+        font-size: 12px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 20px;
+      }
+
+      .sub {
+        margin: 4px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .metric {
+        padding: 18px;
+        border-right: 1px solid var(--line);
+        background: #fbfcfa;
+      }
+
+      .metric:last-child {
+        border-right: 0;
+      }
+
+      .metric label {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 8px;
+        font-size: 30px;
+      }
+
+      .metric p {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .risk-list,
+      .action-list {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .risk,
+      .action {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fbfcfa;
+      }
+
+      .tag {
+        padding: 5px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .tag.high {
+        color: var(--red);
+        background: #fbe9e8;
+      }
+
+      .tag.medium {
+        color: var(--amber);
+        background: #fff1db;
+      }
+
+      .tag.low {
+        color: var(--green);
+        background: var(--green-soft);
+      }
+
+      .risk strong,
+      .action strong {
+        display: block;
+        font-size: 15px;
+      }
+
+      .risk span,
+      .action span {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      a {
+        color: var(--green);
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .footer-actions {
+        margin-top: 18px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .button {
+        border: 1px solid var(--green);
+        background: var(--green);
+        color: #fff;
+        border-radius: 8px;
+        padding: 11px 14px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .button.secondary {
+        background: #fff;
+        color: var(--green);
+      }
+
+      .full-report {
+        display: none;
+      }
+
+      .full-report.open {
+        display: block;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        background: #0f1f1a;
+        color: #d8eee7;
+        padding: 16px;
+        border-radius: 8px;
+        max-height: 420px;
+        overflow: auto;
+      }
+
+      @media (max-width: 760px) {
+        .hero,
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .metric {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .metric:last-child {
+          border-bottom: 0;
+        }
+
+        .risk,
+        .action {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="topbar">
+        <div class="brand"><div class="logo">元</div>看得懂的钱</div>
+        <label class="upload">选择摘要 JSON <input id="fileInput" type="file" accept="application/json" /></label>
+      </div>
+
+      <section class="hero">
+        <div>
+          <div class="eyebrow">30 秒摘要</div>
+          <h1 id="headline">正在加载摘要</h1>
+          <p id="headlineSub">先看结论，再看细节。</p>
+        </div>
+        <div class="decision">
+          <span>我的建议</span>
+          <strong id="decisionLabel">-</strong>
+          <span id="decisionReason">-</span>
+        </div>
+      </section>
+
+      <section class="section" id="cost">
+        <div class="section-title">
+          <div class="number">01</div>
+          <div>
+            <h2>三个核心数字</h2>
+            <p class="sub">先看贵不贵，再看险不险。</p>
+          </div>
+        </div>
+        <div class="metrics" id="metrics"></div>
+      </section>
+
+      <section class="section" id="risks">
+        <div class="section-title">
+          <div class="number">02</div>
+          <div>
+            <h2>最重要的风险</h2>
+            <p class="sub">每条都能点开看依据。</p>
+          </div>
+        </div>
+        <ul class="risk-list" id="riskList"></ul>
+      </section>
+
+      <section class="section" id="actions">
+        <div class="section-title">
+          <div class="number">03</div>
+          <div>
+            <h2>你现在该做什么</h2>
+            <p class="sub">先问清楚，再决定签不签。</p>
+          </div>
+        </div>
+        <ul class="action-list" id="actionList"></ul>
+        <div class="footer-actions">
+          <button class="button" id="toggleFull">查看完整报告</button>
+          <button class="button secondary" id="downloadSummary">下载摘要 JSON</button>
+        </div>
+      </section>
+
+      <section class="section full-report" id="fullReport">
+        <div class="section-title">
+          <div class="number">04</div>
+          <div>
+            <h2>完整摘要数据</h2>
+            <p class="sub">用于和完整报告字段对齐。</p>
+          </div>
+        </div>
+        <pre id="rawJson"></pre>
+      </section>
+    </main>
+
+    <script>
+      const sample = {
+        schemaVersion: "summary-report-v1",
+        taskId: "demo",
+        contractId: "demo",
+        generatedAt: new Date().toISOString(),
+        headline: "谨慎签：一年实际成本13.1%，有3项高风险",
+        decision: { level: "be_careful", label: "谨慎签", reason: "有问题要问清" },
+        coreNumbers: {
+          annualCostRate: { label: "一年实际成本", value: 13.1, unit: "%", plainText: "借一年大约多付13.1%", detailAnchor: "#cost" },
+          riskScore: { label: "风险分", value: 100, unit: "分", plainText: "分越高越要小心", detailAnchor: "#risks" },
+          extraCost: { label: "多付费用", value: 864, unit: "元", plainText: "除了本金，多付864元", detailAnchor: "#cost" }
+        },
+        topRisks: [
+          { id: "risk_001", title: "手续费要问清", plainText: "免息不等于免费", level: "high", detailAnchor: "#risk-risk_001" },
+          { id: "risk_002", title: "提前还也可能贵", plainText: "剩余费用可能不退", level: "high", detailAnchor: "#risk-risk_002" },
+          { id: "risk_003", title: "最低还款要小心", plainText: "利息可能继续滚", level: "medium", detailAnchor: "#risk-risk_003" }
+        ],
+        nextActions: [
+          { id: "action_001", text: "索要总费用表", detailAnchor: "#action-action_001" },
+          { id: "action_002", text: "问提前还款退不退", detailAnchor: "#action-action_002" },
+          { id: "action_003", text: "保存宣传页面", detailAnchor: "#action-action_003" }
+        ],
+        fullReportLinks: { riskSection: "#risks", costSection: "#cost", actionSection: "#actions" },
+        sourceRunIds: { contractCost: "demo_b", riskCase: "demo_c", recommendationAction: "demo_d" }
+      };
+
+      let current = sample;
+
+      const fmt = (item) => item.value === null || item.value === undefined ? "-" : `${item.value}${item.unit}`;
+      const riskLabel = { high: "高", medium: "中", low: "低" };
+
+      function render(data) {
+        current = data;
+        document.getElementById("headline").textContent = data.headline;
+        document.getElementById("headlineSub").textContent = `报告时间：${data.generatedAt || "-"}`;
+        document.getElementById("decisionLabel").textContent = data.decision.label;
+        document.getElementById("decisionReason").textContent = data.decision.reason;
+
+        const metrics = Object.values(data.coreNumbers).map((item) => `
+          <a class="metric" href="${item.detailAnchor}">
+            <label>${item.label}</label>
+            <strong>${fmt(item)}</strong>
+            <p>${item.plainText}</p>
+          </a>
+        `).join("");
+        document.getElementById("metrics").innerHTML = metrics;
+
+        document.getElementById("riskList").innerHTML = data.topRisks.map((item) => `
+          <li class="risk" id="risk-${item.id}">
+            <span class="tag ${item.level}">${riskLabel[item.level] || "?"}风险</span>
+            <div><strong>${item.title}</strong><span>${item.plainText}</span></div>
+            <a href="${item.detailAnchor}">看依据</a>
+          </li>
+        `).join("");
+
+        document.getElementById("actionList").innerHTML = data.nextActions.map((item, index) => `
+          <li class="action" id="action-${item.id}">
+            <span class="tag low">${String(index + 1).padStart(2, "0")}</span>
+            <div><strong>${item.text}</strong><span>点开看完整建议</span></div>
+            <a href="${item.detailAnchor}">去处理</a>
+          </li>
+        `).join("");
+
+        document.getElementById("rawJson").textContent = JSON.stringify(data, null, 2);
+      }
+
+      document.getElementById("fileInput").addEventListener("change", async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        const text = await file.text();
+        render(JSON.parse(text));
+      });
+
+      document.getElementById("toggleFull").addEventListener("click", () => {
+        document.getElementById("fullReport").classList.toggle("open");
+      });
+
+      document.getElementById("downloadSummary").addEventListener("click", () => {
+        const blob = new Blob([JSON.stringify(current, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "summary-report.json";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      render(sample);
+    </script>
+  </body>
+</html>
+

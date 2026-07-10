@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://money-agent.local/schemas/summary-report-v1.schema.json",
+  "title": "SummaryReportV1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "taskId",
+    "contractId",
+    "generatedAt",
+    "headline",
+    "decision",
+    "coreNumbers",
+    "topRisks",
+    "nextActions",
+    "fullReportLinks",
+    "sourceRunIds"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "summary-report-v1"
+    },
+    "taskId": {
+      "type": "string"
+    },
+    "contractId": {
+      "type": "string"
+    },
+    "generatedAt": {
+      "type": "string"
+    },
+    "headline": {
+      "type": "string",
+      "description": "一句话结论，面向普通用户。"
+    },
+    "decision": {
+      "type": "object",
+      "required": ["level", "label", "reason"],
+      "properties": {
+        "level": {
+          "enum": ["can_sign", "be_careful", "do_not_sign", "need_more_info"]
+        },
+        "label": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "coreNumbers": {
+      "type": "object",
+      "required": ["annualCostRate", "riskScore", "extraCost"],
+      "properties": {
+        "annualCostRate": {
+          "$ref": "#/$defs/coreNumber"
+        },
+        "riskScore": {
+          "$ref": "#/$defs/coreNumber"
+        },
+        "extraCost": {
+          "$ref": "#/$defs/coreNumber"
+        }
+      },
+      "additionalProperties": false
+    },
+    "topRisks": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "plainText", "level", "detailAnchor"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "plainText": {
+            "type": "string"
+          },
+          "level": {
+            "enum": ["high", "medium", "low"]
+          },
+          "detailAnchor": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "nextActions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "text", "detailAnchor"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "detailAnchor": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "fullReportLinks": {
+      "type": "object",
+      "required": ["riskSection", "costSection", "actionSection"],
+      "properties": {
+        "riskSection": {
+          "type": "string"
+        },
+        "costSection": {
+          "type": "string"
+        },
+        "actionSection": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "sourceRunIds": {
+      "type": "object",
+      "required": ["contractCost", "riskCase", "recommendationAction"],
+      "properties": {
+        "contractCost": {
+          "type": "string"
+        },
+        "riskCase": {
+          "type": "string"
+        },
+        "recommendationAction": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "coreNumber": {
+      "type": "object",
+      "required": ["label", "value", "unit", "plainText", "detailAnchor"],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": ["number", "null"]
+        },
+        "unit": {
+          "type": "string"
+        },
+        "plainText": {
+          "type": "string"
+        },
+        "detailAnchor": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
+

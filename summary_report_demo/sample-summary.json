@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "summary-report-v1",
+  "taskId": "debug_task_credit_card_installment",
+  "contractId": "debug_contract_credit_card_installment",
+  "generatedAt": "2026-07-10T10:10:35+08:00",
+  "headline": "先别签：一年实际成本13.1%，有3项高风险",
+  "decision": {
+    "level": "do_not_sign",
+    "label": "先别签",
+    "reason": "高风险太多"
+  },
+  "coreNumbers": {
+    "annualCostRate": {
+      "label": "一年实际成本",
+      "value": 13.1,
+      "unit": "%",
+      "plainText": "借一年大约多付13.1%",
+      "detailAnchor": "#cost"
+    },
+    "riskScore": {
+      "label": "风险分",
+      "value": 100,
+      "unit": "分",
+      "plainText": "分越高越要小心",
+      "detailAnchor": "#risks"
+    },
+    "extraCost": {
+      "label": "多付费用",
+      "value": 864,
+      "unit": "元",
+      "plainText": "除了本金，多付864元",
+      "detailAnchor": "#cost"
+    }
+  },
+  "topRisks": [
+    {
+      "id": "risk_001_rr001",
+      "title": "费用要列全",
+      "plainText": "有费用没说清",
+      "level": "high",
+      "detailAnchor": "#risk-risk_001_rr001"
+    },
+    {
+      "id": "risk_002_rr009",
+      "title": "手续费要问清",
+      "plainText": "免息不等于免费",
+      "level": "high",
+      "detailAnchor": "#risk-risk_002_rr009"
+    },
+    {
+      "id": "risk_003_rr012",
+      "title": "实际成本偏高",
+      "plainText": "实际成本可能更高",
+      "level": "high",
+      "detailAnchor": "#risk-risk_003_rr012"
+    },
+    {
+      "id": "risk_004_rr024",
+      "title": "最低还款别轻信",
+      "plainText": "少还会继续计息",
+      "level": "medium",
+      "detailAnchor": "#risk-risk_004_rr024"
+    },
+    {
+      "id": "risk_005_rr029",
+      "title": "扣款授权要收窄",
+      "plainText": "扣款权限可能太大",
+      "level": "medium",
+      "detailAnchor": "#risk-risk_005_rr029"
+    }
+  ],
+  "nextActions": [
+    {
+      "id": "action_overall_001",
+      "text": "在高风险问题得到机构书面澄清之前，暂缓…",
+      "detailAnchor": "#action-action_overall_001"
+    },
+    {
+      "id": "action_001_risk_001_rr001",
+      "text": "请机构列明所有费用项目，并说明是否计入…",
+      "detailAnchor": "#action-action_001_risk_001_rr001"
+    },
+    {
+      "id": "action_002_risk_002_rr009",
+      "text": "请机构把手续费折算为真实年化成本并书面…",
+      "detailAnchor": "#action-action_002_risk_002_rr009"
+    }
+  ],
+  "fullReportLinks": {
+    "riskSection": "#risks",
+    "costSection": "#cost",
+    "actionSection": "#actions"
+  },
+  "sourceRunIds": {
+    "contractCost": "run_contract_cost_debug_credit_card_installment",
+    "riskCase": "run_risk_case_debug_task_credit_card_installment",
+    "recommendationAction": "run_recommendation_action_debug_debug_task_credit_card_installment"
+  }
+}

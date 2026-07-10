@@ -1,0 +1,95 @@
+{
+  "inputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\dev_debug\\outputs\\latest\\mortgage_loan\\b-output.json",
+  "upstreamStatus": "completed",
+  "riskScore": 85,
+  "overallRiskLevelByScore": "low",
+  "expiredKnowledgeRecords": 0,
+  "pendingReviewCounts": {
+    "risk_rules": 0,
+    "legal_regulations": 0,
+    "cases": 0,
+    "contract_clause_templates": 0,
+    "financial_products": 0,
+    "market_rates": 0,
+    "financial_glossary": 0
+  },
+  "scheduler": null,
+  "scenarioSignals": [],
+  "glossaryTerms": [
+    {
+      "termId": "TERM001",
+      "term": "等额本息",
+      "definition": "每期还款金额基本相同，但前期利息占比高、本金占比低。",
+      "category": "repayment",
+      "example": "12期每月还940元。"
+    },
+    {
+      "termId": "TERM014",
+      "term": "提前还款违约金",
+      "definition": "提前还款时被要求支付的补偿或违约费用。",
+      "category": "prepayment",
+      "example": "按剩余本金2%收取。"
+    },
+    {
+      "termId": "TERM016",
+      "term": "违约金",
+      "definition": "合同违约时按约定支付的赔偿金额。",
+      "category": "overdue",
+      "example": "逾期每天收取违约金。"
+    }
+  ],
+  "activeRuleCount": 80,
+  "hitRules": [
+    {
+      "ruleId": "RR018",
+      "ruleName": "提前还款收违约金",
+      "category": "prepayment",
+      "riskLevel": "medium",
+      "weight": 15,
+      "matchedClauseIds": [
+        "clause_002_repayment",
+        "clause_004_prepayment"
+      ],
+      "regulations": [
+        "《民法典》第677条",
+        "《民法典》第496条",
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理"
+      ],
+      "cases": [
+        "账单分期提前还款手续费不退",
+        "信用卡账单日还款日理解错误",
+        "信用卡最低还款循环利息累积"
+      ],
+      "products": [
+        "招联好期贷",
+        "工行融e借",
+        "微粒贷"
+      ],
+      "marketRates": [
+        "LPR_1Y=3.0@2026-06-20",
+        "LPR_1Y=3.0@2026-05-20",
+        "LPR_1Y=3.0@2026-04-20"
+      ],
+      "glossaryTerms": [
+        "等额本息",
+        "提前还款违约金",
+        "违约金"
+      ]
+    }
+  ],
+  "skippedRules": [],
+  "knowledgeUsage": {
+    "riskRulesLoaded": 80,
+    "riskRulesHit": 1,
+    "regulationsRetrieved": 3,
+    "casesRetrieved": 3,
+    "productsRetrieved": 3,
+    "marketRatesRetrieved": 3,
+    "glossaryTermsRetrieved": 3,
+    "knowledgeSource": "local_sqlite_database",
+    "databasePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\dev_debug\\outputs\\latest\\mortgage_loan\\risk_case_debug.db",
+    "databaseUpdatedAt": "2026-06-20"
+  },
+  "outputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\dev_debug\\outputs\\latest\\mortgage_loan\\c-output.json",
+  "traceOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\dev_debug\\outputs\\latest\\mortgage_loan\\c-trace.json"
+}

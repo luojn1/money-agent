@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "debug_task_consumer_loan",
+  "contractId": "debug_contract_consumer_loan",
+  "runId": "run_contract_cost_debug_consumer_loan",
+  "agent": "contract_cost",
+  "agentVersion": "debug-b-simulator-0.1.0",
+  "status": "completed",
+  "generatedAt": "2026-07-09T17:31:34+08:00",
+  "inputRunIds": [],
+  "data": {
+    "contract": {
+      "contractName": "个人消费贷款合同",
+      "fileSha256": null,
+      "pageCount": 1
+    },
+    "contractSummary": {
+      "institution": "安心消费金融有限公司",
+      "productType": "个人消费贷款",
+      "contractType": "consumer_loan",
+      "loanAmount": 10000,
+      "actualReceivedAmount": 9500,
+      "loanTermMonths": 12,
+      "installmentCount": 12,
+      "monthlyPayment": 940,
+      "repaymentMethod": "等额本息/按期还款",
+      "nominalRate": 12.8,
+      "prepaymentRule": null,
+      "overdueFee": "逾期处理：逾期罚息为正常利率的1.5倍，并可能收取违约金",
+      "scenarioSignals": [
+        {
+          "scenarioId": "consumer_loan",
+          "scenarioName": "个人消费贷款",
+          "confidence": 0.92,
+          "matchedKeywords": [
+            "消费贷",
+            "服务费",
+            "提前结清",
+            "自动扣款"
+          ],
+          "source": "dev_debug.fixture"
+        }
+      ]
+    },
+    "clauses": [
+      {
+        "clauseId": "clause_001_binding",
+        "category": "other",
+        "heading": "binding",
+        "text": "合同名称：个人消费贷款合同",
+        "location": {
+          "page": 1,
+          "section": "binding",
+          "paragraph": 1
+        }
+      },
+      {
+        "clauseId": "clause_002_repayment",
+        "category": "repayment",
+        "heading": "repayment",
+        "text": "贷款期限：12期，每月应还940元，名义年化利率12.8%",
+        "location": {
+          "page": 1,
+          "section": "repayment",
+          "paragraph": 2
+        }
+      },
+      {
+        "clauseId": "clause_003_fee",
+        "category": "interest_fee",
+        "heading": "fee",
+        "text": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+        "location": {
+          "page": 1,
+          "section": "fee",
+          "paragraph": 3
+        }
+      },
+      {
+        "clauseId": "clause_004_fee",
+        "category": "interest_fee",
+        "heading": "fee",
+        "text": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+        "location": {
+          "page": 1,
+          "section": "fee",
+          "paragraph": 4
+        }
+      },
+      {
+        "clauseId": "clause_005_overdue",
+        "category": "overdue",
+        "heading": "overdue",
+        "text": "逾期处理：逾期罚息为正常利率的1.5倍，并可能收取违约金",
+        "location": {
+          "page": 1,
+          "section": "overdue",
+          "paragraph": 5
+        }
+      },
+      {
+        "clauseId": "clause_006_authorization",
+        "category": "authorization_privacy",
+        "heading": "authorization",
+        "text": "扣款授权：借款人授权贷款机构从绑定银行卡自动扣款",
+        "location": {
+          "page": 1,
+          "section": "authorization",
+          "paragraph": 6
+        }
+      }
+    ],
+    "repaymentSchedule": [],
+    "costAnalysis": {
+      "totalRepayment": 11280,
+      "totalInterest": 1280,
+      "additionalFees": 500,
+      "realAnnualRate": 23.4,
+      "calculationBasis": [
+        "dev_debug 模拟 B 输出：productType=个人消费贷款",
+        "合同文本命中关键词：消费贷、服务费、提前结清、自动扣款"
+      ]
+    }
+  },
+  "warnings": [],
+  "errors": []
+}

@@ -1,0 +1,634 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "debug_task_consumer_loan",
+  "contractId": "debug_contract_consumer_loan",
+  "runId": "run_risk_case_debug_task_consumer_loan",
+  "agent": "risk_case",
+  "agentVersion": "c-0.2.0-dynamic-kb",
+  "status": "completed",
+  "generatedAt": "2026-07-09T17:31:34+08:00",
+  "inputRunIds": [
+    "run_contract_cost_debug_consumer_loan"
+  ],
+  "data": {
+    "riskItems": [
+      {
+        "riskLevel": "high",
+        "clauseLocation": "fee",
+        "category": "cost_transparency",
+        "id": "risk_001_rr001",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "evidence": [
+          {
+            "evidenceId": "evidence_001_01",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          },
+          {
+            "evidenceId": "evidence_001_02",
+            "clauseId": "clause_004_fee",
+            "quote": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 4
+            }
+          }
+        ],
+        "reason": "命中规则“费用不透明-存在额外费用”。该判断参考 《民法典》第677条；中国人民银行公告〔2021〕第3号，规则依据为：中国人民银行公告〔2021〕第3号；《民法典》第496条 法规摘要：借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。；所有从事贷款业务的机构应以明显方式向借款人展示年化利率。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "relatedClauseIds": [
+          "clause_003_fee",
+          "clause_004_fee"
+        ],
+        "confidence": 0.97,
+        "matchedCases": [
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.5365,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE007",
+            "title": "消费贷预扣服务费案例07",
+            "similarity": 0.4933,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/007"
+          },
+          {
+            "caseId": "CASE022",
+            "title": "消费贷预扣服务费案例22",
+            "similarity": 0.4933,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/022"
+          }
+        ],
+        "questionToAsk": "请机构列明所有费用项目，并说明是否计入明示年化利率。",
+        "title": "费用不透明-存在额外费用",
+        "clauseText": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除"
+      },
+      {
+        "riskLevel": "high",
+        "clauseLocation": "fee",
+        "category": "cost_transparency",
+        "id": "risk_002_rr002",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "evidence": [
+          {
+            "evidenceId": "evidence_002_01",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          },
+          {
+            "evidenceId": "evidence_002_02",
+            "clauseId": "clause_004_fee",
+            "quote": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 4
+            }
+          }
+        ],
+        "reason": "命中规则“服务费一次性扣除”。该判断参考 《关于进一步规范信贷融资收费降低企业融资综合成本的通知》；《民法典》第677条，规则依据为：《民法典》第670条；《关于进一步规范信贷融资收费降低企业融资综合成本的通知》 法规摘要：规范信贷环节收费，要求不得违规转嫁成本或强制搭售。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "relatedClauseIds": [
+          "clause_003_fee",
+          "clause_004_fee"
+        ],
+        "confidence": 0.97,
+        "matchedCases": [
+          {
+            "caseId": "CASE007",
+            "title": "消费贷预扣服务费案例07",
+            "similarity": 0.558,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/007"
+          },
+          {
+            "caseId": "CASE022",
+            "title": "消费贷预扣服务费案例22",
+            "similarity": 0.558,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/022"
+          },
+          {
+            "caseId": "CASE037",
+            "title": "消费贷预扣服务费案例37",
+            "similarity": 0.558,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/037"
+          }
+        ],
+        "questionToAsk": "请机构说明服务费扣除依据、金额和是否属于变相预扣利息。",
+        "title": "服务费一次性扣除",
+        "clauseText": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除"
+      },
+      {
+        "riskLevel": "high",
+        "clauseLocation": "fee",
+        "category": "cost_transparency",
+        "id": "risk_003_rr007",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "evidence": [
+          {
+            "evidenceId": "evidence_003_01",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          },
+          {
+            "evidenceId": "evidence_003_02",
+            "clauseId": "clause_004_fee",
+            "quote": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 4
+            }
+          }
+        ],
+        "reason": "命中规则“砍头息-到账低于本金”。该判断参考 《民法典》第670条；《民法典》第677条，规则依据为：《民法典》第670条 法规摘要：借款利息不得预先在本金中扣除，预先扣除的应按实际借款数额返还并计算利息。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "relatedClauseIds": [
+          "clause_003_fee",
+          "clause_004_fee"
+        ],
+        "confidence": 0.97,
+        "matchedCases": [
+          {
+            "caseId": "CASE015",
+            "title": "短期现金贷砍头息案例15",
+            "similarity": 0.5454,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/015"
+          },
+          {
+            "caseId": "CASE030",
+            "title": "短期现金贷砍头息案例30",
+            "similarity": 0.5454,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/030"
+          },
+          {
+            "caseId": "CASE045",
+            "title": "短期现金贷砍头息案例45",
+            "similarity": 0.5454,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/045"
+          }
+        ],
+        "questionToAsk": "请机构说明实际到账金额低于合同本金的原因和扣费依据。",
+        "title": "砍头息-到账低于本金",
+        "clauseText": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除"
+      },
+      {
+        "riskLevel": "high",
+        "clauseLocation": "fee",
+        "category": "interest_fee",
+        "id": "risk_004_rr012",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "evidence": [
+          {
+            "evidenceId": "evidence_004_01",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          },
+          {
+            "evidenceId": "evidence_004_02",
+            "clauseId": "clause_004_fee",
+            "quote": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 4
+            }
+          }
+        ],
+        "reason": "命中规则“真实年化高于名义利率10个百分点”。该判断参考 中国人民银行公告〔2021〕第3号；《民法典》第677条，规则依据为：中国人民银行公告〔2021〕第3号 法规摘要：所有从事贷款业务的机构应以明显方式向借款人展示年化利率。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "relatedClauseIds": [
+          "clause_003_fee",
+          "clause_004_fee"
+        ],
+        "confidence": 0.97,
+        "matchedCases": [
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.4747,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE013",
+            "title": "平台借款真实年化不明显案例13",
+            "similarity": 0.4112,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/013"
+          },
+          {
+            "caseId": "CASE028",
+            "title": "平台借款真实年化不明显案例28",
+            "similarity": 0.4112,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/028"
+          }
+        ],
+        "questionToAsk": "请机构解释名义利率和真实年化差异的来源。",
+        "title": "真实年化高于名义利率10个百分点",
+        "clauseText": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除"
+      },
+      {
+        "riskLevel": "medium",
+        "clauseLocation": "fee",
+        "category": "interest_fee",
+        "id": "risk_005_rr015",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "evidence": [
+          {
+            "evidenceId": "evidence_005_01",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          },
+          {
+            "evidenceId": "evidence_005_02",
+            "clauseId": "clause_004_fee",
+            "quote": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 4
+            }
+          }
+        ],
+        "reason": "命中规则“LPR倍数偏高”。该判断参考 《民法典》第677条；中国人民银行公告〔2021〕第3号，规则依据为：贷款市场报价利率管理规则；中国人民银行公告〔2021〕第3号 法规摘要：借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。；所有从事贷款业务的机构应以明显方式向借款人展示年化利率。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "relatedClauseIds": [
+          "clause_003_fee",
+          "clause_004_fee"
+        ],
+        "confidence": 0.97,
+        "matchedCases": [
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.4588,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE015",
+            "title": "短期现金贷砍头息案例15",
+            "similarity": 0.4232,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/015"
+          },
+          {
+            "caseId": "CASE030",
+            "title": "短期现金贷砍头息案例30",
+            "similarity": 0.4232,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/030"
+          }
+        ],
+        "questionToAsk": "请机构说明该产品利率相对同期LPR的倍数和定价依据。",
+        "title": "LPR倍数偏高",
+        "clauseText": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除"
+      },
+      {
+        "riskLevel": "medium",
+        "clauseLocation": "fee",
+        "category": "overdue",
+        "id": "risk_006_rr021",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "evidence": [
+          {
+            "evidenceId": "evidence_006_01",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          },
+          {
+            "evidenceId": "evidence_006_02",
+            "clauseId": "clause_004_fee",
+            "quote": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 4
+            }
+          }
+        ],
+        "reason": "命中规则“逾期罚息1.5倍”。该判断参考 《民法典》第677条；《金融消费者权益保护实施办法》- 金融信息保护，规则依据为：金融借款合同监管规则；金融消费者权益保护规则 法规摘要：借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。；金融机构处理消费者金融信息应遵循合法、正当、必要原则。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "relatedClauseIds": [
+          "clause_003_fee",
+          "clause_004_fee"
+        ],
+        "confidence": 0.97,
+        "matchedCases": [
+          {
+            "caseId": "CASE008",
+            "title": "逾期罚息和违约金叠加案例08",
+            "similarity": 0.5335,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/008"
+          },
+          {
+            "caseId": "CASE023",
+            "title": "逾期罚息和违约金叠加案例23",
+            "similarity": 0.5335,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/023"
+          },
+          {
+            "caseId": "CASE038",
+            "title": "逾期罚息和违约金叠加案例38",
+            "similarity": 0.5335,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/038"
+          }
+        ],
+        "questionToAsk": "请机构说明逾期罚息上限、计收基数和是否重复计收。",
+        "title": "逾期罚息1.5倍",
+        "clauseText": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除"
+      },
+      {
+        "riskLevel": "medium",
+        "clauseLocation": "fee",
+        "category": "overdue",
+        "id": "risk_007_rr022",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "evidence": [
+          {
+            "evidenceId": "evidence_007_01",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          },
+          {
+            "evidenceId": "evidence_007_02",
+            "clauseId": "clause_004_fee",
+            "quote": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 4
+            }
+          }
+        ],
+        "reason": "命中规则“高额违约金”。该判断参考 《民法典》第677条；《民法典》第585条，规则依据为：《民法典》第585条 法规摘要：借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。；约定违约金过分高于造成损失的，人民法院或仲裁机构可以予以调整。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "relatedClauseIds": [
+          "clause_003_fee",
+          "clause_004_fee"
+        ],
+        "confidence": 0.97,
+        "matchedCases": [
+          {
+            "caseId": "CASE008",
+            "title": "逾期罚息和违约金叠加案例08",
+            "similarity": 0.4812,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/008"
+          },
+          {
+            "caseId": "CASE023",
+            "title": "逾期罚息和违约金叠加案例23",
+            "similarity": 0.4812,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/023"
+          },
+          {
+            "caseId": "CASE038",
+            "title": "逾期罚息和违约金叠加案例38",
+            "similarity": 0.4812,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/038"
+          }
+        ],
+        "questionToAsk": "请机构说明违约金计算方式和是否可按实际损失调整。",
+        "title": "高额违约金",
+        "clauseText": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除"
+      },
+      {
+        "riskLevel": "medium",
+        "clauseLocation": "fee",
+        "category": "authorization_privacy",
+        "id": "risk_008_rr029",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "evidence": [
+          {
+            "evidenceId": "evidence_008_01",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          },
+          {
+            "evidenceId": "evidence_008_02",
+            "clauseId": "clause_004_fee",
+            "quote": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 4
+            }
+          }
+        ],
+        "reason": "命中规则“自动扣款授权过宽”。该判断参考 《消费者权益保护法实施条例》第10条；《民法典》第677条，规则依据为：《消费者权益保护法实施条例》第10条 法规摘要：经营者采取自动展期、自动续费等方式提供服务的，应以显著方式提请消费者注意。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "relatedClauseIds": [
+          "clause_003_fee",
+          "clause_004_fee"
+        ],
+        "confidence": 0.97,
+        "matchedCases": [
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.4813,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE007",
+            "title": "消费贷预扣服务费案例07",
+            "similarity": 0.4697,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/007"
+          },
+          {
+            "caseId": "CASE022",
+            "title": "消费贷预扣服务费案例22",
+            "similarity": 0.4697,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/022"
+          }
+        ],
+        "questionToAsk": "请机构说明扣款授权范围、期限、取消方式和失败处理。",
+        "title": "自动扣款授权过宽",
+        "clauseText": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除"
+      },
+      {
+        "riskLevel": "medium",
+        "clauseLocation": "fee",
+        "category": "cost_transparency",
+        "id": "risk_009_rr067",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "evidence": [
+          {
+            "evidenceId": "evidence_009_01",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          },
+          {
+            "evidenceId": "evidence_009_02",
+            "clauseId": "clause_004_fee",
+            "quote": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 4
+            }
+          }
+        ],
+        "reason": "命中规则“费用退还规则缺失”。该判断参考 《民法典》第677条；《消费者权益保护法》第8条，规则依据为：《消费者权益保护法》第8条 法规摘要：借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。；消费者享有知悉其购买、使用商品或接受服务真实情况的权利。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "relatedClauseIds": [
+          "clause_003_fee",
+          "clause_004_fee"
+        ],
+        "confidence": 0.97,
+        "matchedCases": [
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.6302,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE007",
+            "title": "消费贷预扣服务费案例07",
+            "similarity": 0.5445,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/007"
+          },
+          {
+            "caseId": "CASE022",
+            "title": "消费贷预扣服务费案例22",
+            "similarity": 0.5445,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/022"
+          }
+        ],
+        "questionToAsk": "请机构说明提前结清、退课或取消服务时费用是否退还。",
+        "title": "费用退还规则缺失",
+        "clauseText": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除"
+      },
+      {
+        "riskLevel": "low",
+        "clauseLocation": "fee",
+        "category": "prepayment",
+        "id": "risk_010_rr079",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "evidence": [
+          {
+            "evidenceId": "evidence_010_01",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          },
+          {
+            "evidenceId": "evidence_010_02",
+            "clauseId": "clause_004_fee",
+            "quote": "提前还款：借款人申请提前结清，应按剩余未还本金的2%支付提前结清手续费",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 4
+            }
+          }
+        ],
+        "reason": "命中规则“提前结清证明开具不清”。该判断参考 《民法典》第677条；《金融消费者权益保护实施办法》- 金融信息保护，规则依据为：金融消费者权益保护规则 法规摘要：借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。；金融机构处理消费者金融信息应遵循合法、正当、必要原则。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "relatedClauseIds": [
+          "clause_003_fee",
+          "clause_004_fee"
+        ],
+        "confidence": 0.97,
+        "matchedCases": [
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.5294,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE008",
+            "title": "逾期罚息和违约金叠加案例08",
+            "similarity": 0.409,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/008"
+          },
+          {
+            "caseId": "CASE023",
+            "title": "逾期罚息和违约金叠加案例23",
+            "similarity": 0.409,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/023"
+          }
+        ],
+        "questionToAsk": "请机构说明结清后如何获取结清证明。",
+        "title": "提前结清证明开具不清",
+        "clauseText": "费用说明：贷款发放时，平台服务费500元从放款金额中一次性扣除"
+      }
+    ],
+    "riskSummary": {
+      "high": 4,
+      "medium": 5,
+      "low": 1
+    }
+  },
+  "warnings": [],
+  "errors": []
+}

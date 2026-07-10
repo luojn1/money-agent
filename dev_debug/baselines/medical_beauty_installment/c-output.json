@@ -1,0 +1,756 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "debug_task_medical_beauty_installment",
+  "contractId": "debug_contract_medical_beauty_installment",
+  "runId": "run_risk_case_debug_task_medical_beauty_installment",
+  "agent": "risk_case",
+  "agentVersion": "c-0.2.0-dynamic-kb",
+  "status": "completed",
+  "generatedAt": "2026-07-09T17:31:35+08:00",
+  "inputRunIds": [
+    "run_contract_cost_debug_medical_beauty_installment"
+  ],
+  "data": {
+    "riskItems": [
+      {
+        "title": "费用不透明-存在额外费用",
+        "clauseText": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+        "clauseLocation": "fee",
+        "riskLevel": "high",
+        "evidence": [
+          {
+            "evidenceId": "evidence_001_01",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_001_02",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：咨询服务费1500元在放款时一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE076",
+            "title": "汽车金融 GPS 服务费争议",
+            "similarity": 0.575,
+            "conclusion": "GPS 费用是否充分披露。；处理结果：机构退还部分费用。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-076"
+          },
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.5623,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.5623,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          }
+        ],
+        "category": "cost_transparency",
+        "questionToAsk": "请机构列明所有费用项目，并说明是否计入明示年化利率。",
+        "reason": "命中规则“费用不透明-存在额外费用”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《银行卡业务管理办法》- 银行卡收费，规则依据为：中国人民银行公告〔2021〕第3号；《民法典》第496条 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；银行卡业务收费和服务规则应依法明示，保护持卡人知情权。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_001_rr001"
+      },
+      {
+        "title": "服务费一次性扣除",
+        "clauseText": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+        "clauseLocation": "fee",
+        "riskLevel": "high",
+        "evidence": [
+          {
+            "evidenceId": "evidence_002_01",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_002_02",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：咨询服务费1500元在放款时一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.5965,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.5965,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          },
+          {
+            "caseId": "CASE031",
+            "title": "医美分期零利息但服务费另收案例31",
+            "similarity": 0.5965,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/031"
+          }
+        ],
+        "category": "cost_transparency",
+        "questionToAsk": "请机构说明服务费扣除依据、金额和是否属于变相预扣利息。",
+        "reason": "命中规则“服务费一次性扣除”。该判断参考 《关于进一步规范信贷融资收费降低企业融资综合成本的通知》；《商业银行信用卡业务监督管理办法》- 分期业务管理，规则依据为：《民法典》第670条；《关于进一步规范信贷融资收费降低企业融资综合成本的通知》 法规摘要：规范信贷环节收费，要求不得违规转嫁成本或强制搭售。；信用卡分期应清晰披露收费项目、收费标准和还款安排。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_002_rr002"
+      },
+      {
+        "title": "咨询费或顾问费异常",
+        "clauseText": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+        "clauseLocation": "fee",
+        "riskLevel": "medium",
+        "evidence": [
+          {
+            "evidenceId": "evidence_003_01",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_003_02",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：咨询服务费1500元在放款时一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.5758,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.5758,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          },
+          {
+            "caseId": "CASE031",
+            "title": "医美分期零利息但服务费另收案例31",
+            "similarity": 0.5758,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/031"
+          }
+        ],
+        "category": "cost_transparency",
+        "questionToAsk": "请机构说明咨询服务的具体内容、定价依据和取消方式。",
+        "reason": "命中规则“咨询费或顾问费异常”。该判断参考 《消费者权益保护法》第8条；《商业银行信用卡业务监督管理办法》- 分期业务管理，规则依据为：《消费者权益保护法》第8条 法规摘要：消费者享有知悉其购买、使用商品或接受服务真实情况的权利。；信用卡分期应清晰披露收费项目、收费标准和还款安排。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_003_rr004"
+      },
+      {
+        "title": "砍头息-到账低于本金",
+        "clauseText": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+        "clauseLocation": "fee",
+        "riskLevel": "high",
+        "evidence": [
+          {
+            "evidenceId": "evidence_004_01",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_004_02",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：咨询服务费1500元在放款时一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.5748,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.5748,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          },
+          {
+            "caseId": "CASE031",
+            "title": "医美分期零利息但服务费另收案例31",
+            "similarity": 0.5748,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/031"
+          }
+        ],
+        "category": "cost_transparency",
+        "questionToAsk": "请机构说明实际到账金额低于合同本金的原因和扣费依据。",
+        "reason": "命中规则“砍头息-到账低于本金”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《民法典》第670条，规则依据为：《民法典》第670条 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；借款利息不得预先在本金中扣除，预先扣除的应按实际借款数额返还并计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_004_rr007"
+      },
+      {
+        "title": "真实年化超过24%",
+        "clauseText": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+        "clauseLocation": "fee",
+        "riskLevel": "high",
+        "evidence": [
+          {
+            "evidenceId": "evidence_005_01",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_005_02",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：咨询服务费1500元在放款时一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.5759,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.5759,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          },
+          {
+            "caseId": "CASE031",
+            "title": "医美分期零利息但服务费另收案例31",
+            "similarity": 0.5759,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/031"
+          }
+        ],
+        "category": "interest_fee",
+        "questionToAsk": "请机构说明真实年化利率计算口径和是否包含全部费用。",
+        "reason": "命中规则“真实年化超过24%”。该判断参考 《消费者权益保护法》第8条；《商业银行信用卡业务监督管理办法》- 分期业务管理，规则依据为：最高人民法院民间借贷利率司法政策；金融消费者权益保护规则 法规摘要：消费者享有知悉其购买、使用商品或接受服务真实情况的权利。；信用卡分期应清晰披露收费项目、收费标准和还款安排。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_005_rr010"
+      },
+      {
+        "title": "真实年化高于名义利率10个百分点",
+        "clauseText": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+        "clauseLocation": "fee",
+        "riskLevel": "high",
+        "evidence": [
+          {
+            "evidenceId": "evidence_006_01",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_006_02",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：咨询服务费1500元在放款时一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.5433,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.5433,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          },
+          {
+            "caseId": "CASE031",
+            "title": "医美分期零利息但服务费另收案例31",
+            "similarity": 0.5433,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/031"
+          }
+        ],
+        "category": "interest_fee",
+        "questionToAsk": "请机构解释名义利率和真实年化差异的来源。",
+        "reason": "命中规则“真实年化高于名义利率10个百分点”。该判断参考 中国人民银行公告〔2021〕第3号；《商业银行信用卡业务监督管理办法》- 分期业务管理，规则依据为：中国人民银行公告〔2021〕第3号 法规摘要：所有从事贷款业务的机构应以明显方式向借款人展示年化利率。；信用卡分期应清晰披露收费项目、收费标准和还款安排。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_006_rr012"
+      },
+      {
+        "title": "LPR倍数偏高",
+        "clauseText": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+        "clauseLocation": "fee",
+        "riskLevel": "medium",
+        "evidence": [
+          {
+            "evidenceId": "evidence_007_01",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_007_02",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：咨询服务费1500元在放款时一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.5253,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.5253,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          },
+          {
+            "caseId": "CASE031",
+            "title": "医美分期零利息但服务费另收案例31",
+            "similarity": 0.5253,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/031"
+          }
+        ],
+        "category": "interest_fee",
+        "questionToAsk": "请机构说明该产品利率相对同期LPR的倍数和定价依据。",
+        "reason": "命中规则“LPR倍数偏高”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《银行卡业务管理办法》- 银行卡收费，规则依据为：贷款市场报价利率管理规则；中国人民银行公告〔2021〕第3号 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；银行卡业务收费和服务规则应依法明示，保护持卡人知情权。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_007_rr015"
+      },
+      {
+        "title": "保证期间不清",
+        "clauseText": "合同名称：医美分期服务贷款合同",
+        "clauseLocation": "binding",
+        "riskLevel": "medium",
+        "evidence": [
+          {
+            "evidenceId": "evidence_008_01",
+            "clauseId": "clause_001_binding",
+            "quote": "合同名称：医美分期服务贷款合同",
+            "location": {
+              "page": 1,
+              "section": "binding",
+              "paragraph": 1
+            }
+          },
+          {
+            "evidenceId": "evidence_008_02",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_001_binding",
+          "clause_002_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.5255,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.5255,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          },
+          {
+            "caseId": "CASE031",
+            "title": "医美分期零利息但服务费另收案例31",
+            "similarity": 0.5255,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/031"
+          }
+        ],
+        "category": "other",
+        "questionToAsk": "请机构明确保证期间和责任终止条件。",
+        "reason": "命中规则“保证期间不清”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；最高人民法院关于适用《民法典》有关担保制度的解释，规则依据为：《民法典》保证合同规则 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；细化保证、抵押、质押等担保制度裁判规则。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_008_rr035"
+      },
+      {
+        "title": "强制购买第三方服务",
+        "clauseText": "合同名称：医美分期服务贷款合同",
+        "clauseLocation": "binding",
+        "riskLevel": "high",
+        "evidence": [
+          {
+            "evidenceId": "evidence_009_01",
+            "clauseId": "clause_001_binding",
+            "quote": "合同名称：医美分期服务贷款合同",
+            "location": {
+              "page": 1,
+              "section": "binding",
+              "paragraph": 1
+            }
+          },
+          {
+            "evidenceId": "evidence_009_02",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_001_binding",
+          "clause_002_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.5727,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.5727,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          },
+          {
+            "caseId": "CASE031",
+            "title": "医美分期零利息但服务费另收案例31",
+            "similarity": 0.5727,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/031"
+          }
+        ],
+        "category": "other",
+        "questionToAsk": "请机构说明消费者是否可拒绝第三方服务。",
+        "reason": "命中规则“强制购买第三方服务”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《消费者权益保护法》第9条，规则依据为：《消费者权益保护法》第9条 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；消费者享有自主选择商品或者服务的权利。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_009_rr040"
+      },
+      {
+        "title": "冷静期缺失",
+        "clauseText": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+        "clauseLocation": "fee",
+        "riskLevel": "low",
+        "evidence": [
+          {
+            "evidenceId": "evidence_010_01",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_010_02",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：咨询服务费1500元在放款时一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.5889,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.5889,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          },
+          {
+            "caseId": "CASE031",
+            "title": "医美分期零利息但服务费另收案例31",
+            "similarity": 0.5889,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/031"
+          }
+        ],
+        "category": "repayment",
+        "questionToAsk": "请机构说明是否提供冷静期或签约后的撤销路径。",
+        "reason": "命中规则“冷静期缺失”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《消费者权益保护法》第8条，规则依据为：消费者权益保护规则 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；消费者享有知悉其购买、使用商品或接受服务真实情况的权利。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_010_rr051"
+      },
+      {
+        "title": "医美分期项目效果承诺不清",
+        "clauseText": "合同名称：医美分期服务贷款合同",
+        "clauseLocation": "binding",
+        "riskLevel": "medium",
+        "evidence": [
+          {
+            "evidenceId": "evidence_011_01",
+            "clauseId": "clause_001_binding",
+            "quote": "合同名称：医美分期服务贷款合同",
+            "location": {
+              "page": 1,
+              "section": "binding",
+              "paragraph": 1
+            }
+          },
+          {
+            "evidenceId": "evidence_011_02",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_001_binding",
+          "clause_002_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE077",
+            "title": "医美分期项目失败仍还款",
+            "similarity": 0.6725,
+            "conclusion": "服务失败后贷款是否同步处理。；处理结果：机构协商退费或补做服务。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-077"
+          },
+          {
+            "caseId": "CASE001",
+            "title": "医美分期零利息但服务费另收案例01",
+            "similarity": 0.58,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/001"
+          },
+          {
+            "caseId": "CASE016",
+            "title": "医美分期零利息但服务费另收案例16",
+            "similarity": 0.58,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/016"
+          }
+        ],
+        "category": "other",
+        "questionToAsk": "请机构说明效果承诺是否写入合同、失败后如何退款或修复。",
+        "reason": "命中规则“医美分期项目效果承诺不清”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《互联网广告管理办法》，规则依据为：《消费者权益保护法》第20条 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；规范互联网广告活动，要求广告内容真实、合法，不得欺骗误导消费者。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_011_rr071"
+      },
+      {
+        "title": "医美分期服务未完成仍扣款",
+        "clauseText": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+        "clauseLocation": "fee",
+        "riskLevel": "high",
+        "evidence": [
+          {
+            "evidenceId": "evidence_012_01",
+            "clauseId": "clause_002_fee",
+            "quote": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_012_02",
+            "clauseId": "clause_003_fee",
+            "quote": "费用说明：咨询服务费1500元在放款时一次性扣除",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 3
+            }
+          }
+        ],
+        "confidence": 0.97,
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE002",
+            "title": "医美服务未完成仍被要求还款案例02",
+            "similarity": 0.6324,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/002"
+          },
+          {
+            "caseId": "CASE017",
+            "title": "医美服务未完成仍被要求还款案例17",
+            "similarity": 0.6324,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/017"
+          },
+          {
+            "caseId": "CASE032",
+            "title": "医美服务未完成仍被要求还款案例32",
+            "similarity": 0.6324,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/032"
+          }
+        ],
+        "category": "repayment",
+        "questionToAsk": "请说明医美服务取消或未完成时贷款是否暂停或同步解除。",
+        "reason": "命中规则“医美分期服务未完成仍扣款”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《消费者权益保护法》第8条，规则依据为：《消费者权益保护法》；金融消费者权益保护规则 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；消费者享有知悉其购买、使用商品或接受服务真实情况的权利。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "id": "risk_012_rr072"
+      }
+    ],
+    "riskSummary": {
+      "high": 7,
+      "medium": 4,
+      "low": 1
+    }
+  },
+  "warnings": [],
+  "errors": []
+}

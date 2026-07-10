@@ -1,0 +1,823 @@
+{
+  "version": "rag-rule-eval-v1",
+  "generatedAt": "2026-07-10T10:21:13+08:00",
+  "metrics": {
+    "caseCount": 15,
+    "scenarioCount": 3,
+    "rulePrecision": 0.7067,
+    "ruleRecall": 0.8121,
+    "ragRegulationAccuracy": 0.3642,
+    "ragCaseAccuracy": 0.4746,
+    "overallAgreement": 0.5333,
+    "manualSampleRate": 0.2667,
+    "manualAgreement": 0.25
+  },
+  "scenarioMetrics": {
+    "consumer_loan": {
+      "caseCount": 5,
+      "scenarioCount": 1,
+      "rulePrecision": 0.5567,
+      "ruleRecall": 0.8433,
+      "ragRegulationAccuracy": 0.2444,
+      "ragCaseAccuracy": 0.4686,
+      "overallAgreement": 0.4,
+      "manualSampleRate": 0.2,
+      "manualAgreement": 0.0
+    },
+    "credit_card_installment": {
+      "caseCount": 5,
+      "scenarioCount": 1,
+      "rulePrecision": 0.7267,
+      "ruleRecall": 0.7762,
+      "ragRegulationAccuracy": 0.4181,
+      "ragCaseAccuracy": 0.5962,
+      "overallAgreement": 0.6,
+      "manualSampleRate": 0.4,
+      "manualAgreement": 0.0
+    },
+    "education_training_loan": {
+      "caseCount": 5,
+      "scenarioCount": 1,
+      "rulePrecision": 0.8367,
+      "ruleRecall": 0.8167,
+      "ragRegulationAccuracy": 0.4302,
+      "ragCaseAccuracy": 0.3591,
+      "overallAgreement": 0.6,
+      "manualSampleRate": 0.2,
+      "manualAgreement": 1.0
+    }
+  },
+  "results": [
+    {
+      "caseId": "consumer_loan_001",
+      "scenario": "consumer_loan",
+      "title": "消费贷服务费从本金中扣除",
+      "expectedRuleIds": [
+        "RR001",
+        "RR002",
+        "RR007",
+        "RR010",
+        "RR012",
+        "RR017",
+        "RR021"
+      ],
+      "hitRuleIds": [
+        "RR001",
+        "RR002",
+        "RR007",
+        "RR010",
+        "RR012",
+        "RR015",
+        "RR017",
+        "RR021",
+        "RR067",
+        "RR079"
+      ],
+      "expectedOverall": "high",
+      "agentOverall": "high",
+      "rulePrecision": 0.7,
+      "ruleRecall": 1.0,
+      "ragRegulationAccuracy": 0.2222,
+      "ragCaseAccuracy": 0.7,
+      "overallMatch": true,
+      "missedRules": [],
+      "unexpectedRules": [
+        "RR015",
+        "RR067",
+        "RR079"
+      ],
+      "retrievedRegulations": [
+        "《民法典》第677条",
+        "中国人民银行公告〔2021〕第3号",
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理",
+        "《关于进一步规范信贷融资收费降低企业融资综合成本的通知》",
+        "《民法典》第670条",
+        "《金融消费者权益保护实施办法》- 金融信息保护",
+        "最高人民法院关于审理民间借贷案件适用法律若干问题的规定",
+        "《消费者权益保护法实施条例》第10条",
+        "《消费者权益保护法》第8条"
+      ],
+      "retrievedCases": [
+        "账单分期提前还款手续费不退",
+        "消费贷预扣服务费案例07",
+        "消费贷预扣服务费案例22",
+        "消费贷预扣服务费案例37",
+        "短期现金贷砍头息案例15",
+        "短期现金贷砍头息案例30",
+        "短期现金贷砍头息案例45",
+        "信用卡免息分期总手续费争议",
+        "逾期罚息和违约金叠加案例08",
+        "逾期罚息和违约金叠加案例23"
+      ],
+      "manualReviewSampled": true,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\consumer_loan_001\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\consumer_loan_001\\c-trace.json"
+    },
+    {
+      "caseId": "consumer_loan_002",
+      "scenario": "consumer_loan",
+      "title": "消费贷自动扣款和征信授权过宽",
+      "expectedRuleIds": [
+        "RR019",
+        "RR022",
+        "RR029",
+        "RR031"
+      ],
+      "hitRuleIds": [
+        "RR022",
+        "RR029",
+        "RR031",
+        "RR078"
+      ],
+      "expectedOverall": "medium",
+      "agentOverall": "high",
+      "rulePrecision": 0.75,
+      "ruleRecall": 0.75,
+      "ragRegulationAccuracy": 0.5714,
+      "ragCaseAccuracy": 0.1429,
+      "overallMatch": false,
+      "missedRules": [
+        "RR019"
+      ],
+      "unexpectedRules": [
+        "RR078"
+      ],
+      "retrievedRegulations": [
+        "《民法典》第585条",
+        "《民法典》第677条",
+        "《征信业管理条例》",
+        "《消费者权益保护法实施条例》第10条",
+        "《互联网贷款管理暂行办法》- 合作机构",
+        "《个人信息保护法》- 单独同意",
+        "《个人信息保护法》第23条"
+      ],
+      "retrievedCases": [
+        "培训贷放款主体不明",
+        "培训机构停业贷款仍扣款",
+        "培训机构停课后贷款继续案例03",
+        "培训贷征信逾期争议",
+        "信用卡账单日还款日理解错误",
+        "培训机构停课后贷款继续案例18",
+        "培训机构停课后贷款继续案例33"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\consumer_loan_002\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\consumer_loan_002\\c-trace.json"
+    },
+    {
+      "caseId": "consumer_loan_003",
+      "scenario": "consumer_loan",
+      "title": "消费贷管理费和平台费用未说清",
+      "expectedRuleIds": [
+        "RR001",
+        "RR003",
+        "RR008",
+        "RR012",
+        "RR023"
+      ],
+      "hitRuleIds": [
+        "RR001",
+        "RR003",
+        "RR008",
+        "RR012",
+        "RR015",
+        "RR067"
+      ],
+      "expectedOverall": "high",
+      "agentOverall": "high",
+      "rulePrecision": 0.6667,
+      "ruleRecall": 0.8,
+      "ragRegulationAccuracy": 0.1429,
+      "ragCaseAccuracy": 0.6667,
+      "overallMatch": true,
+      "missedRules": [
+        "RR023"
+      ],
+      "unexpectedRules": [
+        "RR015",
+        "RR067"
+      ],
+      "retrievedRegulations": [
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理",
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》",
+        "《互联网贷款管理暂行办法》- 合作机构",
+        "《消费金融公司管理办法》",
+        "中国人民银行公告〔2021〕第3号",
+        "《商业银行互联网贷款管理暂行办法》",
+        "《消费者权益保护法》第8条"
+      ],
+      "retrievedCases": [
+        "消费贷预扣服务费案例07",
+        "消费贷预扣服务费案例22",
+        "消费贷预扣服务费案例37",
+        "医美分期零利息但服务费另收案例01",
+        "医美分期零利息但服务费另收案例16",
+        "医美分期零利息但服务费另收案例31",
+        "平台借款真实年化不明显案例13",
+        "平台借款真实年化不明显案例28",
+        "平台借款真实年化不明显案例43"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\consumer_loan_003\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\consumer_loan_003\\c-trace.json"
+    },
+    {
+      "caseId": "consumer_loan_004",
+      "scenario": "consumer_loan",
+      "title": "消费贷利率浮动和单方变更",
+      "expectedRuleIds": [
+        "RR026",
+        "RR028",
+        "RR064"
+      ],
+      "hitRuleIds": [
+        "RR026",
+        "RR028",
+        "RR066"
+      ],
+      "expectedOverall": "medium",
+      "agentOverall": "high",
+      "rulePrecision": 0.6667,
+      "ruleRecall": 0.6667,
+      "ragRegulationAccuracy": 0.2857,
+      "ragCaseAccuracy": 0.5,
+      "overallMatch": false,
+      "missedRules": [
+        "RR064"
+      ],
+      "unexpectedRules": [
+        "RR066"
+      ],
+      "retrievedRegulations": [
+        "《民法典》第497条",
+        "《互联网贷款管理暂行办法》- 合作机构",
+        "《消费者权益保护法》第26条",
+        "《商业银行互联网贷款管理暂行办法》",
+        "《银行卡业务管理办法》- 银行卡收费",
+        "《银行保险机构消费者权益保护管理办法》",
+        "《消费金融公司管理办法》"
+      ],
+      "retrievedCases": [
+        "消费贷预扣服务费案例07",
+        "消费贷预扣服务费案例22",
+        "消费贷预扣服务费案例37",
+        "培训贷放款主体不明",
+        "培训机构停业贷款仍扣款",
+        "医美服务未完成仍被要求还款案例02"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\consumer_loan_004\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\consumer_loan_004\\c-trace.json"
+    },
+    {
+      "caseId": "consumer_loan_005",
+      "scenario": "consumer_loan",
+      "title": "低风险消费贷对照样本",
+      "expectedRuleIds": [],
+      "hitRuleIds": [
+        "RR017"
+      ],
+      "expectedOverall": "low",
+      "agentOverall": "medium",
+      "rulePrecision": 0.0,
+      "ruleRecall": 1.0,
+      "ragRegulationAccuracy": 0.0,
+      "ragCaseAccuracy": 0.3333,
+      "overallMatch": false,
+      "missedRules": [],
+      "unexpectedRules": [
+        "RR017"
+      ],
+      "retrievedRegulations": [
+        "《民法典》第677条",
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理",
+        "《商业银行互联网贷款管理暂行办法》"
+      ],
+      "retrievedCases": [
+        "账单分期提前还款手续费不退",
+        "信用卡免息分期总手续费争议",
+        "消费贷预扣服务费案例07"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\consumer_loan_005\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\consumer_loan_005\\c-trace.json"
+    },
+    {
+      "caseId": "credit_card_001",
+      "scenario": "credit_card_installment",
+      "title": "信用卡免息分期实际收手续费",
+      "expectedRuleIds": [
+        "RR001",
+        "RR009",
+        "RR012",
+        "RR020",
+        "RR024",
+        "RR053",
+        "RR054"
+      ],
+      "hitRuleIds": [
+        "RR001",
+        "RR009",
+        "RR012",
+        "RR017",
+        "RR024",
+        "RR053"
+      ],
+      "expectedOverall": "high",
+      "agentOverall": "high",
+      "rulePrecision": 0.8333,
+      "ruleRecall": 0.7143,
+      "ragRegulationAccuracy": 0.3333,
+      "ragCaseAccuracy": 0.6,
+      "overallMatch": true,
+      "missedRules": [
+        "RR020",
+        "RR054"
+      ],
+      "unexpectedRules": [
+        "RR017"
+      ],
+      "retrievedRegulations": [
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理",
+        "《商业银行信用卡业务监督管理办法》- 信息披露",
+        "《银行卡业务管理办法》- 银行卡收费",
+        "《民法典》第677条",
+        "中国人民银行公告〔2021〕第3号",
+        "《民法典》第670条"
+      ],
+      "retrievedCases": [
+        "账单分期提前还款手续费不退",
+        "信用卡免息分期总手续费争议",
+        "信用卡分期免息手续费陷阱案例05",
+        "信用卡最低还款循环利息累积",
+        "信用卡账单日还款日理解错误"
+      ],
+      "manualReviewSampled": true,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\credit_card_001\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\credit_card_001\\c-trace.json"
+    },
+    {
+      "caseId": "credit_card_002",
+      "scenario": "credit_card_installment",
+      "title": "信用卡最低还款循环利息",
+      "expectedRuleIds": [
+        "RR001",
+        "RR014",
+        "RR015",
+        "RR024",
+        "RR053"
+      ],
+      "hitRuleIds": [
+        "RR001",
+        "RR012",
+        "RR014",
+        "RR015",
+        "RR024",
+        "RR053"
+      ],
+      "expectedOverall": "high",
+      "agentOverall": "high",
+      "rulePrecision": 0.8333,
+      "ruleRecall": 1.0,
+      "ragRegulationAccuracy": 0.4,
+      "ragCaseAccuracy": 1.0,
+      "overallMatch": true,
+      "missedRules": [],
+      "unexpectedRules": [
+        "RR012"
+      ],
+      "retrievedRegulations": [
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理",
+        "《民法典》第677条",
+        "中国人民银行公告〔2021〕第3号",
+        "《民法典》第670条",
+        "《商业银行信用卡业务监督管理办法》- 信息披露"
+      ],
+      "retrievedCases": [
+        "信用卡最低还款循环利息累积",
+        "最低还款导致循环利息案例06",
+        "最低还款导致循环利息案例21",
+        "信用卡账单日还款日理解错误"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\credit_card_002\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\credit_card_002\\c-trace.json"
+    },
+    {
+      "caseId": "credit_card_003",
+      "scenario": "credit_card_installment",
+      "title": "信用卡分期占用额度未提示",
+      "expectedRuleIds": [
+        "RR001",
+        "RR019",
+        "RR055"
+      ],
+      "hitRuleIds": [
+        "RR001",
+        "RR012",
+        "RR055"
+      ],
+      "expectedOverall": "medium",
+      "agentOverall": "high",
+      "rulePrecision": 0.6667,
+      "ruleRecall": 0.6667,
+      "ragRegulationAccuracy": 0.5,
+      "ragCaseAccuracy": 0.5,
+      "overallMatch": false,
+      "missedRules": [
+        "RR019"
+      ],
+      "unexpectedRules": [
+        "RR012"
+      ],
+      "retrievedRegulations": [
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理",
+        "《商业银行信用卡业务监督管理办法》- 信息披露",
+        "《银行卡业务管理办法》- 银行卡收费",
+        "中国人民银行公告〔2021〕第3号"
+      ],
+      "retrievedCases": [
+        "信用卡额度占用导致支付失败",
+        "信用卡分期费率页面展示不完整",
+        "信用卡免息分期总手续费争议",
+        "信用卡自动分期默认开通争议"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\credit_card_003\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\credit_card_003\\c-trace.json"
+    },
+    {
+      "caseId": "credit_card_004",
+      "scenario": "credit_card_installment",
+      "title": "信用卡自动分期默认开通",
+      "expectedRuleIds": [
+        "RR001",
+        "RR015",
+        "RR022",
+        "RR057"
+      ],
+      "hitRuleIds": [
+        "RR001",
+        "RR012",
+        "RR015",
+        "RR022",
+        "RR057"
+      ],
+      "expectedOverall": "high",
+      "agentOverall": "high",
+      "rulePrecision": 0.8,
+      "ruleRecall": 1.0,
+      "ragRegulationAccuracy": 0.4286,
+      "ragCaseAccuracy": 0.7143,
+      "overallMatch": true,
+      "missedRules": [],
+      "unexpectedRules": [
+        "RR012"
+      ],
+      "retrievedRegulations": [
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理",
+        "《银行卡业务管理办法》- 银行卡收费",
+        "《商业银行信用卡业务监督管理办法》- 信息披露",
+        "中国人民银行公告〔2021〕第3号",
+        "《民法典》第585条",
+        "《民法典》第677条",
+        "《消费者权益保护法实施条例》第10条"
+      ],
+      "retrievedCases": [
+        "信用卡逾期违约金和利息叠加",
+        "信用卡免息分期总手续费争议",
+        "信用卡分期费率页面展示不完整",
+        "信用卡分期免息手续费陷阱案例05",
+        "逾期罚息和违约金叠加案例08",
+        "逾期罚息和违约金叠加案例23",
+        "信用卡自动分期默认开通争议"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\credit_card_004\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\credit_card_004\\c-trace.json"
+    },
+    {
+      "caseId": "credit_card_005",
+      "scenario": "credit_card_installment",
+      "title": "信用卡现金分期用途限制",
+      "expectedRuleIds": [
+        "RR001",
+        "RR056",
+        "RR079",
+        "RR080"
+      ],
+      "hitRuleIds": [
+        "RR001",
+        "RR012",
+        "RR056",
+        "RR066"
+      ],
+      "expectedOverall": "medium",
+      "agentOverall": "high",
+      "rulePrecision": 0.5,
+      "ruleRecall": 0.5,
+      "ragRegulationAccuracy": 0.4286,
+      "ragCaseAccuracy": 0.1667,
+      "overallMatch": false,
+      "missedRules": [
+        "RR079",
+        "RR080"
+      ],
+      "unexpectedRules": [
+        "RR012",
+        "RR066"
+      ],
+      "retrievedRegulations": [
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理",
+        "《商业银行信用卡业务监督管理办法》- 信息披露",
+        "《银行卡业务管理办法》- 银行卡收费",
+        "中国人民银行公告〔2021〕第3号",
+        "《商业银行信用卡业务监督管理办法》- 催收管理",
+        "《金融消费者权益保护实施办法》- 金融信息保护",
+        "《金融消费者权益保护实施办法》"
+      ],
+      "retrievedCases": [
+        "信用卡免息分期总手续费争议",
+        "信用卡分期免息手续费陷阱案例05",
+        "信用卡分期免息手续费陷阱案例20",
+        "信用卡逾期违约金和利息叠加",
+        "现金分期资金用途限制争议",
+        "信用卡额度占用导致支付失败"
+      ],
+      "manualReviewSampled": true,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\credit_card_005\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\credit_card_005\\c-trace.json"
+    },
+    {
+      "caseId": "education_001",
+      "scenario": "education_training_loan",
+      "title": "培训机构跑路贷款仍需偿还",
+      "expectedRuleIds": [
+        "RR012",
+        "RR050",
+        "RR060",
+        "RR061"
+      ],
+      "hitRuleIds": [
+        "RR012",
+        "RR015",
+        "RR050",
+        "RR061"
+      ],
+      "expectedOverall": "high",
+      "agentOverall": "high",
+      "rulePrecision": 0.75,
+      "ruleRecall": 0.75,
+      "ragRegulationAccuracy": 0.5,
+      "ragCaseAccuracy": 0.1667,
+      "overallMatch": true,
+      "missedRules": [
+        "RR060"
+      ],
+      "unexpectedRules": [
+        "RR015"
+      ],
+      "retrievedRegulations": [
+        "中国人民银行公告〔2021〕第3号",
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》- 合作机构管理",
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》",
+        "《互联网贷款管理暂行办法》- 合作机构",
+        "《商业银行互联网贷款管理暂行办法》",
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》- 营销约束"
+      ],
+      "retrievedCases": [
+        "培训机构停课后贷款继续案例03",
+        "培训机构停课后贷款继续案例18",
+        "培训机构停课后贷款继续案例33",
+        "培训合同与贷款合同互相推诿",
+        "培训机构停业贷款仍扣款",
+        "培训贷一次性划转学费"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\education_001\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\education_001\\c-trace.json"
+    },
+    {
+      "caseId": "education_002",
+      "scenario": "education_training_loan",
+      "title": "教育培训贷诱导性营销",
+      "expectedRuleIds": [
+        "RR001",
+        "RR012",
+        "RR018",
+        "RR022",
+        "RR058",
+        "RR062"
+      ],
+      "hitRuleIds": [
+        "RR001",
+        "RR012",
+        "RR015",
+        "RR018",
+        "RR022",
+        "RR058"
+      ],
+      "expectedOverall": "high",
+      "agentOverall": "high",
+      "rulePrecision": 0.8333,
+      "ruleRecall": 0.8333,
+      "ragRegulationAccuracy": 0.2222,
+      "ragCaseAccuracy": 0.25,
+      "overallMatch": true,
+      "missedRules": [
+        "RR062"
+      ],
+      "unexpectedRules": [
+        "RR015"
+      ],
+      "retrievedRegulations": [
+        "《民法典》第585条",
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理",
+        "《民法典》第677条",
+        "中国人民银行公告〔2021〕第3号",
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》",
+        "《民法典》第496条",
+        "《关于规范整顿“现金贷”业务的通知》",
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》- 营销约束",
+        "《互联网贷款管理暂行办法》- 合作机构"
+      ],
+      "retrievedCases": [
+        "逾期罚息和违约金叠加案例08",
+        "逾期罚息和违约金叠加案例23",
+        "逾期罚息和违约金叠加案例38",
+        "信用卡逾期违约金和利息叠加",
+        "账单分期提前还款手续费不退",
+        "诱导大学生办理培训分期",
+        "培训贷一次性划转学费",
+        "培训机构停业贷款仍扣款"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\education_002\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\education_002\\c-trace.json"
+    },
+    {
+      "caseId": "education_003",
+      "scenario": "education_training_loan",
+      "title": "培训贷贷款主体不清",
+      "expectedRuleIds": [
+        "RR015",
+        "RR032",
+        "RR059",
+        "RR062"
+      ],
+      "hitRuleIds": [
+        "RR015",
+        "RR032"
+      ],
+      "expectedOverall": "medium",
+      "agentOverall": "high",
+      "rulePrecision": 1.0,
+      "ruleRecall": 0.5,
+      "ragRegulationAccuracy": 0.8,
+      "ragCaseAccuracy": 0.5,
+      "overallMatch": false,
+      "missedRules": [
+        "RR059",
+        "RR062"
+      ],
+      "unexpectedRules": [],
+      "retrievedRegulations": [
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》- 合作机构管理",
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》",
+        "《商业银行互联网贷款管理暂行办法》",
+        "《个人信息保护法》第23条",
+        "《个人信息保护法》第6条"
+      ],
+      "retrievedCases": [
+        "培训贷放款主体不明",
+        "培训合同与贷款合同互相推诿",
+        "培训机构停业贷款仍扣款",
+        "培训贷隐私授权过宽"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\education_003\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\education_003\\c-trace.json"
+    },
+    {
+      "caseId": "education_004",
+      "scenario": "education_training_loan",
+      "title": "课程质量不符退费困难",
+      "expectedRuleIds": [
+        "RR027",
+        "RR048",
+        "RR050"
+      ],
+      "hitRuleIds": [
+        "RR017",
+        "RR027",
+        "RR048",
+        "RR050",
+        "RR060"
+      ],
+      "expectedOverall": "medium",
+      "agentOverall": "high",
+      "rulePrecision": 0.6,
+      "ruleRecall": 1.0,
+      "ragRegulationAccuracy": 0.2,
+      "ragCaseAccuracy": 0.3333,
+      "overallMatch": false,
+      "missedRules": [],
+      "unexpectedRules": [
+        "RR017",
+        "RR060"
+      ],
+      "retrievedRegulations": [
+        "《民法典》第677条",
+        "《商业银行信用卡业务监督管理办法》- 分期业务管理",
+        "《消费者权益保护法实施条例》第10条",
+        "《民法典》第497条",
+        "《消费者权益保护法》第26条",
+        "《民法典》第496条",
+        "《民法典》第563条",
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》",
+        "《互联网贷款管理暂行办法》- 合作机构",
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》- 营销约束"
+      ],
+      "retrievedCases": [
+        "账单分期提前还款手续费不退",
+        "课程质量不符退费难",
+        "试听期后退课扣费争议",
+        "培训机构停课后贷款继续案例03",
+        "培训机构停课后贷款继续案例18",
+        "培训贷手续费披露不足案例04",
+        "培训贷手续费披露不足案例19",
+        "培训合同与贷款合同互相推诿",
+        "培训机构停业贷款仍扣款"
+      ],
+      "manualReviewSampled": false,
+      "manualReviewPassed": false,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\education_004\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\education_004\\c-trace.json"
+    },
+    {
+      "caseId": "education_005",
+      "scenario": "education_training_loan",
+      "title": "培训贷通讯录和紧急联系人催收",
+      "expectedRuleIds": [
+        "RR015",
+        "RR019",
+        "RR041",
+        "RR045"
+      ],
+      "hitRuleIds": [
+        "RR015",
+        "RR019",
+        "RR041",
+        "RR045"
+      ],
+      "expectedOverall": "high",
+      "agentOverall": "high",
+      "rulePrecision": 1.0,
+      "ruleRecall": 1.0,
+      "ragRegulationAccuracy": 0.4286,
+      "ragCaseAccuracy": 0.5455,
+      "overallMatch": true,
+      "missedRules": [],
+      "unexpectedRules": [],
+      "retrievedRegulations": [
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》",
+        "《关于进一步规范大学生互联网消费贷款监督管理工作的通知》- 营销约束",
+        "《民法典》第677条",
+        "《个人信息保护法》第6条",
+        "《个人信息保护法》- 单独同意",
+        "《个人信息保护法》第23条",
+        "《互联网贷款管理暂行办法》- 合作机构"
+      ],
+      "retrievedCases": [
+        "培训合同与贷款合同互相推诿",
+        "培训贷放款主体不明",
+        "培训机构停业贷款仍扣款",
+        "账单分期提前还款手续费不退",
+        "信用卡账单日还款日理解错误",
+        "培训贷隐私授权过宽",
+        "信用卡逾期违约金和利息叠加",
+        "培训贷征信逾期争议",
+        "历史网贷暴力催收案例14",
+        "历史网贷暴力催收案例29",
+        "历史网贷暴力催收案例44"
+      ],
+      "manualReviewSampled": true,
+      "manualReviewPassed": true,
+      "cOutputPath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\education_005\\c-output.json",
+      "cTracePath": "C:\\Users\\asus\\Documents\\Codex\\2026-06-26\\ni-k\\evaluation\\outputs\\cases\\education_005\\c-trace.json"
+    }
+  ]
+}

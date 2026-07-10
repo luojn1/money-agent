@@ -1,0 +1,45 @@
+[
+  {
+    "rule_id": "scene_rule_credit_card_installment_001",
+    "scenario_id": "credit_card_installment",
+    "rule_name": "信用卡账单分期识别",
+    "description": "如果合同文本同时包含信用卡、账单分期，并出现手续费率相关表述，则识别为信用卡分期。",
+    "match_mode": "all_groups",
+    "condition": {
+      "all_keyword_groups": [
+        ["信用卡"],
+        ["账单分期", "消费分期", "信用卡分期"],
+        ["手续费率", "分期手续费", "每期手续费"]
+      ]
+    },
+    "product_type": "信用卡分期",
+    "contract_type": "credit_card_installment",
+    "confidence": 0.92,
+    "priority": 100,
+    "is_active": true,
+    "created_at": "2026-07-09",
+    "updated_at": "2026-07-09"
+  },
+  {
+    "rule_id": "scene_rule_education_training_loan_001",
+    "scenario_id": "education_training_loan",
+    "rule_name": "教育培训贷识别",
+    "description": "如果合同文本包含培训、课程或教育，并出现学费、分期贷款相关表述，则识别为教育培训贷。",
+    "match_mode": "all_groups",
+    "condition": {
+      "all_keyword_groups": [
+        ["培训", "课程", "教育"],
+        ["学费", "培训费", "课程费"],
+        ["分期贷款", "学费分期", "教育分期", "培训贷"]
+      ]
+    },
+    "product_type": "教育培训贷",
+    "contract_type": "education_training_loan",
+    "confidence": 0.94,
+    "priority": 100,
+    "is_active": true,
+    "created_at": "2026-07-09",
+    "updated_at": "2026-07-09"
+  }
+]
+

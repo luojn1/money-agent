@@ -1,0 +1,512 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "debug_task_credit_card_installment",
+  "contractId": "debug_contract_credit_card_installment",
+  "runId": "run_risk_case_debug_task_credit_card_installment",
+  "agent": "risk_case",
+  "agentVersion": "c-0.2.0-dynamic-kb",
+  "status": "completed",
+  "generatedAt": "2026-07-09T17:31:35+08:00",
+  "inputRunIds": [
+    "run_contract_cost_debug_credit_card_installment"
+  ],
+  "data": {
+    "riskItems": [
+      {
+        "clauseText": "本信用卡账单分期业务宣传为免息，但按每期0.6%收取分期手续费，手续费随每期账单入账",
+        "title": "费用不透明-存在额外费用",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "reason": "命中规则“费用不透明-存在额外费用”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《银行卡业务管理办法》- 银行卡收费，规则依据为：中国人民银行公告〔2021〕第3号；《民法典》第496条 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；银行卡业务收费和服务规则应依法明示，保护持卡人知情权。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "category": "cost_transparency",
+        "riskLevel": "high",
+        "questionToAsk": "请机构列明所有费用项目，并说明是否计入明示年化利率。",
+        "id": "risk_001_rr001",
+        "relatedClauseIds": [
+          "clause_001_fee",
+          "clause_002_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.7125,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE056",
+            "title": "信用卡免息分期总手续费争议",
+            "similarity": 0.6879,
+            "conclusion": "免息宣传是否充分披露手续费和真实年化。；处理结果：银行补充提供费用明细，用户重新选择还款方式。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-056"
+          },
+          {
+            "caseId": "CASE005",
+            "title": "信用卡分期免息手续费陷阱案例05",
+            "similarity": 0.6141,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/005"
+          }
+        ],
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_001_01",
+            "clauseId": "clause_001_fee",
+            "quote": "本信用卡账单分期业务宣传为免息，但按每期0.6%收取分期手续费，手续费随每期账单入账",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 1
+            }
+          },
+          {
+            "evidenceId": "evidence_001_02",
+            "clauseId": "clause_002_fee",
+            "quote": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          }
+        ],
+        "clauseLocation": "fee"
+      },
+      {
+        "clauseText": "本信用卡账单分期业务宣传为免息，但按每期0.6%收取分期手续费，手续费随每期账单入账",
+        "title": "名义免息但有手续费",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "reason": "命中规则“名义免息但有手续费”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《商业银行信用卡业务监督管理办法》- 信息披露，规则依据为：中国人民银行公告〔2021〕第3号 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；要求商业银行规范信用卡业务营销、信息披露、风险提示和消费者保护。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "category": "interest_fee",
+        "riskLevel": "high",
+        "questionToAsk": "请机构把手续费折算为真实年化成本并书面说明。",
+        "id": "risk_002_rr009",
+        "relatedClauseIds": [
+          "clause_001_fee",
+          "clause_002_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE056",
+            "title": "信用卡免息分期总手续费争议",
+            "similarity": 0.7114,
+            "conclusion": "免息宣传是否充分披露手续费和真实年化。；处理结果：银行补充提供费用明细，用户重新选择还款方式。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-056"
+          },
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.6998,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE005",
+            "title": "信用卡分期免息手续费陷阱案例05",
+            "similarity": 0.6008,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/005"
+          }
+        ],
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_002_01",
+            "clauseId": "clause_001_fee",
+            "quote": "本信用卡账单分期业务宣传为免息，但按每期0.6%收取分期手续费，手续费随每期账单入账",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 1
+            }
+          },
+          {
+            "evidenceId": "evidence_002_02",
+            "clauseId": "clause_002_fee",
+            "quote": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          }
+        ],
+        "clauseLocation": "fee"
+      },
+      {
+        "clauseText": "本信用卡账单分期业务宣传为免息，但按每期0.6%收取分期手续费，手续费随每期账单入账",
+        "title": "真实年化高于名义利率10个百分点",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "reason": "命中规则“真实年化高于名义利率10个百分点”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《商业银行信用卡业务监督管理办法》- 信息披露，规则依据为：中国人民银行公告〔2021〕第3号 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；要求商业银行规范信用卡业务营销、信息披露、风险提示和消费者保护。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "category": "interest_fee",
+        "riskLevel": "high",
+        "questionToAsk": "请机构解释名义利率和真实年化差异的来源。",
+        "id": "risk_003_rr012",
+        "relatedClauseIds": [
+          "clause_001_fee",
+          "clause_002_fee"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE056",
+            "title": "信用卡免息分期总手续费争议",
+            "similarity": 0.6908,
+            "conclusion": "免息宣传是否充分披露手续费和真实年化。；处理结果：银行补充提供费用明细，用户重新选择还款方式。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-056"
+          },
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.6673,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE005",
+            "title": "信用卡分期免息手续费陷阱案例05",
+            "similarity": 0.5677,
+            "conclusion": "费用是否充分披露、合同责任是否公平、服务失败后贷款责任如何处理。；处理结果：经投诉、调解或协商后，机构补充披露费用、减免部分费用或重新协商还款。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/005"
+          }
+        ],
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_003_01",
+            "clauseId": "clause_001_fee",
+            "quote": "本信用卡账单分期业务宣传为免息，但按每期0.6%收取分期手续费，手续费随每期账单入账",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 1
+            }
+          },
+          {
+            "evidenceId": "evidence_003_02",
+            "clauseId": "clause_002_fee",
+            "quote": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          }
+        ],
+        "clauseLocation": "fee"
+      },
+      {
+        "clauseText": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+        "title": "最低还款误导",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "reason": "命中规则“最低还款误导”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《民法典》第677条，规则依据为：《消费者权益保护法》第8条 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "category": "repayment",
+        "riskLevel": "medium",
+        "questionToAsk": "请机构说明最低还款后的利息、复利和还款周期。",
+        "id": "risk_004_rr024",
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_repayment"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE057",
+            "title": "信用卡最低还款循环利息累积",
+            "similarity": 0.7113,
+            "conclusion": "最低还款提示是否足够清楚。；处理结果：银行解释计息规则，用户申请分期或一次性结清。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-057"
+          },
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.6341,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE065",
+            "title": "信用卡账单日还款日理解错误",
+            "similarity": 0.5741,
+            "conclusion": "还款时间提示是否清楚。；处理结果：银行协助解释账单周期。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-065"
+          }
+        ],
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_004_01",
+            "clauseId": "clause_002_fee",
+            "quote": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_004_02",
+            "clauseId": "clause_003_repayment",
+            "quote": "最低还款：持卡人选择最低还款额还款的，未清偿部分将按信用卡章程计收循环利息",
+            "location": {
+              "page": 1,
+              "section": "repayment",
+              "paragraph": 3
+            }
+          }
+        ],
+        "clauseLocation": "fee"
+      },
+      {
+        "clauseText": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+        "title": "自动扣款授权过宽",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "reason": "命中规则“自动扣款授权过宽”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《银行卡业务管理办法》- 银行卡收费，规则依据为：《消费者权益保护法实施条例》第10条 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；银行卡业务收费和服务规则应依法明示，保护持卡人知情权。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "category": "authorization_privacy",
+        "riskLevel": "medium",
+        "questionToAsk": "请机构说明扣款授权范围、期限、取消方式和失败处理。",
+        "id": "risk_005_rr029",
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_repayment"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.6368,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE057",
+            "title": "信用卡最低还款循环利息累积",
+            "similarity": 0.5838,
+            "conclusion": "最低还款提示是否足够清楚。；处理结果：银行解释计息规则，用户申请分期或一次性结清。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-057"
+          },
+          {
+            "caseId": "CASE065",
+            "title": "信用卡账单日还款日理解错误",
+            "similarity": 0.5326,
+            "conclusion": "还款时间提示是否清楚。；处理结果：银行协助解释账单周期。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-065"
+          }
+        ],
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_005_01",
+            "clauseId": "clause_002_fee",
+            "quote": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_005_02",
+            "clauseId": "clause_003_repayment",
+            "quote": "最低还款：持卡人选择最低还款额还款的，未清偿部分将按信用卡章程计收循环利息",
+            "location": {
+              "page": 1,
+              "section": "repayment",
+              "paragraph": 3
+            }
+          }
+        ],
+        "clauseLocation": "fee"
+      },
+      {
+        "clauseText": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+        "title": "信用卡最低还款额陷阱",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "reason": "命中规则“信用卡最低还款额陷阱”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《商业银行信用卡业务监督管理办法》- 信息披露，规则依据为：《消费者权益保护法》第8条；信用卡业务监管规则 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；要求商业银行规范信用卡业务营销、信息披露、风险提示和消费者保护。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "category": "repayment",
+        "riskLevel": "medium",
+        "questionToAsk": "请银行说明最低还款后从哪一天开始计息、是否按全额或未还部分计息。",
+        "id": "risk_006_rr053",
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_repayment"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE057",
+            "title": "信用卡最低还款循环利息累积",
+            "similarity": 0.6923,
+            "conclusion": "最低还款提示是否足够清楚。；处理结果：银行解释计息规则，用户申请分期或一次性结清。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-057"
+          },
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.6374,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE065",
+            "title": "信用卡账单日还款日理解错误",
+            "similarity": 0.5569,
+            "conclusion": "还款时间提示是否清楚。；处理结果：银行协助解释账单周期。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-065"
+          }
+        ],
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_006_01",
+            "clauseId": "clause_002_fee",
+            "quote": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_006_02",
+            "clauseId": "clause_003_repayment",
+            "quote": "最低还款：持卡人选择最低还款额还款的，未清偿部分将按信用卡章程计收循环利息",
+            "location": {
+              "page": 1,
+              "section": "repayment",
+              "paragraph": 3
+            }
+          }
+        ],
+        "clauseLocation": "fee"
+      },
+      {
+        "clauseText": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+        "title": "信用卡账单分期提前还款规则不清",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "reason": "命中规则“信用卡账单分期提前还款规则不清”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《民法典》第677条，规则依据为：《民法典》第677条；金融消费者权益保护规则 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "category": "prepayment",
+        "riskLevel": "medium",
+        "questionToAsk": "请银行说明提前还款时剩余手续费是否退还、如何计算。",
+        "id": "risk_007_rr054",
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_repayment"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.7873,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE057",
+            "title": "信用卡最低还款循环利息累积",
+            "similarity": 0.6392,
+            "conclusion": "最低还款提示是否足够清楚。；处理结果：银行解释计息规则，用户申请分期或一次性结清。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-057"
+          },
+          {
+            "caseId": "CASE065",
+            "title": "信用卡账单日还款日理解错误",
+            "similarity": 0.5681,
+            "conclusion": "还款时间提示是否清楚。；处理结果：银行协助解释账单周期。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-065"
+          }
+        ],
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_007_01",
+            "clauseId": "clause_002_fee",
+            "quote": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_007_02",
+            "clauseId": "clause_003_repayment",
+            "quote": "最低还款：持卡人选择最低还款额还款的，未清偿部分将按信用卡章程计收循环利息",
+            "location": {
+              "page": 1,
+              "section": "repayment",
+              "paragraph": 3
+            }
+          }
+        ],
+        "clauseLocation": "fee"
+      },
+      {
+        "clauseText": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+        "title": "提前结清证明开具不清",
+        "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+        "reason": "命中规则“提前结清证明开具不清”。该判断参考 《商业银行信用卡业务监督管理办法》- 分期业务管理；《民法典》第677条，规则依据为：金融消费者权益保护规则 法规摘要：信用卡分期应清晰披露收费项目、收费标准和还款安排。；借款人提前返还借款的，除另有约定外应按实际借款期间计算利息。 市场基准参考：LPR_1Y 3.0%（2026-06-20）。",
+        "category": "prepayment",
+        "riskLevel": "low",
+        "questionToAsk": "请机构说明结清后如何获取结清证明。",
+        "id": "risk_008_rr079",
+        "relatedClauseIds": [
+          "clause_002_fee",
+          "clause_003_repayment"
+        ],
+        "matchedCases": [
+          {
+            "caseId": "CASE058",
+            "title": "账单分期提前还款手续费不退",
+            "similarity": 0.6804,
+            "conclusion": "提前结清时剩余手续费是否应退还。；处理结果：经协商后银行按规则出具费用说明。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-058"
+          },
+          {
+            "caseId": "CASE057",
+            "title": "信用卡最低还款循环利息累积",
+            "similarity": 0.5494,
+            "conclusion": "最低还款提示是否足够清楚。；处理结果：银行解释计息规则，用户申请分期或一次性结清。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-057"
+          },
+          {
+            "caseId": "CASE056",
+            "title": "信用卡免息分期总手续费争议",
+            "similarity": 0.4652,
+            "conclusion": "免息宣传是否充分披露手续费和真实年化。；处理结果：银行补充提供费用明细，用户重新选择还款方式。",
+            "sourceUrl": "https://example.com/consumer-finance-cases/depth-056"
+          }
+        ],
+        "confidence": 0.97,
+        "evidence": [
+          {
+            "evidenceId": "evidence_008_01",
+            "clauseId": "clause_002_fee",
+            "quote": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+            "location": {
+              "page": 1,
+              "section": "fee",
+              "paragraph": 2
+            }
+          },
+          {
+            "evidenceId": "evidence_008_02",
+            "clauseId": "clause_003_repayment",
+            "quote": "最低还款：持卡人选择最低还款额还款的，未清偿部分将按信用卡章程计收循环利息",
+            "location": {
+              "page": 1,
+              "section": "repayment",
+              "paragraph": 3
+            }
+          }
+        ],
+        "clauseLocation": "fee"
+      }
+    ],
+    "riskSummary": {
+      "high": 3,
+      "medium": 4,
+      "low": 1
+    }
+  },
+  "warnings": [],
+  "errors": []
+}

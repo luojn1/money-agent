@@ -1,0 +1,4 @@
+rule_id,scenario_id,rule_name,description,match_mode,condition,product_type,contract_type,confidence,priority,is_active,created_at,updated_at
+scene_rule_credit_card_installment_001,credit_card_installment,信用卡账单分期识别,"如果合同文本同时包含信用卡、账单分期，并出现手续费率相关表述，则识别为信用卡分期。",all_groups,"{""all_keyword_groups"":[[""信用卡""],[""账单分期"",""消费分期"",""信用卡分期""],[""手续费率"",""分期手续费"",""每期手续费""]]}",信用卡分期,credit_card_installment,0.92,100,1,2026-07-09,2026-07-09
+scene_rule_education_training_loan_001,education_training_loan,教育培训贷识别,"如果合同文本包含培训、课程或教育，并出现学费、分期贷款相关表述，则识别为教育培训贷。",all_groups,"{""all_keyword_groups"":[[""培训"",""课程"",""教育""],[""学费"",""培训费"",""课程费""],[""分期贷款"",""学费分期"",""教育分期"",""培训贷""]]}",教育培训贷,education_training_loan,0.94,100,1,2026-07-09,2026-07-09
+

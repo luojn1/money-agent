@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "debug_task_medical_beauty_installment",
+  "contractId": "debug_contract_medical_beauty_installment",
+  "runId": "run_contract_cost_debug_medical_beauty_installment",
+  "agent": "contract_cost",
+  "agentVersion": "debug-b-simulator-0.1.0",
+  "status": "completed",
+  "generatedAt": "2026-07-09T17:31:35+08:00",
+  "inputRunIds": [],
+  "data": {
+    "contract": {
+      "contractName": "医美分期服务贷款合同",
+      "fileSha256": null,
+      "pageCount": 1
+    },
+    "contractSummary": {
+      "institution": "示例消费金融公司",
+      "productType": "医美分期",
+      "contractType": "medical_beauty_installment",
+      "loanAmount": 30000,
+      "actualReceivedAmount": 28500,
+      "loanTermMonths": 24,
+      "installmentCount": 24,
+      "monthlyPayment": 1550,
+      "repaymentMethod": "等额本息/按期还款",
+      "nominalRate": 14.5,
+      "prepaymentRule": null,
+      "overdueFee": null,
+      "scenarioSignals": [
+        {
+          "scenarioId": "medical_beauty_installment",
+          "scenarioName": "医美分期",
+          "confidence": 0.92,
+          "matchedKeywords": [
+            "医美",
+            "咨询服务费",
+            "护理服务包",
+            "保证保险",
+            "退费"
+          ],
+          "source": "dev_debug.fixture"
+        }
+      ]
+    },
+    "clauses": [
+      {
+        "clauseId": "clause_001_binding",
+        "category": "other",
+        "heading": "binding",
+        "text": "合同名称：医美分期服务贷款合同",
+        "location": {
+          "page": 1,
+          "section": "binding",
+          "paragraph": 1
+        }
+      },
+      {
+        "clauseId": "clause_002_fee",
+        "category": "interest_fee",
+        "heading": "fee",
+        "text": "服务内容：用户办理医美项目分期，用于支付皮肤管理和美容治疗服务费用",
+        "location": {
+          "page": 1,
+          "section": "fee",
+          "paragraph": 2
+        }
+      },
+      {
+        "clauseId": "clause_003_fee",
+        "category": "interest_fee",
+        "heading": "fee",
+        "text": "费用说明：咨询服务费1500元在放款时一次性扣除",
+        "location": {
+          "page": 1,
+          "section": "fee",
+          "paragraph": 3
+        }
+      },
+      {
+        "clauseId": "clause_004_fee",
+        "category": "interest_fee",
+        "heading": "fee",
+        "text": "退费条款：用户因个人原因取消项目的，已发生服务费、咨询费不予退还，贷款合同继续履行",
+        "location": {
+          "page": 1,
+          "section": "fee",
+          "paragraph": 4
+        }
+      },
+      {
+        "clauseId": "clause_005_fee",
+        "category": "interest_fee",
+        "heading": "fee",
+        "text": "捆绑销售：用户须同时购买术后护理服务包和保证保险",
+        "location": {
+          "page": 1,
+          "section": "fee",
+          "paragraph": 5
+        }
+      }
+    ],
+    "repaymentSchedule": [],
+    "costAnalysis": {
+      "totalRepayment": 37200,
+      "totalInterest": 7200,
+      "additionalFees": 1500,
+      "realAnnualRate": 24.8,
+      "calculationBasis": [
+        "dev_debug 模拟 B 输出：productType=医美分期",
+        "合同文本命中关键词：医美、咨询服务费、护理服务包、保证保险、退费"
+      ]
+    }
+  },
+  "warnings": [],
+  "errors": []
+}

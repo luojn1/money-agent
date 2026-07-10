@@ -1,0 +1,61 @@
+{
+  "caseId": "mortgage_loan",
+  "b": {
+    "status": "completed",
+    "productType": "个人住房按揭贷款",
+    "contractType": "mortgage_loan",
+    "clauseIds": [
+      "clause_001_binding",
+      "clause_002_repayment",
+      "clause_003_rate",
+      "clause_004_prepayment",
+      "clause_005_overdue"
+    ],
+    "realAnnualRate": 4.5
+  },
+  "c": {
+    "status": "completed",
+    "riskSummary": {
+      "high": 0,
+      "medium": 1,
+      "low": 0
+    },
+    "riskItems": [
+      {
+        "id": "risk_001_rr018",
+        "title": "提前还款收违约金",
+        "category": "prepayment",
+        "riskLevel": "medium",
+        "relatedClauseIds": [
+          "clause_002_repayment",
+          "clause_004_prepayment"
+        ]
+      }
+    ],
+    "scenarioSignals": [],
+    "hitRules": [
+      {
+        "ruleId": "RR018",
+        "riskLevel": "medium",
+        "matchedClauseIds": [
+          "clause_002_repayment",
+          "clause_004_prepayment"
+        ]
+      }
+    ]
+  },
+  "d": {
+    "status": "completed",
+    "overallLevel": "verify",
+    "recommendations": [
+      {
+        "id": "action_001_risk_001_rr018",
+        "priority": "should",
+        "relatedRiskIds": [
+          "risk_001_rr018"
+        ]
+      }
+    ]
+  },
+  "hash": "5dd0e8b8d68f"
+}

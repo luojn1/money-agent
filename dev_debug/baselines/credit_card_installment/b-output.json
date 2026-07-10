@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0.0",
+  "taskId": "debug_task_credit_card_installment",
+  "contractId": "debug_contract_credit_card_installment",
+  "runId": "run_contract_cost_debug_credit_card_installment",
+  "agent": "contract_cost",
+  "agentVersion": "debug-b-simulator-0.1.0",
+  "status": "completed",
+  "generatedAt": "2026-07-09T17:31:34+08:00",
+  "inputRunIds": [],
+  "data": {
+    "contract": {
+      "contractName": "信用卡账单分期协议",
+      "fileSha256": null,
+      "pageCount": 1
+    },
+    "contractSummary": {
+      "institution": "示例银行信用卡中心",
+      "productType": "信用卡分期",
+      "contractType": "credit_card_installment",
+      "loanAmount": 12000,
+      "actualReceivedAmount": 12000,
+      "loanTermMonths": 12,
+      "installmentCount": 12,
+      "monthlyPayment": 1032,
+      "repaymentMethod": "等额本息/按期还款",
+      "nominalRate": 0,
+      "prepaymentRule": null,
+      "overdueFee": null,
+      "scenarioSignals": [
+        {
+          "scenarioId": "credit_card_installment",
+          "scenarioName": "信用卡分期",
+          "confidence": 0.92,
+          "matchedKeywords": [
+            "信用卡",
+            "账单分期",
+            "分期手续费",
+            "最低还款额",
+            "循环利息"
+          ],
+          "source": "dev_debug.fixture"
+        }
+      ]
+    },
+    "clauses": [
+      {
+        "clauseId": "clause_001_fee",
+        "category": "interest_fee",
+        "heading": "fee",
+        "text": "本信用卡账单分期业务宣传为免息，但按每期0.6%收取分期手续费，手续费随每期账单入账",
+        "location": {
+          "page": 1,
+          "section": "fee",
+          "paragraph": 1
+        }
+      },
+      {
+        "clauseId": "clause_002_fee",
+        "category": "interest_fee",
+        "heading": "fee",
+        "text": "提前还款：持卡人提前结清账单分期的，已收取手续费不予退还，剩余期数手续费是否减免以银行审核结果为准",
+        "location": {
+          "page": 1,
+          "section": "fee",
+          "paragraph": 2
+        }
+      },
+      {
+        "clauseId": "clause_003_repayment",
+        "category": "repayment",
+        "heading": "repayment",
+        "text": "最低还款：持卡人选择最低还款额还款的，未清偿部分将按信用卡章程计收循环利息",
+        "location": {
+          "page": 1,
+          "section": "repayment",
+          "paragraph": 3
+        }
+      },
+      {
+        "clauseId": "clause_004_authorization",
+        "category": "authorization_privacy",
+        "heading": "authorization",
+        "text": "自动扣款：持卡人同意银行从信用卡账户或绑定借记卡中自动扣收当期应还款",
+        "location": {
+          "page": 1,
+          "section": "authorization",
+          "paragraph": 4
+        }
+      }
+    ],
+    "repaymentSchedule": [],
+    "costAnalysis": {
+      "totalRepayment": 12384,
+      "totalInterest": 0,
+      "additionalFees": 864,
+      "realAnnualRate": 13.1,
+      "calculationBasis": [
+        "dev_debug 模拟 B 输出：productType=信用卡分期",
+        "合同文本命中关键词：信用卡、账单分期、分期手续费、最低还款额、循环利息"
+      ]
+    }
+  },
+  "warnings": [],
+  "errors": []
+}

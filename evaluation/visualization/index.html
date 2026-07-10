@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>看得懂的钱 - RAG/规则评测面板</title>
+  <style>
+    :root {
+      --ink: #17231f;
+      --muted: #66746f;
+      --line: #d9e3de;
+      --bg: #f5f7f4;
+      --card: #ffffff;
+      --green: #164b3f;
+      --mint: #e7f2ee;
+      --amber: #b87518;
+      --red: #b9473b;
+      --blue: #226a7a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      line-height: 1.55;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      padding: 18px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+    }
+
+    .logo {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: #9d5f2e;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    main {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .hero {
+      background: var(--green);
+      color: white;
+      border-radius: 8px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: end;
+      box-shadow: 0 8px 24px rgba(22, 75, 63, 0.16);
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      font-size: 34px;
+      margin-bottom: 8px;
+      letter-spacing: 0;
+    }
+
+    .hero p { color: #d7ebe5; margin-bottom: 0; }
+
+    .stamp {
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 8px;
+      padding: 16px;
+      min-width: 190px;
+    }
+
+    .stamp b {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+      margin-top: 8px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .metrics {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .metric small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .metric strong {
+      font-size: 28px;
+      color: var(--green);
+    }
+
+    .two-col {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 10px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      background: #f8faf8;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--mint);
+      color: var(--green);
+      font-weight: 700;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .bad {
+      background: #fae8e6;
+      color: var(--red);
+    }
+
+    .warn {
+      background: #fff2dc;
+      color: var(--amber);
+    }
+
+    .ok {
+      background: var(--mint);
+      color: var(--green);
+    }
+
+    .bar {
+      height: 8px;
+      background: #edf2ef;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      background: var(--blue);
+    }
+
+    .case-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .case-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .case-card h3 {
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+
+    .muted { color: var(--muted); }
+
+    .footer-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    button, .file-label {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 8px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    input[type="file"] { display: none; }
+
+    @media (max-width: 920px) {
+      .hero, .two-col { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      main { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><span class="logo">元</span><span>看得懂的钱</span></div>
+    <label class="file-label">
+      上传评测 JSON
+      <input id="fileInput" type="file" accept="application/json">
+    </label>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p>RAG/规则评测面板</p>
+        <h1 id="headline">正在读取评测结果</h1>
+        <p id="subline">用规则命中、RAG 检索和人工标准答案证明 Agent 判断有依据。</p>
+      </div>
+      <div class="stamp">
+        <span>整体一致率</span>
+        <b id="overallAgreement">--</b>
+      </div>
+    </section>
+
+    <section class="grid metrics">
+      <article class="card metric"><small>规则准确率</small><strong id="rulePrecision">--</strong><div class="bar"><span id="barPrecision"></span></div></article>
+      <article class="card metric"><small>规则召回率</small><strong id="ruleRecall">--</strong><div class="bar"><span id="barRecall"></span></div></article>
+      <article class="card metric"><small>法规相关率</small><strong id="regAccuracy">--</strong><div class="bar"><span id="barReg"></span></div></article>
+      <article class="card metric"><small>案例相关率</small><strong id="caseAccuracy">--</strong><div class="bar"><span id="barCase"></span></div></article>
+      <article class="card metric"><small>测试合同数</small><strong id="caseCount">--</strong></article>
+    </section>
+
+    <section class="grid two-col">
+      <article class="card">
+        <h2>分场景评分</h2>
+        <table>
+          <thead>
+            <tr><th>场景</th><th>用例</th><th>规则准确</th><th>规则召回</th><th>结论一致</th></tr>
+          </thead>
+          <tbody id="scenarioRows"></tbody>
+        </table>
+      </article>
+
+      <article class="card">
+        <h2>需要复核的用例</h2>
+        <div id="errorCases" class="case-list"></div>
+      </article>
+    </section>
+
+    <section class="card grid">
+      <h2>全部用例</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>用例</th>
+            <th>场景</th>
+            <th>期望/Agent</th>
+            <th>规则准确</th>
+            <th>规则召回</th>
+            <th>漏判</th>
+            <th>多判</th>
+          </tr>
+        </thead>
+        <tbody id="caseRows"></tbody>
+      </table>
+    </section>
+
+    <div class="footer-actions">
+      <span id="generatedAt">--</span>
+      <button id="reloadBtn">重新读取默认结果</button>
+    </div>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const pct = (value) => `${Math.round((value || 0) * 1000) / 10}%`;
+    const width = (value) => `${Math.max(0, Math.min(1, value || 0)) * 100}%`;
+
+    function badgeClass(ok, warn = false) {
+      if (ok) return "pill ok";
+      if (warn) return "pill warn";
+      return "pill bad";
+    }
+
+    function render(data) {
+      const m = data.metrics || {};
+      $("headline").textContent = `已评测 ${m.caseCount || 0} 份合同，覆盖 ${m.scenarioCount || 0} 个场景`;
+      $("overallAgreement").textContent = pct(m.overallAgreement);
+      $("rulePrecision").textContent = pct(m.rulePrecision);
+      $("ruleRecall").textContent = pct(m.ruleRecall);
+      $("regAccuracy").textContent = pct(m.ragRegulationAccuracy);
+      $("caseAccuracy").textContent = pct(m.ragCaseAccuracy);
+      $("caseCount").textContent = m.caseCount || 0;
+      $("barPrecision").style.width = width(m.rulePrecision);
+      $("barRecall").style.width = width(m.ruleRecall);
+      $("barReg").style.width = width(m.ragRegulationAccuracy);
+      $("barCase").style.width = width(m.ragCaseAccuracy);
+      $("generatedAt").textContent = `生成时间：${data.generatedAt || "--"}`;
+
+      $("scenarioRows").innerHTML = Object.entries(data.scenarioMetrics || {}).map(([scenario, item]) => `
+        <tr>
+          <td><span class="pill">${scenario}</span></td>
+          <td>${item.caseCount}</td>
+          <td>${pct(item.rulePrecision)}</td>
+          <td>${pct(item.ruleRecall)}</td>
+          <td>${pct(item.overallAgreement)}</td>
+        </tr>
+      `).join("");
+
+      const errors = (data.results || []).filter((item) =>
+        !item.overallMatch || item.missedRules.length || item.unexpectedRules.length
+      );
+      $("errorCases").innerHTML = errors.length ? errors.map((item) => `
+        <div class="case-card">
+          <h3>${item.caseId}</h3>
+          <p class="muted">${item.title}</p>
+          <p>
+            <span class="${badgeClass(item.overallMatch)}">结论 ${item.expectedOverall} / ${item.agentOverall}</span>
+            <span class="${badgeClass(!item.missedRules.length, true)}">漏判 ${item.missedRules.length}</span>
+            <span class="${badgeClass(!item.unexpectedRules.length, true)}">多判 ${item.unexpectedRules.length}</span>
+          </p>
+        </div>
+      `).join("") : `<p class="muted">没有发现需要优先复核的用例。</p>`;
+
+      $("caseRows").innerHTML = (data.results || []).map((item) => `
+        <tr>
+          <td>${item.caseId}<br><span class="muted">${item.title}</span></td>
+          <td>${item.scenario}</td>
+          <td><span class="${badgeClass(item.overallMatch)}">${item.expectedOverall} / ${item.agentOverall}</span></td>
+          <td>${pct(item.rulePrecision)}</td>
+          <td>${pct(item.ruleRecall)}</td>
+          <td>${item.missedRules.length ? item.missedRules.join(", ") : "-"}</td>
+          <td>${item.unexpectedRules.length ? item.unexpectedRules.join(", ") : "-"}</td>
+        </tr>
+      `).join("");
+    }
+
+    async function loadDefault() {
+      try {
+        const response = await fetch("evaluation-results.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("默认结果文件不存在");
+        render(await response.json());
+      } catch (error) {
+        $("headline").textContent = "还没有评测结果";
+        $("subline").textContent = "请先运行 python evaluation/run_evaluation.py，再刷新页面。";
+      }
+    }
+
+    $("fileInput").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      render(JSON.parse(await file.text()));
+    });
+
+    $("reloadBtn").addEventListener("click", loadDefault);
+    loadDefault();
+  </script>
+</body>
+</html>
