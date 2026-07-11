@@ -5,7 +5,10 @@ import { useState } from "react";
 import type { RiskLevel } from "../types/analysis";
 import type { PipelineRiskItem } from "../types/pipeline";
 import { resolveLegalReferences } from "../utils/legalReferences";
+import type { CaseReferenceView, ReportViewMode } from "../utils/reportViewModel";
+import { getCaseReferencesForRisk, shortenText } from "../utils/reportViewModel";
 import { cleanUserFacingText } from "../utils/userFacingText";
+import { CaseReferenceCard } from "./CaseReferenceCard";
 
 type RiskItem = PipelineRiskItem & {
   mergedCount?: number;
@@ -21,9 +24,12 @@ const riskLabels: Record<RiskLevel, string> = {
 type RiskCardProps = {
   item: RiskItem;
   defaultExpanded?: boolean;
+  variant?: ReportViewMode;
+  keyMetric?: string | null;
+  cases?: CaseReferenceView[];
 };
 
-export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
+export function RiskCard({ item, defaultExpanded = false, variant = "full", keyMetric = null, cases }: RiskCardProps) {
   const [expanded, setExpanded] = useState(defaultExpanded);
   const contentId = `risk-${item.id}`;
   const displayTitle = cleanUserFacingText(item.title, "需要确认的风险");
@@ -42,9 +48,12 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
     .map((title) => cleanUserFacingText(title, ""))
     .filter(Boolean);
   const legalReferences = resolveLegalReferences(item);
+  const caseReferences = cases ?? getCaseReferencesForRisk(item);
+  const brief = shortenText(displayConsequence && displayConsequence !== displayTitle ? displayConsequence : displayReason, variant === "summary" ? 86 : 120);
+  const metricText = cleanUserFacingText(keyMetric ?? "", "") || displayLocation;
 
   return (
-    <article className={`risk-card risk-card--${item.riskLevel}`}>
+    <article className={`risk-card risk-card--${item.riskLevel} risk-card--${variant}`}>
       <button
         className="risk-card__summary"
         type="button"
@@ -54,10 +63,10 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
       >
         <span className="risk-card__leading">
           <WarningCircle size={24} weight="fill" aria-hidden="true" />
-          <span>
+          <span className="risk-card__title-block">
             <strong>{displayTitle}</strong>
-            <small>{displayCategory}</small>
-            <small>{displayLocation}</small>
+            <small className="risk-card__meta-line">{displayCategory} · {metricText}</small>
+            {brief && <span className="risk-card__brief">{brief}</span>}
             {item.mergedCount && item.mergedCount > 1 ? <small>已合并 {item.mergedCount} 项相似风险</small> : null}
           </span>
         </span>
@@ -85,28 +94,41 @@ export function RiskCard({ item, defaultExpanded = false }: RiskCardProps) {
               <p>{explanation}</p>
               <small>对应处理建议已整理至下方“建议行动”板块。</small>
             </section>
-            <details className="legal-reference-panel">
-              <summary>查看参考依据</summary>
-              <div className="legal-reference-list">
-                {legalReferences.length > 0 ? legalReferences.map((reference) => (
-                  <article key={`${reference.lawName}-${reference.articleNumber ?? reference.articleTitle ?? reference.fullText}`}>
-                    <strong>
-                      {reference.lawName}
-                      {reference.articleNumber ? ` ${reference.articleNumber}` : ""}
-                    </strong>
-                    {reference.articleTitle && <span>{reference.articleTitle}</span>}
-                    <p>{reference.fullText}</p>
-                    <small>{reference.relevance}</small>
-                    <small>{reference.sourceNote}</small>
-                  </article>
-                )) : (
-                  <article>
-                    <strong>参考依据</strong>
-                    <p>暂未识别到明确参考依据。请以合同原文和官方法律文本为准。</p>
-                  </article>
-                )}
-              </div>
-            </details>
+            {caseReferences.length > 0 && (
+              <section className="risk-detail-block">
+                <h4>匹配案例与来源</h4>
+                <div className="case-reference-list">
+                  {caseReferences.map((reference) => (
+                    <CaseReferenceCard key={reference.id} item={reference} />
+                  ))}
+                </div>
+              </section>
+            )}
+            {legalReferences.length > 0 && (
+              <details className="legal-reference-panel">
+                <summary>查看参考依据</summary>
+                <div className="legal-reference-list">
+                  {legalReferences.map((reference) => (
+                    <article key={`${reference.lawName}-${reference.articleNumber ?? reference.articleTitle ?? reference.fullText}`}>
+                      <strong>
+                        {reference.lawName}
+                        {reference.articleNumber ? ` ${reference.articleNumber}` : ""}
+                      </strong>
+                      {reference.referenceType === "general" && <span className="legal-reference-kind">一般参考</span>}
+                      {reference.articleTitle && <span>{reference.articleTitle}</span>}
+                      <p>{reference.fullText}</p>
+                      <small>{reference.relevance}</small>
+                      <small>{reference.sourceNote}</small>
+                      {reference.sourceUrl && (
+                        <a href={reference.sourceUrl} target="_blank" rel="noopener noreferrer">
+                          查看官方来源
+                        </a>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </details>
+            )}
           </div>
         </div>
       )}

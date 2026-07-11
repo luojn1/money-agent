@@ -17,9 +17,11 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { MetricCard } from "../components/MetricCard";
 import { PageShell } from "../components/PageShell";
+import { ReportSummary } from "../components/ReportSummary";
 import { RiskCard } from "../components/RiskCard";
 import { api } from "../services/api";
 import type { ActionItem, ActionStage, PipelineReport, PipelineRiskItem } from "../types/pipeline";
+import type { ReportViewMode } from "../utils/reportViewModel";
 import { cleanUserFacingText } from "../utils/userFacingText";
 
 const money = (value: number | null) => value === null ? "信息不足" : `${value.toLocaleString("zh-CN")} 元`;
@@ -592,6 +594,7 @@ export function ReportPage() {
   const [error, setError] = useState("");
   const [retryKey, setRetryKey] = useState(0);
   const [activeTabState, setActiveTabState] = useState<{ taskId: string; tab: ReportTab }>({ taskId, tab: "overview" });
+  const [viewMode, setViewMode] = useState<ReportViewMode>("summary");
   const activeTab = activeTabState.taskId === taskId ? activeTabState.tab : "overview";
   const setActiveTab = (tab: ReportTab) => setActiveTabState({ taskId, tab });
 
@@ -689,6 +692,29 @@ export function ReportPage() {
           </div>
         </section>
 
+        <div className="report-view-switch" aria-label="报告展示模式">
+          <button
+            className={viewMode === "summary" ? "is-active" : ""}
+            type="button"
+            aria-pressed={viewMode === "summary"}
+            onClick={() => setViewMode("summary")}
+          >
+            摘要版
+          </button>
+          <button
+            className={viewMode === "full" ? "is-active" : ""}
+            type="button"
+            aria-pressed={viewMode === "full"}
+            onClick={() => setViewMode("full")}
+          >
+            完整版
+          </button>
+        </div>
+
+        {viewMode === "summary" ? (
+          <ReportSummary report={report} onShowFull={() => setViewMode("full")} />
+        ) : (
+        <>
         <nav className="report-tabs" role="tablist" aria-label="报告内容导航">
           {reportTabs.map((tab) => (
             <button
@@ -831,15 +857,10 @@ export function ReportPage() {
                       <strong>{cleanUserFacingText(item.title.replace(/演示/g, "参考"), "参考内容")}</strong>
                       <p>{cleanUserFacingText(item.summary, referenceSummaryFallback(item.tag))}</p>
                       {item.sourceUrl ? (
-                        <a href={item.sourceUrl} target="_blank" rel="noreferrer">
+                        <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
                           {cleanUserFacingText(item.sourceLabel, "查看来源")}
                         </a>
-                      ) : (
-                        <details className="reference-source-details">
-                          <summary>查看来源</summary>
-                          <p>当前依据来自系统内置参考库，暂未提供可打开的外部链接。请以报告摘要和合同原文核对。</p>
-                        </details>
-                      )}
+                      ) : null}
                     </article>
                   ))}
                 </div>
@@ -952,6 +973,8 @@ export function ReportPage() {
         </section>
         )}
 
+        </>
+        )}
       </main>
     </PageShell>
   );

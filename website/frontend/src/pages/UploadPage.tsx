@@ -2,7 +2,6 @@ import { CheckCircle } from "@phosphor-icons/react/CheckCircle";
 import { Calculator } from "@phosphor-icons/react/Calculator";
 import { ClipboardText } from "@phosphor-icons/react/ClipboardText";
 import { FileText } from "@phosphor-icons/react/FileText";
-import { LockKey } from "@phosphor-icons/react/LockKey";
 import { Receipt } from "@phosphor-icons/react/Receipt";
 import { Robot } from "@phosphor-icons/react/Robot";
 import { ShieldCheck } from "@phosphor-icons/react/ShieldCheck";
@@ -81,11 +80,7 @@ export function UploadPage() {
           <p className="eyebrow">消费贷合同体检</p>
           <h1 id="upload-title">上传合同，帮你看清真实成本、关键风险和下一步行动</h1>
           <p className="upload-hero__subtitle">不绕术语，先把真正影响钱包的数字和条款讲清楚。</p>
-          <div className="trust-row" aria-label="服务说明">
-            <span><ShieldCheck size={20} weight="duotone" />仅用于本次分析</span>
-            <span><LockKey size={20} weight="duotone" />本轮不保存合同内容</span>
-            <span><CheckCircle size={20} weight="duotone" />结果中立，不偏不倚</span>
-          </div>
+          <p className="trust-row" aria-label="服务说明">建议先打码个人信息；报告用于签约前核对，不替代合同原文。</p>
         </section>
 
         <section className="analysis-flow" aria-labelledby="analysis-flow-title">
