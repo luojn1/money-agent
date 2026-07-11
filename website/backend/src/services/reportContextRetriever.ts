@@ -263,9 +263,15 @@ const plainReasonFor = (risk: ReportRisk): string => {
   }
 };
 
+const plainUserText = (text: string): string =>
+  stripEndPunct(text)
+    .replace(/用户/g, "你")
+    .replace(/该条款|本条款/g, "这部分安排")
+    .replace(/合同约定/g, "合同里的约定");
+
 const buildPlainRiskAnswer = (risk: ReportRisk): string => {
-  const consequence = firstClauseOf(risk.possibleConsequence);
-  const question = stripEndPunct(risk.questionToAsk ?? "");
+  const consequence = plainUserText(firstClauseOf(risk.possibleConsequence));
+  const question = plainUserText(risk.questionToAsk ?? "");
   return [
     `这个提示的意思是：${friendlyRiskTitle(risk)}。`,
     `因为${plainReasonFor(risk)}。`,
