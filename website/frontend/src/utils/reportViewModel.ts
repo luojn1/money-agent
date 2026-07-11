@@ -149,7 +149,7 @@ export const getRiskKeyMetric = (risk: PipelineRiskItem, report: PipelineReport)
   return risk.clauseLocation ?? risk.categoryLabel;
 };
 
-const verifiableSourceUrl = (value: string | null | undefined) => {
+export const getVerifiableSourceUrl = (value: string | null | undefined) => {
   if (!value?.trim()) return null;
   try {
     const url = new URL(value);
@@ -161,7 +161,7 @@ const verifiableSourceUrl = (value: string | null | undefined) => {
 };
 
 const fromMatchedCase = (item: MatchedCase): CaseReferenceView => {
-  const sourceUrl = verifiableSourceUrl(item.sourceUrl);
+  const sourceUrl = getVerifiableSourceUrl(item.sourceUrl);
   const isLocalSample = Boolean(item.sourceUrl) && !sourceUrl;
   return {
     id: item.caseId,
@@ -179,7 +179,7 @@ const fromMatchedCase = (item: MatchedCase): CaseReferenceView => {
 };
 
 export const fromReferenceItem = (item: ReferenceItem): CaseReferenceView => {
-  const sourceUrl = verifiableSourceUrl(item.sourceUrl);
+  const sourceUrl = getVerifiableSourceUrl(item.sourceUrl);
   const isLocalSample = Boolean(item.sourceUrl) && !sourceUrl;
   return {
     id: item.id,

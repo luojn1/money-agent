@@ -22,7 +22,7 @@ import { ReportSummary } from "../components/ReportSummary";
 import { RiskCard } from "../components/RiskCard";
 import { api } from "../services/api";
 import type { ActionItem, ActionStage, PipelineReport, PipelineRiskItem } from "../types/pipeline";
-import type { ReportViewMode } from "../utils/reportViewModel";
+import { getVerifiableSourceUrl, type ReportViewMode } from "../utils/reportViewModel";
 import { cleanUserFacingText } from "../utils/userFacingText";
 
 const money = (value: number | null) => value === null ? "信息不足" : `${value.toLocaleString("zh-CN")} 元`;
@@ -852,18 +852,24 @@ export function ReportPage() {
               <details key={group.id} className="reference-group" open>
                 <summary>{group.title}<span>{group.items.length} 项</span></summary>
                 <div className="reference-items">
-                  {group.items.map((item) => (
-                    <article key={item.id} className="reference-item">
-                      <span>{referenceTagLabel(item.tag)}</span>
-                      <strong>{cleanUserFacingText(item.title.replace(/演示/g, "参考"), "参考内容")}</strong>
-                      <p>{cleanUserFacingText(item.summary, referenceSummaryFallback(item.tag))}</p>
-                      {item.sourceUrl ? (
-                        <a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
-                          {cleanUserFacingText(item.sourceLabel, "查看来源")}
-                        </a>
-                      ) : null}
-                    </article>
-                  ))}
+                  {group.items.map((item) => {
+                    const sourceUrl = getVerifiableSourceUrl(item.sourceUrl);
+                    const isLocalSample = Boolean(item.sourceUrl) && !sourceUrl;
+                    return (
+                      <article key={item.id} className="reference-item">
+                        <span>{referenceTagLabel(item.tag)}</span>
+                        <strong>{cleanUserFacingText(item.title.replace(/演示/g, "参考"), "参考内容")}</strong>
+                        <p>{cleanUserFacingText(item.summary, referenceSummaryFallback(item.tag))}</p>
+                        {sourceUrl ? (
+                          <a href={sourceUrl} target="_blank" rel="noopener noreferrer">
+                            {cleanUserFacingText(item.sourceLabel, "查看来源")}
+                          </a>
+                        ) : isLocalSample ? (
+                          <small className="reference-item__source-note">本地典型化案例，暂无公开核验来源</small>
+                        ) : null}
+                      </article>
+                    );
+                  })}
                 </div>
               </details>
             ))}

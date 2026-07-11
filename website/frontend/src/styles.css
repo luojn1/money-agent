@@ -419,6 +419,7 @@ textarea:focus, select:focus, input:focus { border-color: var(--terracotta); box
 .reference-item strong { display: block; color: var(--ink); font-size: 15px; }
 .reference-item p { margin: 8px 0 0; color: var(--ink-soft); font-size: 13px; line-height: 1.65; }
 .reference-item a, .reference-source-details summary { display: inline-flex; margin-top: 10px; color: var(--terracotta); font-size: 13px; font-weight: 800; cursor: pointer; }
+.reference-item__source-note { display: block; margin-top: 10px; color: var(--ink-soft); font-size: 12px; line-height: 1.5; }
 .reference-source-details p { margin-top: 8px; color: var(--muted); font-size: 12px; }
 .actions-section { background: #fffdf8; }
 .action-summary-card { margin-bottom: 18px; padding: 18px; border: 1px solid #cfded4; border-radius: 8px; display: flex; align-items: flex-start; gap: 12px; background: #f3faf5; }

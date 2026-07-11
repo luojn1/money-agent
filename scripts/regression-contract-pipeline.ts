@@ -101,6 +101,10 @@ for (const risk of report.risks) {
 const similarCases = report.references.find((group: any) => group.id === "similar_cases")?.items ?? [];
 const referenceCaseIds = similarCases.map((item: any) => item.id);
 assert(new Set(referenceCaseIds).size === referenceCaseIds.length, "Reference cases should be deduplicated by caseId");
+assert(
+  similarCases.every((item: any) => !item.sourceUrl || !new URL(item.sourceUrl).hostname.endsWith("example.com")),
+  "Placeholder example.com links must not be exposed as verifiable case sources",
+);
 
 const expectedTitles = [
   "服务费一次性扣除",

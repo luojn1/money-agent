@@ -207,6 +207,17 @@ const stageTitle = (stage: string) => {
 const communicationScriptText = (script: string | { scenario?: string; script?: string }) =>
   typeof script === "string" ? script : script.script ?? script.scenario ?? "";
 
+const verifiableSourceUrl = (value: string | null | undefined) => {
+  if (!value?.trim()) return null;
+  try {
+    const url = new URL(value);
+    const isPlaceholder = url.hostname === "example.com" || url.hostname.endsWith(".example.com");
+    return !isPlaceholder && ["http:", "https:"].includes(url.protocol) ? value.trim() : null;
+  } catch {
+    return null;
+  }
+};
+
 const buildReferences = (riskCase: RiskCaseOutput, contractCost: ContractCostOutput) => {
   const riskItems = riskCase.data?.riskItems ?? [];
   const seenCaseIds = new Set<string>();
@@ -214,14 +225,15 @@ const buildReferences = (riskCase: RiskCaseOutput, contractCost: ContractCostOut
     risk.matchedCases.flatMap((item) => {
       if (seenCaseIds.has(item.caseId)) return [];
       seenCaseIds.add(item.caseId);
+      const sourceUrl = verifiableSourceUrl(item.sourceUrl);
       return [
         {
           id: item.caseId,
           title: item.title,
           tag: "典型情景" as const,
           summary: item.conclusion,
-          sourceLabel: item.sourceUrl ? "查看来源" : undefined,
-          sourceUrl: item.sourceUrl,
+          sourceLabel: sourceUrl ? "查看来源" : undefined,
+          sourceUrl,
         },
       ];
     }),
