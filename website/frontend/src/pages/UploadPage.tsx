@@ -2,23 +2,27 @@ import { CheckCircle } from "@phosphor-icons/react/CheckCircle";
 import { Calculator } from "@phosphor-icons/react/Calculator";
 import { ClipboardText } from "@phosphor-icons/react/ClipboardText";
 import { FileText } from "@phosphor-icons/react/FileText";
+import { Eye } from "@phosphor-icons/react/Eye";
 import { Receipt } from "@phosphor-icons/react/Receipt";
 import { Robot } from "@phosphor-icons/react/Robot";
 import { ShieldCheck } from "@phosphor-icons/react/ShieldCheck";
 import { UploadSimple } from "@phosphor-icons/react/UploadSimple";
 import { type DragEvent, type FormEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import sampleContractText from "../../../../tests/fixtures/模拟职业培训消费分期借款合同_Agent综合测试.txt?raw";
+import sampleContractPdfUrl from "../../../../tests/fixtures/模拟职业培训消费分期借款合同_Agent综合测试.pdf?url";
 import { PageShell } from "../components/PageShell";
 import { api } from "../services/api";
 
 const acceptedFileExtensions = [".pdf", ".docx", ".txt", ".md", ".jpg", ".jpeg", ".png", ".webp"];
 const acceptedFileTypes = acceptedFileExtensions.join(",");
 const maxFileSizeBytes = 20 * 1024 * 1024;
-const sampleContractName = "模拟职业培训消费分期借款合同.txt";
+const sampleContractName = "模拟职业培训消费分期借款合同.pdf";
 
 const startErrorMessage = (error: unknown) => {
   const message = error instanceof Error ? error.message : "";
+  if (/sample_contract_load_failed/i.test(message)) {
+    return "测试合同暂时无法加载，请刷新页面后重试。";
+  }
   if (/failed to fetch|networkerror|network request failed/i.test(message)) {
     return "无法连接分析服务，请确认服务已经启动后重试。";
   }
@@ -32,6 +36,13 @@ const startErrorMessage = (error: unknown) => {
     return "分析服务正在启动，请稍等片刻后重试。";
   }
   return "暂时无法开始分析，请稍后重试。";
+};
+
+const loadSampleContractFile = async () => {
+  const response = await fetch(sampleContractPdfUrl);
+  if (!response.ok) throw new Error("SAMPLE_CONTRACT_LOAD_FAILED");
+  const blob = await response.blob();
+  return new File([blob], sampleContractName, { type: "application/pdf" });
 };
 
 export function UploadPage() {
@@ -92,7 +103,7 @@ export function UploadPage() {
     try {
       const contractName = selectedFile?.name ?? (exampleSelected ? sampleContractName : "粘贴的合同文字");
       const contractFile = selectedFile
-        ?? (exampleSelected ? new File([sampleContractText], sampleContractName, { type: "text/plain" }) : undefined);
+        ?? (exampleSelected ? await loadSampleContractFile() : undefined);
       const task = await api.createUploadAnalysis({
         contractFile,
         contractText: contractFile ? undefined : contractText.trim() || undefined,
@@ -175,6 +186,10 @@ export function UploadPage() {
               <div>
                 <strong>模拟职业培训消费分期借款合同</strong>
                 <span>本金 20,000 元，实际支付 18,600 元，包含费用、退费、提前还款和逾期条款。</span>
+                <a href={sampleContractPdfUrl} target="_blank" rel="noreferrer">
+                  <Eye size={17} weight="duotone" />
+                  预览 PDF
+                </a>
               </div>
             </div>
           )}
