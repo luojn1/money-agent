@@ -15,6 +15,7 @@ import { ShieldCheck } from "@phosphor-icons/react/ShieldCheck";
 import { Wallet } from "@phosphor-icons/react/Wallet";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { ChatPanel } from "../components/ChatPanel";
 import { MetricCard } from "../components/MetricCard";
 import { PageShell } from "../components/PageShell";
 import { ReportSummary } from "../components/ReportSummary";
@@ -976,6 +977,7 @@ export function ReportPage() {
         </>
         )}
       </main>
+      <ChatPanel taskId={taskId} />
     </PageShell>
   );
 }

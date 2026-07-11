@@ -15,6 +15,7 @@
     "build": "pnpm --filter @money-agent/frontend run build && pnpm --filter @money-agent/backend run build",
     "verify:b-agents": "pnpm --filter @money-agent/backend exec tsx ../../scripts/verify-b-agents.ts",
     "verify:bcd-pipeline": "pnpm --filter @money-agent/backend exec tsx ../../scripts/verify-bcd-pipeline.ts",
+    "verify:chat": "pnpm --filter @money-agent/backend exec tsx ../../scripts/verify-chat.ts",
     "test:contract-regression": "pnpm --filter @money-agent/backend exec tsx ../../scripts/regression-contract-pipeline.ts"
   },
   "devDependencies": {

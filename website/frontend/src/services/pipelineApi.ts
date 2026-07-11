@@ -1,5 +1,20 @@
 import type { PipelineReport, PipelineStatus, PipelineTaskCreated } from "../types/pipeline";
 
+export type ChatCitationType = "risk" | "clause" | "case";
+export type ChatCitation = { type: ChatCitationType; id: string };
+export type ChatAnswer = {
+  answer: string;
+  citations: ChatCitation[];
+  suggestedQuestions: string[];
+  mode: "template" | "llm" | "disabled";
+};
+export type ChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+  citations?: ChatCitation[];
+  at: string;
+};
+
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/$/, "") ?? "";
 
 type ApiErrorBody = {
@@ -46,4 +61,11 @@ export const pipelineApi = {
   },
   getStatus: (taskId: string) => requestJson<PipelineStatus>(`/api/pipeline/${taskId}/status`),
   getResult: (taskId: string) => requestJson<PipelineReport>(`/api/pipeline/${taskId}/result`),
+  sendChat: (taskId: string, message: string) =>
+    requestJson<ChatAnswer>(`/api/pipeline/${taskId}/chat`, {
+      method: "POST",
+      body: JSON.stringify({ message }),
+    }),
+  getChatHistory: (taskId: string) =>
+    requestJson<{ taskId: string; messages: ChatMessage[] }>(`/api/pipeline/${taskId}/chat/history`),
 };
