@@ -80,6 +80,11 @@ a { color: inherit; text-decoration: none; }
 .text-button { border: 0; padding: 8px 0; display: inline-flex; align-items: center; gap: 7px; color: var(--terracotta); background: transparent; font-weight: 750; cursor: pointer; }
 .text-button:hover { color: var(--terracotta-dark); }
 .text-button--selected { color: var(--sage); }
+.sample-contract-summary { display: flex; align-items: flex-start; gap: 11px; padding: 13px 15px; border: 1px solid #b9d5c5; border-radius: 8px; color: var(--sage); background: #f3faf5; }
+.sample-contract-summary svg { flex: 0 0 auto; margin-top: 1px; }
+.sample-contract-summary div { display: grid; gap: 3px; min-width: 0; }
+.sample-contract-summary strong { color: var(--ink); font-size: 15px; line-height: 1.45; }
+.sample-contract-summary span { color: var(--ink-soft); font-size: 13px; line-height: 1.55; }
 .drop-zone { width: 100%; min-height: 174px; border: 1.5px dashed #b9845f; border-radius: 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--terracotta); background: #fffaf4; cursor: pointer; text-align: center; transition: border-color 160ms ease, background 160ms ease, transform 160ms ease; }
 .drop-zone:hover, .drop-zone:focus-visible { border-color: var(--terracotta-dark); background: #fff5eb; transform: translateY(-1px); outline: none; }
 .drop-zone strong { max-width: 100%; color: var(--ink); font-size: 18px; overflow-wrap: anywhere; }

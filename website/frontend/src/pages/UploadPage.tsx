@@ -8,14 +8,15 @@ import { ShieldCheck } from "@phosphor-icons/react/ShieldCheck";
 import { UploadSimple } from "@phosphor-icons/react/UploadSimple";
 import { type DragEvent, type FormEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import sampleContractText from "../../../../tests/fixtures/模拟职业培训消费分期借款合同_Agent综合测试.txt?raw";
 import { PageShell } from "../components/PageShell";
 import { api } from "../services/api";
 
 const acceptedFileTypes = ".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp";
+const sampleContractName = "模拟职业培训消费分期借款合同.txt";
 
 export function UploadPage() {
   const navigate = useNavigate();
-  const mockModeEnabled = api.isMockPipelineEnabled();
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [contractText, setContractText] = useState("");
@@ -41,30 +42,28 @@ export function UploadPage() {
   const selectExample = () => {
     setExampleSelected(true);
     setSelectedFile(null);
+    setContractText("");
+    if (inputRef.current) inputRef.current.value = "";
     setError("");
   };
 
   const startAnalysis = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selectedFile && !contractText.trim() && !exampleSelected) {
-      setError("请先上传合同、粘贴合同文字，或选择示例合同。值得看的报告，需要先有一份合同。");
-      return;
-    }
-    if (!mockModeEnabled && exampleSelected && !selectedFile && !contractText.trim()) {
-      setError("请上传合同文件或粘贴合同文字；示例合同仅用于体验示例分析。");
+      setError("请先上传合同、粘贴合同文字，或选择测试合同。值得看的报告，需要先有一份合同。");
       return;
     }
 
     setSubmitting(true);
     setError("");
     try {
-      const contractName = selectedFile?.name ?? (exampleSelected ? "课程项目测试合同.txt" : "粘贴的合同文字");
-      const task = exampleSelected && !selectedFile && !contractText.trim()
-        ? await api.createDemoAnalysis({ contractName })
-        : await api.createUploadAnalysis({
-            contractFile: selectedFile ?? undefined,
-            contractText: contractText.trim() || undefined,
-          });
+      const contractName = selectedFile?.name ?? (exampleSelected ? sampleContractName : "粘贴的合同文字");
+      const task = await api.createUploadAnalysis({
+        contractFile: selectedFile ?? undefined,
+        contractText: selectedFile
+          ? undefined
+          : (exampleSelected ? sampleContractText : contractText.trim() || undefined),
+      });
       sessionStorage.setItem(`analysis:${task.taskId}:contractName`, contractName);
       navigate(`/analysis/${task.taskId}`, { state: { contractName } });
     } catch {
@@ -130,11 +129,22 @@ export function UploadPage() {
               type="button"
               className={`text-button${exampleSelected ? " text-button--selected" : ""}`}
               onClick={selectExample}
+              aria-pressed={exampleSelected}
             >
               {exampleSelected ? <CheckCircle size={19} weight="fill" /> : <FileText size={19} />}
-              {exampleSelected ? "已选择示例合同" : "使用示例合同"}
+              {exampleSelected ? "已选测试合同" : "使用测试合同"}
             </button>
           </div>
+
+          {exampleSelected && (
+            <div className="sample-contract-summary" role="status">
+              <CheckCircle size={22} weight="fill" />
+              <div>
+                <strong>模拟职业培训消费分期借款合同</strong>
+                <span>本金 20,000 元，实际支付 18,600 元，包含费用、退费、提前还款和逾期条款。</span>
+              </div>
+            </div>
+          )}
 
           <input
             className="visually-hidden"
@@ -165,6 +175,7 @@ export function UploadPage() {
               value={contractText}
               onChange={(event) => {
                 setContractText(event.target.value);
+                setExampleSelected(false);
                 if (event.target.value.trim()) setError("");
               }}
               placeholder="在此粘贴合同全部或部分文字内容（选填）"
