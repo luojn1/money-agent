@@ -46,6 +46,32 @@
   box-shadow: 0 24px 60px rgba(20, 30, 70, 0.22);
 }
 
+.mchat-resize-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: nwse-resize;
+  touch-action: none;
+}
+
+.mchat-resize-handle::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 9px;
+  height: 9px;
+  border-top: 2px solid rgba(255, 255, 255, 0.82);
+  border-left: 2px solid rgba(255, 255, 255, 0.82);
+  border-top-left-radius: 3px;
+}
+
 .mchat-header {
   display: flex;
   align-items: center;
@@ -298,5 +324,11 @@
     background: #1f2330;
     border-color: #333a4d;
     color: #e7e9f0;
+  }
+}
+
+@media (max-width: 480px) {
+  .mchat-panel {
+    min-width: 0;
   }
 }

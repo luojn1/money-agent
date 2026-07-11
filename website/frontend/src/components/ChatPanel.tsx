@@ -1,7 +1,7 @@
 import { ChatCircle } from "@phosphor-icons/react/ChatCircle";
 import { PaperPlaneRight } from "@phosphor-icons/react/PaperPlaneRight";
 import { X } from "@phosphor-icons/react/X";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { api } from "../services/api";
 import { pipelineApi, type ChatAnswer, type ChatCitation, type ChatMessage } from "../services/pipelineApi";
 import "./ChatPanel.css";
@@ -18,6 +18,16 @@ const citationLabel: Record<ChatCitation["type"], string> = {
 type PanelMessage = ChatMessage & { pending?: boolean; error?: boolean; mode?: ChatAnswer["mode"] };
 
 const nowIso = () => new Date().toISOString();
+const MIN_PANEL_WIDTH = 300;
+const MIN_PANEL_HEIGHT = 360;
+
+type ResizeState = {
+  pointerId: number;
+  startX: number;
+  startY: number;
+  startWidth: number;
+  startHeight: number;
+};
 
 export function ChatPanel({ taskId }: { taskId: string | undefined }) {
   const [open, setOpen] = useState(false);
@@ -25,7 +35,9 @@ export function ChatPanel({ taskId }: { taskId: string | undefined }) {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
+  const [panelSize, setPanelSize] = useState<{ width: number; height: number } | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const resizeRef = useRef<ResizeState | null>(null);
 
   // 真实任务才有后端报告可问；mock 模式或缺 taskId 时不展示入口
   const available = Boolean(taskId) && !CHAT_DISABLED && !api.isMockPipelineEnabled();
@@ -81,6 +93,38 @@ export function ChatPanel({ taskId }: { taskId: string | undefined }) {
     }
   };
 
+  const startResizeFromTopLeft = (event: PointerEvent<HTMLButtonElement>) => {
+    const panel = event.currentTarget.parentElement;
+    if (!panel) return;
+    const rect = panel.getBoundingClientRect();
+    resizeRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      startWidth: rect.width,
+      startHeight: rect.height,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const resizeFromTopLeft = (event: PointerEvent<HTMLButtonElement>) => {
+    const state = resizeRef.current;
+    if (!state || state.pointerId !== event.pointerId) return;
+    const minWidth = Math.min(MIN_PANEL_WIDTH, Math.max(0, window.innerWidth - 32));
+    const minHeight = Math.min(MIN_PANEL_HEIGHT, Math.max(0, window.innerHeight - 48));
+    const maxWidth = Math.max(minWidth, window.innerWidth - 32);
+    const maxHeight = Math.max(minHeight, window.innerHeight - 48);
+    setPanelSize({
+      width: Math.min(maxWidth, Math.max(minWidth, state.startWidth + state.startX - event.clientX)),
+      height: Math.min(maxHeight, Math.max(minHeight, state.startHeight + state.startY - event.clientY)),
+    });
+  };
+
+  const finishResizeFromTopLeft = (event: PointerEvent<HTMLButtonElement>) => {
+    if (resizeRef.current?.pointerId === event.pointerId) resizeRef.current = null;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  };
+
   return (
     <>
       {!open && (
@@ -91,7 +135,21 @@ export function ChatPanel({ taskId }: { taskId: string | undefined }) {
       )}
 
       {open && (
-        <section className="mchat-panel" role="dialog" aria-label="合同助手对话">
+        <section
+          className="mchat-panel"
+          role="dialog"
+          aria-label="合同助手对话"
+          style={panelSize ? { width: `${panelSize.width}px`, height: `${panelSize.height}px` } : undefined}
+        >
+          <button
+            type="button"
+            className="mchat-resize-handle mchat-resize-handle--nw"
+            aria-label="从左上角调整窗口大小"
+            onPointerDown={startResizeFromTopLeft}
+            onPointerMove={resizeFromTopLeft}
+            onPointerUp={finishResizeFromTopLeft}
+            onPointerCancel={finishResizeFromTopLeft}
+          />
           <header className="mchat-header">
             <div className="mchat-title">
               <ChatCircle size={20} weight="duotone" />
