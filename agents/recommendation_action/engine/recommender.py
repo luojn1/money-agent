@@ -23,24 +23,58 @@ TIMING_BY_CATEGORY = {
     "other": "anytime",
 }
 
-# category -> 行动动词模板；{q} 为 C 给出的 questionToAsk
+# category -> 具体行动模板；{title} 为 C 给出的风险标题。
+# 问题清单负责“照着问”，建议负责“照着做”，避免两个板块复读。
 ACTION_TEMPLATE = {
-    "cost_transparency": "签约前要求机构书面回复：{q}",
-    "interest_fee": "签约前要求机构书面确认：{q}",
-    "prepayment": "签约前与机构确认并保留书面答复：{q}",
-    "authorization_privacy": "签约前逐条核对授权范围：{q}",
-    "repayment": "还款期间主动核对：{q}",
-    "overdue": "了解并记录逾期处理规则：{q}",
-    "dispute_resolution": "留存证据并确认争议解决途径：{q}",
-    "other": "向机构核实：{q}",
+    "cost_transparency": "把「{title}」涉及的费用逐项列出来加总，与机构宣传口径对照；"
+                         "对不上的部分按问题清单当面问清，并让机构在书面答复上盖章或线上留痕。",
+    "interest_fee": "用实际到账金额和每期还款额自己核一遍真实年化成本，"
+                    "与合同写的名义利率对比；差异大就按问题清单要求机构书面解释，答复留存好。",
+    "prepayment": "签约前让客服现场演示一遍提前结清要付多少钱，把演示结果截图；"
+                  "与合同条款不一致时，以书面确认为准再签。",
+    "authorization_privacy": "把「{title}」的授权条款单独拍照留存，勾选授权时只开必需项；"
+                             "撤销授权的入口和流程让机构写进书面答复。",
+    "repayment": "设置还款日前 3 天提醒，每期扣款后核对金额与合同还款计划表是否一致，"
+                 "扣款凭证保留到结清。",
+    "overdue": "把逾期罚息算法和催收方式记录下来；一旦可能逾期，提前主动联系机构协商展期，"
+               "所有沟通留下录音或聊天记录。",
+    "dispute_resolution": "从现在开始保存合同原件、付款凭证和全部沟通记录；"
+                          "发生争议先走合同约定渠道，无果可向当地金融监管部门投诉。",
+    "other": "就「{title}」向机构索取书面说明并留存。",
 }
+
+GENERIC_CONSEQUENCE = "该条款可能增加用户的资金、履约或维权成本。"
+CONSEQUENCE_BY_CATEGORY = {
+    "cost_transparency": "费用不透明时，宣传的利率和你实际承担的成本可能差很多。",
+    "interest_fee": "这类条款直接抬高你的实际借款成本——到手更少，或多付利息。",
+    "prepayment": "提前还款的成本不问清楚，想早点还清反而可能多花一笔钱。",
+    "authorization_privacy": "授权范围过宽，你的个人信息和联系人可能在逾期时被波及。",
+    "repayment": "还款安排出差错会直接产生罚息，并可能影响征信记录。",
+    "overdue": "逾期的实际代价（罚息、催收、征信）通常远高于借款时的预期。",
+    "dispute_resolution": "缺少证据和明确渠道时，出了纠纷很难有效维权。",
+}
+
+_RULE_PREFIX = "命中规则"
 
 
 def _short_reason(risk):
-    """C 的 reason 很长（含法规摘要），取第一句做 rationale 主体。"""
+    """C 的 reason 很长（含法规摘要），取第一句并去掉机器腔。"""
     reason = (risk.get("reason") or "").strip()
     head = reason.split("。")[0]
-    return (head + "。") if head else ""
+    if not head:
+        return ""
+    if head.startswith(_RULE_PREFIX):
+        head = "合同里存在" + head[len(_RULE_PREFIX):] + "的情形"
+    return head + "。"
+
+
+def _consequence(risk):
+    """把 C 的通用兜底后果换成分类别的具体说法。"""
+    text = (risk.get("possibleConsequence") or "").strip()
+    if text == GENERIC_CONSEQUENCE:
+        category = risk.get("category") or "other"
+        return CONSEQUENCE_BY_CATEGORY.get(category, text)
+    return text
 
 
 def _case_support(risk):
@@ -53,15 +87,14 @@ def _case_support(risk):
 def build_recommendation(risk, seq):
     """单条风险 -> 单条建议。"""
     category = risk.get("category") or "other"
-    question = (risk.get("questionToAsk") or "").strip()
+    title = (risk.get("title") or "该风险").strip()
     template = ACTION_TEMPLATE.get(category, ACTION_TEMPLATE["other"])
-    action = template.format(q=question) if question else \
-        f"就“{risk.get('title', '该风险')}”向机构索取书面说明。"
+    action = template.format(title=title)
     rationale = "".join(filter(None, [
         _short_reason(risk),
-        (risk.get("possibleConsequence") or "").strip(),
+        _consequence(risk),
         _case_support(risk),
-    ])) or f"风险项“{risk.get('title', '')}”需要在签约前澄清。"
+    ])) or f"风险项“{title}”需要在签约前澄清。"
     return {
         "id": f"action_{seq:03d}_{risk['id']}",
         "priority": PRIORITY_BY_LEVEL.get(risk.get("riskLevel"), "should"),
@@ -72,13 +105,39 @@ def build_recommendation(risk, seq):
     }
 
 
+def _merge_duplicate_actions(recs):
+    """合并相同行动，保留全部风险关联并采用最高优先级。"""
+    merged, order = {}, []
+    for rec in recs:
+        key = rec["action"]
+        if key in merged:
+            keep = merged[key]
+            keep["relatedRiskIds"] = list(dict.fromkeys(
+                keep["relatedRiskIds"] + rec["relatedRiskIds"]))
+            if PRIORITY_ORDER[rec["priority"]] < PRIORITY_ORDER[keep["priority"]]:
+                keep["priority"] = rec["priority"]
+        else:
+            merged[key] = rec
+            order.append(key)
+
+    output = []
+    for key in order:
+        rec = merged[key]
+        extra = len(rec["relatedRiskIds"]) - 1
+        if extra > 0:
+            rec["rationale"] += f"合同中另有 {extra} 处条款存在同类问题，已一并关联。"
+        output.append(rec)
+    return output
+
+
 def build_recommendations(risk_items, user_profile=None, cost_analysis=None):
     """全部风险 -> 建议列表（含高风险聚合、产品对比与画像建议）。"""
     ordered = sorted(
         risk_items,
         key=lambda r: LEVEL_ORDER.get(r.get("riskLevel"), 1),
     )
-    recs = [build_recommendation(r, i + 1) for i, r in enumerate(ordered)]
+    recs = _merge_duplicate_actions(
+        [build_recommendation(r, i + 1) for i, r in enumerate(ordered)])
 
     high_ids = [r["id"] for r in risk_items if r.get("riskLevel") == "high"]
     if high_ids:
