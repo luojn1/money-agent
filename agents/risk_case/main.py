@@ -200,6 +200,29 @@ def validate_relationships(output: dict[str, Any]) -> list[dict[str, str | None]
     return warnings
 
 
+def is_completion_blocking_warning(warning: dict[str, Any]) -> bool:
+    code = warning.get("code")
+    if code in {"missing_related_clause", "evidence_clause_not_related", "missing_cost_field"}:
+        return True
+    if code == "missing_contract_field":
+        text = f"{warning.get('fieldPath') or ''} {warning.get('message') or ''}"
+        critical_fields = (
+            "loanAmount",
+            "actualReceivedAmount",
+            "termMonths",
+            "installmentCount",
+            "repaymentMethod",
+            "monthlyPayment",
+            "nominalRate",
+        )
+        return any(field in text for field in critical_fields)
+    return False
+
+
+def has_completion_blocking_warning(warnings: list[dict[str, Any]]) -> bool:
+    return any(is_completion_blocking_warning(warning) for warning in warnings)
+
+
 def build_output(
     b_output: dict[str, Any],
     risk_items: list[dict[str, Any]],
@@ -234,7 +257,7 @@ def build_output(
         "errors": [],
     }
     output["warnings"].extend(validate_relationships(output))
-    if output["warnings"] and output["status"] == "completed":
+    if has_completion_blocking_warning(output["warnings"]) and output["status"] == "completed":
         output["status"] = "partial"
     return output
 
@@ -372,7 +395,7 @@ def run_agent(
             }
             for skipped in skipped_rules
         )
-        output_status = "partial" if upstream_status == "partial" or inherited_warnings else "completed"
+        output_status = "partial" if upstream_status == "partial" or has_completion_blocking_warning(inherited_warnings) else "completed"
         output = build_output(
             b_output,
             risk_items,

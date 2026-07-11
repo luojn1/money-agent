@@ -10,12 +10,61 @@ import pytest
 
 from db.dao import save_risk_case_output
 from knowledge.init_db import initialize_database
-from main import AgentInputError, STANDARD_RISK_ITEM_FIELDS, build_output, validate_b_output
+from main import (
+    AgentInputError,
+    STANDARD_RISK_ITEM_FIELDS,
+    build_output,
+    is_completion_blocking_warning,
+    validate_b_output,
+)
 
 
 def test_validate_b_output_reports_missing_fields() -> None:
     with pytest.raises(AgentInputError, match="taskId"):
         validate_b_output({"data": {}})
+
+
+@pytest.mark.parametrize(
+    ("warning", "expected"),
+    [
+        (
+            {
+                "code": "cost_calculation_1",
+                "message": "真实成本已按实际到账金额计算。",
+                "fieldPath": "data.costAnalysis.warnings",
+            },
+            False,
+        ),
+        (
+            {
+                "code": "missing_contract_field",
+                "message": "Missing contract field: institution",
+                "fieldPath": "data.contractSummary.institution",
+            },
+            False,
+        ),
+        (
+            {
+                "code": "missing_contract_field",
+                "message": "Missing contract field: loanAmount",
+                "fieldPath": "data.contractSummary.loanAmount",
+            },
+            True,
+        ),
+        (
+            {
+                "code": "missing_related_clause",
+                "message": "Risk item has no related clause ids.",
+                "fieldPath": "data.riskItems.risk_1.relatedClauseIds",
+            },
+            True,
+        ),
+    ],
+)
+def test_completion_blocking_warning_boundary(
+    warning: dict[str, str], expected: bool
+) -> None:
+    assert is_completion_blocking_warning(warning) is expected
 
 
 def test_save_output_does_not_duplicate_matched_cases(tmp_path: Path) -> None:

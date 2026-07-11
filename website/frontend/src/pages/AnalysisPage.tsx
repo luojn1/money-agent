@@ -60,7 +60,7 @@ const isReportReady = (status: AgentStepStatus | undefined) => status === "compl
 const progressMessage = (status: PipelineStatus | null, reportReady: boolean) => {
   if (reportReady) return "分析结果已生成，正在打开";
   if (status?.status === "failed") return "分析未完成，请稍后重试";
-  if (status?.status === "partial") return "部分分析可能未完成，建议重新分析后再作决策";
+  if (status?.status === "partial") return "分析已生成，部分关键信息待核对";
   return "正在整理合同分析结果";
 };
 

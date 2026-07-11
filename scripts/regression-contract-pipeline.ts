@@ -69,10 +69,12 @@ const pipelineTask = createPipelineTask({
 await runIntegratedPipeline(pipelineTask.taskId, { file });
 const completed = getPipelineTask(taskId);
 assert(completed?.result, "Pipeline should produce a report");
-assert(completed.status === "partial", "Any partial upstream agent should keep final report status partial");
+assert(completed.status === "completed", "Non-blocking warnings should keep the final pipeline completed");
 
 const report = completed.result as any;
-assert(report.status === "partial", "Report payload should remain partial");
+assert(report.status === "completed", "Report payload should remain completed for non-blocking warnings");
+assert(report.completedWithWarnings === true, "Completed report should preserve its warning marker");
+assert(report.warnings.length > 0, "Completed report should preserve warning details");
 assert(report.overview.realAnnualRate === 27.28, "Report overview should use comprehensive real annual rate");
 assert(report.costAnalysis.baseRealAnnualRate === 22.01, "Report should expose base annual cost");
 assert(report.costAnalysis.comprehensiveRealAnnualRate === 27.28, "Report should expose comprehensive annual cost");
