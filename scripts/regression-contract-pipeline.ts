@@ -2,9 +2,17 @@ import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { ContractClause, Evidence } from "../shared/analysisProtocol.js";
 import { runCostCalculatorAgent } from "../website/backend/src/services/costCalculatorAgent.js";
 import { runContractParserAgent } from "../website/backend/src/services/contractParserAgent.js";
 import { runDocumentIntakeAgent } from "../website/backend/src/services/documentIntakeAgent.js";
+import type { PipelineReport, PipelineRiskItem } from "../website/frontend/src/types/pipeline.js";
+
+type RegressionRisk = PipelineRiskItem & { evidence?: Evidence[] };
+type RegressionReport = Omit<PipelineReport, "contractCost" | "risks"> & {
+  contractCost: { data?: { clauses?: ContractClause[] } };
+  risks: RegressionRisk[];
+};
 
 const assert = (condition: unknown, message: string) => {
   if (!condition) throw new Error(message);
@@ -71,7 +79,7 @@ const completed = getPipelineTask(taskId);
 assert(completed?.result, "Pipeline should produce a report");
 assert(completed.status === "completed", "Non-blocking warnings should keep the final pipeline completed");
 
-const report = completed.result as any;
+const report = completed.result as RegressionReport;
 assert(report.status === "completed", "Report payload should remain completed for non-blocking warnings");
 assert(report.completedWithWarnings === true, "Completed report should preserve its warning marker");
 assert(report.warnings.length > 0, "Completed report should preserve warning details");
@@ -80,7 +88,7 @@ assert(report.costAnalysis.baseRealAnnualRate === 22.01, "Report should expose b
 assert(report.costAnalysis.comprehensiveRealAnnualRate === 27.28, "Report should expose comprehensive annual cost");
 assert(report.risks.length >= 25, "Pipeline should cover the major independent risk categories");
 
-const bClauses = new Map((report.contractCost.data?.clauses ?? []).map((clause: any) => [clause.clauseId, clause]));
+const bClauses = new Map((report.contractCost.data?.clauses ?? []).map((clause) => [clause.clauseId, clause]));
 for (const risk of report.risks) {
   const relatedTexts = risk.relatedClauseIds.map((id: string) => bClauses.get(id)?.text).filter(Boolean);
   assert(relatedTexts.includes(risk.clauseText), `${risk.id} clauseText should come from a related B clause`);
@@ -91,18 +99,18 @@ for (const risk of report.risks) {
   }
 }
 
-const riskKeys = report.risks.map((risk: any) => `${risk.category}:${risk.title}:${risk.relatedClauseIds.join("|")}`);
+const riskKeys = report.risks.map((risk) => `${risk.category}:${risk.title}:${risk.relatedClauseIds.join("|")}`);
 assert(new Set(riskKeys).size === riskKeys.length, "Risk output should not contain exact duplicate facts");
 
 for (const risk of report.risks) {
-  const caseIds = risk.matchedCases.map((item: any) => item.caseId);
+  const caseIds = risk.matchedCases.map((item) => item.caseId);
   assert(new Set(caseIds).size === caseIds.length, `${risk.id} should not repeat matched case IDs`);
 }
-const similarCases = report.references.find((group: any) => group.id === "similar_cases")?.items ?? [];
-const referenceCaseIds = similarCases.map((item: any) => item.id);
+const similarCases = report.references.find((group) => group.id === "similar_cases")?.items ?? [];
+const referenceCaseIds = similarCases.map((item) => item.id);
 assert(new Set(referenceCaseIds).size === referenceCaseIds.length, "Reference cases should be deduplicated by caseId");
 assert(
-  similarCases.every((item: any) => !item.sourceUrl || !new URL(item.sourceUrl).hostname.endsWith("example.com")),
+  similarCases.every((item) => !item.sourceUrl || !new URL(item.sourceUrl).hostname.endsWith("example.com")),
   "Placeholder example.com links must not be exposed as verifiable case sources",
 );
 
@@ -119,7 +127,7 @@ const expectedTitles = [
   "超额转款不视为提前还款",
 ];
 for (const title of expectedTitles) {
-  assert(report.risks.some((risk: any) => risk.title === title), `Missing expected risk: ${title}`);
+  assert(report.risks.some((risk) => risk.title === title), `Missing expected risk: ${title}`);
 }
 
 const debugDir = join(projectRoot, "debug", taskId);

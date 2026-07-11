@@ -57,6 +57,16 @@ const progressWidth = (steps: PipelineStep[]) => {
 
 const isReportReady = (status: AgentStepStatus | undefined) => status === "completed" || status === "partial";
 
+const analysisFailureMessage = (status: PipelineStatus) => {
+  if (status.errors?.some((error) => error.code === "document_intake_failed")) {
+    return "没有识别到足够的合同文字，请上传清晰文件，或直接粘贴合同文字。";
+  }
+  if (status.errors?.some((error) => error.code === "PIPELINE_EXECUTION_FAILED")) {
+    return "分析服务暂时不可用，请稍后重新分析。";
+  }
+  return "分析未完成，请稍后重试。";
+};
+
 const progressMessage = (status: PipelineStatus | null, reportReady: boolean) => {
   if (reportReady) return "分析结果已生成，正在打开";
   if (status?.status === "failed") return "分析未完成，请稍后重试";
@@ -84,7 +94,7 @@ export function AnalysisPage() {
         const nextStatus = await api.getAnalysisStatus(taskId);
         if (disposed) return;
         setStatus(nextStatus);
-        setError(nextStatus.error ? "分析未完成，请稍后重试。" : "");
+        setError(nextStatus.error ? analysisFailureMessage(nextStatus) : "");
 
         if (isReportReady(nextStatus.status)) {
           timer = setTimeout(() => navigate(`/report/${taskId}`, { replace: true }), 520);
@@ -96,7 +106,7 @@ export function AnalysisPage() {
         }
       } catch {
         if (!disposed) {
-          setError("分析未完成，请稍后重试。");
+          setError("无法连接分析服务，请检查网络后重新加载。");
         }
       }
     };

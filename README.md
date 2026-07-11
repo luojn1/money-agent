@@ -40,6 +40,10 @@ PYTHON_BIN
 B_BASE_URL
 C_DIR
 SCHEMA_PATH
+ENABLE_CHAT_LLM
+LLM_API_KEY
+LLM_BASE_URL
+LLM_MODEL
 ```
 
 - `VITE_USE_MOCK_PIPELINE=true`：前端使用演示数据模式。
@@ -53,6 +57,10 @@ SCHEMA_PATH
 - `PYTHON_BIN`：后端调用 Python Agent 的命令或绝对路径；默认尝试 `python`、`py -3`、`python3`。
 - `B_BASE_URL`、`C_DIR`：D 独立预览服务兼容变量。
 - `SCHEMA_PATH`：D Schema 校验路径，默认使用 `shared/schemas/analysis-protocol-v1.schema.json`。
+- `ENABLE_CHAT_LLM=true`：使用配置的大模型优化“问一问”的通俗表达；调用失败时自动回退到本地回答。
+- `LLM_API_KEY`：服务端大模型密钥，只配置在部署平台环境变量中，不写入仓库。
+- `LLM_BASE_URL`：兼容 OpenAI Chat Completions 的接口地址，当前默认 `https://api.deepseek.com`。
+- `LLM_MODEL`：问答模型名称，当前默认 `deepseek-v4-flash`。
 
 ## 单容器部署
 
@@ -84,6 +92,8 @@ VITE_API_BASE_URL=
 - `POST /api/pipeline/analyze`
 - `GET /api/pipeline/:taskId/status`
 - `GET /api/pipeline/:taskId/result`
+- `POST /api/pipeline/:taskId/chat`
+- `GET /api/pipeline/:taskId/chat/history`
 
 B 单模块兼容接口：
 

@@ -12,8 +12,27 @@ import sampleContractText from "../../../../tests/fixtures/模拟职业培训消
 import { PageShell } from "../components/PageShell";
 import { api } from "../services/api";
 
-const acceptedFileTypes = ".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp";
+const acceptedFileExtensions = [".pdf", ".docx", ".txt", ".md", ".jpg", ".jpeg", ".png", ".webp"];
+const acceptedFileTypes = acceptedFileExtensions.join(",");
+const maxFileSizeBytes = 20 * 1024 * 1024;
 const sampleContractName = "模拟职业培训消费分期借款合同.txt";
+
+const startErrorMessage = (error: unknown) => {
+  const message = error instanceof Error ? error.message : "";
+  if (/failed to fetch|networkerror|network request failed/i.test(message)) {
+    return "无法连接分析服务，请确认服务已经启动后重试。";
+  }
+  if (/413|file too large|limit_file_size|20\s*mb/i.test(message)) {
+    return "文件超过 20MB，请压缩后重新上传，或直接粘贴合同文字。";
+  }
+  if (/格式|unsupported|file type/i.test(message)) {
+    return "暂不支持该文件格式，请上传 PDF、DOCX、TXT、MD、JPG、PNG 或 WEBP。";
+  }
+  if (/503|not_ready|暂时不可用/i.test(message)) {
+    return "分析服务正在启动，请稍等片刻后重试。";
+  }
+  return "暂时无法开始分析，请稍后重试。";
+};
 
 export function UploadPage() {
   const navigate = useNavigate();
@@ -29,8 +48,22 @@ export function UploadPage() {
   const chooseFile = (files: FileList | null) => {
     const file = files?.[0];
     if (!file) return;
+    const extension = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
+    if (!acceptedFileExtensions.includes(extension)) {
+      setSelectedFile(null);
+      if (inputRef.current) inputRef.current.value = "";
+      setError("暂不支持该文件格式，请上传 PDF、DOCX、TXT、MD、JPG、PNG 或 WEBP。");
+      return;
+    }
+    if (file.size > maxFileSizeBytes) {
+      setSelectedFile(null);
+      if (inputRef.current) inputRef.current.value = "";
+      setError("文件超过 20MB，请压缩后重新上传，或直接粘贴合同文字。");
+      return;
+    }
     setSelectedFile(file);
     setExampleSelected(false);
+    setContractText("");
     setError("");
   };
 
@@ -58,16 +91,16 @@ export function UploadPage() {
     setError("");
     try {
       const contractName = selectedFile?.name ?? (exampleSelected ? sampleContractName : "粘贴的合同文字");
+      const contractFile = selectedFile
+        ?? (exampleSelected ? new File([sampleContractText], sampleContractName, { type: "text/plain" }) : undefined);
       const task = await api.createUploadAnalysis({
-        contractFile: selectedFile ?? undefined,
-        contractText: selectedFile
-          ? undefined
-          : (exampleSelected ? sampleContractText : contractText.trim() || undefined),
+        contractFile,
+        contractText: contractFile ? undefined : contractText.trim() || undefined,
       });
       sessionStorage.setItem(`analysis:${task.taskId}:contractName`, contractName);
       navigate(`/analysis/${task.taskId}`, { state: { contractName } });
-    } catch {
-      setError("暂时无法开始分析，请稍后重试。");
+    } catch (analysisError) {
+      setError(startErrorMessage(analysisError));
       setSubmitting(false);
     }
   };
@@ -176,7 +209,11 @@ export function UploadPage() {
               onChange={(event) => {
                 setContractText(event.target.value);
                 setExampleSelected(false);
-                if (event.target.value.trim()) setError("");
+                if (event.target.value.trim()) {
+                  setSelectedFile(null);
+                  if (inputRef.current) inputRef.current.value = "";
+                  setError("");
+                }
               }}
               placeholder="在此粘贴合同全部或部分文字内容（选填）"
               rows={5}
