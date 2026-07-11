@@ -316,6 +316,8 @@ const detectRepaymentMethod = (
 };
 
 const detectContractType = (text: string): ContractType => {
+  if (/信用卡.{0,12}分期|分期.{0,12}信用卡/.test(text)) return "credit_card_installment";
+  if (/培训贷|教育分期|学费分期|课程贷款|培训.{0,12}(贷款|分期)/.test(text)) return "education_training_loan";
   if (text.includes("现金分期")) return "cash_installment";
   if (text.includes("账单分期")) return "bill_installment";
   if (text.includes("商品分期") || text.includes("商户分期")) return "merchant_installment";

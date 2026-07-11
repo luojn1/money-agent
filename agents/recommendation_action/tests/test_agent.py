@@ -204,6 +204,27 @@ def test_duplicate_actions_merge_and_keep_all_risk_links():
                for risk in risks)
 
 
+@pytest.mark.parametrize(
+    ("product_type", "expected_id"),
+    [
+        ("信用卡分期", "action_scene_credit_card_installment_001"),
+        ("教育培训贷", "action_scene_education_training_loan_001"),
+    ],
+)
+def test_product_type_adds_scenario_recommendation(product_type, expected_id):
+    c_env = json.load(open(C_PATH, encoding="utf-8"))
+    risk_items = c_env["data"]["riskItems"]
+    recommendations = build_recommendations(
+        risk_items,
+        contract_summary={"productType": product_type},
+    )
+    by_id = {item["id"]: item for item in recommendations}
+
+    assert expected_id in by_id
+    assert set(by_id[expected_id]["relatedRiskIds"]) <= {
+        item["id"] for item in risk_items}
+
+
 def test_refund_reminder_from_clauses(tmp_path):
     """说明书 5.2.6：退费/退订期限提醒（从条款文本识别）。"""
     b_env = json.load(open(B_PATH, encoding="utf-8"))

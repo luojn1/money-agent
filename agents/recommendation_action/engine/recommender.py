@@ -130,7 +130,8 @@ def _merge_duplicate_actions(recs):
     return output
 
 
-def build_recommendations(risk_items, user_profile=None, cost_analysis=None):
+def build_recommendations(risk_items, user_profile=None, cost_analysis=None,
+                          contract_summary=None):
     """全部风险 -> 建议列表（含高风险聚合、产品对比与画像建议）。"""
     ordered = sorted(
         risk_items,
@@ -152,9 +153,44 @@ def build_recommendations(risk_items, user_profile=None, cost_analysis=None):
         })
 
     recs.extend(_comparison_recommendation(risk_items, cost_analysis))
+    recs.extend(_scenario_recommendations(risk_items, contract_summary))
     recs.extend(_profile_recommendations(user_profile))
     recs.sort(key=lambda r: PRIORITY_ORDER[r["priority"]])
     return recs
+
+
+def _scenario_recommendations(risk_items, contract_summary):
+    """根据 B 的产品类型补一条场景化行动，不扩展跨 Agent 协议。"""
+    product_type = ((contract_summary or {}).get("productType") or "").strip()
+    if product_type == "信用卡分期":
+        scenario_id = "credit_card_installment"
+        categories = {"interest_fee", "prepayment", "repayment"}
+        action = ("确认每期手续费折算后的真实年化、提前结清是否退还剩余手续费，"
+                  "并保存分期申请页面和银行书面答复。")
+        rationale = "信用卡分期常以“免息”展示，但手续费和提前结清规则仍会影响真实成本。"
+    elif product_type == "教育培训贷":
+        scenario_id = "education_training_loan"
+        categories = {"cost_transparency", "repayment", "dispute_resolution"}
+        action = ("要求培训机构和贷款方书面说明退课、停课或机构无法履约时的退费与贷款处理方式，"
+                  "确认后再签约。")
+        rationale = "教育培训贷同时涉及培训服务和贷款合同，服务终止不一定自动终止还款。"
+    else:
+        return []
+
+    related = [item["id"] for item in risk_items
+               if item.get("category") in categories]
+    priority = "must" if any(
+        item.get("id") in related and item.get("riskLevel") == "high"
+        for item in risk_items
+    ) else "should"
+    return [{
+        "id": f"action_scene_{scenario_id}_001",
+        "priority": priority,
+        "action": action,
+        "rationale": rationale,
+        "timing": "before_signing",
+        "relatedRiskIds": related,
+    }]
 
 
 def _comparison_recommendation(risk_items, cost_analysis):

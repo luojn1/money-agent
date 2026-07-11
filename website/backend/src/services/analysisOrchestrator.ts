@@ -18,6 +18,8 @@ const contractTypeLabel = (contractType: AnalysisResult["bAgentOutput"]["contrac
     cash_installment: "信用卡现金分期",
     bill_installment: "信用卡账单分期",
     merchant_installment: "商户/商品分期",
+    credit_card_installment: "信用卡分期",
+    education_training_loan: "教育培训贷",
     unknown: "未识别合同类型",
   } satisfies Record<typeof contractType, string>;
   return labels[contractType];

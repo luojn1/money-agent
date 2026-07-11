@@ -6,6 +6,8 @@ export type ContractType =
   | "cash_installment"
   | "bill_installment"
   | "merchant_installment"
+  | "credit_card_installment"
+  | "education_training_loan"
   | "unknown";
 
 export type RepaymentMethodCode =
