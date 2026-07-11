@@ -170,14 +170,6 @@
   margin-top: 6px;
 }
 
-.mchat-source-note {
-  display: block;
-  margin-top: 8px;
-  color: #7b849b;
-  font-size: 11px;
-  line-height: 1.4;
-}
-
 .mchat-user {
   align-self: flex-end;
   background: #2f6bff;
