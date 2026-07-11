@@ -3,7 +3,7 @@ import { PaperPlaneRight } from "@phosphor-icons/react/PaperPlaneRight";
 import { X } from "@phosphor-icons/react/X";
 import { useEffect, useRef, useState } from "react";
 import { api } from "../services/api";
-import { pipelineApi, type ChatCitation, type ChatMessage } from "../services/pipelineApi";
+import { pipelineApi, type ChatAnswer, type ChatCitation, type ChatMessage } from "../services/pipelineApi";
 import "./ChatPanel.css";
 
 // 前端降级开关：DISABLE_CHAT 演示时隐藏聊天入口（分工文档 T3 / 降级预案）
@@ -15,7 +15,7 @@ const citationLabel: Record<ChatCitation["type"], string> = {
   case: "案例",
 };
 
-type PanelMessage = ChatMessage & { pending?: boolean; error?: boolean };
+type PanelMessage = ChatMessage & { pending?: boolean; error?: boolean; mode?: ChatAnswer["mode"] };
 
 const nowIso = () => new Date().toISOString();
 
@@ -63,7 +63,7 @@ export function ChatPanel({ taskId }: { taskId: string | undefined }) {
       const answer = await pipelineApi.sendChat(taskId, question);
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: answer.answer, citations: answer.citations, at: nowIso() },
+        { role: "assistant", content: answer.answer, citations: answer.citations, at: nowIso(), mode: answer.mode },
       ]);
       setSuggestions(answer.suggestedQuestions ?? []);
     } catch (error) {
@@ -121,6 +121,11 @@ export function ChatPanel({ taskId }: { taskId: string | undefined }) {
                 {message.content.split("\n").map((line, lineIndex) => (
                   <p key={lineIndex}>{line}</p>
                 ))}
+                {message.role === "assistant" && message.mode && (
+                  <small className="mchat-source-note">
+                    {message.mode === "llm" ? "依据当前报告，AI 辅助润色" : "依据当前报告和规则计算"}
+                  </small>
+                )}
                 {message.citations && message.citations.length > 0 && (
                   <div className="mchat-citations">
                     {message.citations.map((citation) => (
