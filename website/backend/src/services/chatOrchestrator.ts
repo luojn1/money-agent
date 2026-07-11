@@ -105,8 +105,8 @@ const llmConfig = (): LlmConfig | null => {
   if (!key) return null;
   return {
     key,
-    base: (process.env.LLM_BASE_URL?.trim() || "https://api.openai.com/v1").replace(/\/$/, ""),
-    model: process.env.LLM_MODEL?.trim() || "gpt-4o-mini",
+    base: (process.env.LLM_BASE_URL?.trim() || "https://api.deepseek.com").replace(/\/$/, ""),
+    model: process.env.LLM_MODEL?.trim() || "deepseek-v4-flash",
   };
 };
 
@@ -158,6 +158,8 @@ const callLlm = async (
       body: JSON.stringify({
         model: cfg.model,
         temperature: 0.3,
+        max_tokens: 240,
+        ...(cfg.base.includes("api.deepseek.com") ? { thinking: { type: "disabled" } } : {}),
         messages: [
           { role: "system", content: LLM_SYSTEM_PROMPT },
           ...history.slice(-LLM_HISTORY_MESSAGES).map((m) => ({ role: m.role, content: m.content })),
