@@ -51,8 +51,6 @@ export function UploadPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [contractText, setContractText] = useState("");
   const [exampleSelected, setExampleSelected] = useState(false);
-  const [incomeRange, setIncomeRange] = useState("");
-  const [monthlyPayment, setMonthlyPayment] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -236,39 +234,6 @@ export function UploadPage() {
             />
             <span className="character-count">{contractText.length.toLocaleString("zh-CN")} / 100,000</span>
           </div>
-
-          <section className="repayment-context" aria-labelledby="context-title">
-            <div>
-              <h3 id="context-title">补充你的还款情况</h3>
-              <p>用于帮助你判断月供压力，不影响本次合同成本计算。</p>
-            </div>
-            <div className="field-grid">
-              <label>
-                <span>月收入区间</span>
-                <select value={incomeRange} onChange={(event) => setIncomeRange(event.target.value)}>
-                  <option value="">请选择月收入区间</option>
-                  <option value="under-5k">5,000 元以下</option>
-                  <option value="5k-10k">5,000-10,000 元</option>
-                  <option value="10k-20k">10,000-20,000 元</option>
-                  <option value="over-20k">20,000 元以上</option>
-                </select>
-              </label>
-              <label>
-                <span>当前已有月供</span>
-                <span className="input-with-suffix">
-                  <input
-                    type="number"
-                    min="0"
-                    inputMode="decimal"
-                    value={monthlyPayment}
-                    onChange={(event) => setMonthlyPayment(event.target.value)}
-                    placeholder="请输入金额"
-                  />
-                  <span>元</span>
-                </span>
-              </label>
-            </div>
-          </section>
 
           {error && <div className="form-error" role="alert">{error}</div>}
 

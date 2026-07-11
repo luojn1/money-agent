@@ -247,9 +247,7 @@ const buildReferences = (riskCase: RiskCaseOutput, contractCost: ContractCostOut
   return [
     { id: "similar_cases", title: "相似案例" as const, items: caseItems },
     { id: "regulation_refs", title: "法规参考" as const, items: basisItems },
-    { id: "market_rate_refs", title: "市场利率参考" as const, items: [] },
-    { id: "product_refs", title: "产品参考" as const, items: [] },
-  ];
+  ].filter((group) => group.items.length > 0);
 };
 
 const buildActionSections = (recommendationAction: RecommendationActionOutput, actionPlan: ActionPlanOutput) => {

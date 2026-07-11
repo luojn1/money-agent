@@ -87,6 +87,8 @@ assert(report.overview.realAnnualRate === 27.28, "Report overview should use com
 assert(report.costAnalysis.baseRealAnnualRate === 22.01, "Report should expose base annual cost");
 assert(report.costAnalysis.comprehensiveRealAnnualRate === 27.28, "Report should expose comprehensive annual cost");
 assert(report.risks.length >= 25, "Pipeline should cover the major independent risk categories");
+assert(report.references.every((group) => group.items.length > 0), "Report should not expose empty reference groups");
+assert(report.actions.communicationScripts.length > 0, "Report should expose generated communication scripts");
 
 const bClauses = new Map((report.contractCost.data?.clauses ?? []).map((clause) => [clause.clauseId, clause]));
 for (const risk of report.risks) {

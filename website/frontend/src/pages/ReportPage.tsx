@@ -848,7 +848,7 @@ export function ReportPage() {
             <div><h2 id="references-title">案例和依据</h2><p>以下内容用于帮助理解风险来源和判断依据，结果仅供参考。</p></div>
           </div>
           <div className="reference-list">
-            {report.references.map((group) => (
+            {report.references.filter((group) => group.items.length > 0).map((group) => (
               <details key={group.id} className="reference-group" open>
                 <summary>{group.title}<span>{group.items.length} 项</span></summary>
                 <div className="reference-items">
@@ -971,6 +971,14 @@ export function ReportPage() {
                     <summary><Question size={20} weight="duotone" />可追问问题</summary>
                     <ul className="compact-check-list">
                       {actionDigest.questionList.map((question) => <li key={question}>{question}</li>)}
+                    </ul>
+                  </details>
+                )}
+                {actionDigest.communicationScripts.length > 0 && (
+                  <details className="supporting-advice-details">
+                    <summary><ClipboardText size={20} weight="duotone" />沟通话术</summary>
+                    <ul className="compact-check-list">
+                      {actionDigest.communicationScripts.map((script) => <li key={script}>{script}</li>)}
                     </ul>
                   </details>
                 )}
