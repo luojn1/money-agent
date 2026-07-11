@@ -106,6 +106,7 @@ for (const [label, answer] of [["服务费问题", feeAnswer.answer], ["泛问",
   assert(!/。{2,}/.test(answer), `质量：${label} 无连续句号`);
   assert(answer.length <= 400, `质量：${label} 回答不超过 400 字（实际 ${answer.length}）`);
   assert(!answer.includes("命中规则"), `质量：${label} 不直接暴露“命中规则”等内部术语`);
+  assert(!/clause_[a-z0-9_]+|risk_[a-z0-9_]+|《[^》]+》|合同原文/.test(answer), `质量：${label} 不暴露内部编号、法条或合同原文`);
 }
 const rateAnswer = await handleChat(taskId, "真实年化利率是多少？");
 assert(rateAnswer.answer.includes("34.5"), "对题：问利率直接回答真实年化数字");

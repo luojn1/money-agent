@@ -188,7 +188,7 @@ export function ChatPanel({ taskId }: { taskId: string | undefined }) {
                   <div className="mchat-citations">
                     {message.citations.map((citation) => (
                       <span key={`${citation.type}:${citation.id}`} className={`mchat-chip mchat-chip-${citation.type}`}>
-                        {citationLabel[citation.type]} · {citation.id}
+                        {citationLabel[citation.type]}依据
                       </span>
                     ))}
                   </div>

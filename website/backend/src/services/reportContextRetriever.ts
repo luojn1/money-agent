@@ -233,15 +233,45 @@ const firstClauseOf = (text: string | undefined) =>
  * C 的 reason 常见形态是“命中规则「xxx」。该判断参考《民法典》第677条；……法规摘要：……”，
  * 直接展示会生硬冗长；这里只保留结论 + 最多两个法规出处。
  */
-const humanizeReason = (risk: ReportRisk): string => {
-  const raw = (risk.reason ?? "").trim();
-  if (!raw) return `合同中「${risk.title ?? "该条款"}」需要注意`;
-  if (/^命中规则/.test(raw)) {
-    const laws = raw.match(/《[^》]{2,20}》(第[一二三四五六七八九十百\d]+条)?/g)?.slice(0, 2) ?? [];
-    const base = `合同条款触发了「${risk.title ?? "风险"}」的判定`;
-    return laws.length ? `${base}（判断依据：${[...new Set(laws)].join("、")}）` : base;
+const friendlyRiskTitle = (risk: ReportRisk): string => {
+  const title = stripEndPunct(risk.title ?? "这个风险");
+  if (/真实年化.*名义利率|名义利率.*真实年化/.test(title)) return "实际借款成本高于合同表面利率";
+  return title
+    .replace(/在放款时先行扣除/g, "在放款时先扣")
+    .replace(/授权查询并共享个人征信与通讯录/g, "个人信息授权范围较大")
+    .replace(/未包含综合服务费、账户管理费、保险费、提前还款费用及逾期费用/g, "表面利率没有包含全部费用");
+};
+
+const plainReasonFor = (risk: ReportRisk): string => {
+  switch (risk.category) {
+    case "interest_fee":
+      return "合同表面利率可能没有把服务费、管理费等额外成本算进去，所以实际借款成本可能更高";
+    case "cost_transparency":
+      return "合同没有把所有费用和计算方式说得足够清楚，不能只看一个利率数字";
+    case "repayment":
+      return "还款方式或期数可能让你在不注意时多付钱，应该先算清每期和总共要还多少";
+    case "overdue":
+      return "一旦晚还，合同可能会增加额外费用，甚至影响个人信用记录";
+    case "authorization_privacy":
+      return "合同允许机构使用较多个人信息，授权范围和使用场景需要先问清楚";
+    case "prepayment":
+      return "提前还款可能还要付额外费用，不能只看正常还款时的成本";
+    case "dispute_resolution":
+      return "发生争议时，合同约定的处理方式可能增加维权的时间和成本";
+    default:
+      return "合同中的这一部分需要进一步确认，不能只根据表面文字做决定";
   }
-  return firstClauseOf(raw);
+};
+
+const buildPlainRiskAnswer = (risk: ReportRisk): string => {
+  const consequence = firstClauseOf(risk.possibleConsequence);
+  const question = stripEndPunct(risk.questionToAsk ?? "");
+  return [
+    `这个提示的意思是：${friendlyRiskTitle(risk)}。`,
+    `因为${plainReasonFor(risk)}。`,
+    consequence ? `对你来说，${stripEndPunct(consequence)}。` : "",
+    question ? `下一步先问：${question}。` : "建议先把费用、还款方式和提前结清条件问清楚。",
+  ].filter(Boolean).join("\n");
 };
 
 // —— 高频术语通俗解释（与 C 模块的术语通俗化方向一致，规则层兜底）——
@@ -340,7 +370,7 @@ export const buildTemplateAnswer = (context: RetrievedContext, report: ChatRepor
     const numeric = buildCostAnswer(report);
     if (numeric) {
       const hint = mainRisk
-        ? `\n\n另外提醒：报告识别到「${stripEndPunct(mainRisk.title ?? "")}」，${asSentence(firstClauseOf(mainRisk.possibleConsequence)) || "建议签约前核实相关条款。"}`
+        ? `\n\n另外提醒：报告识别到「${friendlyRiskTitle(mainRisk)}」，${asSentence(firstClauseOf(mainRisk.possibleConsequence)) || "建议签约前核实相关内容。"}`
         : "";
       return numeric + hint;
     }
@@ -359,7 +389,7 @@ export const buildTemplateAnswer = (context: RetrievedContext, report: ChatRepor
     const theCase = mainRisk.matchedCases?.[0];
     if (theCase?.conclusion) {
       return (
-        asSentence(`和「${stripEndPunct(mainRisk.title ?? "")}」类似的真实情景（${theCase.caseId ?? "案例"}）里，${stripEndPunct(theCase.conclusion)}`) +
+        asSentence(`和「${friendlyRiskTitle(mainRisk)}」类似的案例里，${stripEndPunct(theCase.conclusion)}`) +
         asSentence("具体条款和案例详情可以在报告的“案例依据”一栏查看")
       );
     }
@@ -370,22 +400,11 @@ export const buildTemplateAnswer = (context: RetrievedContext, report: ChatRepor
     const ask = mainRisk.questionToAsk ? asSentence(`建议你在签约前当面确认：${stripEndPunct(mainRisk.questionToAsk)}`) : "";
     const consequence = firstClauseOf(mainRisk.possibleConsequence);
     return (
-      asSentence(`目前最需要处理的是「${stripEndPunct(mainRisk.title ?? "")}」${consequence ? `，否则${consequence}` : ""}`) +
+      asSentence(`目前最需要处理的是「${friendlyRiskTitle(mainRisk)}」${consequence ? `，否则${consequence}` : ""}`) +
       (ask || asSentence("建议保留合同和沟通记录，必要时向平台或监管渠道咨询"))
     );
   }
 
-  // 4) 默认（问为什么/是什么）：原因 + 后果 + 一句条款依据 + 追问建议，最多两条风险
-  const parts = context.risks.slice(0, 2).map((risk) => {
-    const clauseId = risk.relatedClauseIds?.[0];
-    const consequence = firstClauseOf(risk.possibleConsequence);
-    return [
-      asSentence(`关于「${stripEndPunct(risk.title ?? "该风险")}」：${humanizeReason(risk)}`),
-      consequence ? asSentence(`对你的影响：${consequence}`) : "",
-      clauseId ? asSentence(`合同原文（${clauseId}）写的是“${summarizeClause(risk.clauseText, 40)}”`) : "",
-      risk.questionToAsk ? asSentence(`建议签约前先问清：${stripEndPunct(risk.questionToAsk)}`) : "",
-    ].filter(Boolean).join("");
-  });
-
-  return parts.join("\n\n");
+  // 4) 默认（问为什么/是什么）：只解释最相关的一条，避免把内部规则和合同原文堆给用户。
+  return buildPlainRiskAnswer(mainRisk);
 };
