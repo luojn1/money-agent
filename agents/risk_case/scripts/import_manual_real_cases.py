@@ -237,7 +237,8 @@ def normalize_manual_case(raw: dict[str, Any]) -> dict[str, Any] | None:
         description_parts.append(f"案由：{cause}")
     description_parts.append(f"基本事实摘要：{facts}")
 
-    effective_date = infer_effective_date(" ".join([combined, source_url]))
+    imported_at = date.today().isoformat()
+    effective_date = infer_effective_date(" ".join([combined, source_url])) or imported_at
     case = {
         "title": title,
         "scenario": infer_scenario(combined),
@@ -254,11 +255,11 @@ def normalize_manual_case(raw: dict[str, Any]) -> dict[str, Any] | None:
         "expiry_date": "",
         "is_active": 1,
         "source": infer_source(source_url),
-        "imported_at": date.today().isoformat(),
+        "imported_at": imported_at,
         "review_status": "approved",
         "_dedupe_key": f"{case_no}|{source_url}" if case_no else f"{title}|{source_url}",
     }
-    if not effective_date or needs_manual_review(case):
+    if needs_manual_review(case):
         case["review_status"] = "pending"
     return case
 
