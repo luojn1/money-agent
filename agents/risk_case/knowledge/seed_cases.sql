@@ -1,8 +1,2 @@
-﻿INSERT OR REPLACE INTO cases
-(case_id, title, scenario, risk_type, description, dispute_point, user_loss, handling_result, rights_path, source_url, embedding)
-VALUES
-('CASE001', '医美分期服务费披露不足纠纷', '医美分期', 'cost_transparency', '消费者办理医美项目分期时，页面突出低月供，但合同中另列服务费和平台管理费，实际还款成本高于宣传口径。', '服务费是否充分披露，是否计入综合融资成本。', '实际还款金额高于预期，退费时仍被要求承担手续费。', '经投诉后机构退还部分服务费，并重新出具费用明细。', '先向平台和医美机构书面申请费用明细，再向消协或金融监管投诉。', 'https://example.com/cases/medical-installment-fee', NULL),
-('CASE002', '培训贷退费与贷款合同分离纠纷', '培训贷', 'repayment', '用户报名培训课程时被引导办理分期贷款，后续课程质量不达标要求退费，但贷款机构仍按合同扣款。', '培训服务合同解除后，贷款合同是否同步处理。', '用户未上完课程仍持续还款，并产生逾期压力。', '调解后培训机构承担部分退款，用户与贷款机构重新协商还款。', '保留课程宣传、付款、贷款签署和退费沟通记录，要求培训机构和贷款机构共同处理。', 'https://example.com/cases/training-loan-refund', NULL),
-('CASE003', '信用卡分期免息但手续费偏高纠纷', '信用卡分期', 'interest_fee', '银行宣传信用卡分期免息，但用户未充分理解每期手续费，折算真实年化后明显高于名义感知成本。', '免息宣传是否充分披露手续费和折算年化成本。', '用户以为没有利息，实际承担较高分期手续费。', '银行补充解释费用口径，用户提前结清时仍需关注手续费政策。', '要求银行提供分期手续费、真实年化和提前结清费用说明。', 'https://example.com/cases/credit-card-installment-fee', NULL),
-('CASE004', '保险退保贷款捆绑纠纷', '保险退保', 'other', '用户贷款时被要求购买保险或保障服务，后续退保时发现保费扣除比例较高，贷款成本被抬高。', '保险是否为贷款必要条件，保费是否属于强制搭售。', '用户承担额外保费，退保损失较大。', '投诉后机构说明保险自愿性并退回部分费用。', '核实保险是否可取消，保存销售人员承诺和扣费凭证。', 'https://example.com/cases/insurance-bundling', NULL),
-('CASE005', '租房贷合同与租赁服务纠纷', '租房贷', 'cost_transparency', '租客签署租房分期协议后，租赁公司经营异常，但贷款平台仍要求租客继续按期还款。', '租赁服务失败后，分期贷款责任如何承担。', '用户既无法继续居住，又面临贷款还款和征信压力。', '多方协调后暂停部分扣款，用户通过投诉渠道申请处理。', '保留租赁合同、贷款合同、房租支付记录和平台扣款记录。', 'https://example.com/cases/rent-loan-dispute', NULL);
+-- Real, reviewed cases are loaded from seed_data/cases/cases.sql.
+-- Keep this legacy seed file empty so placeholder cases cannot enter matching.
