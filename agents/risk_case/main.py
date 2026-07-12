@@ -425,6 +425,8 @@ def run_agent(
                 "caseCountBeforeDedup": len(hit.cases),
                 "caseCountAfterDedup": len({case.get("caseId") for case in hit.cases if case.get("caseId")}),
                 "cases": hit.cases,
+                "regulations": hit.regulations,
+                "marketRates": hit.market_rates,
             }
             for hit in hits
         ],

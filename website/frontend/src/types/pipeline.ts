@@ -103,7 +103,7 @@ export type PipelineRiskItem = {
 export type ReferenceItem = {
   id: string;
   title: string;
-  tag: "演示案例" | "典型情景" | "规则参考" | "产品参考";
+  tag: "演示案例" | "典型情景" | "规则参考" | "测算依据" | "产品参考";
   summary: string;
   sourceLabel?: string;
   sourceUrl?: string | null;
@@ -111,7 +111,7 @@ export type ReferenceItem = {
 
 export type ReferenceGroup = {
   id: string;
-  title: "相似案例" | "法规参考" | "市场利率参考" | "产品参考";
+  title: "相似案例" | "法规参考" | "成本测算依据" | "市场利率参考" | "产品参考";
   items: ReferenceItem[];
 };
 

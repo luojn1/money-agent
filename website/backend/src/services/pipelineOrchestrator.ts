@@ -50,6 +50,19 @@ type ActionPlanOutput = {
   }>;
 };
 
+type RetrievedRegulation = {
+  regulationId: string;
+  title: string;
+  summary: string;
+  sourceUrl?: string | null;
+};
+
+type RiskRetrievalTrace = {
+  retrievalResults?: Array<{
+    regulations?: RetrievedRegulation[];
+  }>;
+};
+
 type TraceStage = {
   name: string;
   status: "processing" | AgentStatus;
@@ -218,7 +231,18 @@ const verifiableSourceUrl = (value: string | null | undefined) => {
   }
 };
 
-const buildReferences = (riskCase: RiskCaseOutput, contractCost: ContractCostOutput) => {
+const basisTitle = (basis: string) => {
+  if (/LPR|市场基准/.test(basis)) return "市场利率参考";
+  if (/单利|复利|年化/.test(basis)) return "年化计算口径";
+  if (/费用|贷款成本/.test(basis)) return "成本范围说明";
+  return "成本测算说明";
+};
+
+const buildReferences = (
+  riskCase: RiskCaseOutput,
+  contractCost: ContractCostOutput,
+  retrievalTrace?: RiskRetrievalTrace,
+) => {
   const riskItems = riskCase.data?.riskItems ?? [];
   const seenCaseIds = new Set<string>();
   const caseItems = riskItems.flatMap((risk) =>
@@ -238,15 +262,33 @@ const buildReferences = (riskCase: RiskCaseOutput, contractCost: ContractCostOut
       ];
     }),
   );
-  const basisItems = (contractCost.data?.costAnalysis.calculationBasis ?? []).map((basis, index) => ({
+  const uniqueBasis = [...new Set((contractCost.data?.costAnalysis.calculationBasis ?? []).map((basis) => basis.trim()).filter(Boolean))];
+  const basisItems = uniqueBasis.map((basis, index) => ({
     id: `basis_${index + 1}`,
-    title: "成本测算依据",
-    tag: "规则参考" as const,
+    title: basisTitle(basis),
+    tag: "测算依据" as const,
     summary: basis,
   }));
+  const seenRegulationIds = new Set<string>();
+  const regulationItems = (retrievalTrace?.retrievalResults ?? []).flatMap((result) =>
+    (result.regulations ?? []).flatMap((regulation) => {
+      if (!regulation.regulationId || seenRegulationIds.has(regulation.regulationId)) return [];
+      seenRegulationIds.add(regulation.regulationId);
+      const sourceUrl = verifiableSourceUrl(regulation.sourceUrl);
+      return [{
+        id: regulation.regulationId,
+        title: regulation.title,
+        tag: "规则参考" as const,
+        summary: regulation.summary,
+        sourceLabel: sourceUrl ? "查看官方来源" : undefined,
+        sourceUrl,
+      }];
+    }),
+  );
   return [
     { id: "similar_cases", title: "相似案例" as const, items: caseItems },
-    { id: "regulation_refs", title: "法规参考" as const, items: basisItems },
+    { id: "regulation_refs", title: "法规参考" as const, items: regulationItems },
+    { id: "calculation_basis", title: "成本测算依据" as const, items: basisItems },
   ].filter((group) => group.items.length > 0);
 };
 
@@ -305,6 +347,7 @@ const buildReport = (
   riskCase: RiskCaseOutput | null,
   recommendationAction: RecommendationActionOutput | null,
   actionPlan: ActionPlanOutput | null,
+  retrievalTrace?: RiskRetrievalTrace,
 ) => {
   const summary = contractCost?.data?.contractSummary;
   const cost = contractCost?.data?.costAnalysis;
@@ -373,7 +416,7 @@ const buildReport = (
       ...item,
       categoryLabel: riskCategoryLabel[item.category] ?? item.category,
     })),
-    references: contractCost && riskCase ? buildReferences(riskCase, contractCost) : [],
+    references: contractCost && riskCase ? buildReferences(riskCase, contractCost, retrievalTrace) : [],
     actions: {
       overallLevel: recommendationAction?.data?.overallResult.level ?? "insufficient_information",
       summary: recommendationAction?.data?.overallResult.summary ?? "真实多 Agent 分析未生成完整建议。",
@@ -498,7 +541,7 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
       ],
     });
     riskCase = await readJson<RiskCaseOutput>(cPath);
-    const cTrace = await readJson<Record<string, unknown>>(cTracePath);
+    const cTrace = await readJson<RiskRetrievalTrace>(cTracePath);
     await debug.write("06_risk_agent_output.json", riskCase);
     await debug.write("07_retrieval_results.json", cTrace);
     updatePipelineStep(taskId, "risk_case", stepStatusFromAgent(riskCase.status), `C 输出 ${riskCase.status}`);
@@ -548,7 +591,7 @@ export const runIntegratedPipeline = async (taskId: string, input: PipelineInput
     const currentAgent = finalStatus === "failed" ? "failed" : "completed";
     const currentMessage = finalStatus === "failed" ? "真实多 Agent 分析失败" : "真实多 Agent 分析完成";
     const nextTask = updatePipelineTask(taskId, { status: finalStatus, currentAgent, currentMessage });
-    const result = buildReport(nextTask, contractCost, riskCase, recommendationAction, actionPlan);
+    const result = buildReport(nextTask, contractCost, riskCase, recommendationAction, actionPlan, cTrace);
     await debug.write("10_final_report_payload.json", result);
     await debug.writeTrace({ runtimeDir: task.runtimeDir, finalStatus });
 

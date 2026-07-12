@@ -22,6 +22,7 @@ import { ReportSummary } from "../components/ReportSummary";
 import { RiskCard } from "../components/RiskCard";
 import { api } from "../services/api";
 import type { ActionItem, ActionStage, PipelineReport, PipelineRiskItem } from "../types/pipeline";
+import { resolveLegalReferences } from "../utils/legalReferences";
 import { getVerifiableSourceUrl, type ReportViewMode } from "../utils/reportViewModel";
 import { cleanUserFacingText } from "../utils/userFacingText";
 
@@ -853,7 +854,10 @@ export function ReportPage() {
                 <summary>{group.title}<span>{group.items.length} 项</span></summary>
                 <div className="reference-items">
                   {group.items.map((item) => {
-                    const sourceUrl = getVerifiableSourceUrl(item.sourceUrl);
+                    const resolvedLegalSource = group.id === "regulation_refs"
+                      ? resolveLegalReferences({ title: item.title, summary: item.summary })[0]?.sourceUrl
+                      : null;
+                    const sourceUrl = getVerifiableSourceUrl(item.sourceUrl ?? resolvedLegalSource);
                     const isLocalSample = Boolean(item.sourceUrl) && !sourceUrl;
                     return (
                       <article key={item.id} className="reference-item">
