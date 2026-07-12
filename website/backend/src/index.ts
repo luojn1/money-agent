@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import cors from "cors";
 import express from "express";
+import multer from "multer";
 import { analysisRouter } from "./routes/analysis.js";
 import { pipelineRouter } from "./routes/pipeline.js";
 import { getKnowledgeRootCandidates, hasKnowledgeBundle } from "./services/knowledgeBase.js";
@@ -119,6 +120,14 @@ app.use((_request, response) => {
 
 app.use((error: unknown, _request: express.Request, response: express.Response, next: express.NextFunction) => {
   void next;
+  if (error instanceof multer.MulterError) {
+    if (error.code === "LIMIT_FILE_SIZE") {
+      response.status(413).json({ message: "文件超过 20MB，请压缩后重新上传，或直接粘贴合同文字。" });
+      return;
+    }
+    response.status(400).json({ message: "合同文件上传失败，请重新选择文件。" });
+    return;
+  }
   console.error(error);
   response.status(500).json({ message: "服务暂时不可用，请稍后重试" });
 });

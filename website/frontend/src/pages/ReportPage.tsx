@@ -15,11 +15,14 @@ import { ShieldCheck } from "@phosphor-icons/react/ShieldCheck";
 import { Wallet } from "@phosphor-icons/react/Wallet";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { ChatPanel } from "../components/ChatPanel";
 import { MetricCard } from "../components/MetricCard";
 import { PageShell } from "../components/PageShell";
+import { ReportSummary } from "../components/ReportSummary";
 import { RiskCard } from "../components/RiskCard";
 import { api } from "../services/api";
 import type { ActionItem, ActionStage, PipelineReport, PipelineRiskItem } from "../types/pipeline";
+import { getVerifiableSourceUrl, type ReportViewMode } from "../utils/reportViewModel";
 import { cleanUserFacingText } from "../utils/userFacingText";
 
 const money = (value: number | null) => value === null ? "信息不足" : `${value.toLocaleString("zh-CN")} 元`;
@@ -592,6 +595,7 @@ export function ReportPage() {
   const [error, setError] = useState("");
   const [retryKey, setRetryKey] = useState(0);
   const [activeTabState, setActiveTabState] = useState<{ taskId: string; tab: ReportTab }>({ taskId, tab: "overview" });
+  const [viewMode, setViewMode] = useState<ReportViewMode>("summary");
   const activeTab = activeTabState.taskId === taskId ? activeTabState.tab : "overview";
   const setActiveTab = (tab: ReportTab) => setActiveTabState({ taskId, tab });
 
@@ -689,6 +693,29 @@ export function ReportPage() {
           </div>
         </section>
 
+        <div className="report-view-switch" aria-label="报告展示模式">
+          <button
+            className={viewMode === "summary" ? "is-active" : ""}
+            type="button"
+            aria-pressed={viewMode === "summary"}
+            onClick={() => setViewMode("summary")}
+          >
+            摘要版
+          </button>
+          <button
+            className={viewMode === "full" ? "is-active" : ""}
+            type="button"
+            aria-pressed={viewMode === "full"}
+            onClick={() => setViewMode("full")}
+          >
+            完整版
+          </button>
+        </div>
+
+        {viewMode === "summary" ? (
+          <ReportSummary report={report} onShowFull={() => setViewMode("full")} />
+        ) : (
+        <>
         <nav className="report-tabs" role="tablist" aria-label="报告内容导航">
           {reportTabs.map((tab) => (
             <button
@@ -821,27 +848,28 @@ export function ReportPage() {
             <div><h2 id="references-title">案例和依据</h2><p>以下内容用于帮助理解风险来源和判断依据，结果仅供参考。</p></div>
           </div>
           <div className="reference-list">
-            {report.references.map((group) => (
+            {report.references.filter((group) => group.items.length > 0).map((group) => (
               <details key={group.id} className="reference-group" open>
                 <summary>{group.title}<span>{group.items.length} 项</span></summary>
                 <div className="reference-items">
-                  {group.items.map((item) => (
-                    <article key={item.id} className="reference-item">
-                      <span>{referenceTagLabel(item.tag)}</span>
-                      <strong>{cleanUserFacingText(item.title.replace(/演示/g, "参考"), "参考内容")}</strong>
-                      <p>{cleanUserFacingText(item.summary, referenceSummaryFallback(item.tag))}</p>
-                      {item.sourceUrl ? (
-                        <a href={item.sourceUrl} target="_blank" rel="noreferrer">
-                          {cleanUserFacingText(item.sourceLabel, "查看来源")}
-                        </a>
-                      ) : (
-                        <details className="reference-source-details">
-                          <summary>查看来源</summary>
-                          <p>当前依据来自系统内置参考库，暂未提供可打开的外部链接。请以报告摘要和合同原文核对。</p>
-                        </details>
-                      )}
-                    </article>
-                  ))}
+                  {group.items.map((item) => {
+                    const sourceUrl = getVerifiableSourceUrl(item.sourceUrl);
+                    const isLocalSample = Boolean(item.sourceUrl) && !sourceUrl;
+                    return (
+                      <article key={item.id} className="reference-item">
+                        <span>{referenceTagLabel(item.tag)}</span>
+                        <strong>{cleanUserFacingText(item.title.replace(/演示/g, "参考"), "参考内容")}</strong>
+                        <p>{cleanUserFacingText(item.summary, referenceSummaryFallback(item.tag))}</p>
+                        {sourceUrl ? (
+                          <a href={sourceUrl} target="_blank" rel="noopener noreferrer">
+                            {cleanUserFacingText(item.sourceLabel, "查看来源")}
+                          </a>
+                        ) : isLocalSample ? (
+                          <small className="reference-item__source-note">本地典型化案例，暂无公开核验来源</small>
+                        ) : null}
+                      </article>
+                    );
+                  })}
                 </div>
               </details>
             ))}
@@ -946,13 +974,24 @@ export function ReportPage() {
                     </ul>
                   </details>
                 )}
+                {actionDigest.communicationScripts.length > 0 && (
+                  <details className="supporting-advice-details">
+                    <summary><ClipboardText size={20} weight="duotone" />沟通话术</summary>
+                    <ul className="compact-check-list">
+                      {actionDigest.communicationScripts.map((script) => <li key={script}>{script}</li>)}
+                    </ul>
+                  </details>
+                )}
               </div>
             </div>
           </details>
         </section>
         )}
 
+        </>
+        )}
       </main>
+      <ChatPanel taskId={taskId} />
     </PageShell>
   );
 }

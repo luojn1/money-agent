@@ -2,35 +2,77 @@ import { CheckCircle } from "@phosphor-icons/react/CheckCircle";
 import { Calculator } from "@phosphor-icons/react/Calculator";
 import { ClipboardText } from "@phosphor-icons/react/ClipboardText";
 import { FileText } from "@phosphor-icons/react/FileText";
-import { LockKey } from "@phosphor-icons/react/LockKey";
+import { Eye } from "@phosphor-icons/react/Eye";
 import { Receipt } from "@phosphor-icons/react/Receipt";
 import { Robot } from "@phosphor-icons/react/Robot";
 import { ShieldCheck } from "@phosphor-icons/react/ShieldCheck";
 import { UploadSimple } from "@phosphor-icons/react/UploadSimple";
 import { type DragEvent, type FormEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import sampleContractPdfUrl from "../../../../tests/fixtures/模拟职业培训消费分期借款合同_Agent综合测试.pdf?url";
 import { PageShell } from "../components/PageShell";
 import { api } from "../services/api";
 
-const acceptedFileTypes = ".pdf,.docx,.txt,.md,.jpg,.jpeg,.png,.webp";
+const acceptedFileExtensions = [".pdf", ".docx", ".txt", ".md", ".jpg", ".jpeg", ".png", ".webp"];
+const acceptedFileTypes = acceptedFileExtensions.join(",");
+const maxFileSizeBytes = 20 * 1024 * 1024;
+const sampleContractName = "模拟职业培训消费分期借款合同.pdf";
+
+const startErrorMessage = (error: unknown) => {
+  const message = error instanceof Error ? error.message : "";
+  if (/sample_contract_load_failed/i.test(message)) {
+    return "测试合同暂时无法加载，请刷新页面后重试。";
+  }
+  if (/failed to fetch|networkerror|network request failed/i.test(message)) {
+    return "无法连接分析服务，请确认服务已经启动后重试。";
+  }
+  if (/413|file too large|limit_file_size|20\s*mb/i.test(message)) {
+    return "文件超过 20MB，请压缩后重新上传，或直接粘贴合同文字。";
+  }
+  if (/格式|unsupported|file type/i.test(message)) {
+    return "暂不支持该文件格式，请上传 PDF、DOCX、TXT、MD、JPG、PNG 或 WEBP。";
+  }
+  if (/503|not_ready|暂时不可用/i.test(message)) {
+    return "分析服务正在启动，请稍等片刻后重试。";
+  }
+  return "暂时无法开始分析，请稍后重试。";
+};
+
+const loadSampleContractFile = async () => {
+  const response = await fetch(sampleContractPdfUrl);
+  if (!response.ok) throw new Error("SAMPLE_CONTRACT_LOAD_FAILED");
+  const blob = await response.blob();
+  return new File([blob], sampleContractName, { type: "application/pdf" });
+};
 
 export function UploadPage() {
   const navigate = useNavigate();
-  const mockModeEnabled = api.isMockPipelineEnabled();
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [contractText, setContractText] = useState("");
   const [exampleSelected, setExampleSelected] = useState(false);
-  const [incomeRange, setIncomeRange] = useState("");
-  const [monthlyPayment, setMonthlyPayment] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const chooseFile = (files: FileList | null) => {
     const file = files?.[0];
     if (!file) return;
+    const extension = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
+    if (!acceptedFileExtensions.includes(extension)) {
+      setSelectedFile(null);
+      if (inputRef.current) inputRef.current.value = "";
+      setError("暂不支持该文件格式，请上传 PDF、DOCX、TXT、MD、JPG、PNG 或 WEBP。");
+      return;
+    }
+    if (file.size > maxFileSizeBytes) {
+      setSelectedFile(null);
+      if (inputRef.current) inputRef.current.value = "";
+      setError("文件超过 20MB，请压缩后重新上传，或直接粘贴合同文字。");
+      return;
+    }
     setSelectedFile(file);
     setExampleSelected(false);
+    setContractText("");
     setError("");
   };
 
@@ -42,34 +84,32 @@ export function UploadPage() {
   const selectExample = () => {
     setExampleSelected(true);
     setSelectedFile(null);
+    setContractText("");
+    if (inputRef.current) inputRef.current.value = "";
     setError("");
   };
 
   const startAnalysis = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selectedFile && !contractText.trim() && !exampleSelected) {
-      setError("请先上传合同、粘贴合同文字，或选择示例合同。值得看的报告，需要先有一份合同。");
-      return;
-    }
-    if (!mockModeEnabled && exampleSelected && !selectedFile && !contractText.trim()) {
-      setError("请上传合同文件或粘贴合同文字；示例合同仅用于体验示例分析。");
+      setError("请先上传合同、粘贴合同文字，或选择测试合同。值得看的报告，需要先有一份合同。");
       return;
     }
 
     setSubmitting(true);
     setError("");
     try {
-      const contractName = selectedFile?.name ?? (exampleSelected ? "课程项目测试合同.txt" : "粘贴的合同文字");
-      const task = exampleSelected && !selectedFile && !contractText.trim()
-        ? await api.createDemoAnalysis({ contractName })
-        : await api.createUploadAnalysis({
-            contractFile: selectedFile ?? undefined,
-            contractText: contractText.trim() || undefined,
-          });
+      const contractName = selectedFile?.name ?? (exampleSelected ? sampleContractName : "粘贴的合同文字");
+      const contractFile = selectedFile
+        ?? (exampleSelected ? await loadSampleContractFile() : undefined);
+      const task = await api.createUploadAnalysis({
+        contractFile,
+        contractText: contractFile ? undefined : contractText.trim() || undefined,
+      });
       sessionStorage.setItem(`analysis:${task.taskId}:contractName`, contractName);
       navigate(`/analysis/${task.taskId}`, { state: { contractName } });
-    } catch {
-      setError("暂时无法开始分析，请稍后重试。");
+    } catch (analysisError) {
+      setError(startErrorMessage(analysisError));
       setSubmitting(false);
     }
   };
@@ -81,11 +121,7 @@ export function UploadPage() {
           <p className="eyebrow">消费贷合同体检</p>
           <h1 id="upload-title">上传合同，帮你看清真实成本、关键风险和下一步行动</h1>
           <p className="upload-hero__subtitle">不绕术语，先把真正影响钱包的数字和条款讲清楚。</p>
-          <div className="trust-row" aria-label="服务说明">
-            <span><ShieldCheck size={20} weight="duotone" />仅用于本次分析</span>
-            <span><LockKey size={20} weight="duotone" />本轮不保存合同内容</span>
-            <span><CheckCircle size={20} weight="duotone" />结果中立，不偏不倚</span>
-          </div>
+          <p className="trust-row" aria-label="服务说明">建议先打码个人信息；报告用于签约前核对，不替代合同原文。</p>
         </section>
 
         <section className="analysis-flow" aria-labelledby="analysis-flow-title">
@@ -135,11 +171,26 @@ export function UploadPage() {
               type="button"
               className={`text-button${exampleSelected ? " text-button--selected" : ""}`}
               onClick={selectExample}
+              aria-pressed={exampleSelected}
             >
               {exampleSelected ? <CheckCircle size={19} weight="fill" /> : <FileText size={19} />}
-              {exampleSelected ? "已选择示例合同" : "使用示例合同"}
+              {exampleSelected ? "已选测试合同" : "使用测试合同"}
             </button>
           </div>
+
+          {exampleSelected && (
+            <div className="sample-contract-summary" role="status">
+              <CheckCircle size={22} weight="fill" />
+              <div>
+                <strong>模拟职业培训消费分期借款合同</strong>
+                <span>本金 20,000 元，实际支付 18,600 元，包含费用、退费、提前还款和逾期条款。</span>
+                <a href={sampleContractPdfUrl} target="_blank" rel="noreferrer">
+                  <Eye size={17} weight="duotone" />
+                  预览 PDF
+                </a>
+              </div>
+            </div>
+          )}
 
           <input
             className="visually-hidden"
@@ -170,7 +221,12 @@ export function UploadPage() {
               value={contractText}
               onChange={(event) => {
                 setContractText(event.target.value);
-                if (event.target.value.trim()) setError("");
+                setExampleSelected(false);
+                if (event.target.value.trim()) {
+                  setSelectedFile(null);
+                  if (inputRef.current) inputRef.current.value = "";
+                  setError("");
+                }
               }}
               placeholder="在此粘贴合同全部或部分文字内容（选填）"
               rows={5}
@@ -178,39 +234,6 @@ export function UploadPage() {
             />
             <span className="character-count">{contractText.length.toLocaleString("zh-CN")} / 100,000</span>
           </div>
-
-          <section className="repayment-context" aria-labelledby="context-title">
-            <div>
-              <h3 id="context-title">补充你的还款情况</h3>
-              <p>用于帮助你判断月供压力，不影响本次合同成本计算。</p>
-            </div>
-            <div className="field-grid">
-              <label>
-                <span>月收入区间</span>
-                <select value={incomeRange} onChange={(event) => setIncomeRange(event.target.value)}>
-                  <option value="">请选择月收入区间</option>
-                  <option value="under-5k">5,000 元以下</option>
-                  <option value="5k-10k">5,000-10,000 元</option>
-                  <option value="10k-20k">10,000-20,000 元</option>
-                  <option value="over-20k">20,000 元以上</option>
-                </select>
-              </label>
-              <label>
-                <span>当前已有月供</span>
-                <span className="input-with-suffix">
-                  <input
-                    type="number"
-                    min="0"
-                    inputMode="decimal"
-                    value={monthlyPayment}
-                    onChange={(event) => setMonthlyPayment(event.target.value)}
-                    placeholder="请输入金额"
-                  />
-                  <span>元</span>
-                </span>
-              </label>
-            </div>
-          </section>
 
           {error && <div className="form-error" role="alert">{error}</div>}
 

@@ -18,7 +18,7 @@ export function SiteHeader({ compact = false }: SiteHeaderProps) {
         </Link>
         <div className="header-trust">
           <ShieldCheck size={18} weight="duotone" aria-hidden="true" />
-          <span>合同内容仅用于本次演示分析</span>
+          <span>合同内容仅用于本次分析</span>
         </div>
       </div>
     </header>

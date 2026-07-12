@@ -75,8 +75,30 @@ const toProtocolWarnings = (result: AnalysisResult): ProtocolWarning[] => [
   })),
 ];
 
+const completionBlockingContractFields = [
+  "loanAmount",
+  "actualReceivedAmount",
+  "termMonths",
+  "installmentCount",
+  "repaymentMethod",
+  "monthlyPayment",
+  "nominalRate",
+];
+
+const isMissingCriticalContractField = (warning: ProtocolWarning) =>
+  completionBlockingContractFields.some((field) =>
+    warning.fieldPath?.includes(field) || warning.message.includes(field),
+  );
+
+const isCompletionBlockingWarning = (warning: ProtocolWarning) => {
+  if (warning.code === "missing_cost_field") return true;
+  if (warning.code === "missing_contract_field") return isMissingCriticalContractField(warning);
+  return false;
+};
+
 export const createContractCostOutput = (task: AnalysisTask, result: AnalysisResult): ContractCostOutput => {
   const warnings = toProtocolWarnings(result);
+  const hasCompletionBlockingWarning = warnings.some(isCompletionBlockingWarning);
   const parseResult = result.bAgentOutput.contractParseResult;
   const costAnalysis = result.costAnalysis;
   const noRecognizedText = !task.contractText.trim();
@@ -98,7 +120,7 @@ export const createContractCostOutput = (task: AnalysisTask, result: AnalysisRes
     runId: `run_contract_cost_${task.taskId}`,
     agent: "contract_cost",
     agentVersion: "b-0.1.0",
-    status: errors.length > 0 ? "failed" : warnings.length > 0 ? "partial" : "completed",
+    status: errors.length > 0 ? "failed" : hasCompletionBlockingWarning ? "partial" : "completed",
     generatedAt: toProtocolDateTime(),
     inputRunIds: [],
     data: {

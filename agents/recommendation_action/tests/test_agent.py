@@ -12,7 +12,7 @@ import pytest
 
 from main import run, DISCLAIMER
 from engine.validator import structural_check, ALLOWED_DATA_KEYS
-from engine.recommender import PRIORITY_BY_LEVEL
+from engine.recommender import PRIORITY_BY_LEVEL, build_recommendations
 
 B_PATH = os.path.join(BASE, "examples", "b-contract-cost-output.json")
 C_PATH = os.path.join(BASE, "examples", "c-risk-case-output.json")
@@ -162,6 +162,67 @@ def test_comparison_recommendation(result):
     interest_ids = {r["id"] for r in c_env["data"]["riskItems"]
                     if r["category"] == "interest_fee"}
     assert set(rec["relatedRiskIds"]) == interest_ids
+
+
+def test_duplicate_actions_merge_and_keep_all_risk_links():
+    risks = [
+        {
+            "id": "risk_repayment_high",
+            "title": "扣款金额待核对",
+            "category": "repayment",
+            "riskLevel": "high",
+            "reason": "命中规则“还款安排不明确”。",
+            "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+            "matchedCases": [],
+            "questionToAsk": "每期具体扣款多少？",
+        },
+        {
+            "id": "risk_repayment_medium",
+            "title": "还款日待确认",
+            "category": "repayment",
+            "riskLevel": "medium",
+            "reason": "命中规则“还款日期不明确”。",
+            "possibleConsequence": "该条款可能增加用户的资金、履约或维权成本。",
+            "matchedCases": [],
+            "questionToAsk": "每月几号还款？",
+        },
+    ]
+
+    recommendations = build_recommendations(risks)
+    repayment_actions = [
+        item for item in recommendations
+        if item["action"].startswith("设置还款日前 3 天提醒")
+    ]
+
+    assert len(repayment_actions) == 1
+    assert repayment_actions[0]["priority"] == "must"
+    assert set(repayment_actions[0]["relatedRiskIds"]) == {
+        "risk_repayment_high", "risk_repayment_medium"}
+    assert "另有 1 处条款" in repayment_actions[0]["rationale"]
+    assert "该条款可能增加用户的资金、履约或维权成本" not in repayment_actions[0]["rationale"]
+    assert all(risk["questionToAsk"] not in repayment_actions[0]["action"]
+               for risk in risks)
+
+
+@pytest.mark.parametrize(
+    ("product_type", "expected_id"),
+    [
+        ("信用卡分期", "action_scene_credit_card_installment_001"),
+        ("教育培训贷", "action_scene_education_training_loan_001"),
+    ],
+)
+def test_product_type_adds_scenario_recommendation(product_type, expected_id):
+    c_env = json.load(open(C_PATH, encoding="utf-8"))
+    risk_items = c_env["data"]["riskItems"]
+    recommendations = build_recommendations(
+        risk_items,
+        contract_summary={"productType": product_type},
+    )
+    by_id = {item["id"]: item for item in recommendations}
+
+    assert expected_id in by_id
+    assert set(by_id[expected_id]["relatedRiskIds"]) <= {
+        item["id"] for item in risk_items}
 
 
 def test_refund_reminder_from_clauses(tmp_path):

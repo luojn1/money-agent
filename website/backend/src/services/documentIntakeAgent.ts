@@ -1,6 +1,6 @@
 import { Buffer } from "node:buffer";
 import { createHash } from "node:crypto";
-import { extname } from "node:path";
+import { extname, resolve } from "node:path";
 import mammoth from "mammoth";
 import { PDFParse } from "pdf-parse";
 import { createWorker } from "tesseract.js";
@@ -63,6 +63,8 @@ const looksLikeText = (file: UploadedFile) =>
 const looksLikeImage = (file: UploadedFile) =>
   file.mimetype.startsWith("image/") || [".png", ".jpg", ".jpeg", ".webp", ".bmp"].includes(extensionOf(file.originalname));
 
+const ocrModelDir = resolve(process.env.PROJECT_ROOT?.trim() || process.cwd(), "website", "backend");
+
 const extractPlainText = (file: UploadedFile): ExtractedDocument => ({
   method: "plain_text",
   text: normalizeExtractedText(file.buffer.toString("utf8")),
@@ -106,8 +108,9 @@ const extractPdfText = async (file: UploadedFile): Promise<ExtractedDocument> =>
 const extractImageOcrText = async (file: UploadedFile): Promise<ExtractedDocument> => {
   let worker: Awaited<ReturnType<typeof createWorker>> | null = null;
   try {
-    worker = await createWorker(["chi_sim", "eng"], 1, {
+    worker = await createWorker("chi_sim", 1, {
       cacheMethod: "write",
+      cachePath: ocrModelDir,
     });
     const { data } = await worker.recognize(file.buffer);
     const text = normalizeExtractedText(data.text);

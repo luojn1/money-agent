@@ -1,6 +1,6 @@
 # Tencent CloudBase Run Deployment
 
-本分支把 Money Agent 准备成 CloudBase Run 单容器部署：同一个容器内运行 Express 后端、托管前端静态资源，并由后端按需调用本地 B/C/D Agent。当前没有接入外部 LLM、API Key 或云数据库。
+本分支把 Money Agent 准备成 CloudBase Run 单容器部署：同一个容器内运行 Express 后端、托管前端静态资源，并由后端按需调用本地 B/C/D Agent。报告聊天默认使用本地规则模板，不依赖外部 LLM、API Key 或云数据库。
 
 ## 架构
 
@@ -99,6 +99,8 @@ C Agent 的 SQLite 运行库会在缺失时用 seed SQL 初始化到：
 
 ## 安全说明
 
-- 当前不需要外部 LLM Key。
+- 默认不需要外部 LLM Key；只有同时设置 `ENABLE_CHAT_LLM=true` 和后端 `LLM_API_KEY` 时，聊天回答才会调用外部模型。
+- 如需启用 DeepSeek 润色层，建议配置 `LLM_BASE_URL=https://api.deepseek.com`、`LLM_MODEL=deepseek-v4-flash`；Key 只放在后端环境变量中。
+- DeepSeek 只负责把报告结果改写成大白话，B/C/D 的计算、风险识别和引用仍以本地结果为准；调用失败会自动回退模板回答。
 - 不要把 `.env`、`.env.local`、数据库文件、`.runtime` 或日志打进镜像。
 - 若未来接入 Tencent SecretId/SecretKey 或第三方 API Key，应使用 CloudBase 环境变量/密钥管理，不要提交到仓库。

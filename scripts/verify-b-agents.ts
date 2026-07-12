@@ -1,6 +1,7 @@
 import { createAnalysisResult } from "../website/backend/src/services/analysisOrchestrator.js";
 import { DEMO_CONTRACT_NAME, DEMO_CONTRACT_TEXT, DEMO_TASK_ID } from "../website/backend/src/services/demoContract.js";
 import { runDocumentIntakeAgent } from "../website/backend/src/services/documentIntakeAgent.js";
+import { runContractParserAgent } from "../website/backend/src/services/contractParserAgent.js";
 import { createContractCostOutput } from "../website/backend/src/services/protocolAdapter.js";
 import type { AnalysisTask } from "../website/backend/src/services/taskStore.js";
 
@@ -69,6 +70,20 @@ const emptyIntake = await runDocumentIntakeAgent({ taskId: "task_empty_input" })
 assert(emptyIntake.contractText === "", "Empty upload should not fall back to the demo contract");
 assert(emptyIntake.intakeResult.method !== "demo", "Only POST /api/analysis/demo may create demo intake");
 assert(emptyIntake.intakeResult.warnings.some((warning) => warning.includes("/api/analysis/demo")), "Empty upload should explain the demo-only path");
+
+const creditCardScenario = runContractParserAgent({
+  taskId: "task_credit_card_scenario",
+  contractName: "信用卡分期协议.txt",
+  contractText: "本协议为信用卡消费分期，分期金额12000元，共12期，每期收取分期手续费。",
+});
+assert(creditCardScenario.contractType === "credit_card_installment", "B 应识别信用卡分期场景");
+
+const trainingScenario = runContractParserAgent({
+  taskId: "task_training_scenario",
+  contractName: "教育培训贷协议.txt",
+  contractText: "本协议用于培训课程学费分期，课程费用由贷款支付，退课后仍需处理贷款。",
+});
+assert(trainingScenario.contractType === "education_training_loan", "B 应识别教育培训贷场景");
 
 console.log(JSON.stringify({
   status: "ok",

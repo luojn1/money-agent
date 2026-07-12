@@ -1,5 +1,6 @@
 import { Router, type NextFunction, type Request, type Response } from "express";
 import multer from "multer";
+import { ChatError, getChatHistory, handleChat } from "../services/chatOrchestrator.js";
 import { normalizeUploadedFileName } from "../services/documentIntakeAgent.js";
 import { createRuntimeDir, runIntegratedPipeline } from "../services/pipelineOrchestrator.js";
 import {
@@ -82,4 +83,35 @@ pipelineRouter.get("/:taskId/result", (request, response) => {
   }
 
   response.json(task.result);
+});
+
+const chatErrorStatus: Record<ChatError["code"], number> = {
+  EMPTY_MESSAGE: 400,
+  MESSAGE_TOO_LONG: 400,
+  TASK_NOT_FOUND: 404,
+  RESULT_NOT_READY: 409,
+  RATE_LIMITED: 429,
+};
+
+pipelineRouter.post("/:taskId/chat", async (request, response, next) => {
+  try {
+    const body = request.body as { message?: unknown };
+    const answer = await handleChat(request.params.taskId, body?.message);
+    response.json(answer);
+  } catch (error) {
+    if (error instanceof ChatError) {
+      response.status(chatErrorStatus[error.code]).json({ message: error.message, code: error.code });
+      return;
+    }
+    next(error);
+  }
+});
+
+pipelineRouter.get("/:taskId/chat/history", (request, response) => {
+  const task = getPipelineTask(request.params.taskId);
+  if (!task) {
+    notFound(response, request.params.taskId);
+    return;
+  }
+  response.json({ taskId: request.params.taskId, messages: getChatHistory(request.params.taskId) });
 });

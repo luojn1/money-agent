@@ -123,8 +123,9 @@ def run(b_path, c_path, user_profile=None, use_llm=False):
 
     risk_items = (c_env.get("data") or {}).get("riskItems") or []
     cost_analysis = (b_env.get("data") or {}).get("costAnalysis") or {}
+    contract_summary = (b_env.get("data") or {}).get("contractSummary") or {}
     recommendations = build_recommendations(risk_items, user_profile,
-                                            cost_analysis)
+                                            cost_analysis, contract_summary)
     if use_llm:
         from engine.llm_polish import polish_recommendations
         recommendations, used = polish_recommendations(recommendations)
