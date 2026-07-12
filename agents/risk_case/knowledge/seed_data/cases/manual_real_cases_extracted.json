@@ -13,10 +13,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_027"
   },
   {
@@ -33,10 +33,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_028"
   },
   {
@@ -53,10 +53,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_029"
   },
   {
@@ -73,10 +73,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_030"
   },
   {
@@ -93,10 +93,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_031"
   },
   {
@@ -113,10 +113,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_032"
   },
   {
@@ -133,10 +133,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_wechat_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_033"
   },
   {
@@ -151,7 +151,7 @@
     "source_url": "http://dqdebt.hljcourt.gov.cn/upload/file/20240702/20240702150803_14617.pdf",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-07-02",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -173,10 +173,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_035"
   },
   {
@@ -191,7 +191,7 @@
     "source_url": "https://fygg.chinadaily.com.cn/202509/19/article_1969302117203177474.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2025-09-19",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -213,10 +213,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_wechat_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_037"
   },
   {
@@ -233,10 +233,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_wechat_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_038"
   },
   {
@@ -253,10 +253,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_039"
   },
   {
@@ -271,12 +271,12 @@
     "source_url": "https://bjhdfy.bjcourt.gov.cn/article/detail/2023/12/id/7690669.shtml",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2023-12-06",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_040"
   },
   {
@@ -293,10 +293,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_041"
   },
   {
@@ -311,7 +311,7 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNKOpu6YwMTE4w/Gz9TE0Mzk3usUmd3N4aD0xJndzbGI9w/HKwsXQvvbK6QPdcssPdcssz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2023-03-16",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -331,7 +331,7 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNKOpu6YwMTE4w/Gz9TE0Mzk5usUmd3N4aD0xJndzbGI9w/HKwsXQvvbK6QPdcssPdcssz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2023-02-16",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -352,10 +352,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_043"
   },
   {
@@ -370,7 +370,7 @@
     "source_url": "http://lwfy.gzcourt.gov.cn/fygg/sdgg/2024/06/17160658359.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-06-17",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -392,10 +392,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_045"
   },
   {
@@ -410,7 +410,7 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNKOpu6Y3NMPx1tUxMzA3usUmd3N4aD0yJndzbGI9w/HKwsXQvvbK6QPdcssPdcssz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-05-04",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -432,10 +432,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_047"
   },
   {
@@ -452,10 +452,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_048"
   },
   {
@@ -472,10 +472,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_049"
   },
   {
@@ -492,10 +492,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "平安银行汽车消费金融借款案",
@@ -511,10 +511,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_050"
   },
   {
@@ -531,10 +531,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_051"
   },
   {
@@ -551,10 +551,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_052"
   },
   {
@@ -571,10 +571,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "童程童美科技培训学校退费案",
@@ -590,10 +590,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "秦艳锋诉王蕊教育培训合同纠纷案",
@@ -607,12 +607,12 @@
     "source_url": "https://rmfygg.court.gov.cn/web/rmfyportal/noticedetail?t=385fc30a4f3f43088b6abf89e5344e5f&paramStr=6062603839003826",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-05-20",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "宝某信用卡减免承诺纠纷案",
@@ -628,10 +628,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_053"
   },
   {
@@ -646,7 +646,7 @@
     "source_url": "https://fayuan.nanhai.gov.cn/cms/html/3336/2024/20241107171741771958719/20241107171741771958719_1.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-11-07",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_public_source",
@@ -666,7 +666,7 @@
     "source_url": "http://fayuan.nanhai.gov.cn/cms/html/3336/2024/20241118155042607943741/20241118155042607943741_1.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-11-18",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_public_source",
@@ -688,10 +688,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "罗某境外意外身亡保险拒赔案",
@@ -707,10 +707,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_056"
   },
   {
@@ -727,10 +727,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_057"
   },
   {
@@ -747,10 +747,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_058"
   },
   {
@@ -767,10 +767,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_059"
   },
   {
@@ -787,10 +787,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_060"
   },
   {
@@ -807,10 +807,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_wechat_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "李晓“先学后付”培训贷纠纷",
@@ -826,10 +826,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_061"
   },
   {
@@ -846,10 +846,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_062"
   },
   {
@@ -866,10 +866,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_063"
   },
   {
@@ -886,10 +886,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "吴某家庭消费贷逾期案",
@@ -905,10 +905,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "郑耀文、林晓花兴业消费金融借款案",
@@ -922,7 +922,7 @@
     "source_url": "https://fygg.chinadaily.com.cn/creatpdf/generate_pdf?id=1940697960150032385",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2023-11-15",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -942,7 +942,7 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNaOpu6Y3NMPx1tU3ODO6xSZ3c3hoPTImd3NsYj3D8crCxdC+9srpz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2023-09-28",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -964,10 +964,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_066"
   },
   {
@@ -982,7 +982,7 @@
     "source_url": "https://health.ycwb.com/2026-06/30/content_54204861.htm",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2026-06-30",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_public_source",
@@ -1004,10 +1004,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_wechat_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_068"
   },
   {
@@ -1024,10 +1024,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_069"
   },
   {
@@ -1042,7 +1042,7 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws_view.jsp?pa=adGFoPaOoMjAyNaOpu6Y3NMPx1tU2MzK6xSZ3c3hoPTEPdcssz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-01-25",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -1064,10 +1064,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_071"
   },
   {
@@ -1084,10 +1084,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_072"
   },
   {
@@ -1104,10 +1104,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_073"
   },
   {
@@ -1124,10 +1124,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_074"
   },
   {
@@ -1144,10 +1144,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_075"
   },
   {
@@ -1164,10 +1164,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_076"
   },
   {
@@ -1184,10 +1184,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "李某家庭消费贷逾期案（2024）",
@@ -1203,10 +1203,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_077"
   },
   {
@@ -1223,10 +1223,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_078"
   },
   {
@@ -1241,7 +1241,7 @@
     "source_url": "https://fygg.chinadaily.com.cn/202510/15/article_1978448875833380865.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2025-10-15",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -1261,7 +1261,7 @@
     "source_url": "https://courtgg.gmw.cn/detail.php?gg_info=NDF8Bkv0SoP58tZxYVnZ2VRuaFpLWm9TaGcwbE9VNUcrQ3ZaSkE9PQ==",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2025-05-16",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -1281,7 +1281,7 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNKOpu6Y3NMPx1tUzNjW6xSZ3c3hoPTEmd3NsYj3D8crCxdC+9srpz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2021-01-06",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -1303,10 +1303,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_wechat_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_082"
   },
   {
@@ -1323,10 +1323,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "医美保理分期二审调解案",
@@ -1342,10 +1342,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_083"
   },
   {
@@ -1362,10 +1362,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_084"
   },
   {
@@ -1380,7 +1380,7 @@
     "source_url": "https://fayuan.nanhai.gov.cn/cms/html/3336/2024/20241107171741771958719/20241107171741771958719_1.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-03-14",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_public_source",
@@ -1399,7 +1399,7 @@
     "source_url": "http://fayuan.nanhai.gov.cn/cms/html/3336/2024/20241118155042607943741/20241118155042607943741_1.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-05-06",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_public_source",
@@ -1418,7 +1418,7 @@
     "source_url": "https://fygg.chinadaily.com.cn/202510/15/article_1978448875833380865.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2025-10-15",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -1437,12 +1437,12 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNKOpu6Y3NMPx1tU4NjW6xSZ3c3hoPTImd3NsYj3D8crCxdC+9srpz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2017-10-15",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_085"
   },
   {
@@ -1459,10 +1459,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_wechat_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "武汉“培训贷”纠纷案",
@@ -1478,10 +1478,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_086"
   },
   {
@@ -1496,7 +1496,7 @@
     "source_url": "http://pasb.gat.zj.gov.cn/pasb/page_7/202605/t20260526_1738493.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2026-02-03",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_public_source",
@@ -1518,10 +1518,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_wechat_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_088"
   },
   {
@@ -1536,12 +1536,12 @@
     "source_url": "http://legalinfo.moj.gov.cn/zhfxfzzx/fzzxyw/202408/t20240819_504349.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-08-19",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_089"
   },
   {
@@ -1558,10 +1558,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_090"
   },
   {
@@ -1578,10 +1578,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "吴某家庭消费贷逾期案",
@@ -1595,7 +1595,7 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNaOpu6YwMTA2w/Gz9TIwOTc3usUmd3N4aD0xJndzbGI9w/HKwsXQvvbK6QPdcssPdcssz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-09-16",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -1614,7 +1614,7 @@
     "source_url": "https://fayuan.nanhai.gov.cn/cms/html/3336/2024/20241107171741771958719/20241107171741771958719_1.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-03-14",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_public_source",
@@ -1633,7 +1633,7 @@
     "source_url": "http://fayuan.nanhai.gov.cn/cms/html/3336/2024/20241107141917302639320/20241107141917302639320_1.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-03-20",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_public_source",
@@ -1653,12 +1653,12 @@
     "source_url": "http://dqdebt.hljcourt.gov.cn/upload/file/20240702/20240702150803_14617.pdf",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-07-02",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "黎某“求职变培训贷”案",
@@ -1674,10 +1674,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_092"
   },
   {
@@ -1694,10 +1694,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_093"
   },
   {
@@ -1714,10 +1714,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_094"
   },
   {
@@ -1732,7 +1732,7 @@
     "source_url": "http://dqdebt.hljcourt.gov.cn/upload/file/20240702/20240702150803_14617.pdf",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-07-02",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -1752,7 +1752,7 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNKOpu6YwMTE4w/Gz9Tc5MDG6xSZ3c3hoPTEmd3NsYj3D8crCxdC+9srpz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2023-02-16",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -1773,10 +1773,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_096"
   },
   {
@@ -1793,10 +1793,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_097"
   },
   {
@@ -1813,10 +1813,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_098"
   },
   {
@@ -1833,10 +1833,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_099"
   },
   {
@@ -1853,10 +1853,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "梁某某“包就业”培训贷案",
@@ -1870,7 +1870,7 @@
     "source_url": "https://huacheng.gz-cmc.com/pages/2025/05/29/SF1390336419e35da2ec3241eba16391.html",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2025-05-29",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_public_source",
@@ -1892,10 +1892,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "黄某家庭消费贷逾期案",
@@ -1911,10 +1911,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "赵某信用卡纠纷案",
@@ -1930,10 +1930,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_101"
   },
   {
@@ -1948,7 +1948,7 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws_view.jsp?pa=adGFoPaOoMjAyNaOpu6YwMTA2w/Gz9TMwMjk4usUmd3N4aD0xz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-10-16",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -1968,7 +1968,7 @@
     "source_url": "https://www.hshfy.sh.cn/shfy/web/flws_view.jsp?pa=adGFoPaOoMjAyMqOpu6YwMTA2w/Gz9TIxMjQzusUmd3N4aD0xz",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2020-03-16",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -1990,10 +1990,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved",
+    "review_status": "pending",
     "case_id": "CASE_REAL_104"
   },
   {
@@ -2008,7 +2008,7 @@
     "source_url": "http://dqdebt.hljcourt.gov.cn/upload/file/20240702/20240702150803_14617.pdf",
     "embedding": "",
     "version": 1,
-    "effective_date": "",
+    "effective_date": "2024-07-02",
     "expiry_date": "",
     "is_active": 1,
     "source": "manual_court_source",
@@ -2029,10 +2029,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "黄某信用卡纠纷案",
@@ -2048,10 +2048,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "黎某“求职变培训贷”案",
@@ -2067,10 +2067,10 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_public_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   },
   {
     "title": "钱某被诱导高息贷款医美案",
@@ -2086,9 +2086,9 @@
     "version": 1,
     "effective_date": "",
     "expiry_date": "",
-    "is_active": 1,
+    "is_active": 0,
     "source": "manual_court_source",
     "imported_at": "2026-07-12",
-    "review_status": "approved"
+    "review_status": "pending"
   }
 ]

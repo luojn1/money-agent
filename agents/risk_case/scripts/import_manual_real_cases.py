@@ -49,7 +49,6 @@ CSV_COLUMNS = [
     "expiry_date",
     "is_active",
     "source",
-    "source_url",
     "imported_at",
     "review_status",
 ]
@@ -181,6 +180,34 @@ def infer_source(url: str) -> str:
     return "manual_public_source"
 
 
+def infer_effective_date(text: str) -> str:
+    """Extract an exact public date from source text or source URL when present."""
+    date_patterns = [
+        r"(20\d{2})[./-](\d{1,2})[./-](\d{1,2})",
+        r"(20\d{2})年(\d{1,2})月(\d{1,2})日",
+        r"(20\d{2})(\d{2})(\d{2})",
+        r"(20\d{2})(\d{2})/(\d{1,2})",
+    ]
+    for pattern in date_patterns:
+        match = re.search(pattern, text)
+        if not match:
+            continue
+        year, month, day = (int(part) for part in match.groups())
+        if 1 <= month <= 12 and 1 <= day <= 31:
+            return f"{year:04d}-{month:02d}-{day:02d}"
+    return ""
+
+
+def needs_manual_review(case: dict[str, Any]) -> bool:
+    review_markers = (
+        "\u9700\u7ed3\u5408\u539f\u6587\u8fdb\u4e00\u6b65\u590d\u6838",
+        "\u4eba\u5de5\u590d\u6838",
+        "\u9700\u590d\u6838",
+    )
+    combined = json.dumps(case, ensure_ascii=False)
+    return any(marker in combined for marker in review_markers)
+
+
 def normalize_manual_case(raw: dict[str, Any]) -> dict[str, Any] | None:
     fields = raw["fields"]
     links = raw["links"]
@@ -210,7 +237,8 @@ def normalize_manual_case(raw: dict[str, Any]) -> dict[str, Any] | None:
         description_parts.append(f"案由：{cause}")
     description_parts.append(f"基本事实摘要：{facts}")
 
-    return {
+    effective_date = infer_effective_date(" ".join([combined, source_url]))
+    case = {
         "title": title,
         "scenario": infer_scenario(combined),
         "risk_type": infer_risk_type(combined),
@@ -222,7 +250,7 @@ def normalize_manual_case(raw: dict[str, Any]) -> dict[str, Any] | None:
         "source_url": source_url,
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": effective_date,
         "expiry_date": "",
         "is_active": 1,
         "source": infer_source(source_url),
@@ -230,6 +258,9 @@ def normalize_manual_case(raw: dict[str, Any]) -> dict[str, Any] | None:
         "review_status": "approved",
         "_dedupe_key": f"{case_no}|{source_url}" if case_no else f"{title}|{source_url}",
     }
+    if not effective_date or needs_manual_review(case):
+        case["review_status"] = "pending"
+    return case
 
 
 def infer_user_loss(text: str) -> str:

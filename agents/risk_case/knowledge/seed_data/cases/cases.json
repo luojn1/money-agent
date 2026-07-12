@@ -14,10 +14,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE002",
@@ -34,10 +34,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE003",
@@ -54,10 +54,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE004",
@@ -74,10 +74,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE005",
@@ -94,10 +94,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE006",
@@ -114,10 +114,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE007",
@@ -134,10 +134,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE008",
@@ -154,10 +154,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE009",
@@ -174,10 +174,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE010",
@@ -194,10 +194,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE011",
@@ -214,10 +214,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE012",
@@ -234,10 +234,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE013",
@@ -254,10 +254,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE014",
@@ -274,10 +274,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE015",
@@ -294,10 +294,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE016",
@@ -314,10 +314,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE017",
@@ -334,10 +334,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE018",
@@ -354,10 +354,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE019",
@@ -374,10 +374,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE020",
@@ -394,10 +394,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE021",
@@ -414,10 +414,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE022",
@@ -434,10 +434,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE023",
@@ -454,10 +454,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE024",
@@ -474,10 +474,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE025",
@@ -494,10 +494,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE026",
@@ -514,10 +514,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE027",
@@ -534,10 +534,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE028",
@@ -554,10 +554,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE029",
@@ -574,10 +574,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE030",
@@ -594,10 +594,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE031",
@@ -614,10 +614,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE032",
@@ -634,10 +634,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE033",
@@ -654,10 +654,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE034",
@@ -674,10 +674,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE035",
@@ -694,10 +694,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE036",
@@ -714,10 +714,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE037",
@@ -734,10 +734,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE038",
@@ -754,10 +754,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE039",
@@ -774,10 +774,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE040",
@@ -794,10 +794,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE041",
@@ -814,10 +814,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE042",
@@ -834,10 +834,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE043",
@@ -854,10 +854,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE044",
@@ -874,10 +874,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE045",
@@ -894,10 +894,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE046",
@@ -914,10 +914,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE047",
@@ -934,10 +934,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE048",
@@ -954,10 +954,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE049",
@@ -974,10 +974,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE050",
@@ -994,10 +994,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE051",
@@ -1014,10 +1014,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE052",
@@ -1034,10 +1034,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE053",
@@ -1054,10 +1054,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE054",
@@ -1074,10 +1074,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE055",
@@ -1094,10 +1094,10 @@
         "version": 1,
         "effective_date": "2026-07-04",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "seed",
         "imported_at": "2026-07-04",
-        "review_status": "approved"
+        "review_status": "pending"
     },
     {
         "case_id": "CASE_REAL_001",
@@ -1633,10 +1633,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_027"
     },
     {
@@ -1653,10 +1653,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_028"
     },
     {
@@ -1673,10 +1673,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_029"
     },
     {
@@ -1693,10 +1693,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_030"
     },
     {
@@ -1713,10 +1713,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_031"
     },
     {
@@ -1733,10 +1733,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_032"
     },
     {
@@ -1753,10 +1753,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_wechat_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_033"
     },
     {
@@ -1771,7 +1771,7 @@
         "source_url": "http://dqdebt.hljcourt.gov.cn/upload/file/20240702/20240702150803_14617.pdf",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2024-07-02",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -1793,10 +1793,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_035"
     },
     {
@@ -1811,7 +1811,7 @@
         "source_url": "https://fygg.chinadaily.com.cn/202509/19/article_1969302117203177474.html",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2025-09-19",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -1833,10 +1833,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_wechat_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_037"
     },
     {
@@ -1853,10 +1853,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_wechat_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_038"
     },
     {
@@ -1873,10 +1873,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_039"
     },
     {
@@ -1891,12 +1891,12 @@
         "source_url": "https://bjhdfy.bjcourt.gov.cn/article/detail/2023/12/id/7690669.shtml",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2023-12-06",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_040"
     },
     {
@@ -1913,10 +1913,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_041"
     },
     {
@@ -1931,7 +1931,7 @@
         "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNKOpu6YwMTE4w/Gz9TE0Mzk3usUmd3N4aD0xJndzbGI9w/HKwsXQvvbK6QPdcssPdcssz",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2023-03-16",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -1953,10 +1953,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_043"
     },
     {
@@ -1971,7 +1971,7 @@
         "source_url": "http://lwfy.gzcourt.gov.cn/fygg/sdgg/2024/06/17160658359.html",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2024-06-17",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -1993,10 +1993,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_045"
     },
     {
@@ -2011,7 +2011,7 @@
         "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNKOpu6Y3NMPx1tUxMzA3usUmd3N4aD0yJndzbGI9w/HKwsXQvvbK6QPdcssPdcssz",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2024-05-04",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -2033,10 +2033,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_047"
     },
     {
@@ -2053,10 +2053,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_048"
     },
     {
@@ -2073,10 +2073,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_049"
     },
     {
@@ -2093,10 +2093,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_050"
     },
     {
@@ -2113,10 +2113,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_051"
     },
     {
@@ -2133,10 +2133,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_052"
     },
     {
@@ -2153,10 +2153,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_053"
     },
     {
@@ -2171,7 +2171,7 @@
         "source_url": "https://fayuan.nanhai.gov.cn/cms/html/3336/2024/20241107171741771958719/20241107171741771958719_1.html",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2024-11-07",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_public_source",
@@ -2191,7 +2191,7 @@
         "source_url": "http://fayuan.nanhai.gov.cn/cms/html/3336/2024/20241118155042607943741/20241118155042607943741_1.html",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2024-11-18",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_public_source",
@@ -2213,10 +2213,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_056"
     },
     {
@@ -2233,10 +2233,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_057"
     },
     {
@@ -2253,10 +2253,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_058"
     },
     {
@@ -2273,10 +2273,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_059"
     },
     {
@@ -2293,10 +2293,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_060"
     },
     {
@@ -2313,10 +2313,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_061"
     },
     {
@@ -2333,10 +2333,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_062"
     },
     {
@@ -2353,10 +2353,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_063"
     },
     {
@@ -2371,7 +2371,7 @@
         "source_url": "https://fygg.chinadaily.com.cn/creatpdf/generate_pdf?id=1940697960150032385",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2023-11-15",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -2391,7 +2391,7 @@
         "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNaOpu6Y3NMPx1tU3ODO6xSZ3c3hoPTImd3NsYj3D8crCxdC+9srpz",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2023-09-28",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -2413,10 +2413,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_066"
     },
     {
@@ -2431,7 +2431,7 @@
         "source_url": "https://health.ycwb.com/2026-06/30/content_54204861.htm",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2026-06-30",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_public_source",
@@ -2453,10 +2453,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_wechat_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_068"
     },
     {
@@ -2473,10 +2473,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_069"
     },
     {
@@ -2491,7 +2491,7 @@
         "source_url": "https://www.hshfy.sh.cn/shfy/web/flws_view.jsp?pa=adGFoPaOoMjAyNaOpu6Y3NMPx1tU2MzK6xSZ3c3hoPTEPdcssz",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2024-01-25",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -2513,10 +2513,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_071"
     },
     {
@@ -2533,10 +2533,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_072"
     },
     {
@@ -2553,10 +2553,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_073"
     },
     {
@@ -2573,10 +2573,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_074"
     },
     {
@@ -2593,10 +2593,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_075"
     },
     {
@@ -2613,10 +2613,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_076"
     },
     {
@@ -2633,10 +2633,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_077"
     },
     {
@@ -2653,10 +2653,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_078"
     },
     {
@@ -2671,7 +2671,7 @@
         "source_url": "https://fygg.chinadaily.com.cn/202510/15/article_1978448875833380865.html",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2025-10-15",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -2691,7 +2691,7 @@
         "source_url": "https://courtgg.gmw.cn/detail.php?gg_info=NDF8Bkv0SoP58tZxYVnZ2VRuaFpLWm9TaGcwbE9VNUcrQ3ZaSkE9PQ==",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2025-05-16",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -2711,7 +2711,7 @@
         "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNKOpu6Y3NMPx1tUzNjW6xSZ3c3hoPTEmd3NsYj3D8crCxdC+9srpz",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2021-01-06",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -2733,10 +2733,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_wechat_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_082"
     },
     {
@@ -2753,10 +2753,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_083"
     },
     {
@@ -2773,10 +2773,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_084"
     },
     {
@@ -2791,12 +2791,12 @@
         "source_url": "https://www.hshfy.sh.cn/shfy/web/flws2pdf.jsp?pa=adGFoPaOoMjAyNKOpu6Y3NMPx1tU4NjW6xSZ3c3hoPTImd3NsYj3D8crCxdC+9srpz",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2017-10-15",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_085"
     },
     {
@@ -2813,10 +2813,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_086"
     },
     {
@@ -2831,7 +2831,7 @@
         "source_url": "http://pasb.gat.zj.gov.cn/pasb/page_7/202605/t20260526_1738493.html",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2026-02-03",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_public_source",
@@ -2853,10 +2853,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_wechat_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_088"
     },
     {
@@ -2871,12 +2871,12 @@
         "source_url": "http://legalinfo.moj.gov.cn/zhfxfzzx/fzzxyw/202408/t20240819_504349.html",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2024-08-19",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_089"
     },
     {
@@ -2893,10 +2893,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_090"
     },
     {
@@ -2911,7 +2911,7 @@
         "source_url": "http://fayuan.nanhai.gov.cn/cms/html/3336/2024/20241107141917302639320/20241107141917302639320_1.html",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2024-03-20",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_public_source",
@@ -2933,10 +2933,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_public_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_092"
     },
     {
@@ -2953,10 +2953,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_093"
     },
     {
@@ -2973,10 +2973,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_094"
     },
     {
@@ -2991,7 +2991,7 @@
         "source_url": "http://dqdebt.hljcourt.gov.cn/upload/file/20240702/20240702150803_14617.pdf",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2024-07-02",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -3013,10 +3013,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_096"
     },
     {
@@ -3033,10 +3033,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_097"
     },
     {
@@ -3053,10 +3053,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_098"
     },
     {
@@ -3073,10 +3073,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_099"
     },
     {
@@ -3091,7 +3091,7 @@
         "source_url": "https://huacheng.gz-cmc.com/pages/2025/05/29/SF1390336419e35da2ec3241eba16391.html",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2025-05-29",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_public_source",
@@ -3113,10 +3113,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_101"
     },
     {
@@ -3131,7 +3131,7 @@
         "source_url": "https://www.hshfy.sh.cn/shfy/web/flws_view.jsp?pa=adGFoPaOoMjAyNaOpu6YwMTA2w/Gz9TMwMjk4usUmd3N4aD0xz",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2024-10-16",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -3151,7 +3151,7 @@
         "source_url": "https://www.hshfy.sh.cn/shfy/web/flws_view.jsp?pa=adGFoPaOoMjAyMqOpu6YwMTA2w/Gz9TIxMjQzusUmd3N4aD0xz",
         "embedding": "",
         "version": 1,
-        "effective_date": "",
+        "effective_date": "2020-03-16",
         "expiry_date": "",
         "is_active": 1,
         "source": "manual_court_source",
@@ -3173,10 +3173,10 @@
         "version": 1,
         "effective_date": "",
         "expiry_date": "",
-        "is_active": 1,
+        "is_active": 0,
         "source": "manual_court_source",
         "imported_at": "2026-07-12",
-        "review_status": "approved",
+        "review_status": "pending",
         "case_id": "CASE_REAL_104"
     }
 ]

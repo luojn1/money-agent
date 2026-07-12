@@ -1,7 +1,0 @@
-outputs/
-**/*.db
-**/*.sqlite
-**/*.sqlite3
-__pycache__/
-*.pyc
-
