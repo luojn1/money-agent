@@ -231,11 +231,24 @@ const verifiableSourceUrl = (value: string | null | undefined) => {
   }
 };
 
-const basisTitle = (basis: string) => {
-  if (/LPR|市场基准/.test(basis)) return "市场利率参考";
-  if (/单利|复利|年化/.test(basis)) return "年化计算口径";
-  if (/费用|贷款成本/.test(basis)) return "成本范围说明";
-  return "成本测算说明";
+const cleanBasisPrefix = (basis: string) => basis.replace(/^REG-[\d/]+[：:]\s*/, "").trim();
+
+const buildCalculationBasisItems = (basisEntries: string[]) => {
+  const costScope = basisEntries
+    .filter((basis) => /^REG-(001|002\/003)/.test(basis))
+    .map(cleanBasisPrefix);
+  const annualMethod = basisEntries.find((basis) => /^REG-006/.test(basis));
+  const baseResult = basisEntries.find((basis) => basis.startsWith("基础口径"));
+  const comprehensiveResult = basisEntries.find((basis) => basis.startsWith("综合口径"));
+  return [
+    costScope.length && { id: "basis_cost_scope", title: "成本包含范围", summary: costScope.join(" ") },
+    annualMethod && { id: "basis_annual_method", title: "年化换算方法", summary: cleanBasisPrefix(annualMethod) },
+    baseResult && { id: "basis_base_result", title: "基础成本结果", summary: baseResult },
+    comprehensiveResult && { id: "basis_comprehensive_result", title: "综合成本结果", summary: comprehensiveResult },
+  ].filter((item): item is { id: string; title: string; summary: string } => Boolean(item)).map((item) => ({
+    ...item,
+    tag: "测算依据" as const,
+  }));
 };
 
 const buildReferences = (
@@ -263,12 +276,16 @@ const buildReferences = (
     }),
   );
   const uniqueBasis = [...new Set((contractCost.data?.costAnalysis.calculationBasis ?? []).map((basis) => basis.trim()).filter(Boolean))];
-  const basisItems = uniqueBasis.map((basis, index) => ({
-    id: `basis_${index + 1}`,
-    title: basisTitle(basis),
-    tag: "测算依据" as const,
-    summary: basis,
-  }));
+  const basisItems = buildCalculationBasisItems(uniqueBasis);
+  const lprBasis = uniqueBasis.find((basis) => /LPR/.test(basis));
+  const marketRateItems = lprBasis ? [{
+    id: "latest_lpr",
+    title: "最新贷款市场报价利率（LPR）",
+    tag: "市场参考" as const,
+    summary: cleanBasisPrefix(lprBasis).replace("本地知识库 LPR 最近记录为", "截至"),
+    sourceLabel: "查看官方来源",
+    sourceUrl: "https://www.chinamoney.com.cn/chinese/lllpr/",
+  }] : [];
   const seenRegulationIds = new Set<string>();
   const regulationItems = (retrievalTrace?.retrievalResults ?? []).flatMap((result) =>
     (result.regulations ?? []).flatMap((regulation) => {
@@ -289,6 +306,7 @@ const buildReferences = (
     { id: "similar_cases", title: "相似案例" as const, items: caseItems },
     { id: "regulation_refs", title: "法规参考" as const, items: regulationItems },
     { id: "calculation_basis", title: "成本测算依据" as const, items: basisItems },
+    { id: "market_rate_refs", title: "市场利率参考" as const, items: marketRateItems },
   ].filter((group) => group.items.length > 0);
 };
 
