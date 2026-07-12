@@ -30,6 +30,7 @@ Examples:
 from __future__ import annotations
 
 import argparse
+import http.client
 import hashlib
 import html
 import json
@@ -165,7 +166,6 @@ def within_date_range(value: str, start_date: str, end_date: str) -> bool:
 
 
 def infer_scenario(text: str, keywords: list[str]) -> str:
-    haystack = text + " " + " ".join(keywords)
     rules = [
         ("医美分期", ["医美", "美容贷", "整形", "美容"]),
         ("教育培训贷", ["教育培训", "培训贷", "职业培训", "课程", "学费"]),
@@ -175,7 +175,7 @@ def infer_scenario(text: str, keywords: list[str]) -> str:
         ("消费贷", ["消费金融", "消费贷", "现金贷", "小额贷款", "网络贷款"]),
     ]
     for scenario, terms in rules:
-        if any(term in haystack for term in terms):
+        if any(term in text for term in terms):
             return scenario
     return "消费金融"
 
@@ -224,7 +224,7 @@ def fetch_url(url: str, timeout: int, pause_seconds: float) -> str:
         with urlopen(request, timeout=timeout) as response:
             charset = response.headers.get_content_charset() or "utf-8"
             return response.read().decode(charset, errors="replace")
-    except (HTTPError, URLError, TimeoutError) as exc:
+    except (HTTPError, URLError, TimeoutError, http.client.HTTPException) as exc:
         raise RuntimeError(f"Failed to fetch {url}: {exc}") from exc
 
 
